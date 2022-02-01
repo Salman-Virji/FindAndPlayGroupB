@@ -10,20 +10,22 @@ import {TextInput,Image, ImageBackground, Pressable, StyleSheet, Text, View } fr
     return (
        <ImageBackground  style={styles.background} source={require("../assets/BGs/background1.png")}>
          <View style={styles.inputContainer}></View>
+         <Text style={styles.signintext}> Sign-In </Text>
+         <Text style={styles.forgotpasstext}> Forgot Password ? </Text>
           <TextInput style = {styles.input}
                underlineColorAndroid = "transparent"
-               placeholder = "   Email"
-               //placeholderTextColor = "#9a73ef"
+               placeholder = "   Username or Email"
+               placeholderTextColor = "#808080"
                autoCapitalize = "none"
                />
                <TextInput style = {styles.input2}
                underlineColorAndroid = "transparent"
                placeholder = "   Password"
-               //placeholderTextColor = "#9a73ef"
+               placeholderTextColor = "#808080"
                autoCapitalize = "none"
                />
            <View style={styles.googlelogoContainer}>
-              <Image  style={styles.googlelogo} source={require("../assets/Logo/googlelogo.png")}></Image>
+              <Image  style={styles.googlelogo} source={require("../assets/Btn/smallgoogle2.png")}></Image>
               <Text style={styles.googleText}>Sign in with Google</Text>
            </View>
            <Image style={styles.logo} source={require("../assets/Logo/logo1.png")}></Image>
@@ -35,6 +37,7 @@ import {TextInput,Image, ImageBackground, Pressable, StyleSheet, Text, View } fr
            
            
            <View style={styles.signupbuttonContainer} >
+           <Text> Not Registered ? </Text> 
                 <Text  onPress ={() => navigation.navigate('RegisterScreen')} style = {styles.signuptext}> Sign Up </Text>
                 <View style={styles.signupButton}></View>
            </View>
@@ -52,10 +55,29 @@ const styles = StyleSheet.create({
       alignItems: "center",
      
     },
+    signintext:{
+      zIndex: 999,
+      bottom:500,
+      fontSize:30,
+      color:"white",
+      fontWeight:"bold",
+      
+
+    },
+    forgotpasstext:{
+      zIndex: 999,
+      paddingLeft:190,
+      bottom:380,
+      fontSize:10,
+      color:"black",
+      fontWeight:"bold",
+      
+
+    },
     input :{
       margin: 15,
-      width:300,
-      height: 50,
+      width:330,
+      height: 40,
       bottom:450,
       borderColor: 'black',
       borderWidth: 1,
@@ -66,8 +88,8 @@ const styles = StyleSheet.create({
     },
     input2 :{
       margin: 15,
-      width:300,
-      height: 50,
+      width:330,
+      height: 40,
       bottom:380,
       borderColor: 'black',
       borderWidth: 1,
@@ -82,11 +104,11 @@ const styles = StyleSheet.create({
       
     },
     loginButton: {
-        width: '60%',
-        height: 50,
+        width: '50%',
+        height: 45,
         bottom:200,
         backgroundColor: "#0096FF",
-        borderRadius: 10,
+        borderRadius: 30,
         borderWidth: 1,
         
        
@@ -107,7 +129,7 @@ const styles = StyleSheet.create({
         width: '30%',
         height: 40,
         backgroundColor: "#FF6551",
-        borderRadius: 10,
+        borderRadius: 30,
         borderWidth: 1,
         
 
@@ -116,7 +138,7 @@ const styles = StyleSheet.create({
       signuptext: {
         zIndex: 999, // brings forward 
         position: "absolute",
-        top:10,
+        top:30,
       },
       signupbuttonContainer: {
         
@@ -150,6 +172,7 @@ const styles = StyleSheet.create({
         height: 40,
         position: "absolute",
         bottom: 20,
+        
        
       },
       googleText:{
