@@ -1,5 +1,6 @@
 import React from 'react';
-import {TextInput,Image, ImageBackground, Pressable, StyleSheet, Text, View } from 'react-native';
+import {TextInput,Image, ImageBackground, Pressable, StyleSheet, Text, View, TouchableHighlight,TouchableWithoutFeedback,TouchableOpacity,KeyboardAvoidingView } from 'react-native';
+//import { TouchableOpacity } from 'react-native-web';
 //import { TextInput, TouchableOpacity } from 'react-native-web';
 
 
@@ -9,9 +10,11 @@ import {TextInput,Image, ImageBackground, Pressable, StyleSheet, Text, View } fr
   
     return (
        <ImageBackground  style={styles.background} source={require("../assets/BGs/background1.png")}>
+        
          <View style={styles.inputContainer}></View>
          <Text style={styles.signintext}> Sign-In </Text>
          <Text style={styles.forgotpasstext}> Forgot Password ? </Text>
+        
           <TextInput style = {styles.input}
                underlineColorAndroid = "transparent"
                placeholder = "   Username or Email"
@@ -24,25 +27,47 @@ import {TextInput,Image, ImageBackground, Pressable, StyleSheet, Text, View } fr
                placeholderTextColor = "#808080"
                autoCapitalize = "none"
                />
+
+
+
+  
            <View style={styles.googlelogoContainer}>
-              <Image  style={styles.googlelogo} source={require("../assets/Btn/smallgoogle2.png")}></Image>
+              <Image  style={styles.googlelogo} source={require("../assets/Btn/circlegoogle.png")}></Image>
               <Text style={styles.googleText}>Sign in with Google</Text>
            </View>
            <Image style={styles.logo} source={require("../assets/Logo/logo1.png")}></Image>
-           <View style={styles.loginbuttonContainer}>
-              <View style={styles.loginButton}></View>
-              <Text onPress ={() => navigation.navigate('LandingScreen')} style  = {styles.logintext}> Login </Text>
-           </View>
+           
+           
+           
+           <View  style={styles.loginbuttonContainer}  >
+              <TouchableOpacity activeOpacity = { .6 } onPress ={() => navigation.navigate('LandingScreen')}>
+               <Text style={styles.logintext} >Log-In</Text>
+                <Image style={styles.loginButton} source={require("../assets/Btn/bluepillbutton.png")}></Image>
+                
+             
+              {/* <Image onPress ={() => navigation.navigate('LandingScreen')} style={styles.loginButton} source={require("../assets/Btn/bluepillbutton.png")}></Image> */}
+              {/* <View style={styles.loginButton}></View> */}
+              
+              </TouchableOpacity>
+            </View>
+           
+           
+          
           
            
            
            <View style={styles.signupbuttonContainer} >
-           <Text> Not Registered ? </Text> 
-                <Text  onPress ={() => navigation.navigate('RegisterScreen')} style = {styles.signuptext}> Sign Up </Text>
-                <View style={styles.signupButton}></View>
-           </View>
-          
-
+           
+            <TouchableOpacity activeOpacity = { .6 } onPress ={() => navigation.navigate('RegisterScreen')}>
+                <Image style={styles.signupButton} source={require("../assets/Btn/orangepillbutton.png")}></Image>
+                <Text style = {styles.notregisteredtext}> Not Registered ? </Text> 
+                <Text  style = {styles.signuptext}>Sign up </Text>
+                
+              </TouchableOpacity> 
+              </View>
+           
+             
+              
        </ImageBackground>
     );
 }
@@ -55,9 +80,19 @@ const styles = StyleSheet.create({
       alignItems: "center",
      
     },
+    logo: {
+      flex: 1,
+      width: 350,
+      height: 100,
+     
+      bottom: "47%"
+      
+  
+    },
     signintext:{
+      flex: 1,
       zIndex: 999,
-      bottom:"67%",
+      top:"15%",
       fontSize:30,
       color:"white",
       fontWeight:"bold",
@@ -65,86 +100,96 @@ const styles = StyleSheet.create({
 
     },
     forgotpasstext:{
+      flex: 1,
       zIndex: 999,
+      paddingTop:0,
       paddingLeft:190,
-      bottom:"50%",
+      top:"28%",
       fontSize:10,
       color:"black",
       fontWeight:"bold",
       
+      
 
     },
     input :{
+      
       margin: 15,
       width:330,
       height: 40,
-      bottom:"60%",
+      top:"5%",
       borderColor: 'black',
       borderWidth: 1,
-      position:"absolute",
+     
       backgroundColor: "white",
-      borderRadius: 20,
+      borderRadius: 15,
       
     },
     input2 :{
+      
       margin: 15,
       width:330,
       height: 40,
-      bottom:"50%",
+      top:"2%",
       borderColor: 'black',
       borderWidth: 1,
-      position:"absolute",
+     
       backgroundColor: "white",
-      borderRadius: 20,
+      borderRadius: 15,
       
     },
     inputContainer:{
-      position: "absolute",
-      flex: 2,
+     
+     flex: 1, 
       
     },
-    loginButton: {
-        width: '50%',
-        height: 45,
-        bottom:200,
-        backgroundColor: "#0096FF",
-        borderRadius: 30,
-        borderWidth: 1,
-        
-       
-      },
+    loginButton:{
+      
+      
+     
+      
+    },
+    
       logintext:{
-        zIndex: 999, // brings forward 
-        position: "absolute",
-        bottom:215,
+         zIndex: 999, // brings forward 
+         paddingLeft:"43%",
+         color:"white",
+         top:"45%",
+         fontSize: 20,
+         fontWeight:"bold",
+        
       },
       loginbuttonContainer:{
-        position: "absolute",
-        alignItems: "center",
-        top: "90%",
-        width:400,
-      },
-
-      signupButton: {
-        width: '30%',
-        height: 40,
-        backgroundColor: "#FF6551",
-        borderRadius: 30,
-        borderWidth: 1,
         
-
-       
+      
+        flex: 2,
+         top: "-23%",
+         
+        
+        
       },
+
+
       signuptext: {
         zIndex: 999, // brings forward 
-        position: "absolute",
-        top:30,
+        
+        bottom:"58%",
+        paddingLeft:"41%",
+        fontWeight:"bold",
+        color:"white",
+      },
+      notregisteredtext:{
+        color:"black",
+      
+        paddingLeft:"35%",
+        bottom:"63%",
+        fontSize:12,
       },
       signupbuttonContainer: {
-        
-        position: "absolute",
+        flex: 2,
+      
         alignItems: "center",
-        top: "85%",
+        top: "-3%",
         width:400,
 
     },
@@ -156,36 +201,28 @@ const styles = StyleSheet.create({
 
        
       },
-      logo: {
-        width: 400,
-        height: 100,
-        position: "absolute",
-        top: "5%"
-
-       
-        
-
-       
-      },
+     
       googlelogo: {
         width: 40,
         height: 40,
-        position: "absolute",
+       
         bottom: 20,
         
        
       },
       googleText:{
         fontSize:10,
-        position: "absolute",
+        top:"-15%",
+        fontWeight:"bold",
+       
       },
 
       googlelogoContainer: {
-        
+        flex: 2,
+        top: "30%",
         height: 20,
-          position: "absolute",
-          alignItems: "center",
-          top: "80%",
+        alignItems: "center",
+         
 
       }
 })
