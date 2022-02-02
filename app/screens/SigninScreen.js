@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     },
     signintext:{
       zIndex: 999,
-      bottom:500,
+      bottom:"67%",
       fontSize:30,
       color:"white",
       fontWeight:"bold",
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     forgotpasstext:{
       zIndex: 999,
       paddingLeft:190,
-      bottom:380,
+      bottom:"50%",
       fontSize:10,
       color:"black",
       fontWeight:"bold",
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
       margin: 15,
       width:330,
       height: 40,
-      bottom:450,
+      bottom:"60%",
       borderColor: 'black',
       borderWidth: 1,
       position:"absolute",
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
       margin: 15,
       width:330,
       height: 40,
-      bottom:380,
+      bottom:"50%",
       borderColor: 'black',
       borderWidth: 1,
       position:"absolute",
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
       loginbuttonContainer:{
         position: "absolute",
         alignItems: "center",
-        top: 700,
+        top: "90%",
         width:400,
       },
 
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
         
         position: "absolute",
         alignItems: "center",
-        top: 700,
+        top: "85%",
         width:400,
 
     },
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
         width: 400,
         height: 100,
         position: "absolute",
-        top: 60
+        top: "5%"
 
        
         
@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
         height: 20,
           position: "absolute",
           alignItems: "center",
-          top: 650,
+          top: "80%",
 
       }
 })
