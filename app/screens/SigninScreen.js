@@ -1,7 +1,6 @@
 import React from 'react';
 import {TextInput,Image, ImageBackground, Pressable, StyleSheet, Text, View, TouchableHighlight,TouchableWithoutFeedback,TouchableOpacity,KeyboardAvoidingView } from 'react-native';
-//import { TouchableOpacity } from 'react-native-web';
-//import { TextInput, TouchableOpacity } from 'react-native-web';
+
 
 
 
@@ -13,7 +12,7 @@ import {TextInput,Image, ImageBackground, Pressable, StyleSheet, Text, View, Tou
         
          <View style={styles.inputContainer}></View>
          <Text style={styles.signintext}> Sign-In </Text>
-         <Text style={styles.forgotpasstext}> Forgot Password ? </Text>
+         <Text  style={styles.forgotpasstext} onPress ={() => navigation.navigate('ForgotPasswordScreen')} > Forgot Password ? </Text>
         
           <TextInput style = {styles.input}
                underlineColorAndroid = "transparent"
