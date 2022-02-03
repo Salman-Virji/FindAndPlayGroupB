@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import {Image, ImageBackground, Pressable, StyleSheet, Text, View } from 'react-native';
 import { Component } from 'react/cjs/react.production.min';
 import { TextInput,Form } from 'react-native';
-import Popup from '../components/Popup';
-
 function VerifyFormFilled(Username,Password,Email,ConfirmPassword)
 {
     console.log(Username)
@@ -19,7 +17,7 @@ export default function RegisterScreen({navigation}) {
     return (
         
         <ImageBackground style={styles.background} source={require("../assets/BGs/background2.png")}>
-         <Image style={styles.logo} source={require("../assets/Logo/logo1.png")}></Image>
+         <Text style= {styles.SignupTxT}> Sign up</Text>
           <View style={styles.Signup} >
            <TextInput style = {styles.input}
                     onChangeText={(e) => SetUsername(e)}
@@ -68,13 +66,13 @@ export default function RegisterScreen({navigation}) {
 }
 
 const styles = StyleSheet.create({
-  logo: {
-    flex: 1,
-    width: 350,
-    height: 100,
-   
-    bottom: "47%"
-    
+  SignupTxT: {
+      flex: 1,
+      zIndex: 999,
+      fontSize:50,
+      color:"white",
+      top:"5%",
+      fontWeight:"bold",
 
   },
     background: {
@@ -91,31 +89,22 @@ const styles = StyleSheet.create({
         backgroundColor: "#fc5c65",
       },
       input :{
-      
         margin: 15,
         width:330,
         height: 40,
         top:"5%",
         borderColor: 'black',
-        borderWidth: 1,
-       
+        borderWidth: 1,    
         backgroundColor: "white",
-        borderRadius: 15,
-        
+        borderRadius: 15,   
       },
       Signup :{
-        
-        top:"3%",
-            flex: 1, 
-             
-           
+        top:"-5%",
+        flex: 1,   
       }, googlelogo: {
         width: 40,
         height: 40,
-       
-        bottom: 20,
-        
-       
+        bottom: 20,  
       },
       googleText:{
         fontSize:10,
@@ -141,7 +130,7 @@ const styles = StyleSheet.create({
         fontWeight:"bold",
       },
       RegisterBtnBk:{
-          top:"-10%"
+        top:"-15%"
       }
 })
 
