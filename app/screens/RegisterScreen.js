@@ -17,6 +17,7 @@ export default function RegisterScreen({navigation}) {
     return (
         
         <ImageBackground style={styles.background} source={require("../assets/BGs/background2.png")}>
+          <Image style={styles.logo} source={require("../assets/Logo/logo1.png")}></Image>
          <Text style= {styles.SignupTxT}> Sign up</Text>
           <View style={styles.Signup} >
            <TextInput style = {styles.input}
@@ -69,9 +70,9 @@ const styles = StyleSheet.create({
   SignupTxT: {
       flex: 1,
       zIndex: 999,
-      fontSize:50,
+      fontSize:30,
+      top:"-1%",
       color:"white",
-      top:"5%",
       fontWeight:"bold",
 
   },
@@ -92,14 +93,13 @@ const styles = StyleSheet.create({
         margin: 15,
         width:330,
         height: 40,
-        top:"5%",
         borderColor: 'black',
         borderWidth: 1,    
         backgroundColor: "white",
         borderRadius: 15,   
       },
       Signup :{
-        top:"-5%",
+        top:"-12%",
         flex: 1,   
       }, googlelogo: {
         width: 40,
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
 
       googlelogoContainer: {
         flex: 2,
-        top: "35%",
+        top: "27%",
         height: 20,
         alignItems: "center",
          
@@ -123,14 +123,20 @@ const styles = StyleSheet.create({
       },
       RegisterBtn :{
         zIndex: 999, // brings forward 
-        paddingLeft:"33%",
+        paddingLeft:"37%",
+        top:"20%",
         color:"white",
-        top:"25%",
         fontSize: 20,
         fontWeight:"bold",
       },
       RegisterBtnBk:{
-        top:"-15%"
-      }
+        top:"-40%"
+      },
+      logo: {
+        flex: 1,
+        width:350,
+        height: 80,
+        zIndex: 999,
+      },
 })
 
