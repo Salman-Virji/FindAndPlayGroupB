@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useState} from 'react';
+import axios from 'axios';
 import {TextInput,Image, ImageBackground, Pressable, StyleSheet, Text, View, TouchableHighlight,TouchableWithoutFeedback,TouchableOpacity,KeyboardAvoidingView } from 'react-native';
 
 
@@ -6,6 +7,55 @@ import {TextInput,Image, ImageBackground, Pressable, StyleSheet, Text, View, Tou
 
 
  function SigninScreen( {navigation}) {
+
+  const [username, setUsername] = useState('user');
+  const [password, setPassword] = useState('pass');
+  const [message,setMessage] = useState('')
+
+
+
+  function clearFields(){
+    setUsername('');
+    setPassword('');
+  }
+
+
+ function Login() {
+    const body ={
+      username:username,
+      password:password
+    }
+
+    var url = `http://10.0.0.168:3000/users/login`
+
+   axios.post(url,body,navigation).then((res)=>{
+      console.log(res.data)
+      clearFields();
+      setMessage(res.data.msg);
+
+      if(res.data.status == true){
+        navigation.navigate("LandingScreen",res.data)
+      }
+    })
+    .catch(err=>console.log("error"));
+  }
+  
+  function SignUp() {
+    const body ={
+      username:username,
+      password:password
+    }
+    if(username != ''|| password != ''){
+      var url = `http://10.0.0.168:3000/users/signup`
+      axios.post(url,body).then(()=>{
+        clearFields()
+        setMessage("Username is taken")
+      })
+      .catch(err=>console.log("err"));
+    }else{
+      console.log("Empty space")
+    }
+  }
   
     return (
        <ImageBackground  style={styles.background} source={require("../assets/BGs/background1.png")}>
@@ -19,12 +69,16 @@ import {TextInput,Image, ImageBackground, Pressable, StyleSheet, Text, View, Tou
                placeholder = "   Username or Email"
                placeholderTextColor = "#808080"
                autoCapitalize = "none"
+               value={username}
+               onChangeText ={e => setUsername(e)}
                />
                <TextInput style = {styles.input2}
                underlineColorAndroid = "transparent"
                placeholder = "   Password"
                placeholderTextColor = "#808080"
                autoCapitalize = "none"
+               value={password}
+               onChangeText ={e => setPassword(e)}
                />
 
 
@@ -39,7 +93,11 @@ import {TextInput,Image, ImageBackground, Pressable, StyleSheet, Text, View, Tou
            
            
            <View  style={styles.loginbuttonContainer}  >
-              <TouchableOpacity activeOpacity = { .6 } onPress ={() => navigation.navigate('LandingScreen')}>
+              <TouchableOpacity activeOpacity = { .6 }
+                  onPress={Login}
+              >
+                  {/*onPress ={() => navigation.navigate('LandingScreen')} */}
+                
                <Text style={styles.logintext} >Log-In</Text>
                 <Image style={styles.loginButton} source={require("../assets/Btn/bluepillbutton.png")}></Image>
                 

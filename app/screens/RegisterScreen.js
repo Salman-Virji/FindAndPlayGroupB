@@ -1,4 +1,5 @@
-import React from "react";
+import React, {useState} from "react";
+import axios from 'axios';
 import {
   Image,
   TextInput,
@@ -10,7 +11,33 @@ import {
   View,
 } from "react-native";
 
-function RegisterScreen({ navigation }) {
+export default function RegisterScreen({ navigation }) {
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [message,setMessage] = useState('')
+
+
+  function clearFields(){
+    setUsername('');
+    setEmail('');
+    setPassword('');
+  }
+
+
+  function SignUp() {
+    const body ={
+      username:username,
+      email:email,
+      password:password
+    }
+    if(username != ''|| password != ''){
+      var url = `http://10.0.0.168:3000/users/signup`
+      axios.post(url,body,navigation).then(()=>{
+        navigation.goBack();
+      }).catch(err=>console.log(err))
+  }}
+
   return (
     <ImageBackground
       style={styles.background}
@@ -39,6 +66,8 @@ function RegisterScreen({ navigation }) {
             placeholder="   Username "
             placeholderTextColor="#808080"
             autoCapitalize="none"
+            value={username}
+            onChangeText ={e => setUsername(e)}
           />
           <TextInput
             style={styles.input}
@@ -46,6 +75,8 @@ function RegisterScreen({ navigation }) {
             placeholder="   Email"
             placeholderTextColor="#808080"
             autoCapitalize="none"
+            value={email}
+            onChangeText ={e => setEmail(e)}
           />
 
           <TextInput
@@ -54,29 +85,39 @@ function RegisterScreen({ navigation }) {
             placeholder="   Password"
             placeholderTextColor="#808080"
             autoCapitalize="none"
+            value={password}
+            onChangeText ={e => setPassword(e)}
           />
+          {/*
           <TextInput
             style={styles.input}
             underlineColorAndroid="transparent"
             placeholder="   Re-enter Password"
             placeholderTextColor="#808080"
             autoCapitalize="none"
+            onChangeText ={e => setPassword(e)}
           />
+          */}
         </View>
-        <View style={[styles.loginbuttonContainer, { flex: 1 }]}>
+        <View style={[styles.loginbuttonContainer, { flex: 1 }]}>   
           <TouchableOpacity
             activeOpacity={0.6}
-            onPress={() => navigation.navigate("SigninScreen")}
+            onPress={SignUp}
           >
+           {/*} onPress={()=>{navigation.navigate('SigninScreen')}} */}
+          
             <Text style={styles.logintext}>Sign-up</Text>
-            <Image
+         
+            <Image 
               style={styles.loginButton}
               source={require("../assets/Btn/bluepillbutton.png")}
             ></Image>
 
+          </TouchableOpacity>
+      
             {/* <Image onPress ={() => navigation.navigate('LandingScreen')} style={styles.loginButton} source={require("../assets/Btn/bluepillbutton.png")}></Image> */}
             {/* <View style={styles.loginButton}></View> */}
-          </TouchableOpacity>
+          
         </View>
         <View style={[styles.googlelogoContainer, { flex: 1 }]}>
           <Image
@@ -155,4 +196,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RegisterScreen;
+//export default RegisterScreen;
