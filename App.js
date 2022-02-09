@@ -7,6 +7,7 @@ import ForgotPasswordScreen from "./app/screens/ForgotPasswordScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import SigninScreenT from "./app/screens/SigninScreenT";
+import ForgotPasswordTablet from "./app/screens/ForgotPasswordTablet.js";
 
 const Stack = createNativeStackNavigator();
 
@@ -17,6 +18,11 @@ function App() {
         <Stack.Screen
           name="SigninScreenT"
           component={SigninScreenT}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ForgotPasswordTablet"
+          component={ForgotPasswordTablet}
           options={{ headerShown: false }}
         />
         <Stack.Screen

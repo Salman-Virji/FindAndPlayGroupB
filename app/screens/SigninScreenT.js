@@ -78,7 +78,7 @@ function SigninScreen({ navigation }) {
                 color: "white",
                 fontWeight: "bold",
               }}
-              onPress={() => navigation.navigate("ForgotPasswordScreen")}
+              onPress={() => navigation.navigate("ForgotPasswordTablet")}
             >
               Forgot Password ?{" "}
             </Text>
