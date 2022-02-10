@@ -1,9 +1,11 @@
-// Split express and router into seperate variables for clarity.
+// Split express and router into separate variables for clarity.
 const express = require('express');
 const router = express.Router();
 
-// For salting passwords but we need to review this. Should be SHA-2 min.
+// For salting passwords but we need to review this. Should be SHA-2 min. Maybe use bcrypt.
 const md5 = require('md5');
+
+// Check how to use passport for handling sessions
 
 let User = require('../models/user.model');
 
@@ -28,7 +30,7 @@ router.route('/signup').post((req, res) => {
     newUser
         .save()
         .then(() => {
-            data.msg = 'User Added!';
+            data.msg = 'User added';
             data.status = true;
             res.json(data);
         })
@@ -48,7 +50,7 @@ router.route('/login').post((req, res) => {
     User.find({ username: req.body.username })
         .then((user) => {
             if (req.body.user == '' || req.body.password == '') {
-                data.msg = 'Please Complete All Fields';
+                data.msg = 'Please complete all fields';
                 res.send(data);
                 return;
             }
@@ -57,13 +59,13 @@ router.route('/login').post((req, res) => {
                 data.status = true;
                 res.send(data);
             } else {
-                data.msg = 'Wrong Password';
+                data.msg = 'Invalid password';
                 data.status = false;
                 res.send(data);
             }
         })
         .catch((err) => {
-            console.log('No user found');
+            console.log('User not found');
         });
 });
 
