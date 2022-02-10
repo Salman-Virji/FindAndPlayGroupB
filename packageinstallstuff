@@ -1,7 +1,0 @@
-https://reactnavigation.org/docs/getting-started
-
-npm install @react-navigation/native - in terminal 
-
-expo install react-native-screens react-native-safe-area-context - install in cmd -  project location if you are using expo
-
-npm install @react-navigation/native-stack - install in terminal

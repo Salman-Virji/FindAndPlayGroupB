@@ -1,14 +1,18 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Pressable } from "react-native";
-import SigninScreen from "./app/screens/SigninScreen";
-import RegisterScreen from "./app/screens/RegisterScreen";
-import LandingScreen from "./app/screens/LandingScreen";
-import ForgotPasswordScreen from "./app/screens/ForgotPasswordScreen";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import SigninScreenT from "./app/screens/SigninScreenT";
-import ForgotPasswordTablet from "./app/screens/ForgotPasswordTablet.js";
+import React from 'react'
 
+// Part of React Navigation to create navigation container
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+// Importing screen components to Navigation Container
+import SigninScreen from './app/screens/SigninScreen';
+import RegisterScreen from './app/screens/RegisterScreen';
+import LandingScreen from './app/screens/LandingScreen';
+import ForgotPasswordScreen from './app/screens/ForgotPasswordScreen';
+import SigninScreenT from "./app/screens/SigninScreenT";
+import ForgotPasswordTablet from "./app/screens/ForgotPasswordTablet";
+
+// Part of React Navigation to create a 'Stack' style navigation object
 const Stack = createNativeStackNavigator();
 
 function App() {
