@@ -25,3 +25,6 @@ See docs for navgation - !(React Navigation)[https://reactnavigation.org/docs/ge
 * apps folder - > assets -> subfolders for each asset type  
 
 Note : Layout does not scroll up with keyboard anymore becuase of "softwareKeyboardLayoutMode": "pan" added to app.json , this solves layout breaking but could be a future issue 
+
+
+TESTING THIS
