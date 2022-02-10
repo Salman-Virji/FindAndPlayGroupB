@@ -30,7 +30,7 @@ function SigninScreen({ navigation }) {
             password: password,
         };
 
-        var url = `http://10.0.0.168:3000/users/login`;
+        var url = `http://10.0.0.180:3000/users/login`; //Replace by your IP address
 
         axios
             .post(url, body, navigation)
