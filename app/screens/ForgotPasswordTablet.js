@@ -16,7 +16,13 @@ import {
 import { Dimensions } from "react-native";
 const { width, height } = Dimensions.get("window");
 
+
+
+
+
 function ForgotPasswordTablet({ navigation }) {
+ 
+  
   return (
     <ImageBackground
       style={styles.background}
@@ -61,7 +67,8 @@ function ForgotPasswordTablet({ navigation }) {
           
         </View>
         {/* Reset password message  */}
-        <Text style={styles.resetpassmsg}> If this is a valid account you will get a email reset </Text>
+
+             <Text style={styles.resetpassmsg}> If this is a valid account you will get a email reset </Text> 
         <View
           style={{
             flexDirection: "row",
@@ -70,8 +77,24 @@ function ForgotPasswordTablet({ navigation }) {
           }}
         >
           
-         
+          <View style={styles.loginbuttonContainer}>
+          
+        {/* Send request button  */}
+          <Pressable
+            style={styles.btnSendrequest}
+            onPress={() => console.log("Send Requet Pressed")}
+          >
+            <Text
+              style={{ bottom: 1, fontWeight: "bold", fontSize: 18,  color:"black" }}
+              
+            >
+              Send Request
+            </Text>
+          </Pressable>
         </View>
+        </View>
+
+        
         
         {/* login button and try again text  */}
         <View style={styles.loginbuttonContainer}>
@@ -114,7 +137,20 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
   },
-  
+  logintext: {
+    zIndex: 999, // brings forward
+    paddingLeft: "43%",
+    color: "white",
+    top: "45%",
+    fontSize: 30,
+    fontWeight: "bold",
+  },
+  loginbuttonContainer: {
+    flex: 1,
+    width: width * 0.6,
+    justifyContent: "center",
+  },
+
   input: {
     marginTop: 55 ,
     width: width * 0.6,
@@ -154,6 +190,20 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: 400,
     justifyContent: "center",
+  },
+  btnSendrequest: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 15,
+    paddingHorizontal: 32,
+    borderRadius: 30,
+    elevation: 5,
+    backgroundColor: "#FFE551",
+    width: "70%",
+    fontSize: 20,
+    height: 60,
+    shadowColor: "rgba(46, 229, 157, 0.4)",
+    fontSize: 20,
   },
   btnSignin: {
     alignItems: "center",
