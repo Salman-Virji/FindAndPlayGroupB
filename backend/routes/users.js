@@ -1,72 +1,74 @@
-// Split express and router into separate variables for clarity.
-const express = require('express');
-const router = express.Router();
+//We need to implement passport to handle sessions
 
-// For salting passwords but we need to review this. Should be SHA-2 min. Maybe use bcrypt.
+const router = require('express').Router();
+//For salting passwords. Maybe we could use bcrypt (more secure).
 const md5 = require('md5');
-
-// Check how to use passport for handling sessions
-
 let User = require('../models/user.model');
 
-router.route('/').get((req, res) => {
-    res.send('user router');
+
+router.route('/').get((req,res) => {
+    res.send("user router");
 });
 
-router.route('/signup').post((req, res) => {
+//User signUp
+router.route('/signup').post((req,res) => {
+    //Creating Variables
     const username = req.body.username;
     const email = req.body.email;
-    let password = req.body.password; // let not var...
-
+    let password = req.body.password;
     password = md5(password);
 
-    const newUser = User({ username, email, password });
+    const newUser= User({username,email,password});
 
     const data = {
-        msg: '',
-        status: false,
+        msg:"",
+        status: false
     };
 
-    newUser
-        .save()
+    //If successfull, user would be added otherwise it would show an error
+    newUser.save()
         .then(() => {
-            data.msg = 'User added';
+            data.msg = "User added";
             data.status = true;
             res.json(data);
         })
-        .catch((err) => {
-            data.msg = 'Error: ' + err;
+        .catch(err => {
+            data.msg = "Error: " + err;
             data.status = false;
             res.send(data);
         });
 });
 
-router.route('/login').post((req, res) => {
-    const data = {
-        msg: '',
-        status: false,
-    };
+//User Login
+router.route('/login').post((req,res) => {
 
-    User.find({ username: req.body.username })
-        .then((user) => {
-            if (req.body.user == '' || req.body.password == '') {
-                data.msg = 'Please complete all fields';
-                res.send(data);
-                return;
-            }
-            if (user[0].password == md5(req.body.password)) {
-                data.msg = '';
-                data.status = true;
-                res.send(data);
-            } else {
-                data.msg = 'Invalid password';
-                data.status = false;
-                res.send(data);
-            }
-        })
-        .catch((err) => {
-            console.log('User not found');
-        });
+    const data = {
+        msg: "",
+        status: false
+    }
+
+    //Finding a user by username
+    User.find({username:req.body.username}).then(user => {
+
+        //If fields are empty then the user would be asked to complete the fields
+        if (req.body.user == '' || req.body.password == '') {
+            data.msg = "Please complete all fields";
+            res.send(data);
+            return;
+        }
+        //If the password that the user entered and the password stored in the database are same, User would be logged in
+        if (user[0].password == md5(req.body.password)) {
+            data.msg = "";
+            data.status = true;
+            res.send(data);
+        } else {
+            data.msg = "Invalid password";
+            data.status = false;
+            res.send(data);
+        }
+    }).catch(err => {
+        console.log("User not found");
+    });
 });
 
 module.exports = router;
