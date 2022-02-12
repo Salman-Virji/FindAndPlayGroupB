@@ -104,7 +104,7 @@ function SigninScreen({ navigation }) {
             {/* Pressable makes the area Pressable */}
             <Pressable
               style={styles.loginButton}
-              onPress={() => console.log("Pressed")}
+              onPress ={() => navigation.navigate('LandingScreen') } //changed onclick to go to landingscreen
             >
               <Text style={styles.loginText}>Login</Text>
             </Pressable>
@@ -112,7 +112,7 @@ function SigninScreen({ navigation }) {
           <View style={{ alignItems: "center" }}>
             <Pressable
               style={styles.btnWithoutAccount}
-              onPress={() => console.log("Pressed")}
+              onPress ={() => navigation.navigate('LandingScreen') } //changed onclick to go to landingscreen
             >
               <Text style={([styles.loginText], { color: "black" })}>
                 Continue without account
