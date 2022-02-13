@@ -1,4 +1,5 @@
 //We need to implement passport to handle sessions
+//We need to implement forgot password
 
 const router = require('express').Router();
 //For salting passwords. Maybe we could use bcrypt (more secure).
@@ -10,9 +11,9 @@ router.route('/').get((req,res) => {
     res.send("user router");
 });
 
-//User signUp
+//User signup
 router.route('/signup').post((req,res) => {
-    //Creating Variables
+    //Creating variables
     const username = req.body.username;
     const email = req.body.email;
     let password = req.body.password;
@@ -21,11 +22,11 @@ router.route('/signup').post((req,res) => {
     const newUser= User({username,email,password});
 
     const data = {
-        msg:"",
+        msg: "",
         status: false
     };
 
-    //If successfull, user would be added otherwise it would show an error
+    //If successfull, user will be added, otherwise it will display an error
     newUser.save()
         .then(() => {
             data.msg = "User added";
@@ -39,7 +40,7 @@ router.route('/signup').post((req,res) => {
         });
 });
 
-//User Login
+//User login
 router.route('/login').post((req,res) => {
 
     const data = {
@@ -50,13 +51,13 @@ router.route('/login').post((req,res) => {
     //Finding a user by username
     User.find({username:req.body.username}).then(user => {
 
-        //If fields are empty then the user would be asked to complete the fields
+        //If fields are empty, the user will be asked to complete them
         if (req.body.user == '' || req.body.password == '') {
             data.msg = "Please complete all fields";
             res.send(data);
             return;
         }
-        //If the password that the user entered and the password stored in the database are same, User would be logged in
+        //If the password entered by the user and the password stored in the database are the same, user will be logged in
         if (user[0].password == md5(req.body.password)) {
             data.msg = "";
             data.status = true;

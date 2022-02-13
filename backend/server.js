@@ -16,13 +16,13 @@ const usersRouter = require('./routes/users');
 app.use(express.json());
 app.use(cors());
 
-//Connection strings for mongoose(To connect to mongoDB)
+//Connection string for mongoose (to connect to MongoDB)
 //Can be updated in .env file
 const uri = process.env.ATLAS_URI;
 mongoose.connect(uri);
 const connection = mongoose.connection;
 
-//Connected to testDB for now
+//Connecting to testDB for now
 //Can switch to a different database by changing the .env file
 connection.once('open', () => {
     console.log("MongoDB database connection established succesfully");
@@ -38,7 +38,7 @@ app.listen(3000, function () {
   console.log('Server listening on port 3000!');
 });
 
-//ANOTHER TO CONNECT TO THE DATABASE
+//ANOTHER WAY TO CONNECT TO THE DATABASE
 // const mongoUri = 'mongodb+srv://mongodb:password321@realmcluster.mvyvj.mongodb.net/findandplaydb?retryWrites=true&w=majority';
 // mongoose.connect(mongoUri);
 
