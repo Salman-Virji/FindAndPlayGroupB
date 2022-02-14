@@ -1,10 +1,9 @@
-//We need to implement passport to handle sessions
 //We need to implement forgot password
 
 const router = require('express').Router();
-//For salting passwords. Maybe we could use bcrypt (more secure).
+//For salting passwords. Maybe we could use bcrypt.
 const md5 = require('md5');
-let User = require('../models/user.model');
+let User = require('../models/User');
 
 
 router.route('/').get((req,res) => {
@@ -48,8 +47,8 @@ router.route('/login').post((req,res) => {
         status: false
     }
 
-    //Finding a user by username
-    User.find({username:req.body.username}).then(user => {
+    //Finding an user by username
+    User.findOne({username:req.body.username}).then(user => {
 
         //If fields are empty, the user will be asked to complete them
         if (req.body.user == '' || req.body.password == '') {
@@ -58,8 +57,8 @@ router.route('/login').post((req,res) => {
             return;
         }
         //If the password entered by the user and the password stored in the database are the same, user will be logged in
-        if (user[0].password == md5(req.body.password)) {
-            data.msg = "";
+        if (user.password == md5(req.body.password)) {
+            data.msg = "Valid password";
             data.status = true;
             res.send(data);
         } else {

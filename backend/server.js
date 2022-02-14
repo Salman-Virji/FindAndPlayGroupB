@@ -1,6 +1,7 @@
 //Express framework
 const express = require('express');
 const app = express();
+const port = 3000;
 
 //To access the .env file
 require('dotenv').config();
@@ -23,29 +24,13 @@ mongoose.connect(uri);
 const connection = mongoose.connection;
 
 //Connecting to testDB for now
-//Can switch to a different database by changing the .env file
+//Can switch to a different database by changing the URI inside the .env file
 connection.once('open', () => {
     console.log("MongoDB database connection established succesfully");
 });
 
 app.use('/users',usersRouter);
 
-app.get('/', function (req, res) {
-  res.send('Hello World!');
+app.listen(port, function () {
+  console.log('Server listening on port ' + port);
 });
-
-app.listen(3000, function () {
-  console.log('Server listening on port 3000!');
-});
-
-//ANOTHER WAY TO CONNECT TO THE DATABASE
-// const mongoUri = 'mongodb+srv://mongodb:password321@realmcluster.mvyvj.mongodb.net/findandplaydb?retryWrites=true&w=majority';
-// mongoose.connect(mongoUri);
-
-// mongoose.connection.on('connected', () => {
-//     console.log('Connected to MongoDB instance');
-// });
-
-// mongoose.connection.on('error', (err) => {
-//     console.error('Error connecting to MongoDB', err);
-// });
