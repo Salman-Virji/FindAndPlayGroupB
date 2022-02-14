@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(cors());
 
 //Connection string for mongoose (to connect to MongoDB)
-//Can be updated in .env file
+//Can be updated in .env file.
 const uri = process.env.ATLAS_URI;
 mongoose.connect(uri);
 const connection = mongoose.connection;
