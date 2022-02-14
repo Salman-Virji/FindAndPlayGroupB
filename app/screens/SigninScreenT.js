@@ -128,11 +128,11 @@ function SigninScreen({ navigation }) {
 
           <Pressable
             style={styles.btnSignup}
-            onPress={() => console.log("Pressed")}
+            onPress={() => navigation.navigate("RegisterScreenT")}
           >
             <Text
               style={([styles.loginText], { fontSize: 15 })}
-              onPress={() => navigation.navigate("RegisterScreen")}
+             
             >
               Continue without account
             </Text>
