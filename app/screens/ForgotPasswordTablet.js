@@ -103,7 +103,7 @@ function ForgotPasswordTablet({ navigation }) {
 
           <Pressable
             style={styles.btnSignin}
-            onPress={() => navigation.navigate("SigninScreenT")}
+            onPress={() => navigation.navigate("SigninScreen")}
           >
             <Text
               style={{

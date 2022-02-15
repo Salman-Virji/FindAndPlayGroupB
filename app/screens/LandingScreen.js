@@ -18,11 +18,11 @@ function LandingScreen({navigation}) {
         </TouchableOpacity>
 
             {/*logout button*/}
-        <TouchableOpacity onPress ={() => navigation.navigate('SigninScreenT')} style ={styles.logoutBtnContainer}>
+        <TouchableOpacity onPress ={() => navigation.navigate('SigninScreen')} style ={styles.logoutBtnContainer}>
             <Image
                 source={require('../assets/icons/logoutIcon.png')} 
             /> 
-            <Text onPress ={() => navigation.navigate('SigninScreenT')} style = {styles.loutoutBtnText}>Logout</Text>
+            <Text onPress ={() => navigation.navigate('SigninScreen')} style = {styles.loutoutBtnText}>Logout</Text>
         </TouchableOpacity>
 
              {/*FACTS banner*/}
