@@ -23,56 +23,57 @@ import { Dimensions } from "react-native";
 const { width, height } = Dimensions.get("window");
 
 function SigninScreen({ navigation }) {
-    const [username, setUsername] = useState("user");
-    const [password, setPassword] = useState("pass");
-    const [message, setMessage] = useState("");
-  
-    function clearFields() {
-      setUsername("");
-      setPassword("");
-    }
-  
-    function Login() {
-      const body = {
-        username: username,
-        password: password,
-      };
-  
-      var url = `http://10.0.0.180:3000/users/login`; //Replace by your IP address
-  
+  const [username, setUsername] = useState("user");
+  const [password, setPassword] = useState("pass");
+  const [message, setMessage] = useState("");
+  const [isSelected, setSelection] = useState(false);
+
+  function clearFields() {
+    setUsername("");
+    setPassword("");
+  }
+
+  function Login() {
+    const body = {
+      username: username,
+      password: password,
+    };
+
+    var url = `http://10.0.0.180:3000/users/login`; //Replace by your IP address
+
+    axios
+      .post(url, body, navigation)
+      .then((res) => {
+        console.log(res.data);
+        clearFields();
+        setMessage(res.data.msg);
+
+        if (res.data.status == true) {
+          navigation.navigate("LandingScreen", res.data);
+        }
+      })
+      .catch((err) => console.log("error"));
+  }
+
+  function SignUp() {
+    const body = {
+      username: username,
+      password: password,
+    };
+    if (username != "" || password != "") {
+      var url = `http://10.0.0.180:3000/users/signup`; //Replace by your IP address
       axios
-        .post(url, body, navigation)
-        .then((res) => {
-          console.log(res.data);
+        .post(url, body)
+        .then(() => {
           clearFields();
-          setMessage(res.data.msg);
-  
-          if (res.data.status == true) {
-            navigation.navigate("LandingScreen", res.data);
-          }
+          setMessage("Username is taken");
         })
-        .catch((err) => console.log("error"));
+        .catch((err) => console.log("err"));
+    } else {
+      console.log("Empty space");
     }
-  
-    function SignUp() {
-      const body = {
-        username: username,
-        password: password,
-      };
-      if (username != "" || password != "") {
-        var url = `http://10.0.0.180:3000/users/signup`; //Replace by your IP address
-        axios
-          .post(url, body)
-          .then(() => {
-            clearFields();
-            setMessage("Username is taken");
-          })
-          .catch((err) => console.log("err"));
-      } else {
-        console.log("Empty space");
-      }
-    }
-  
+  }
+
   return (
     //Setting background
     <ImageBackground
@@ -112,7 +113,7 @@ function SigninScreen({ navigation }) {
             placeholderTextColor="#fff"
             autoCapitalize="none"
             value={username}
-        onChangeText={(e) => setUsername(e)}
+            onChangeText={(e) => setUsername(e)}
           />
           <TextInput
             style={styles.input2}
@@ -134,12 +135,17 @@ function SigninScreen({ navigation }) {
         >
           <View style={{ flexDirection: "row" }}>
             <Checkbox
-              // style={styles.checkbox}
-              value={true}
-              // onValueChange={setChecked}
-              color={true ? "#4630EB" : undefined}
+              style={styles.checkbox}
+              value={isSelected}
+              onValueChange={setSelection}
+              //color={true ? "#4630EB" : undefined}
             />
-            <Text style={{ color: "white" }}>Remember me!</Text>
+            <Text
+              style={{ color: "white", marginLeft: 10, fontWeight: "bold" }}
+            >
+              {" "}
+              Remember me!
+            </Text>
           </View>
           <View style={{}}>
             <Text
@@ -359,6 +365,9 @@ const styles = StyleSheet.create({
     height: 60,
 
     shadowColor: "rgba(46, 229, 157, 0.4)",
+  },
+  checkbox: {
+    alignSelf: "center",
   },
 });
 
