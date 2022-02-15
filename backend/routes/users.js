@@ -3,7 +3,8 @@ const express = require('express');
 const router = express.Router();
 
 // For salting passwords but we need to review this. Should be SHA-2 min. Maybe use bcrypt.
-const md5 = require('md5');
+// const md5 = require('md5');
+const bc = require('bcrypt');
 
 // Check how to use passport for handling sessions
 
@@ -16,9 +17,10 @@ router.route('/').get((req, res) => {
 router.route('/signup').post((req, res) => {
     const username = req.body.username;
     const email = req.body.email;
-    let password = req.body.password; // let not var...
+    const password = bc.hash(req.body.password, 10);
 
-    password = md5(password);
+    // let password = req.body.password; // let not var...
+    // password = md5(password);
 
     const newUser = User({ username, email, password });
 
@@ -47,14 +49,14 @@ router.route('/login').post((req, res) => {
         status: false,
     };
 
-    User.find({ username: req.body.username })
+    User.findOne({ username: req.body.username })
         .then((user) => {
             if (req.body.user == '' || req.body.password == '') {
                 data.msg = 'Please complete all fields';
                 res.send(data);
                 return;
             }
-            if (user[0].password == md5(req.body.password)) {
+            if (bc.compare(req.body.password, user.password)) {
                 data.msg = '';
                 data.status = true;
                 res.send(data);
