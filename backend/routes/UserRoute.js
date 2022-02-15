@@ -1,14 +1,8 @@
 // Split express and router into separate variables for clarity.
 const express = require('express');
 const router = express.Router();
-
-// For salting passwords but we need to review this. Should be SHA-2 min. Maybe use bcrypt.
-// const md5 = require('md5');
 const bc = require('bcrypt');
-
-// Check how to use passport for handling sessions
-
-let User = require('../models/user.model');
+let User = require('../models/UserModel');
 
 router.route('/').get((req, res) => {
     res.send('user router');
@@ -18,10 +12,7 @@ router.route('/signup').post((req, res) => {
     const username = req.body.username;
     const email = req.body.email;
     const password = bc.hash(req.body.password, 10);
-
-    // let password = req.body.password; // let not var...
-    // password = md5(password);
-
+    
     const newUser = User({ username, email, password });
 
     const data = {
