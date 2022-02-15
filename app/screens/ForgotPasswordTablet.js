@@ -22,7 +22,6 @@ function ForgotPasswordTablet({ navigation }) {
       style={styles.background}
       source={require("../assets/BGs/background2.png")}
     >
-        
       <View style={styles.inputContainer}>
         <View
           style={{
@@ -32,8 +31,7 @@ function ForgotPasswordTablet({ navigation }) {
             margin: 100,
           }}
         >
-
-            {/* Find and play logo */}
+          {/* Find and play logo */}
           <Image
             style={styles.logo}
             source={require("../assets/Logo/logo1.png")}
@@ -46,10 +44,9 @@ function ForgotPasswordTablet({ navigation }) {
             justifyContent: "flex-end",
           }}
         >
-            {/* Reset password Header  */}
+          {/* Reset password Header  */}
           <Text style={styles.resetpasstext}> Reset Password </Text>
 
-          
           {/* email or password input box  */}
           <TextInput
             style={styles.input}
@@ -58,10 +55,13 @@ function ForgotPasswordTablet({ navigation }) {
             placeholderTextColor="#fff"
             autoCapitalize="none"
           />
-          
         </View>
         {/* Reset password message  */}
-        <Text style={styles.resetpassmsg}> If this is a valid account you will get a email reset </Text>
+
+        <Text style={styles.resetpassmsg}>
+          {" "}
+          If this is a valid account you will get a email reset{" "}
+        </Text>
         <View
           style={{
             flexDirection: "row",
@@ -69,13 +69,35 @@ function ForgotPasswordTablet({ navigation }) {
             justifyContent: "space-between",
           }}
         >
-          
-         
+          <View style={styles.loginbuttonContainer}>
+            {/* Send request button  */}
+            <Pressable
+              style={styles.btnSendrequest}
+              onPress={() => console.log("Send Request Pressed")}
+            >
+              <Text
+                style={{
+                  bottom: 1,
+                  fontWeight: "bold",
+                  fontSize: 18,
+                  color: "black",
+                }}
+              >
+                Send Request
+              </Text>
+            </Pressable>
+          </View>
         </View>
-        
         {/* login button and try again text  */}
         <View style={styles.loginbuttonContainer}>
-          <Text style={{ bottom: 10, fontWeight: "bold", fontSize: 20,  color:"white" }}>
+          <Text
+            style={{
+              bottom: 10,
+              fontWeight: "bold",
+              fontSize: 20,
+              color: "white",
+            }}
+          >
             Try Again?
           </Text>
 
@@ -84,8 +106,12 @@ function ForgotPasswordTablet({ navigation }) {
             onPress={() => navigation.navigate("SigninScreenT")}
           >
             <Text
-              style={{ bottom: 1, fontWeight: "bold", fontSize: 18,  color:"white" }}
-              
+              style={{
+                bottom: 1,
+                fontWeight: "bold",
+                fontSize: 18,
+                color: "white",
+              }}
             >
               Login
             </Text>
@@ -105,18 +131,30 @@ const styles = StyleSheet.create({
     top: "10%",
     width: "100%",
     height: "100%",
-    resizeMode:"contain"
-    
+    resizeMode: "contain",
   },
   resetpasstext: {
     fontSize: 50,
-    bottom:"15%",
+    bottom: "15%",
     color: "white",
     fontWeight: "bold",
   },
-  
+  logintext: {
+    zIndex: 999, // brings forward
+    paddingLeft: "43%",
+    color: "white",
+    top: "45%",
+    fontSize: 30,
+    fontWeight: "bold",
+  },
+  loginbuttonContainer: {
+    flex: 1,
+    width: width * 0.6,
+    justifyContent: "center",
+  },
+
   input: {
-    marginTop: 55 ,
+    marginTop: 55,
     width: width * 0.6,
     height: 40,
     bottom: "30%",
@@ -125,7 +163,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     borderRadius: 15,
   },
-  
+
   inputContainer: {
     flex: 1,
     flexDirection: "column",
@@ -136,7 +174,7 @@ const styles = StyleSheet.create({
   loginButton: {},
   resetpassmsg: {
     fontSize: 20,
-    fontWeight:"bold",
+    fontWeight: "bold",
     color: "white",
   },
   logintext: {
@@ -147,13 +185,27 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: "bold",
   },
- 
+
   loginbuttonContainer: {
     flex: 1,
     flexDirection: "column",
     alignItems: "center",
     width: 400,
     justifyContent: "center",
+  },
+  btnSendrequest: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 15,
+    paddingHorizontal: 32,
+    borderRadius: 30,
+    elevation: 5,
+    backgroundColor: "#FFE551",
+    width: "70%",
+    fontSize: 20,
+    height: 60,
+    shadowColor: "rgba(46, 229, 157, 0.4)",
+    fontSize: 20,
   },
   btnSignin: {
     alignItems: "center",
@@ -169,7 +221,6 @@ const styles = StyleSheet.create({
     shadowColor: "rgba(46, 229, 157, 0.4)",
     fontSize: 20,
   },
-  
 });
 
 export default ForgotPasswordTablet;
