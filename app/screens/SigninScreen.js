@@ -238,6 +238,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     fontSize: 20,
     paddingLeft: 15,
+    paddingRight: 15,
   },
   input2: {
     marginBottom: 15,
@@ -249,6 +250,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     fontSize: 20,
     paddingLeft: 15,
+    paddingRight: 15,
   },
   inputContainer: {
     flex: 1,
