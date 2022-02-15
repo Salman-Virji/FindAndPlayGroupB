@@ -1,7 +1,5 @@
-//Installing expo checkbox as react native doesn't provide checkbox out of the box anymore.
-import Checkbox from "expo-checkbox";
 import React from "react";
-//Importing whatever components are required from react native
+
 import {
   TextInput,
   Image,
@@ -15,20 +13,15 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-//This component is used to calculate the dimensions of the device and set width of certain components accordingly e.g input box
 import { Dimensions } from "react-native";
 const { width, height } = Dimensions.get("window");
 
 function SigninScreen({ navigation }) {
   return (
-
-    //Setting background
     <ImageBackground
       style={styles.background}
       source={require("../assets/BGs/background2.png")}
     >
-      
-      {/* //View is like a div in html */}
       <View style={styles.inputContainer}>
         <View
           style={{
@@ -50,10 +43,8 @@ function SigninScreen({ navigation }) {
             justifyContent: "flex-end",
           }}
         >
-          {/* To use text we have to use Text component */}
           <Text style={styles.signintext}> Sign-In </Text>
 
-          {/* TextInput is like input box */}
           <TextInput
             style={styles.input}
             underlineColorAndroid="transparent"
@@ -77,13 +68,7 @@ function SigninScreen({ navigation }) {
             justifyContent: "space-between",
           }}
         >
-          <View style={{ flexDirection: "row" }}>
-            <Checkbox
-              // style={styles.checkbox}
-              value={true}
-              // onValueChange={setChecked}
-              color={true ? "#4630EB" : undefined}
-            />
+          <View style={{}}>
             <Text style={{ color: "white" }}>Remember me!</Text>
           </View>
           <View style={{}}>
@@ -101,10 +86,9 @@ function SigninScreen({ navigation }) {
         </View>
         <View style={styles.loginbuttonContainer}>
           <View>
-            {/* Pressable makes the area Pressable */}
             <Pressable
               style={styles.loginButton}
-              onPress ={() => navigation.navigate('LandingScreen') } //changed onclick to go to landingscreen
+              onPress={() => console.log("Pressed")}
             >
               <Text style={styles.loginText}>Login</Text>
             </Pressable>
@@ -112,7 +96,7 @@ function SigninScreen({ navigation }) {
           <View style={{ alignItems: "center" }}>
             <Pressable
               style={styles.btnWithoutAccount}
-              onPress ={() => navigation.navigate('LandingScreen') } //changed onclick to go to landingscreen
+              onPress={() => console.log("Pressed")}
             >
               <Text style={([styles.loginText], { color: "black" })}>
                 Continue without account
