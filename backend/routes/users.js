@@ -43,20 +43,21 @@ router.route('/signup').post((req, res) => {
         });
 });
 
-router.route('/login').post((req, res) => {
+router.route('/login').post(async (req, res) => {
     const data = {
         msg: '',
         status: false,
     };
 
-    User.findOne({ username: req.body.username })
+        User.findOne({ username })
         .then((user) => {
-            if (req.body.user == '' || req.body.password == '') {
+            if (req.body.username == '' || req.body.password == '') {
                 data.msg = 'Please complete all fields';
                 res.send(data);
                 return;
             }
-            if (bc.compare(req.body.password, user.password)) {
+
+            if (user.password == (await bc.compare(password, user.password))) {
                 data.msg = '';
                 data.status = true;
                 res.send(data);
