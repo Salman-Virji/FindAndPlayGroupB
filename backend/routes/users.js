@@ -56,7 +56,6 @@ router.route('/login').post(async (req, res) => {
                 res.send(data);
                 return;
             }
-
             if (user.password == (await bc.compare(password, user.password))) {
                 data.msg = '';
                 data.status = true;
