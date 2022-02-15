@@ -1,60 +1,36 @@
-/*
-On terminal inside backend folder:
-npm init -y
-npm install express mongoose cors dotenv md5
-Can also install nodemon:
-npm install nodemon
-*/
+//Express framework
+const express = require('express');
+const app = express();
+const port = 3000;
 
-// const e = require('express'); Not needed!
-
+//To access the .env file
 require('dotenv').config();
 
-// ExpressJs framework
-const express = require('express');
-// MongoDB middleware for query drivers
-const mongoose = require('mongoose');
-// Cross-origin resource sharing CORS for tranfering data between front and backend
+//Cross-origin resource sharing for tranfering data between front and backend
 const cors = require('cors');
-const usersRouter = require('./routes/users');
 
-const app = express();
+//MongoDB middleware for query drivers
+const mongoose = require('mongoose');
+
+const usersRouter = require('./routes/users');
 
 app.use(express.json());
 app.use(cors());
-app.use('/users',usersRouter);
 
-// Secrets in .env and added to gitignore
-const port = process.env.LOCALHOST_PORT;
+//Connection string for mongoose (to connect to MongoDB)
+//Can be updated in .env file.
 const uri = process.env.ATLAS_URI;
-
-// Connection to the database
 mongoose.connect(uri);
 const connection = mongoose.connection;
 
-connection.once('open',()=>{
+//Connecting to testDB for now
+//Can switch to a different database by changing the URI inside the .env file
+connection.once('open', () => {
     console.log("MongoDB database connection established succesfully");
 });
 
-app.get('/', function (req, res) {
-  res.send('Hello World!');
-});
+app.use('/users',usersRouter);
 
-// Check with the frontend what port they are using
-// http://localhost:3000
-// Define a server that listens to port 3000
 app.listen(port, function () {
-  console.log('Example app listening on port 3000!');
+  console.log('Server listening on port ' + port);
 });
-
-// Another way to connect to the database
-// const mongoUri = 'mongodb+srv://groupb2_admin:Q4zbzQrIkjhaYPQf@realmcluster.mvyvj.mongodb.net/test';
-// mongoose.connect(mongoUri);
-
-// mongoose.connection.on('connected', () => {
-//     console.log('Connected to MongoDB instance');
-// });
-
-// mongoose.connection.on('error', (err) => {
-//     console.error('Error connecting to MongoDB', err);
-// });

@@ -30,7 +30,7 @@ export default function RegisterScreen({ navigation }) {
             password: password,
         };
         if (username != '' || password != '') {
-            var url = `http://10.0.0.168:3000/users/signup`;
+            var url = `http://10.0.0.180:3000/users/signup`; //Replace by your IP address
             axios
                 .post(url, body, navigation)
                 .then(() => {
