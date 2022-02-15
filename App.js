@@ -1,12 +1,3 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Pressable } from "react-native";
-import SigninScreen from "./app/screens/SigninScreen";
-import RegisterScreen from "./app/screens/RegisterScreen";
-import RegisterScreenT from "../FindAndPlayGroupB/app/screens/RegisterscreenT";
-import LandingScreen from "./app/screens/LandingScreen";
-import ForgotPasswordScreen from "./app/screens/ForgotPasswordScreen";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from 'react'
 
 // Part of React Navigation to create navigation container
@@ -46,11 +37,6 @@ function App() {
         <Stack.Screen
           name="RegisterScreen"
           component={RegisterScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="RegisterScreenT"
-          component={RegisterScreenT}
           options={{ headerShown: false }}
         />
         <Stack.Screen
