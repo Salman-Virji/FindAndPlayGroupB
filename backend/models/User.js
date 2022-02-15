@@ -9,7 +9,7 @@ const userSchema = new Schema({
  },
  {
      timstamps: true,
- });
+ })
 
 const User = mongoose.model('User', userSchema);
 
