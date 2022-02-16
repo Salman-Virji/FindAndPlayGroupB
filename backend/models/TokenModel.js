@@ -27,3 +27,5 @@ const tokenSchema = new Schema(
 const Token = mongoose.model('Token', tokenSchema);
 
 module.exports = Token;
+
+// This model should really be called 'ResetTokenModel'

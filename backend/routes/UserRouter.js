@@ -154,9 +154,12 @@ router.post('/reset-pass', async (req, res) => {
 /*
  **** RESET PASSWORD ROUTE? *****   
  I changed this to a get request, this is where the page should be served. The next route would do the logic below? 
+1. /reset-pass = sets reset token and calls email method
+2. /:userId/:token = as coded was post, but we need to server a html or app screen here and THEN post with the code below. 
+
  */
 router.get('/:userId/:token', async (req, res) => {
-    console.log('pre-try');
+    console.log('ERROR HERE..... wrong route!');
     try {
         const schema = Joi.object({ password: Joi.string().required() });
         const { error } = schema.validate(req.body);
