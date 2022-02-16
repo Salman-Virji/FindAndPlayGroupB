@@ -6,7 +6,7 @@ const md5 = require('md5');
 
 const UserModel = require('../models/UserModel');
 
-/* Not in use in this file */
+/* Not in use in this file, but the JWT can be used in token methods */
 // const jwt = require('jsonwebtoken');
 // const JWT_SECRET = 'sdfnsdl;jgn;sdgn;';
 // const nodemailer = require('nodemailer');
@@ -40,10 +40,6 @@ router.route('/signup').post(async (req, res) => {
     /* BCrypt Hashing */
     const salt = await bcrypt.genSalt(10);
     const password = await bcrypt.hash(req.body.password, salt);
-
-    /* MD5 Hashing */
-    // let rawPassword = req.body.password;
-    // const password = md5(rawPassword);
 
     const newUser = UserModel({ username, email, password });
 
@@ -121,7 +117,7 @@ router.route('/login').post(async (req, res) => {
 
 // Unsure of what this code is doing, plus is written different to code above?
 /*
- **** RESET PASSWORD ROUTE *****
+ **** RESET PASSWORD TOKEN ROUTE *****
  */
 router.post('/reset-pass', async (req, res) => {
     try {
@@ -134,12 +130,14 @@ router.post('/reset-pass', async (req, res) => {
             return res.status(400).send("user with given email doesn't exist");
 
         let token = await Token.findOne({ userId: user._id });
+
         if (!token) {
             token = await new Token({
                 userId: user._id,
                 token: crypto.randomBytes(32).toString('hex'),
             }).save();
         }
+
 
         const link = `localhost:3000/users/${user._id}/${token.token}`;
         console.log(link);
@@ -152,10 +150,10 @@ router.post('/reset-pass', async (req, res) => {
     }
 });
 
-/**** END OF RESET PASSWORD ****/
+/**** END OF RESET PASSWORD TOKEN ****/
 
 /*
- **** SET TOKEN ROUTE? *****
+ **** RESET PASSWORD ROUTE? *****
  */
 router.post('/:userId/:token', async (req, res) => {
     try {
@@ -164,7 +162,7 @@ router.post('/:userId/:token', async (req, res) => {
         if (error) return res.status(400).send(error.details[0].message);
 
         const user = await User.findById(req.params.userId);
-        if (!user) return res.status(400).send('invalid link or expired');
+        if (!user) return res.status(400).send('Invalid link or expired');
 
         const token = await Token.findOne({
             userId: user._id,
@@ -172,7 +170,10 @@ router.post('/:userId/:token', async (req, res) => {
         });
         if (!token) return res.status(400).send('Invalid link or expired');
 
-        user.password = md5(req.body.password);
+        /* BCrypt Hashing */
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(req.body.password, salt);
+
         await user.save();
         await token.delete();
 

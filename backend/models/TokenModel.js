@@ -20,7 +20,7 @@ const tokenSchema = new Schema(
         },
     },
     {
-        timstamps: true,
+        timestamps: true,
     }
 );
 
