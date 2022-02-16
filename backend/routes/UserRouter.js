@@ -87,7 +87,6 @@ router.route('/login').post(async (req, res) => {
     //Finding an user by username
     UserModel.findOne({ username: username })
         .then(async (result) => {
-
             //If 'Either' of the fields are empty, the user will be asked to complete them
             if (username == '' || rawPassword == '') {
                 data.msg = 'Please complete all fields';
@@ -113,12 +112,12 @@ router.route('/login').post(async (req, res) => {
             }
         })
         .catch((err) => {
-            console.log('User Not Found, Try again');
+            data.msg = `User Not Found, ${err.message}`;
+            data.status = false;
+            res.send(data);
         });
 });
 /**** END OF SIGN IN / LOGIN ****/
-
-
 
 // Unsure of what this code is doing, plus is written different to code above?
 /*
@@ -152,7 +151,6 @@ router.post('/reset-pass', async (req, res) => {
         console.log(error);
     }
 });
-
 
 /**** END OF RESET PASSWORD ****/
 
