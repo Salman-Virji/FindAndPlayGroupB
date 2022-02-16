@@ -1,19 +1,24 @@
+//Node.js module for password hashing
 const router = require('express').Router();
+//Middleware to create modular, mountable route handlers
+
+//Node.js module that performs data encryption and decryption
+const crypto = require("crypto");
+
+//Joi module validates the data based on schemas (we build schemas to validate JavaScript objects)
+const Joi = require('joi');
 
 //For salting passwords. Maybe we could use bcrypt.
 const bcrypt = require('bcrypt');
 const md5 = require('md5');
 
 const UserModel = require('../models/UserModel');
+const Token = require('../models/TokenModel');
 
 /* Not in use in this file, but the JWT can be used in token methods */
 // const jwt = require('jsonwebtoken');
 // const JWT_SECRET = 'sdfnsdl;jgn;sdgn;';
 // const nodemailer = require('nodemailer');
-
-const Token = require('../models/TokenModel');
-const crypto = require('crypto');
-const Joi = require('joi');
 
 const sendEmail = require('../utils/sendEmail');
 
@@ -178,7 +183,7 @@ router.post('/:userId/:token', async (req, res) => {
     console.log('ERROR HERE..... wrong route!');
     try {
         const schema = Joi.object({ password: Joi.string().required() });
-        
+
         const { error } = schema.validate(req.body);
         if (error) return res.status(400).send(error.details[0].message);
 
