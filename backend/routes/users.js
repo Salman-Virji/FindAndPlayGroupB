@@ -9,6 +9,12 @@ const JWT_SECRET = 'sdfnsdl;jgn;sdgn;'
 const nodemailer = require('nodemailer')
 
 
+const Token = require("../models/token");
+const sendEmail = require("../utils/sendEmail");
+const crypto = require("crypto");
+const Joi = require("joi");
+
+
 router.route('/').get((req,res) => {
     res.send("user router");
 });
@@ -75,113 +81,67 @@ router.route('/login').post((req,res) => {
     });
 });
 
+
 //////////////////////////////////////
-let user = {
-    id:"aaaaa",
-    email:"a.dhanoa000@gmail.com",
-    password:"abc"
-}
+//Forget password
 
-router.route('/forget-password').post((req,res) => {
-  
- 
+router.post("/reset-pass", async (req, res) => {
+    try {
+        const schema = Joi.object({ email: Joi.string().email().required() });
+        const { error } = schema.validate(req.body);
+        if (error) return res.status(400).send(error.details[0].message);
 
-    let gemail =this.toString(req.body)
-    if(gemail!== user.email){
-        res.send('User not found')
-        console.log(typeof(gemail))
-        console.log(typeof(user.email))
-        // return;
+        const user = await User.findOne({ email: req.body.email });
+        if (!user)
+            return res.status(400).send("user with given email doesn't exist");
+
+        let token = await Token.findOne({ userId: user._id });
+        if (!token) {
+            token = await new Token({
+                userId: user._id,
+                token: crypto.randomBytes(32).toString("hex"),
+            }).save();
+        }
+
+        const link = `localhost:3000/users/${user._id}/${token.token}`;
+        console.log(link);
+        await sendEmail(user.email, "Password reset", link);
+
+        res.send("password reset link sent to your email account");
+    } catch (error) {
+        res.send("An error occured");
+        console.log(error);
     }
- 
-    const secret = JWT_SECRET + user.password;
-const payload = {
-    email:user.email,
-    id:user.id
-}
-
-const token = jwt.sign(payload,secret, {expiresIn:'15m'} )
-  const link = `localhost:3000/reset-password/${user.id}/${token}`
-  
-let transporter=  nodemailer.createTransport({
-    service:'gmail',
-    auth:{
-        user:'findandplay78@gmail.com',
-        pass:'FindAndPlay'
-    }
-
-})
-
-let user_email = 'agyapaldhanoa@gmail.com'
-
-let mailOptions ={
-    from:'findandplay78@gmail.com',
-    to:`${user_email}`,
-    subject:'Testing and Testing',
-    text:`IT works  \n\n              ${link}                   \n\n Click here`,
-    html:`<h1>Link For Resetting your password</h1> <br>
-    <p>An request is sent to reset password, If not please ignore,
-    </p><br>
-    <p>Please click on the link below</p><br>
-    <p>Please Reset Link</p><br>
-    <a href= "">   ${link}  </a>`
-}
-
-
-transporter.sendMail(mailOptions,function(err,data){
-    if(err){
-        console.log('Error occurs');
-
-    }
-    console.log('Email sent')
-})
-})
-
-
-router.route('/reset-password/:id/:token').get((req,res) => {
-  
-const {id,token } =req.params;
-if(id!==user.id){
-    res.send("invalid id")
-    return
-}
-
-
-const secret = JWT_SECRET+ user.password;
-try{
-const payload = jwt.verify(token,secret);
-res.render('reset-password',
- {email:user.email});
-
-}
-catch(error){
-    console.log(error.message);
-    res.send(error.message); 
-}
 });
 
-router.route('/reset-password/:id/:token').post((req,res) => {
-    const {id,token } =req.params;
-    const {password, password2} = req.body;
+router.post("/:userId/:token", async (req, res) => {
+    try {
+        const schema = Joi.object({ password: Joi.string().required() });
+        const { error } = schema.validate(req.body);
+        if (error) return res.status(400).send(error.details[0].message);
 
-    if(id!==user.id){
-        res.send('Invalid id...');
-        return;
+        const user = await User.findById(req.params.userId);
+        if (!user) return res.status(400).send("invalid link or expired");
+
+        const token = await Token.findOne({
+            userId: user._id,
+            token: req.params.token,
+        });
+        if (!token) return res.status(400).send("Invalid link or expired");
+
+        user.password = md5(req.body.password);
+        await user.save();
+        await token.delete();
+
+        res.send("password reset sucessfully.");
+    } catch (error) {
+        res.send("An error occured");
+        console.log(error);
     }
-
-
-  const secret = JWT_SECRET + user.password
-    try{
-        const payload = jwt.verify(token,secret)
-        user.password =password;
-        res.send(user)
-
-    }catch(error){
-        console.log(error.message)
-        res.send(error.message)
-    }
-    res.send(user);
 });
+
+
+
 
 
 module.exports = router;
