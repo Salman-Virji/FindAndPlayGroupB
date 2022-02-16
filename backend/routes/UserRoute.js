@@ -1,4 +1,5 @@
-// Split express and router into separate variables for clarity.
+//DELETE THIS FILE
+
 const express = require('express');
 const router = express.Router();
 const bc = require('bcrypt');

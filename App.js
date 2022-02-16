@@ -20,8 +20,8 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name="SigninScreen" //For testing, change from SigninScreenT to SigninScreen
-          component={SigninScreen} //For testing, change from SigninScreenT to SigninScreen
+          name="SigninScreenT" //For testing, change from SigninScreenT to SigninScreen
+          component={SigninScreenT} //For testing, change from SigninScreenT to SigninScreen
           options={{ headerShown: false }}
         />
         <Stack.Screen
@@ -30,8 +30,8 @@ function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="SigninScreenT" //For testing, change from SigninScreen to SigninScreenT
-          component={SigninScreenT} //For testing, change from SigninScreen to SigninScreenT
+          name="SigninScreen" //For testing, change from SigninScreen to SigninScreenT
+          component={SigninScreen} //For testing, change from SigninScreen to SigninScreenT
           options={{ headerShown: false }}
         />
         <Stack.Screen
