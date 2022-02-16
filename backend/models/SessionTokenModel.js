@@ -2,12 +2,16 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const resetTokenSchema = new Schema(
+const sessionTokenSchema = new Schema(
     {
         userId: {
             type: Schema.Types.ObjectId,
             required: true,
             ref: 'User',
+        },
+        isActive: {
+            type: Boolean,
+            required: true,
         },
         token: {
             type: String,
@@ -16,7 +20,7 @@ const resetTokenSchema = new Schema(
         createdAt: {
             type: Date,
             default: Date.now,
-            expires: 25000,
+            expires: 20000,
         },
     },
     {
@@ -24,6 +28,6 @@ const resetTokenSchema = new Schema(
     }
 );
 
-const ResetPasswordToken = mongoose.model('ResetPasswordToken', resetTokenSchema);
+const SessionToken = mongoose.model('SessionToken', sessionTokenSchema);
 
-module.exports = ResetPasswordToken;
+module.exports = SessionToken;

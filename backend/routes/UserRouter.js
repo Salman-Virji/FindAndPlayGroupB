@@ -10,7 +10,8 @@ const Joi = require('joi');
 
 //For salting passwords. Maybe we could use bcrypt.
 const bcrypt = require('bcrypt');
-const md5 = require('md5');
+
+// const md5 = require('md5'); << No longer using, all BCrypt
 
 // These are the database models we are using to make instances in this router. 
 const UserModel = require('../models/UserModel');
@@ -21,7 +22,7 @@ const sendEmail = require('../utils/sendEmail');
 /* 
 1. BCRYPT is set and working for sign in and login. - Jody Weds
 2. Made some changes to names and structure to be more performant. The can still be refined.
-3. TRIM() username and set email to lower case on sign up and login finds
+3. TRIM() username and set email to lower case on sign up and login finds, maybe use Joi api for that? 
 */
 
 /******************************
@@ -100,6 +101,7 @@ router.route('/login').post(async (req, res) => {
             );
 
             if (validation) {
+                // SET SESSION TOKEN IN DB
                 data.msg = `${username} AUTHENTICATED - SET SESSION TOKEN AND SEND USER TO MAIN AREA OF APP`;
                 data.status = true;
                 res.send(data);
@@ -136,7 +138,7 @@ router.post('/reset-pass', async (req, res) => {
         let token = await ResetPasswordTokenModel.findOne({ userId: user._id });
 
         if (!token) {
-            token = await new Token({
+            token = await new ResetPasswordTokenModel({
                 userId: user._id,
                 token: crypto.randomBytes(32).toString('hex'),
             }).save();
@@ -178,7 +180,6 @@ router.get('/:userId/:token', async (req, res) => {
         console.log(error);
     }
 });
-
 
 router.post('/:userId/:token', async (req, res) => {
     console.log('ERROR HERE..... wrong route!');
