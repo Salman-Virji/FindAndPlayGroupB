@@ -1,3 +1,4 @@
+//Node.js module to allow email sending
 const nodemailer = require("nodemailer");
 
 const sendEmail = async (email, subject, text) => {
@@ -9,7 +10,7 @@ const sendEmail = async (email, subject, text) => {
             secure: true,
             auth: {
                 user: 'findandplay78@gmail.com',
-                pass: 'FindAndPlay',
+                pass: 'FindAndPlay'
             },
         });
 
@@ -17,12 +18,12 @@ const sendEmail = async (email, subject, text) => {
             from: 'findandplay78@gmail.com',
             to: email,
             subject: subject,
-            text: text,
+            text: text
         });
 
-        console.log("email sent sucessfully");
+        console.log("Email sent sucessfully");
     } catch (error) {
-        console.log(error, "email not sent");
+        console.log(error, "Email not sent");
     }
 };
 
