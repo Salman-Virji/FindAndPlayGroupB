@@ -29,18 +29,21 @@ const { width, height } = Dimensions.get("window");
    const [username, setUsername] = useState("Username or Email");
 
    
-  //  function clearFields() {
-  //    setUsername("");
+    function clearFields() {
+      setUsername("");
     
-  //  }
+    }
 
    function showValidationMsg() {
-    if(username != ""){
+    if({username} != "" || {username} != " "){
      setValidmsg(" If this is a valid account you will get a email to reset your account");
+     clearFields();
     if(username ==" "){
       setValidmsg("Please enter a valid Username or Email");
+      
     }
     }
+    
     
   }
    function resetPass() {

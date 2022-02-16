@@ -98,10 +98,11 @@ function SigninScreen({ navigation }) {
             margin: 100,
           }}
         >
-          <Image
+          <Text style={styles.logo}> Find & Play</Text>
+          {/* <Image
             style={styles.logo}
             source={require("../assets/Logo/logo1.png")}
-          />
+          /> */}
         </View>
         <View
           style={{
@@ -219,9 +220,18 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   logo: {
-    top: "10%",
-    width: "100%",
-    height: "100%",
+    //text css
+    fontSize:120,
+    top:"45%",
+    color: "white",
+    fontWeight: "bold",
+    textShadowColor: "rgba(0, 0, 0, 1)",
+    textShadowOffset: { width: -1, height:1 },
+    textShadowRadius: 10,
+    // //image css
+    // top: "10%",
+    // width: "100%",
+    // height: "100%",
   },
   signintext: {
     fontSize: 50,

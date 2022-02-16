@@ -37,10 +37,11 @@ export default function RegisterScreenT({navigation}) {
     return (
         
         <ImageBackground style={styles.background} source={require("../assets/BGs/background2.png")}>
-              <Image
+              {/* <Image
             style={styles.logo}
             source={require("../assets/Logo/logo1.png")}
-          />
+          /> */}
+          <Text style={styles.logo}> Find & Play</Text>
          
           <View style={{
               top:"10%",
@@ -161,10 +162,21 @@ const styles = StyleSheet.create({
         borderRadius:50
       },
       logo: {
-          top:"9%",
-        width:"90%",
-        left:"5%",
-        height:"12%"
+         //text css
+    fontSize:120,
+    top:"15%",
+    color: "white",
+    fontWeight: "bold",
+    textShadowColor: "rgba(0, 0, 0, 1)",
+    textShadowOffset: { width: -1, height:1 },
+    textShadowRadius: 10,
+    left:"10%"
+
+    // image css
+    // top: "10%",
+    // width: "100%",
+    // height: "100%",
+    // resizeMode: "contain",
       },
 })
 
