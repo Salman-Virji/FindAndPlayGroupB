@@ -12,19 +12,16 @@ const Joi = require('joi');
 const bcrypt = require('bcrypt');
 const md5 = require('md5');
 
+// These are the database models we are using to make instances in this router. 
 const UserModel = require('../models/UserModel');
-const Token = require('../models/TokenModel');
-
-/* Not in use in this file, but the JWT can be used in token methods */
-// const jwt = require('jsonwebtoken');
-// const JWT_SECRET = 'sdfnsdl;jgn;sdgn;';
-// const nodemailer = require('nodemailer');
+const ResetPasswordTokenModel = require('../models/ResetPasswordTokenModel');
 
 const sendEmail = require('../utils/sendEmail');
 
 /* 
 1. BCRYPT is set and working for sign in and login. - Jody Weds
 2. Made some changes to names and structure to be more performant. The can still be refined.
+3. TRIM() username and set email to lower case on sign up and login finds
 */
 
 /******************************
@@ -127,14 +124,16 @@ router.route('/login').post(async (req, res) => {
 router.post('/reset-pass', async (req, res) => {
     try {
         const schema = Joi.object({ email: Joi.string().email().required() });
+
         const { error } = schema.validate(req.body);
+        
         if (error) return res.status(400).send(error.details[0].message);
 
         const user = await UserModel.findOne({ email: req.body.email });
         if (!user)
             return res.status(400).send("user with given email doesn't exist");
 
-        let token = await Token.findOne({ userId: user._id });
+        let token = await ResetPasswordTokenModel.findOne({ userId: user._id });
 
         if (!token) {
             token = await new Token({
@@ -144,7 +143,9 @@ router.post('/reset-pass', async (req, res) => {
         }
 
         const link = `localhost:3000/users/${user._id}/${token.token}`;
+
         console.log(link);
+
         await sendEmail(user.email, 'Password reset', link);
 
         res.send('password reset link sent to your email account');
@@ -194,7 +195,7 @@ router.post('/:userId/:token', async (req, res) => {
         
         console.log('2');
 
-        const token = await Token.findOne({
+        const token = await ResetPasswordTokenModel.findOne({
             userId: user._id,
             token: req.params.token,
         });
@@ -217,7 +218,5 @@ router.post('/:userId/:token', async (req, res) => {
         console.log(error);
     }
 });
-
-
 
 module.exports = router;

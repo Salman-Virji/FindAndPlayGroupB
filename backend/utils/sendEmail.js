@@ -4,7 +4,7 @@ const nodemailer = require("nodemailer");
 const sendEmail = async (email, subject, text) => {
     try {
         const transporter = nodemailer.createTransport({
-            //host: gmail,
+            //host: gmail, smpt:etherel.mail   :: see https://ethereal.email/
             service: "Gmail",
             port: 587,
             secure: true,

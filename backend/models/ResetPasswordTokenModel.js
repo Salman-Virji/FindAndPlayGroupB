@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const tokenSchema = new Schema(
+const resetTokenSchema = new Schema(
     {
         userId: {
             type: Schema.Types.ObjectId,
@@ -24,8 +24,6 @@ const tokenSchema = new Schema(
     }
 );
 
-const Token = mongoose.model('Token', tokenSchema);
+const ResetPasswordToken = mongoose.model('ResetPasswordToken', resetTokenSchema);
 
-module.exports = Token;
-
-// This model should really be called 'ResetTokenModel'
+module.exports = ResetPasswordToken;
