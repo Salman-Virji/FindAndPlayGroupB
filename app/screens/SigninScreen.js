@@ -219,6 +219,9 @@ const styles = StyleSheet.create({
 
     color: "white",
     fontWeight: "bold",
+    textShadowColor: "rgba(0, 0, 0, 1)",
+    textShadowOffset: { width: -1, height:1 },
+    textShadowRadius: 10,
   },
   forgotpasstext: {
     flex: 1,
