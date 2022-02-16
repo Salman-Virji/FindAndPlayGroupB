@@ -186,14 +186,14 @@ function SigninScreen({ navigation }) {
           <Text style={{ bottom: 10, fontWeight: "bold", fontSize: 20 }}>
             Not registered?
           </Text>
+          
 
           <Pressable
-            style={styles.btnSignup}
-            onPress={() => console.log("Pressed")}
-          >
+           style={styles.btnSignup}
+          > 
             <Text
               style={([styles.loginText], { fontSize: 15 })}
-              onPress={() => navigation.navigate("RegisterScreen")}
+              onPress={() =>  navigation.navigate("RegistarScreenT")}
             >
               Continue without account
             </Text>
