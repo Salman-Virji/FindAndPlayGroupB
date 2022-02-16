@@ -159,10 +159,26 @@ router.post('/reset-pass', async (req, res) => {
 3. I have coded an example below, I see there is an ejs file, maybe that was the intention. 
 
  */
+
+// Basic working example of my comments...
+
+const path = require('path')
+
+router.get('/:userId/:token', async (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname+'/reset.html'));
+    } catch (error) {
+        res.send('An error occured');
+        console.log(error);
+    }
+});
+
+
 router.post('/:userId/:token', async (req, res) => {
     console.log('ERROR HERE..... wrong route!');
     try {
         const schema = Joi.object({ password: Joi.string().required() });
+        
         const { error } = schema.validate(req.body);
         if (error) return res.status(400).send(error.details[0].message);
 
@@ -197,19 +213,6 @@ router.post('/:userId/:token', async (req, res) => {
     }
 });
 
-
-// Basic working example of my comments...
-
-const path = require('path')
-
-router.get('/:userId/:token', async (req, res) => {
-    try {
-        res.sendFile(path.join(__dirname+'/reset.html'));
-    } catch (error) {
-        res.send('An error occured');
-        console.log(error);
-    }
-});
 
 
 module.exports = router;
