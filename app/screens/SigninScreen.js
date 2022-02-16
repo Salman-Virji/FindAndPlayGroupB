@@ -202,11 +202,7 @@ function SigninScreen({ navigation }) {
           > 
             <Text
               style={([styles.loginText], { fontSize: 15 })}
-<<<<<<< HEAD
-              onPress={() => navigation.navigate("RegisterScreen")} //text changed from continue without account
-=======
               onPress={() =>  navigation.navigate("RegistarScreenT")}
->>>>>>> 6dba264dc3523b483b5f6a81bd5216d8befceb74
             >
               Create an account 
             </Text>
