@@ -101,7 +101,7 @@ router.route('/login').post(async (req, res) => {
             );
 
             if (validation) {
-                // SET SESSION TOKEN IN DB
+                // SET SESSION TOKEN IN DB  middleware function to set session cookie. 
                 data.msg = `${username} AUTHENTICATED - SET SESSION TOKEN AND SEND USER TO MAIN AREA OF APP`;
                 data.status = true;
                 res.send(data);
