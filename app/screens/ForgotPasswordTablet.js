@@ -37,7 +37,7 @@ const { width, height } = Dimensions.get("window");
    function showValidationMsg() {
     if({username} != "" || {username} != " "){
      setValidmsg(" If this is a valid account you will get a email to reset your account");
-     clearFields();
+     
     if(username ==" "){
       setValidmsg("Please enter a valid Username or Email");
       
@@ -94,7 +94,7 @@ const { width, height } = Dimensions.get("window");
             style={styles.input}
             underlineColorAndroid="transparent"
             placeholder="Username or email"
-            
+            value={username}
             placeholderTextColor="#fff"
             autoCapitalize="none"
           />
