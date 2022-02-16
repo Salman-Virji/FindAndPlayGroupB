@@ -125,7 +125,7 @@ router.post('/reset-pass', async (req, res) => {
         const { error } = schema.validate(req.body);
         if (error) return res.status(400).send(error.details[0].message);
 
-        const user = await User.findOne({ email: req.body.email });
+        const user = await UserModel.findOne({ email: req.body.email });
         if (!user)
             return res.status(400).send("user with given email doesn't exist");
 
@@ -137,7 +137,6 @@ router.post('/reset-pass', async (req, res) => {
                 token: crypto.randomBytes(32).toString('hex'),
             }).save();
         }
-
 
         const link = `localhost:3000/users/${user._id}/${token.token}`;
         console.log(link);
@@ -153,26 +152,36 @@ router.post('/reset-pass', async (req, res) => {
 /**** END OF RESET PASSWORD TOKEN ****/
 
 /*
- **** RESET PASSWORD ROUTE? *****
+ **** RESET PASSWORD ROUTE? *****   
+ I changed this to a get request, this is where the page should be served. The next route would do the logic below? 
  */
-router.post('/:userId/:token', async (req, res) => {
+router.get('/:userId/:token', async (req, res) => {
+    console.log('pre-try');
     try {
         const schema = Joi.object({ password: Joi.string().required() });
         const { error } = schema.validate(req.body);
         if (error) return res.status(400).send(error.details[0].message);
 
-        const user = await User.findById(req.params.userId);
+        console.log('1');
+        
+        const user = await UserModel.findById(req.params.userId);
         if (!user) return res.status(400).send('Invalid link or expired');
+        
+        console.log('2');
 
         const token = await Token.findOne({
             userId: user._id,
             token: req.params.token,
         });
         if (!token) return res.status(400).send('Invalid link or expired');
-
+        
+        console.log('3');
+        
         /* BCrypt Hashing */
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(req.body.password, salt);
+        
+        console.log('4');
 
         await user.save();
         await token.delete();
