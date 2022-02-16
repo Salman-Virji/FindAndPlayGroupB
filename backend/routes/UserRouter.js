@@ -156,9 +156,10 @@ router.post('/reset-pass', async (req, res) => {
  I changed this to a get request, this is where the page should be served. The next route would do the logic below? 
 1. /reset-pass = sets reset token and calls email method
 2. /:userId/:token = as coded was post, but we need to server a html or app screen here and THEN post with the code below. 
+3. I have coded an example below, I see there is an ejs file, maybe that was the intention. 
 
  */
-router.get('/:userId/:token', async (req, res) => {
+router.post('/:userId/:token', async (req, res) => {
     console.log('ERROR HERE..... wrong route!');
     try {
         const schema = Joi.object({ password: Joi.string().required() });
@@ -195,5 +196,20 @@ router.get('/:userId/:token', async (req, res) => {
         console.log(error);
     }
 });
+
+
+// Basic working example of my comments...
+
+const path = require('path')
+
+router.get('/:userId/:token', async (req, res) => {
+    try {
+        res.sendFile(path.join(__dirname+'/reset.html'));
+    } catch (error) {
+        res.send('An error occured');
+        console.log(error);
+    }
+});
+
 
 module.exports = router;
