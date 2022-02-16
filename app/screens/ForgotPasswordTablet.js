@@ -1,4 +1,6 @@
-import React from "react";
+
+import React, { useState,Component } from "react";
+import axios from "axios";
 
 import {
   TextInput,
@@ -11,12 +13,47 @@ import {
   TouchableHighlight,
   TouchableWithoutFeedback,
   TouchableOpacity,
+  
 } from "react-native";
 
 import { Dimensions } from "react-native";
 const { width, height } = Dimensions.get("window");
 
-function ForgotPasswordTablet({ navigation }) {
+
+
+
+ function  ForgotPasswordTablet ({ navigation }) {
+  
+
+   const [validMsg, setValidmsg ] = useState ("")
+   const [username, setUsername] = useState("Username or Email");
+
+   
+  //  function clearFields() {
+  //    setUsername("");
+    
+  //  }
+
+   function showValidationMsg() {
+    if(username != ""){
+     setValidmsg(" If this is a valid account you will get a email to reset your account");
+    if(username ==" "){
+      setValidmsg("Please enter a valid Username or Email");
+    }
+    }
+    
+  }
+   function resetPass() {
+   const body = {
+       username: username
+     };
+
+     if(username!= ""){
+
+     }
+   }
+
+  
   return (
     <ImageBackground
       style={styles.background}
@@ -32,10 +69,11 @@ function ForgotPasswordTablet({ navigation }) {
           }}
         >
           {/* Find and play logo */}
-          <Image
-            style={styles.logo}
+          <Text style={styles.logo}> Find & Play</Text>
+          {/* <Image
+            
             source={require("../assets/Logo/logo1.png")}
-          />
+          /> */}
         </View>
         <View
           style={{
@@ -48,10 +86,12 @@ function ForgotPasswordTablet({ navigation }) {
           <Text style={styles.resetpasstext}> Reset Password </Text>
 
           {/* email or password input box  */}
-          <TextInput
+          <TextInput 
+            editable ={true}
             style={styles.input}
             underlineColorAndroid="transparent"
-            placeholder="   Username or Email"
+            placeholder="Username or email"
+            
             placeholderTextColor="#fff"
             autoCapitalize="none"
           />
@@ -59,8 +99,9 @@ function ForgotPasswordTablet({ navigation }) {
         {/* Reset password message  */}
 
         <Text style={styles.resetpassmsg}>
-          {" "}
-          If this is a valid account you will get a email reset{" "}
+          {validMsg}
+          {/* {" "}
+          If this is a valid account you will get a email reset{" "} */}
         </Text>
         <View
           style={{
@@ -73,14 +114,14 @@ function ForgotPasswordTablet({ navigation }) {
             {/* Send request button  */}
             <Pressable
               style={styles.btnSendrequest}
-              onPress={() => console.log("Send Request Pressed")}
+              onPress={() => showValidationMsg() }
             >
               <Text
                 style={{
                   bottom: 1,
                   fontWeight: "bold",
                   fontSize: 18,
-                  color: "black",
+                  color: "white",
                 }}
               >
                 Send Request
@@ -96,6 +137,9 @@ function ForgotPasswordTablet({ navigation }) {
               fontWeight: "bold",
               fontSize: 20,
               color: "white",
+              textShadowColor: "rgba(0, 0, 0, 1)",
+              textShadowOffset: { width: -1, height:1 },
+              textShadowRadius: 10,
             }}
           >
             Try Again?
@@ -103,7 +147,7 @@ function ForgotPasswordTablet({ navigation }) {
 
           <Pressable
             style={styles.btnSignin}
-            onPress={() => navigation.navigate("SigninScreen")}
+            onPress={() => navigation.navigate("SigninScreen")} //navigates to signinscren
           >
             <Text
               style={{
@@ -128,22 +172,35 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   logo: {
-    top: "10%",
-    width: "100%",
-    height: "100%",
-    resizeMode: "contain",
+    //text css
+    fontSize:120,
+    top:"45%",
+    color: "white",
+    fontWeight: "bold",
+    textShadowColor: "rgba(0, 0, 0, 1)",
+    textShadowOffset: { width: -1, height:1 },
+    textShadowRadius: 10,
+
+    // image css
+    // top: "10%",
+    // width: "100%",
+    // height: "100%",
+    // resizeMode: "contain",
   },
   resetpasstext: {
     fontSize: 50,
-    bottom: "15%",
+    bottom:"15%",
     color: "white",
     fontWeight: "bold",
+    textShadowColor: "rgba(0, 0, 0, 1)",
+    textShadowOffset: { width: -1, height:1 },
+    textShadowRadius: 10,
   },
   logintext: {
     zIndex: 999, // brings forward
     paddingLeft: "43%",
     color: "white",
-    top: "45%",
+    top: "25%",
     fontSize: 30,
     fontWeight: "bold",
   },
@@ -154,14 +211,16 @@ const styles = StyleSheet.create({
   },
 
   input: {
-    marginTop: 55,
+    marginBottom: 15,
     width: width * 0.6,
-    height: 40,
-    bottom: "30%",
+    height: 50,
     borderColor: "#fff",
-    borderWidth: 1,
+    borderWidth: 3,
     color: "#fff",
-    borderRadius: 15,
+    borderRadius: 20,
+    fontSize: 20,
+    paddingLeft: 15,
+    paddingRight: 15,
   },
 
   inputContainer: {
@@ -192,6 +251,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: 400,
     justifyContent: "center",
+    bottom:"-11%"
   },
   btnSendrequest: {
     alignItems: "center",
@@ -200,7 +260,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 30,
     elevation: 5,
-    backgroundColor: "#FFE551",
+    backgroundColor: "#50A4FF",
     width: "70%",
     fontSize: 20,
     height: 60,
@@ -214,12 +274,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 30,
     elevation: 5,
-    backgroundColor: "#50A4FF",
+    backgroundColor: "#FF6551",
     width: "70%",
     fontSize: 20,
     height: 60,
     shadowColor: "rgba(46, 229, 157, 0.4)",
     fontSize: 20,
+    bottom: "2%",
   },
 });
 

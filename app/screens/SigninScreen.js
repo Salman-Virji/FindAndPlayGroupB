@@ -23,10 +23,18 @@ import { Dimensions } from "react-native";
 const { width, height } = Dimensions.get("window");
 
 function SigninScreen({ navigation }) {
-  const [username, setUsername] = useState("user");
-  const [password, setPassword] = useState("pass");
+  const [username, setUsername] = useState("Username or Email"); //changed from"user"
+  const [password, setPassword] = useState("Password"); //changed from "pass"
   const [message, setMessage] = useState("");
   const [isSelected, setSelection] = useState(false);
+  const [validMsg, setValidmsg ] = useState ("")
+
+  
+  // function showValidationMsg() { // function creates error username is readonly 
+  //   if(username = " ",username="" ||( password = " ", password ="")){
+  //     setValidmsg=("Please enter a valid Username or Password");
+  //   }
+  // }
 
   function clearFields() {
     setUsername("");
@@ -118,7 +126,7 @@ function SigninScreen({ navigation }) {
           <TextInput
             style={styles.input2}
             underlineColorAndroid="transparent"
-            placeholder="   Password"
+            placeholder="Password"
             placeholderTextColor="#fff"
             autoCapitalize="none"
             value={password}
@@ -160,12 +168,13 @@ function SigninScreen({ navigation }) {
             </Text>
           </View>
         </View>
+        <Text> {validMsg} </Text>
         <View style={styles.loginbuttonContainer}>
           <View>
             {/* Pressable makes the area Pressable */}
             <Pressable
               style={styles.loginButton}
-              onPress={() => navigation.navigate("LandingScreen")} //changed onclick to go to landingscreen
+              onPress={() =>  navigation.navigate("LandingScreen")} //changed onclick to go to landingscreen
             >
               <Text style={styles.loginText}>Login</Text>
             </Pressable>
@@ -193,9 +202,9 @@ function SigninScreen({ navigation }) {
           >
             <Text
               style={([styles.loginText], { fontSize: 15 })}
-              onPress={() => navigation.navigate("RegisterScreen")}
+              onPress={() => navigation.navigate("RegisterScreen")} //text changed from continue without account
             >
-              Continue without account
+              Create an account 
             </Text>
           </Pressable>
         </View>
