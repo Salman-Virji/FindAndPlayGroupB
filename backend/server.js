@@ -12,7 +12,7 @@ const cors = require('cors');
 //MongoDB middleware for query drivers
 const mongoose = require('mongoose');
 
-const usersRouter = require('./routes/users');
+const usersRouter = require('./routes/UserRouter');
 
 app.use(express.json());
 app.use(cors());
