@@ -1,8 +1,12 @@
 //Express framework
 const express = require('express');
 const app = express();
+<<<<<<< HEAD
 
 const port = 3000;
+=======
+const port = process.env.LOCALHOST_PORT || 3000;
+>>>>>>> 8f494aa8343256752e2177df633811b7f5094248
 
 //To access the .env file
 require('dotenv').config();
@@ -14,7 +18,7 @@ const cors = require('cors');
 //MongoDB middleware for query drivers
 const mongoose = require('mongoose');
 
-const usersRouter = require('./routes/users');
+const usersRouter = require('./routes/UserRouter');
 
 app.use(express.json());
 app.use(cors());
