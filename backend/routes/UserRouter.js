@@ -1,19 +1,19 @@
-//Node.js module for password hashing
-const router = require('express').Router();
 //Middleware to create modular, mountable route handlers
+const router = require('express').Router();
 
 //Node.js module that performs data encryption and decryption
 const crypto = require("crypto");
 
-//Joi module validates the data based on schemas (we build schemas to validate JavaScript objects)
+//Joi module validates the data based on schemas (building schemas to validate JavaScript objects)
 const Joi = require('joi');
 
-//For salting passwords. Maybe we could use bcrypt.
+//For salting passwords
 const bcrypt = require('bcrypt');
 
-// const md5 = require('md5'); << No longer using, all BCrypt
+//Node.js module for password hashing
+// const md5 = require('md5'); << No longer using
 
-// These are the database models we are using to make instances in this router. 
+// These are the database models we are using to make instances in this router
 const UserModel = require('../models/UserModel');
 const ResetPasswordTokenModel = require('../models/ResetPasswordTokenModel');
 
@@ -21,7 +21,7 @@ const sendEmail = require('../utils/sendEmail');
 
 /* 
 1. BCRYPT is set and working for sign in and login. - Jody Weds
-2. Made some changes to names and structure to be more performant. The can still be refined.
+2. Made some changes to names and structure to be more performant. They can still be refined.
 3. TRIM() username and set email to lower case on sign up and login finds, maybe use Joi api for that? 
 */
 
@@ -106,7 +106,7 @@ router.route('/login').post(async (req, res) => {
                 data.status = true;
                 res.send(data);
             } else {
-                data.msg = 'Invalid Login, Try again';
+                data.msg = 'Invalid Login. Try again';
                 data.status = false;
                 res.send(data);
             }
@@ -133,7 +133,7 @@ router.post('/reset-pass', async (req, res) => {
 
         const user = await UserModel.findOne({ email: req.body.email });
         if (!user)
-            return res.status(400).send("user with given email doesn't exist");
+            return res.status(400).send("User with given email doesn't exist");
 
         let token = await ResetPasswordTokenModel.findOne({ userId: user._id });
 
@@ -150,9 +150,9 @@ router.post('/reset-pass', async (req, res) => {
 
         await sendEmail(user.email, 'Password reset', link);
 
-        res.send('password reset link sent to your email account');
+        res.send('Password reset link sent to your email account');
     } catch (error) {
-        res.send('An error occured');
+        res.send('An error occurred');
         console.log(error);
     }
 });
@@ -165,7 +165,6 @@ router.post('/reset-pass', async (req, res) => {
 1. /reset-pass = sets reset token and calls email method
 2. /:userId/:token = as coded was post, but we need to server a html or app screen here and THEN post with the code below. 
 3. I have coded an example below, I see there is an ejs file, maybe that was the intention. 
-
  */
 
 // Basic working example of my comments...
@@ -192,7 +191,7 @@ router.post('/:userId/:token', async (req, res) => {
         console.log('1');
         
         const user = await UserModel.findById(req.params.userId);
-        if (!user) return res.status(400).send('Invalid link or expired');
+        if (!user) return res.status(400).send('Invalid or expired link');
         
         console.log('2');
 
@@ -200,7 +199,7 @@ router.post('/:userId/:token', async (req, res) => {
             userId: user._id,
             token: req.params.token,
         });
-        if (!token) return res.status(400).send('Invalid link or expired');
+        if (!token) return res.status(400).send('Invalid or expired link');
         
         console.log('3');
         

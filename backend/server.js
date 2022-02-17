@@ -1,6 +1,7 @@
 //Express framework
 const express = require('express');
 const app = express();
+
 const port = process.env.LOCALHOST_PORT || 3000;
 
 //To access the .env file
