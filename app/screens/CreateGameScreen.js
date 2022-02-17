@@ -9,13 +9,14 @@ import {
   TouchableOpacity,
   View,
   TextInput,
+  TouchableOpacityBase,
 } from "react-native";
 
 //This component is used to calculate the dimensions of the device and set width of certain components accordingly e.g input box
 import { Dimensions } from "react-native";
 const { width, height } = Dimensions.get("window");
 
-function CreateGame(props) {
+function CreateGame({ navigation }) {
   return (
     <ImageBackground
       style={{ resizeMode: "contain", flex: 1 }}
@@ -31,17 +32,24 @@ function CreateGame(props) {
           right: 50,
         }}
       />
-
-      <Image
-        source={require("../assets/icons/Logout.png")}
+      <TouchableOpacity
+        onPress={() => navigation.navigate("SigninScreen")}
         style={{
-          width: 150,
-          height: 150,
+          width: 250,
+          height: 250,
           position: "absolute",
           top: 80,
           left: 50,
         }}
-      />
+      >
+        <Image source={require("../assets/icons/Logout.png")} style={{
+          width: 150,
+          height: 150,
+          position: "absolute",
+          top: 5,
+          
+        }}/>
+      </TouchableOpacity>
 
       <View>
         <Text
@@ -246,6 +254,24 @@ const styles = StyleSheet.create({
     padding: 10,
     fontWeight: "bold",
     color: "#fff",
+  },
+  logoutBtnContainer: {
+    zIndex: 999,
+    position: "absolute",
+    top: 65,
+    left: 30,
+    alignItems: "center",
+    backgroundColor: "#FFE551",
+    padding: 15,
+    borderRadius: 20,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.58,
+    shadowRadius: 16.0,
+    elevation: 24,
   },
 });
 
