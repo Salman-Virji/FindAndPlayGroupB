@@ -21,12 +21,10 @@ function CheckFormFilled(username, password, email,ConfirmPassword,navigation,Up
   var incomplete = false;
   if(username == "" || username == "Username")
   {
-    console.log("username empty\n")
     UpdateUsernameVisbility(true);
     incomplete = true;
   }
   else{
-    console.log(" Username not empty\n")
     UpdateUsernameVisbility(false);
   }
   if(password == "" || password == "Password")
@@ -60,10 +58,6 @@ function CheckFormFilled(username, password, email,ConfirmPassword,navigation,Up
     return;
   }
   else{
-    UpdateCpassVisbility(false);
-    UpdatePassVisbility(false);
-    UpdateEmailVisbility( false);
-    UpdateUsernameVisbility(false);
     SignUp(username,password,email,navigation)
   }
 }
@@ -73,15 +67,14 @@ function SignUp(username, password, email, navigation) {
     email: email,
     password: password,
   };
-  console.log(body);
-    /*var url = `http://10.0.0.168:3000/users/signup`;
+    var url = `http:10.0.0.63:3000/users/signup`;
     axios
-      .post(url, body, navigation)
+      .post(url, body)
       .then(() => {
+        console.log(body)
         navigation.navigate("SigninScreen");
       })
       .catch((err) => console.log(err));
-    */
 }
 
 export default function RegisterScreenT({ navigation }) {
@@ -118,7 +111,9 @@ export default function RegisterScreenT({ navigation }) {
         }}
       >
         <Text style={styles.SignupTxT}> Sign up</Text>
-        { usernameV ? <Text style={styles.inputTxt}>Please enter a username</Text> :<Text style={styles.inputTxt}></Text>}
+      
+        {// controlls if the text is visible or not
+         usernameV ? <Text style={styles.inputTxt}>Please enter a username</Text> :<Text style={styles.inputTxt}></Text>}
         <TextInput
           style={styles.input}
           onChangeText={(e) => SetUsername(e)}
@@ -158,24 +153,11 @@ export default function RegisterScreenT({ navigation }) {
           autoCapitalize="none"
           placeholderTextColor="#fff"
         />
-
-        <View style={styles.HomeView}>
-          <Text  style={{
-              bottom: 40,
-              fontWeight: "bold",
-              fontSize: 20,
-              color:"white",
-              textShadowColor: "rgba(0, 0, 0, 1)",
-              textShadowOffset: { width: -1, height:1 },
-              textShadowRadius: 10,
-              left:"5%"
-            }}>Already Have an Account? </Text>
-          
-        </View>
       </View>
 
       {/* Sign up button */}
       <View style={styles.registerbuttonContainer}>
+
         <Pressable
           style={styles.RegisterBtn}
           onPress={() => CheckFormFilled(Username, Password, Email,ConfirmPassword,navigation,UpdateUsernameVisbility,UpdateEmailVisbility,UpdatePassVisbility,UpdateCpassVisbility)
@@ -195,6 +177,17 @@ export default function RegisterScreenT({ navigation }) {
       </View>
             {/* Login button */}
       <View style={styles.loginbuttonContainer}>
+      <Text  style={{
+              bottom: 40,
+              fontWeight: "bold",
+              fontSize: 20,
+              color:"white",
+              textShadowColor: "rgba(0, 0, 0, 1)",
+              textShadowOffset: { width: -1, height:1 },
+              textShadowRadius: 10,
+              top:"-5%"
+          }}>Already Have an Account? </Text>
+          
         <Pressable
           style={styles.btnSignin}
           onPress={() => navigation.navigate("SigninScreen")} //navigates to signinscren
@@ -320,7 +313,7 @@ const styles = StyleSheet.create({
 
 
   registerbuttonContainer: {
-    flex: 1,
+    position:"relative",
     width: width * 0.6,
     justifyContent: "center",
     flexDirection: "column",
