@@ -27,10 +27,9 @@ function SigninScreen({ navigation }) {
   const [password, setPassword] = useState("Password"); //changed from "pass"
   const [message, setMessage] = useState("");
   const [isSelected, setSelection] = useState(false);
-  const [validMsg, setValidmsg ] = useState ("")
+  const [validMsg, setValidmsg] = useState("");
 
-  
-  // function showValidationMsg() { // function creates error username is readonly 
+  // function showValidationMsg() { // function creates error username is readonly
   //   if(username = " ",username="" ||( password = " ", password ="")){
   //     setValidmsg=("Please enter a valid Username or Password");
   //   }
@@ -118,7 +117,7 @@ function SigninScreen({ navigation }) {
           <TextInput
             style={styles.input}
             underlineColorAndroid="transparent"
-            placeholder="   Username or Email"
+            placeholder="Username or Email"
             placeholderTextColor="#fff"
             autoCapitalize="none"
             value={username}
@@ -175,7 +174,7 @@ function SigninScreen({ navigation }) {
             {/* Pressable makes the area Pressable */}
             <Pressable
               style={styles.loginButton}
-              onPress={() =>  navigation.navigate("LandingScreen")} //changed onclick to go to landingscreen
+              onPress={() => navigation.navigate("LandingScreen")} //changed onclick to go to landingscreen
             >
               <Text style={styles.loginText}>Login</Text>
             </Pressable>
@@ -196,16 +195,13 @@ function SigninScreen({ navigation }) {
           <Text style={{ bottom: 10, fontWeight: "bold", fontSize: 20 }}>
             Not registered?
           </Text>
-          
 
-          <Pressable
-           style={styles.btnSignup}
-          > 
+          <Pressable style={styles.btnSignup}>
             <Text
               style={([styles.loginText], { fontSize: 15 })}
-              onPress={() =>  navigation.navigate("RegistarScreenT")}
+              onPress={() => navigation.navigate("RegistarScreenT")}
             >
-              Create an account 
+              Create an account
             </Text>
           </Pressable>
         </View>
@@ -221,12 +217,12 @@ const styles = StyleSheet.create({
   },
   logo: {
     //text css
-    fontSize:120,
-    top:"45%",
+    fontSize: 120,
+    top: "45%",
     color: "white",
     fontWeight: "bold",
     textShadowColor: "rgba(0, 0, 0, 1)",
-    textShadowOffset: { width: -1, height:1 },
+    textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 10,
     // //image css
     // top: "10%",
@@ -239,7 +235,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     textShadowColor: "rgba(0, 0, 0, 1)",
-    textShadowOffset: { width: -1, height:1 },
+    textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 10,
   },
   forgotpasstext: {
