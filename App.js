@@ -12,6 +12,8 @@ import LandingScreen from "./app/screens/LandingScreen";
 import ForgotPasswordScreen from "./app/screens/ForgotPasswordScreen";
 import ForgotPasswordTablet from "./app/screens/ForgotPasswordTablet";
 import CreateGameScreen from "./app/screens/CreateGameScreen";
+import ChooseObjectiveScreen from "./app/screens/Game/ChooseObjectiveScreen";
+import GameScreen from "./app/screens/Game/GameScreen";
 // Part of React Navigation to create a 'Stack' style navigation object
 const Stack = createNativeStackNavigator();
 
@@ -53,6 +55,16 @@ function App() {
         <Stack.Screen
           name="CreateGameScreen"
           component={CreateGameScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ChooseObjectiveScreen"
+          component={ChooseObjectiveScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="GameScreen"
+          component={GameScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

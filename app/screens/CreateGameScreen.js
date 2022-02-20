@@ -185,7 +185,7 @@ function CreateGame({ navigation }) {
           fontSize: 20,
         }}
       >
-        <TouchableOpacity activeOpacity={0.95} style={styles.button}>
+        <TouchableOpacity activeOpacity={0.95} style={styles.button} onPress={()=>navigation.navigate("ChooseObjectiveScreen")}>
           <Text style={styles.text}>HOST</Text>
         </TouchableOpacity>
       </View>
