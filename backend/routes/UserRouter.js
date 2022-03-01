@@ -144,7 +144,7 @@ router.post('/reset-pass', async (req, res) => {
             }).save();
         }
 
-        const link = `localhost:3000/users/${user._id}/${token.token}`;
+        const link = `http://localhost:3000/users/${user._id}/${token.token}`;
 
         console.log(link);
 
