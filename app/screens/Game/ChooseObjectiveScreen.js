@@ -19,7 +19,8 @@ export default function ChooseObjectiveScreen({navigation}){
                 Choose Objective Screen
             </Text>
             <Button
-            onPress={()=>navigation.navigate('GameScreen')}
+            onPress={()=>
+              navigation.navigate('GameScreen')}
             title="Next"
             color="#841584"
             accessibilityLabel="Learn more about this purple button"
