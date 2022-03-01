@@ -56,7 +56,7 @@ function LandingScreen({navigation}) {
             </TouchableOpacity>
 
             {/*play button*/}  
-            <TouchableOpacity style={styles.ppfBtnImg}>
+            <TouchableOpacity onPress ={() => navigation.navigate('CreateGameScreen')} style={styles.ppfBtnImg}>
             <Image
                 source={require('../assets/icons/controllerIcon.png')} 
             />
