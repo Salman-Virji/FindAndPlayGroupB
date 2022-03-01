@@ -18,7 +18,8 @@ const sendEmail = async (email, subject, text) => {
             from: 'findandplay78@gmail.com',
             to: email,
             subject: subject,
-            text: text
+            text: text //Is there an option for a link? Maybe a <a> tag... html: <a>Click here</a>
+            //html: '<p>Click <a href="http://localhost:3000/sessions/recover/' + recovery_token + '">here</a> to reset your password</p>'
         });
 
         console.log("Email sent sucessfully");
