@@ -1,4 +1,4 @@
-//Middleware to create modular, mountable route handlers
+/** Middleware to create modular, mountable route handlers */
 const router = require('express').Router();
 
 //Node.js module that performs data encryption and decryption

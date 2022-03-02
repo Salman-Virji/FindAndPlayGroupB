@@ -82,6 +82,8 @@ const sendPasswordResetEmail = async (userEmail, resetTokenLink) => {
                           </div>
                         <h3 class="mt-3">Here is your reset link!</h3>
                         <h3 class="m-3"><a href="${resetTokenLink}">Click to reset password now...</a></h3>
+                        <p>If the link above does not work, please copy the address below into the browser and follow link...</p>
+                        <p>${resetTokenLink}</p>
                         <p>Hurry, it will expire in 10 minutes</p>
                     </div>
                 </body>
@@ -103,7 +105,7 @@ const sendPasswordResetEmail = async (userEmail, resetTokenLink) => {
                 console.log(`Error sending Link - ${err.message}`);
             }
 
-            // console.log(`Reset Email sent sucessfully: ${info.messageId}`);
+            //console.log(`Reset Email sent sucessfully: ${info.messageId}`);
             console.log(`Reset Link: ${resetTokenLink}`);
         });
     } catch (error) {
