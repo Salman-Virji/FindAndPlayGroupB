@@ -8,6 +8,7 @@ const cors = require('cors');
 
 app.use(express.static('public'));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 /** Cross-origin resource sharing for tranfering data between front and backend */
 app.use(cors());

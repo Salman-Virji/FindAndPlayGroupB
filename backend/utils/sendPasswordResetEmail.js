@@ -10,11 +10,6 @@
  * Using ethreal for testing email sent
  * https://ethereal.email/login
  *
- * SNIPPET FOR TESTING
- *  tls: {
- *    // do not fail on invalid certs
- *    rejectUnauthorized: false,
- *  },
  */
 
 /** Node.js module to allow email sending */
@@ -47,7 +42,7 @@ const sendPasswordResetEmail = async (userEmail, resetTokenLink) => {
             from: 'Find and Play App <findandplay78@gmail.com>',
             to: userEmail,
             subject: 'Reset Password Request',
-            text: `${resetTokenLink}`,
+            text: `LINK(paste into browser):\n${resetTokenLink}`,
             html: `<!DOCTYPE html>
             <html lang="en">
                 <head>

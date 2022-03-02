@@ -191,18 +191,7 @@ router.post('/reset-pass', async (req, res) => {
         console.log(error);
     }
 });
-
 /**** END OF RESET PASSWORD TOKEN ****/
-
-/*
- **** RESET PASSWORD ROUTE? *****   
- I changed this to a get request, this is where the page should be served. The next route would do the logic below? 
-1. /reset-pass = sets reset token and calls email method
-2. /:userId/:token = as coded was post, but we need to server a html or app screen here and THEN post with the code below. 
-3. I have coded an example below, I see there is an ejs file, maybe that was the intention. 
- */
-
-// Basic working example of my comments...
 
 const path = require('path');
 
@@ -216,22 +205,21 @@ router.get('/:userId/:token', async (req, res) => {
 });
 
 router.post('/:userId/:token', async (req, res) => {
+    //console.log(req.body) urlencoded... !
+    
+/** @TODO Small password validation in html */
+/** @TODO Fix token timeout length and test */
 
     try {
         const schema = Joi.object({ password: Joi.string().required() });
 
-        const { error } = schema.validate(req.body); //{ }
-        // @!!!!
+        const { error } = schema.validate(req.body);
 
         if (error) return res.status(400).send(error.details[0].message);
-
-        console.log('1');
 
         const user = await UserModel.findById(req.params.userId);
 
         if (!user) return res.status(400).send('Invalid or expired link');
-
-        console.log('2');
 
         const token = await ResetPasswordTokenModel.findOne({
             userId: user._id,
@@ -239,16 +227,13 @@ router.post('/:userId/:token', async (req, res) => {
         });
         if (!token) return res.status(400).send('Invalid or expired link');
 
-        console.log('3');
-
-        /* BCrypt Hashing */
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(req.body.password, salt);
 
-        console.log('4');
-
         await user.save();
         await token.delete();
+
+/** @TODO Render password set page and close */
 
         res.send('password reset sucessfully.');
     } catch (error) {
