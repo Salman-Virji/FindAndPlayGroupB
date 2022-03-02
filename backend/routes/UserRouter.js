@@ -216,16 +216,19 @@ router.get('/:userId/:token', async (req, res) => {
 });
 
 router.post('/:userId/:token', async (req, res) => {
-    console.log('ERROR HERE..... wrong route!');
+
     try {
         const schema = Joi.object({ password: Joi.string().required() });
 
-        const { error } = schema.validate(req.body);
+        const { error } = schema.validate(req.body); //{ }
+        // @!!!!
+
         if (error) return res.status(400).send(error.details[0].message);
 
         console.log('1');
 
         const user = await UserModel.findById(req.params.userId);
+
         if (!user) return res.status(400).send('Invalid or expired link');
 
         console.log('2');
