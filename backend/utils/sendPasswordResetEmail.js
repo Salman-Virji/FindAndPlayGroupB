@@ -33,10 +33,13 @@ const sendPasswordResetEmail = async (userEmail, resetTokenLink) => {
         const transporter = nodemailer.createTransport({
             host: 'smtp.ethereal.email',
             port: 587,
-            secure: STARTTLS,
             auth: {
                 user: process.env.AUTH_USER,
                 pass: process.env.AUTH_PASS,
+            },
+            tls: {
+                // do not fail on invalid certs
+                rejectUnauthorized: false,
             },
         });
 
@@ -44,13 +47,50 @@ const sendPasswordResetEmail = async (userEmail, resetTokenLink) => {
             from: 'Find and Play App <findandplay78@gmail.com>',
             to: userEmail,
             subject: 'Reset Password Request',
-            text: `<a>${resetTokenLink}</a>`,
-            html: `<body>
-            <h1>Here is your reset link!</h1>
-                <br />
-            <h2><a>${resetTokenLink}</a></h2>
-            <p>Hurry, it will expire in 10 minutes</p>
-            </body>`,
+            text: `${resetTokenLink}`,
+            html: `<!DOCTYPE html>
+            <html lang="en">
+                <head>
+                    <meta charset="UTF-8" />
+                    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            
+                    <!-- Bootstrap CSS -->
+                    <link
+                        href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+                        rel="stylesheet"
+                        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+                        crossorigin="anonymous"
+                    />
+                    <title>Reset Password Link</title>
+            
+                    <style>
+                        body{
+                            display: flex;
+                            justify-content: center;
+                            text-align: center;
+                            min-height: 100vh;            
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="container">
+                        <div class="row justify-content-md-center">
+                            <div class="col col-lg-10">
+                             <img src="https://tinyurl.com/fnpemailheader" alt="email header logo">
+                            </div>
+                          </div>
+                        <h3 class="mt-3">Here is your reset link!</h3>
+                        <h3 class="m-3"><a href="${resetTokenLink}">Click to reset password now...</a></h3>
+                        <p>Hurry, it will expire in 10 minutes</p>
+                    </div>
+                </body>
+                <script
+                    src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+                    integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+                    crossorigin="anonymous"
+                ></script>
+            </html>`,
         };
 
         /**
@@ -63,7 +103,7 @@ const sendPasswordResetEmail = async (userEmail, resetTokenLink) => {
                 console.log(`Error sending Link - ${err.message}`);
             }
 
-            console.log(`Reset Email sent sucessfully: ${info.messageId}`);
+            // console.log(`Reset Email sent sucessfully: ${info.messageId}`);
             console.log(`Reset Link: ${resetTokenLink}`);
         });
     } catch (error) {
