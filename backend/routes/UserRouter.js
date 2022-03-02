@@ -2,7 +2,7 @@
 const router = require('express').Router();
 
 //Node.js module that performs data encryption and decryption
-const crypto = require("crypto");
+const crypto = require('crypto');
 
 //Joi module validates the data based on schemas (building schemas to validate JavaScript objects)
 const Joi = require('joi');
@@ -10,26 +10,34 @@ const Joi = require('joi');
 //For salting passwords
 const bcrypt = require('bcrypt');
 
-const jwt = require('jsonwebtoken');
-
-
-
-const SessionTokenModel = require('../models/SessionTokenModel');
-
-//Node.js module for password hashing
-// const md5 = require('md5'); << No longer using
+const sendEmail = require('../utils/sendEmail');
 
 // These are the database models we are using to make instances in this router
 const UserModel = require('../models/UserModel');
 const ResetPasswordTokenModel = require('../models/ResetPasswordTokenModel');
 
-const sendEmail = require('../utils/sendEmail');
 
-/* 
-1. BCRYPT is set and working for sign in and login. - Jody Weds
-2. Made some changes to names and structure to be more performant. They can still be refined.
-3. TRIM() username and set email to lower case on sign up and login finds, maybe use Joi api for that? 
-*/
+/*===========================================================*/
+// @ Thomas / Agyapal
+const SessionTokenModel = require('../models/SessionTokenModel');
+
+router.route('/session/:id').post((req, res)=>{
+    // post new token after login...
+})
+
+router.route('/session/:id').get((req, res)=>{
+    // get or check if valid session token...
+})
+
+
+/*===========================================================*/
+// @ Jody / Arianne
+router.route('/logout/:id').post((req,res)=>{
+    // Delete session token if it exists 
+})
+
+
+
 
 /******************************
  **** BASE ROUTE *****
@@ -110,7 +118,7 @@ router.route('/login').post(async (req, res) => {
             );
 
             if (validation) {
-                // SET SESSION TOKEN IN DB  middleware function to set session cookie. 
+                // SET SESSION TOKEN IN DB  middleware function to set session cookie.
                 data.msg = `${username} AUTHENTICATED - SET SESSION TOKEN AND SEND USER TO MAIN AREA OF APP`;
                 data.status = true;
                 res.send(data);
@@ -166,7 +174,7 @@ router.post('/reset-pass', async (req, res) => {
         const schema = Joi.object({ email: Joi.string().email().required() });
 
         const { error } = schema.validate(req.body);
-        
+
         if (error) return res.status(400).send(error.details[0].message);
 
         const user = await UserModel.findOne({ email: req.body.email });
@@ -182,7 +190,7 @@ router.post('/reset-pass', async (req, res) => {
             }).save();
         }
 
-        const link = `localhost:3000/users/${user._id}/${token.token}`;
+        const link = `http://localhost:3000/users/${user._id}/${token.token}`;
 
         console.log(link);
 
@@ -208,12 +216,10 @@ router.post('/reset-pass', async (req, res) => {
 // Basic working example of my comments...
 
 const path = require('path');
-const { appendFile } = require('fs');
-const { nextTick } = require('process');
 
 router.get('/:userId/:token', async (req, res) => {
     try {
-        res.sendFile(path.join(__dirname+'/reset.html'));
+        res.sendFile(path.join(__dirname + '/reset.html'));
     } catch (error) {
         res.send('An error occured');
         console.log(error);
@@ -229,10 +235,10 @@ router.post('/:userId/:token', async (req, res) => {
         if (error) return res.status(400).send(error.details[0].message);
 
         console.log('1');
-        
+
         const user = await UserModel.findById(req.params.userId);
         if (!user) return res.status(400).send('Invalid or expired link');
-        
+
         console.log('2');
 
         const token = await ResetPasswordTokenModel.findOne({
@@ -240,13 +246,13 @@ router.post('/:userId/:token', async (req, res) => {
             token: req.params.token,
         });
         if (!token) return res.status(400).send('Invalid or expired link');
-        
+
         console.log('3');
-        
+
         /* BCrypt Hashing */
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(req.body.password, salt);
-        
+
         console.log('4');
 
         await user.save();
