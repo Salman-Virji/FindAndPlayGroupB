@@ -10,34 +10,30 @@ const Joi = require('joi');
 //For salting passwords
 const bcrypt = require('bcrypt');
 
-const sendEmail = require('../utils/sendEmail');
+// Reset password middleware, edited name to be more discriptive.
+const sendPasswordResetEmail = require('../utils/sendPasswordResetEmail');
 
 // These are the database models we are using to make instances in this router
 const UserModel = require('../models/UserModel');
 const ResetPasswordTokenModel = require('../models/ResetPasswordTokenModel');
 
-
 /*===========================================================*/
 // @ Thomas / Agyapal
 const SessionTokenModel = require('../models/SessionTokenModel');
 
-router.route('/session/:id').post((req, res)=>{
+router.route('/session/:id').post((req, res) => {
     // post new token after login...
-})
+});
 
-router.route('/session/:id').get((req, res)=>{
+router.route('/session/:id').get((req, res) => {
     // get or check if valid session token...
-})
-
+});
 
 /*===========================================================*/
 // @ Jody / Arianne
-router.route('/logout/:id').post((req,res)=>{
-    // Delete session token if it exists 
-})
-
-
-
+router.route('/logout/:id').post((req, res) => {
+    // Delete session token if it exists
+});
 
 /******************************
  **** BASE ROUTE *****
@@ -91,9 +87,6 @@ router.route('/signup').post(async (req, res) => {
 router.route('/login').post(async (req, res) => {
     const username = req.body.username.toLowerCase();
     const rawPassword = req.body.password;
-    
-    
-
 
     const data = {
         msg: '',
@@ -133,31 +126,30 @@ router.route('/login').post(async (req, res) => {
             data.status = false;
             res.send(data);
         });
-
-        
 });
-
 
 router.route('/session/:id').get((req, res) => {
     // get or check if valid session token...
-    try{
-            //ISSUE - How to call the model??
-        if(req.header.SessionTokenModel){
-            const token = req.header.SessionTokenModel.split(" ")[1];
-            if (token){
-                            //check jwt
-                const payload = await jwt.verify(token,process.env.SECRET);
-                if(payload) {
+    try {
+        //ISSUE - How to call the model??
+        if (req.header.SessionTokenModel) {
+            const token = req.header.SessionTokenModel.split(' ')[1];
+            if (token) {
+                //check jwt
+                const payload = await jwt.verify(token, process.env.SECRET);
+                if (payload) {
                     req.user = payload;
                     next();
                 } else {
-                    res.status(400).json({ error: "token verification failed" });
+                    res.status(400).json({
+                        error: 'token verification failed',
+                    });
                 }
             } else {
-                res.status(400).json({ error: "malformed auth header" });
+                res.status(400).json({ error: 'malformed auth header' });
             }
         } else {
-            res.status(400).json({ error: "No authorization header" });
+            res.status(400).json({ error: 'No authorization header' });
         }
     } catch (error) {
         res.status(400).json({ error });
@@ -165,7 +157,6 @@ router.route('/session/:id').get((req, res) => {
 });
 /**** END OF SIGN IN / LOGIN ****/
 
-// Unsure of what this code is doing, plus is written different to code above?
 /*
  **** RESET PASSWORD TOKEN ROUTE *****
  */
@@ -190,11 +181,9 @@ router.post('/reset-pass', async (req, res) => {
             }).save();
         }
 
-        const link = `http://localhost:3000/users/${user._id}/${token.token}`;
+        const resetTokenLink = `http://localhost:3000/users/${user._id}/${token.token}`;
 
-        console.log(link);
-
-        await sendEmail(user.email, 'Password reset', link);
+        await sendPasswordResetEmail(user.email, resetTokenLink);
 
         res.send('Password reset link sent to your email account');
     } catch (error) {
