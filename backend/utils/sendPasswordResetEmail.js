@@ -1,11 +1,13 @@
 /**
+ * NOTES
  * @summary
  * 1. Extracted the AUTH detail as it should not be public see .env, as per docs.
  * 2. Updated some of the variable names to be more descriptive.
  * 3. Updated the transporter method with text link and html too.
  * 4. Removed the subtitle param as this won't change, it's hardcoded into the function.
- * 
- * Using ethreal for testing email sent 
+ * 5. Added JSDoc support for clear documentation and commenting. Ref: AirBnb or google code style guides for more info.
+ *
+ * Using ethreal for testing email sent
  * https://ethereal.email/login
  *
  * SNIPPET FOR TESTING
@@ -15,9 +17,10 @@
  *  },
  */
 
-//Node.js module to allow email sending
+/** Node.js module to allow email sending */
 const nodemailer = require('nodemailer');
-//To access the .env file
+
+/** To access the .env file */
 require('dotenv').config();
 
 /**
@@ -50,10 +53,10 @@ const sendPasswordResetEmail = async (userEmail, resetTokenLink) => {
             </body>`,
         };
 
-        /** 
-         * @param { Object } message - data object to email.
-         * @param err - Will report if any error from callback.
-         * @param info - Will report transport sent info.
+        /**
+         * @param { Object } message - Data messege object to email.
+         * @param { CallbackError } err - Will report if any error from callback.
+         * @param { CallbackInformation } info - Will report transport sent info.
          */
         await transporter.sendMail(message, (err, info) => {
             if (err) {
