@@ -10,6 +10,12 @@ const Joi = require('joi');
 //For salting passwords
 const bcrypt = require('bcrypt');
 
+const jwt = require('jsonwebtoken');
+
+
+
+const SessionTokenModel = require('../models/SessionTokenModel');
+
 //Node.js module for password hashing
 // const md5 = require('md5'); << No longer using
 
@@ -77,6 +83,9 @@ router.route('/signup').post(async (req, res) => {
 router.route('/login').post(async (req, res) => {
     const username = req.body.username.toLowerCase();
     const rawPassword = req.body.password;
+    
+    
+
 
     const data = {
         msg: '',
@@ -116,6 +125,35 @@ router.route('/login').post(async (req, res) => {
             data.status = false;
             res.send(data);
         });
+
+        
+});
+
+
+router.route('/session/:id').get((req, res) => {
+    // get or check if valid session token...
+    try{
+            //ISSUE - How to call the model??
+        if(req.header.SessionTokenModel){
+            const token = req.header.SessionTokenModel.split(" ")[1];
+            if (token){
+                            //check jwt
+                const payload = await jwt.verify(token,process.env.SECRET);
+                if(payload) {
+                    req.user = payload;
+                    next();
+                } else {
+                    res.status(400).json({ error: "token verification failed" });
+                }
+            } else {
+                res.status(400).json({ error: "malformed auth header" });
+            }
+        } else {
+            res.status(400).json({ error: "No authorization header" });
+        }
+    } catch (error) {
+        res.status(400).json({ error });
+    }
 });
 /**** END OF SIGN IN / LOGIN ****/
 
@@ -169,7 +207,9 @@ router.post('/reset-pass', async (req, res) => {
 
 // Basic working example of my comments...
 
-const path = require('path')
+const path = require('path');
+const { appendFile } = require('fs');
+const { nextTick } = require('process');
 
 router.get('/:userId/:token', async (req, res) => {
     try {
