@@ -4,6 +4,9 @@
  * 2. Updated some of the variable names to be more descriptive.
  * 3. Updated the transporter method with text link and html too.
  * 4. Removed the subtitle param as this won't change, it's hardcoded into the function.
+ * 
+ * Using ethreal for testing email sent 
+ * https://ethereal.email/login
  *
  * SNIPPET FOR TESTING
  *  tls: {
