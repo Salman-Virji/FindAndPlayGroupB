@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
+import { Camera } from 'expo-camera';
 import {
     Button,
     InputEvent,
@@ -29,14 +30,44 @@ function CreateCards(){
 }
 
 
-export default function ChooseObjectiveScreen({navigation}){
+export default function GameScreen({navigation}){
+  const [hasPermission, setHasPermission] = useState(null);
+  const [type, setType] = useState(Camera.Constants.Type.back);
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      setHasPermission(status === 'granted');
+    })();
+  }, []);
+
+  if (hasPermission === null) {
+    return <View />;
+  }
+  if (hasPermission === false) {
+    return <Text>No access to camera</Text>;
+  }
     return(
         <View style={page.container}>
           <View style={{flex:1,backgroundColor:"#b0bec5",padding:10,width:"100%"}}>
             <View style={{flex:4,backgroundColor:"#eceff1",margin:20,justifyContent:"center",alignItems: "center"}}>
-              <Text>
-                Camera
-              </Text>
+            <>
+              <Camera style={styles.camera} type={type}>
+                <View style={styles.buttonContainer}>
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => {
+                      setType(
+                        type === Camera.Constants.Type.back
+                          ? Camera.Constants.Type.front
+                          : Camera.Constants.Type.back
+                      );
+                    }}>
+                    <Text style={styles.text}> Flip </Text>
+                  </TouchableOpacity>
+                </View>
+              </Camera>
+            </>
             </View>
             <View style={{flex:2,alignItems: "center",justifyContent:"center"}}>
               <CreateCards />
@@ -74,11 +105,6 @@ const page = StyleSheet.create({
       fontSize: 30,
       color: '#000'
     },
-    camera:{
-      justifyContent: 'center',
-      margin:10,
-      backgroundColor:'#eceff1'
-    },
     card: {
       backgroundColor:'#eceff1',
       padding:10,
@@ -89,4 +115,29 @@ const page = StyleSheet.create({
       flex:1,
       height:"100%"
     }
+  });
+  //COMBINE STYLESHEETS
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    camera: {
+      width:198,
+      height:264
+    },
+    buttonContainer: {
+      flex: 1,
+      backgroundColor: 'transparent',
+      flexDirection: 'row',
+      margin: 20,
+    },
+    button: {
+      flex: 0.1,
+      alignSelf: 'flex-end',
+      alignItems: 'center',
+    },
+    text: {
+      fontSize: 12,
+      color: 'white',
+    },
   });
