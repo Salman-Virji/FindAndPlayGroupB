@@ -25,7 +25,7 @@ router.route('/session/:id').post((req, res) => {
     // post new token after login...
 });
 
-router.route('/session/:id').get((req, res) => {
+router.route('/session/:id').get( async (req, res) => {
     // get or check if valid session token...
     try {
         //ISSUE - How to call the model??
