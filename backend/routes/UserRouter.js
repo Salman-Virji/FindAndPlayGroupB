@@ -1,6 +1,7 @@
 /** Middleware to create modular, mountable route handlers */
 const router = require('express').Router();
-
+const session = require("express-session");
+const MongoDBStore = require("connect-mongodb-session")(session);
 /** Node.js module that performs data encryption and decryption */
 const crypto = require('crypto');
 
@@ -20,6 +21,37 @@ const ResetPasswordTokenModel = require('../models/ResetPasswordTokenModel');
 /** - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /** @ Thomas / Agyapal */
 const SessionTokenModel = require('../models/SessionTokenModel');
+
+// const store = new MongoDBStore({
+//     uri: " mongodb+srv://test:test@realmcluster.mvyvj.mongodb.net/testDB?retryWrites=true&w=majority",
+//     collection:"sessiontokens"
+// });
+
+// router.use(
+//     session({
+//         secret:"secret",
+//         resave:false,
+//         saveUninitialized:false,
+//         store:store
+//     })
+// );
+var store = new MongoDBStore({
+    uri: 'mongodb://localhost:27017/sessiontokens',
+    collection: 'sessiontokens'
+  });
+
+  store.on('error', function(error) {
+    console.log(error);
+  });
+
+router.use(session({
+    secret:'Hidden Message',
+    resave:false,
+    saveUninitialized:true,
+    cookie:{secure:true,
+    maxAge:60000}
+}))
+
 
 router.route('/session/:id').get((req, res) => {
     // post new token after login...
