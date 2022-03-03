@@ -21,14 +21,14 @@ const ResetPasswordTokenModel = require('../models/ResetPasswordTokenModel');
 /** @ Thomas / Agyapal */
 const SessionTokenModel = require('../models/SessionTokenModel');
 
-router.route('/session/:id').post((req, res) => {
+router.route('/session/:id').get((req, res) => {
     // post new token after login...
     const error = req.session.error;
     delete req.session.error;
     res.render("login", { err: error });
 });
 
-router.route('/session/:id').get(async (req, res) => {
+router.route('/session/:id').post(async (req, res) => {
     // get or check if valid session token...
     const { email, password } = req.body;
 
