@@ -7,8 +7,9 @@ import {
   View, TextInput
 } from 'react-native';
 
-export default function JoinGame({navigation}) {
-    const [code,setCode] = useState("")
+export default function JoinGame({navigation,route}) {
+    const [code,setCode] = useState("");
+    const Player = route.params;
   return (
 
     

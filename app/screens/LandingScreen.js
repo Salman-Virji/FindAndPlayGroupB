@@ -4,17 +4,79 @@ import {TextInput,Image, ImageBackground, Pressable, StyleSheet, Text, View, Fla
 
 
 function LandingScreen({navigation,route}) {
+    const[Isvisible,setVisibility] = useState(false);
     const Username = route.params
-    if(!Username.Username)
-    {
-        console.log("no logged in user");
-    }
-    else{
-        console.log('logged in as :' ,Username);
-    }
+   
     return (
         <ImageBackground style={styles.background} source={require("../assets/BGs/background1.png")}>
-        
+        {/* conditional rendering for popup to ask user if they want to create a game or join one */}
+        {Isvisible? <View style={{
+                position:'absolute',
+                top:'25%',
+                width:'60%',
+                height:'30%',
+                border: 2,
+                borderRadius:30,
+                zIndex:999,
+                backgroundColor:'#50A4FF',
+                bordercolor:'black ',
+                elevation:50,
+                padding:5
+            }} >
+                <TouchableOpacity style={{
+                    textAlign:'center',
+                    top:'25%',
+                    left:'20%',
+                    width:'60%',
+                    fontSize:25,
+                    margin:10,
+                    border:10,
+                    borderColor:'#000000'
+                }} onPress={() => navigation.navigate('CreateGameScreen', {Username:Username.Username})}>
+                    <Text
+                   style={{
+                    textAlign:'center',
+                    left:'10%',
+                    width:'60%',
+                    fontSize:25
+                }}
+                    > Create a game</Text>
+                </TouchableOpacity> 
+                <TouchableOpacity style={{
+                    textAlign:'center',
+                    left:'20%',
+                    top:'30%',
+                    width:'60%',
+                    fontSize:25,
+                    margin:10,
+                    border:2,
+                    borderColor:'#000000'
+                }} onPress={() => navigation.navigate('JoinGame', {Username:Username})}>
+                    <Text style={{
+                        textAlign:'center',
+                        left:'10%',
+                        width:'60%',
+                        fontSize:25,
+                    }}> Join a game</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={{
+                    textAlign:'center',
+                    left:'20%',
+                    top:'40%',
+                    width:'60%',
+                    fontSize:25,
+                    margin:10,
+                    border:2,
+                    borderColor:'#000000'
+                }} onPress={() =>setVisibility(false)}>
+                    <Text style={{
+                    textAlign:'center',
+                    left:'10%',
+                    width:'60%',
+                    fontSize:25
+                }}> cancel</Text>
+                </TouchableOpacity>
+            </View>: <View></View>}
             {/* touchableOpacity buttons */} 
 
             {/*settings button*/}
@@ -64,7 +126,7 @@ function LandingScreen({navigation,route}) {
             </TouchableOpacity>
 
             {/*play button*/}  
-            <TouchableOpacity onPress ={() => Username.Username? navigation.navigate('CreateGameScreen',{Username:Username.Username}):navigation.navigate('JoinGame')} style={styles.ppfBtnImg}>
+            <TouchableOpacity onPress ={() => Username.Username? setVisibility(true):navigation.navigate('JoinGame')} style={styles.ppfBtnImg}>
             <Image
                 source={require('../assets/icons/controllerIcon.png')} 
             />
@@ -78,10 +140,11 @@ function LandingScreen({navigation,route}) {
             />
                 <Text style={styles.ppfText}>Feed</Text>
             </TouchableOpacity>
+           
             
         </View>
         
-          
+        
 
     </ImageBackground>
     );
@@ -103,7 +166,7 @@ const styles = StyleSheet.create({
     
    //fact title styling
     funFactContainer:{
-        zIndex: 999, 
+        zIndex: 2, 
         position: "absolute",
         bottom:990,
         alignItems:"center",
@@ -122,7 +185,7 @@ const styles = StyleSheet.create({
 
      //text styling for ppf (profile play feed)
     ppfText:{
-        zIndex: 999, 
+        zIndex: 2, 
         alignItems:"center",
         borderRadius:20,
         marginRight:40,
@@ -140,7 +203,7 @@ const styles = StyleSheet.create({
     },
 
     profilePlayFeedContainer:{
-        zIndex: 999, 
+        zIndex: 2, 
         position: "absolute",
         bottom:25,
         alignItems:"center",
@@ -149,7 +212,7 @@ const styles = StyleSheet.create({
 
     //logout button
     logoutBtnContainer:{ 
-        zIndex: 999, 
+        zIndex: 2, 
         position:'absolute',
         top:65,
         left:30,
@@ -175,7 +238,7 @@ const styles = StyleSheet.create({
 
     //settings button 
     settingBtnContainer:{ 
-        zIndex: 999, 
+        zIndex: 2, 
         position:'absolute',
         top:65,
         right:30,
@@ -194,7 +257,7 @@ const styles = StyleSheet.create({
     },
 
    ppfBtnImg:{ //ppf (profile play feed) button styling 
-    zIndex: 999, 
+    zIndex: 2, 
     bottom:25,
     alignItems:"center",
     backgroundColor: "#50A4FF",
@@ -215,7 +278,7 @@ const styles = StyleSheet.create({
    },
 
    factCard:{ //styling for fact card, might need to change this when functionality is added
-    zIndex: 999, 
+    zIndex: 2, 
     bottom:450,
     alignItems:"center",
     backgroundColor: "#50A4FF",
@@ -253,7 +316,7 @@ const styles = StyleSheet.create({
    
 //TODO: make container for factsText and add attributes for aligning, centering text
    factText:{
-    zIndex: 999, 
+    zIndex: 2, 
     alignItems:"center",
     position:'absolute',
     top:260,
