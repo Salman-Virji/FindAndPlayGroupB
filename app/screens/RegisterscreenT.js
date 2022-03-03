@@ -10,39 +10,90 @@ import {
 import axios from "axios";
 import { Dimensions } from "react-native";
 const { width, height } = Dimensions.get("window");
-import React, { useState } from "react";
+import React, { Children, Component, useState } from "react";
+
+// checks that all required fields are filled 
+
+
+
+function CheckFormFilled(username, password, email,ConfirmPassword,navigation,UpdateUsernameVisbility,UpdateEmailVisbility,UpdatePassVisbility,UpdateCpassVisbility)
+{
+  var incomplete = false;
+  if(username == "" || username == "Username")
+  {
+    UpdateUsernameVisbility(true);
+    incomplete = true;
+  }
+  else{
+    UpdateUsernameVisbility(false);
+  }
+  if(password == "" || password == "Password")
+  {
+   UpdatePassVisbility( true);
+    incomplete = true;
+  }
+  else{
+    UpdatePassVisbility(false)
+  }
+  if(email == "" || email== "Email")
+  {
+    UpdateEmailVisbility(true);
+    incomplete = true;
+  }
+  else{
+    UpdateEmailVisbility(false);
+  }
+  if(password != ConfirmPassword)
+  {
+    UpdateCpassVisbility(true);
+    incomplete = true;
+  }
+  else{
+    UpdateCpassVisbility(false);
+  }
+  console.log( "After Check \n",username,password,ConfirmPassword,email , incomplete);
+  if(incomplete == true)
+  {
+    
+    return;
+  }
+  else{
+    SignUp(username,password,email,navigation)
+  }
+}
 function SignUp(username, password, email, navigation) {
   const body = {
     username: username,
     email: email,
     password: password,
   };
-  if (username != "" || password != "") {
-    var url = `http://10.0.0.168:3000/users/signup`;
+    var url = `http:10.0.0.63:3000/users/signup`;
     axios
-      .post(url, body, navigation)
+      .post(url, body)
       .then(() => {
+        console.log(body)
         navigation.navigate("SigninScreen");
       })
       .catch((err) => console.log(err));
-  }
 }
 
 export default function RegisterScreenT({ navigation }) {
   // set use state hooks to track singup form input
+
   const [Username, SetUsername] = useState("Username");
   const [Email, SetEmail] = useState("Email");
   const [Password, SetPassword] = useState("Password");
   const [ConfirmPassword, SetConfirmPassword] = useState("Confirm Password");
+  // uses state to track which msg's should be displayed and update the page dynamically
+  const [usernameV,UpdateUsernameVisbility]= useState(false);
+  const [emailV,UpdateEmailVisbility]= useState(false);
+  const [passwordV,UpdatePassVisbility]= useState(false);
+  const [CpasswordV,UpdateCpassVisbility]= useState(false);
   return (
     <ImageBackground
       style={styles.background}
       source={require("../assets/BGs/background2.png")}
     >
-      {/* <Image
-            style={styles.logo}
-            source={require("../assets/Logo/logo1.png")}
-          /> */}
       <Text style={styles.logo}> Find & Play</Text>
 
       <View
@@ -57,6 +108,10 @@ export default function RegisterScreenT({ navigation }) {
         }}
       >
         <Text style={styles.SignupTxT}> Sign up</Text>
+      
+        {//inoput fields and disdplay mesages for if form is not completed properly
+        // controlls if the text is visible or not
+         usernameV ? <Text style={styles.input, styles.inputTxt}>Please enter a username</Text> :<Text style={styles.input, styles.inputTxt}></Text>}
         <TextInput
           style={styles.input}
           onChangeText={(e) => SetUsername(e)}
@@ -66,6 +121,8 @@ export default function RegisterScreenT({ navigation }) {
           placeholder="Username"
           placeholderTextColor="#fff"
         />
+        { emailV ? <Text style={styles.input, styles.inputTxt}>Please enter a Valid Email</Text> : <Text style={styles.input, styles.inputTxt}></Text>}
+        
         <TextInput
           style={styles.input}
           onChangeText={(e) => SetEmail(e)}
@@ -74,6 +131,7 @@ export default function RegisterScreenT({ navigation }) {
           autoCapitalize="none"
           placeholderTextColor="#fff"
         />
+        { passwordV ? <Text style={styles.input, styles.inputTxt}>Please enter a Password</Text> : <Text style={styles.input, styles.inputTxt}></Text>}
         <TextInput
           style={styles.input}
           onChangeText={(e) => SetPassword(e)}
@@ -83,6 +141,7 @@ export default function RegisterScreenT({ navigation }) {
           placeholderTextColor="#fff"
           secureTextEntry={true}
         />
+        { CpasswordV ? <Text style={styles.input, styles.inputTxtP}>Please make sure your passwords match</Text> : <Text style={styles.input,  styles.inputTxtP}></Text>}
         <TextInput
           style={styles.input}
           onChangeText={(e) => SetConfirmPassword(e)}
@@ -92,33 +151,15 @@ export default function RegisterScreenT({ navigation }) {
           autoCapitalize="none"
           placeholderTextColor="#fff"
         />
-
-        {/* <Text onPress={()=>SignUp(Username,Password,Email,navigation)} style = {styles.RegisterBtn}> Sign up</Text> */}
-        <View style={styles.HomeView}>
-          <Text  style={{
-              bottom: 40,
-              fontWeight: "bold",
-              fontSize: 20,
-              color: "white",
-              textShadowColor: "rgba(0, 0, 0, 1)",
-              textShadowOffset: { width: -1, height:1 },
-              textShadowRadius: 10,
-              left:"5%"
-            }}>Already Have an Account? </Text>
-          {/* <Text
-            style={styles.HomeBtn}
-            onPress={() => navigation.navigate("SigninScreen")}
-          >
-            Login
-          </Text> */}
-        </View>
       </View>
 
       {/* Sign up button */}
       <View style={styles.registerbuttonContainer}>
+
         <Pressable
           style={styles.RegisterBtn}
-          onPress={() => SignUp(Username, Password, Email, navigation)}
+          onPress={() => CheckFormFilled(Username, Password, Email,ConfirmPassword,navigation,UpdateUsernameVisbility,UpdateEmailVisbility,UpdatePassVisbility,UpdateCpassVisbility)
+          }
         >
           <Text
             style={{
@@ -134,6 +175,17 @@ export default function RegisterScreenT({ navigation }) {
       </View>
             {/* Login button */}
       <View style={styles.loginbuttonContainer}>
+      <Text  style={{
+              bottom: 40,
+              fontWeight: "bold",
+              fontSize: 20,
+              color:"white",
+              textShadowColor: "rgba(0, 0, 0, 1)",
+              textShadowOffset: { width: -1, height:1 },
+              textShadowRadius: 10,
+              top:"-5%"
+          }}>Already Have an Account? </Text>
+          
         <Pressable
           style={styles.btnSignin}
           onPress={() => navigation.navigate("SigninScreen")} //navigates to signinscren
@@ -155,23 +207,7 @@ export default function RegisterScreenT({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  HomeBtn: {
-    position: "relative",
-    padding: 7,
-    paddingLeft: 25,
-    left: "10%",
-    color: "white",
-    fontSize: 35,
-    fontWeight: "bold",
-    backgroundColor: "#FF6551",
-    borderRadius: 50,
-    width: "20%",
-  },
-  HomeView: {
-    position: "relative",
-    left: "18%",
-    top: "15%",
-  },
+
   loginbuttonContainer: {
     flex: 1,
     flexDirection: "column",
@@ -197,9 +233,9 @@ const styles = StyleSheet.create({
     bottom: "2%",
   },
   SignupTxT: {
-    position: "relative",
+    position: "absolute",
     left: "20%",
-    top: "-15%",
+    top: "8%",
     fontSize: 65,
     color: "white",
     fontWeight: "bold",
@@ -215,7 +251,7 @@ const styles = StyleSheet.create({
   input: {
     marginBottom: 20,
     left: "5%",
-    top: "-8%",
+    top: "-9%",
     width: width * 0.6,
     height: "6%",
     borderColor: "#fff",
@@ -227,9 +263,28 @@ const styles = StyleSheet.create({
     paddingRight: 15,
     position: "relative",
   },
-
+  inputTxt: {
+    color:"white",
+    textShadowColor: "rgba(0, 0, 0, 1)",
+    textShadowOffset: { width: -1, height:1 },
+    textShadowRadius: 10,
+    left: "21%",
+    top: "-10%",
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  inputTxtP: {
+    left: "13%",
+    top: "-10%",
+    color:"white",
+    textShadowColor: "rgba(0, 0, 0, 1)",
+    textShadowOffset: { width: -1, height:1 },
+    textShadowRadius: 10,
+    fontSize: 20,
+    fontWeight: "bold",
+  },
   registerbuttonContainer: {
-    flex: 1,
+    position:"relative",
     width: width * 0.6,
     justifyContent: "center",
     flexDirection: "column",
@@ -270,3 +325,4 @@ const styles = StyleSheet.create({
     // resizeMode: "contain",
   },
 });
+
