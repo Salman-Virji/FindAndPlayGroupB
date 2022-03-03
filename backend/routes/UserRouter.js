@@ -23,34 +23,32 @@ const SessionTokenModel = require('../models/SessionTokenModel');
 
 router.route('/session/:id').post((req, res) => {
     // post new token after login...
+    const error = req.session.error;
+    delete req.session.error;
+    res.render("login", { err: error });
 });
 
-router.route('/session/:id').get( async (req, res) => {
+router.route('/session/:id').get(async (req, res) => {
     // get or check if valid session token...
-    try {
-        // ISSUE - How to call the model??
-        if (req.header.SessionTokenModel) {
-            const token = req.header.SessionTokenModel.split(' ')[1];
-            if (token) {
-                // check jwt
-                const payload = await jwt.verify(token, process.env.SECRET);
-                if (payload) {
-                    req.user = payload;
-                    next();
-                } else {
-                    res.status(400).json({
-                        error: 'token verification failed',
-                    });
-                }
-            } else {
-                res.status(400).json({ error: 'malformed auth header' });
-            }
-        } else {
-            res.status(400).json({ error: 'No authorization header' });
-        }
-    } catch (error) {
-        res.status(400).json({ error });
+    const { email, password } = req.body;
+
+    const user = await user.findOne({ email });
+
+    if (!user) {
+        req.session.error = "Invalid Credentials";
+        return res.redirect("/login");
     }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+        req.session.error = "Invalid Credentials";
+        return res.redirect("/login");
+    }
+
+    req.session.isAuth = true;
+    req.session.username = user.username;
+    res.redirect("/LandingScreen");
 });
 
 /** - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
@@ -226,7 +224,7 @@ router.post('/:userId/:token', async (req, res) => {
         await user.save();
         await token.delete();
 
-/** @TODO Render password set page and close */
+        /** @TODO Render password set page and close */
 
         res.send('Password reset sucessfully');
     } catch (error) {
