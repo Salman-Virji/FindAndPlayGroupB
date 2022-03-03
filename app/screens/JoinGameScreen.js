@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Button, InputEvent
   , Image, ImageBackground,
@@ -7,85 +7,54 @@ import {
   View, TextInput
 } from 'react-native';
 
-function joingame(props) {
+export default function JoinGame({navigation}) {
+    const [code,setCode] = useState("")
   return (
 
     
     <ImageBackground style={{ resizeMode: "contain", flex: 1 }}
-     source={require("./assets/background2.png")} >
+     source={require("../assets/BGs/background2.png")} >
      
     
     
 
       <View
       >
-        <TouchableOpacity  >
           <Text style={{
-            fontSize: 60,
+            fontSize: 100,
             position: 'absolute',
-            top: 200,
-            left: 240,
-            zIndex: 2
+            top: 250,
+            left: "20%",
+            fontWeight: "bold",
+            color: "#fff",
           }} >Join Game</Text>
 
-          <Text style={{
-            fontSize: 60,
-            position: 'absolute',
-            top: 600,
-            left: 220,
-            zIndex: 2
-          }} >Create Lobby</Text>
-
-
-
-          <View style={{
-            position: 'absolute',
-            top: 700,
-            left: 250,
-            borderColor: 'black',
-            width: 300,
-
-
-            zIndex: 3,
-            fontSize: 20,
-
-          }} >
-
-            <TouchableOpacity activeOpacity={0.95} style={styles.button}>
-              <Text style={styles.text}>CREATE</Text>
-            </TouchableOpacity>
-          </View>
-
-
-
-
-
-
-
           <TextInput
+          onChange={(e) => setCode(e)}
+          value={code}
             underlineColorAndroid="transparent"
             placeholder="Game Code"
             placeholderTextColor="#808080"
             autoCapitalize="none"
             style={{
               position: 'absolute',
-              top: 300,
+              top:600,
               borderRightWidth: 2,
               borderLeftWidth: 2,
               borderTopWidth: 2,
               borderBottomWidth: 2,
-              width: 350,
+              width: "80%",
               alignItems: 'center',
               textAlign: 'center',
               padding: 12,
-              left: 220,
-              fontSize: 30,
+              left: "10%",
+              fontSize: 40,
               borderRadius: 20
 
 
             }}
           />
-          <Image source={require('./assets/Settings.png')} style={{
+          <Image source={require('../assets/icons/Settings.png')} style={{
             width: 150,
             height: 150,
             position: 'absolute',
@@ -94,50 +63,18 @@ function joingame(props) {
           }
 
           } />
-
-
-
-
-          <Image source={require('./assets/Logout.png')} style={{
-            width: 150,
-            height: 150,
-            position: 'absolute',
-            top: 80,
-            left: 50
-          }
-          } />
+         <TouchableOpacity onPress ={() => navigation.navigate('SigninScreen')} style ={styles.logoutBtnContainer}>
+            <Image
+                source={require('../assets/icons/logoutIcon.png')} 
+            /> 
+            <Text onPress ={() => navigation.navigate('SigninScreen')} style = {styles.loutoutBtnText} > Logout </Text>
+        </TouchableOpacity>
 
 
           {/* 
 <ImageBackground source={require('./assets/splash.png')}>
 
 </ImageBackground> */}
-          <Image source={require('./assets/Profile.png')} style={{
-            width: 150,
-            height: 150,
-            position: 'absolute',
-            top: 1000,
-            left: 50
-          }
-          } />
-
-          <Image source={require('./assets/Play.png')} style={{
-            width: 150,
-            height: 150,
-            position: 'absolute',
-            top: 1000,
-            right: 330
-          }
-          } />
-
-          <Image source={require('./assets/Feed.png')} style={{
-            width: 150,
-            height: 150,
-            position: 'absolute',
-            top: 1000,
-            right: 50
-          }
-          } />
 
 
 
@@ -157,14 +94,6 @@ function joingame(props) {
               <Text style={styles.text}>JOIN</Text>
             </TouchableOpacity>
           </View>
-
-
-
-
-        </TouchableOpacity>
-
-
-
       </View>
       </ImageBackground>
       );
@@ -183,6 +112,28 @@ function joingame(props) {
         fontSize:30
 
     },
+    loutoutBtnText:{
+      fontSize:20,
+      fontWeight:'normal',
+      color:"#000000"
+  }, logoutBtnContainer:{ 
+    zIndex: 999, 
+    position:'absolute',
+    top:65,
+    left:30,
+    alignItems:"center",
+    backgroundColor: "#FFE551",
+    padding:15,
+    borderRadius:20,
+    shadowColor: "#000",
+    shadowOffset: {
+  width: 0,
+  height: 12,
+    },
+    shadowOpacity: 0.58,
+    shadowRadius: 16.00,
+    elevation: 24,
+},
 
       button: {
         flexDirection: 'row',
@@ -197,18 +148,16 @@ function joingame(props) {
   },
       button2: {
         flexDirection: 'row',
-      height: 50,
+        top:"135%",
+      height: "70%",
       backgroundColor: 'lightblue',
       borderRadius:20,
-
-
       alignItems: 'center',
       justifyContent: 'center',
       marginTop: 50,
-      elevation:3,
 },
       text: {
-        fontSize: 20,
+        fontSize: 40,
       padding:10,
 
       fontWeight: 'bold',
@@ -216,4 +165,4 @@ function joingame(props) {
 
 })
 
-      export default joingame;
+ 

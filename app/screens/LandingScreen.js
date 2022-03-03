@@ -3,7 +3,15 @@ import { clickProps } from 'react-native-web/dist/cjs/modules/forwardedProps';
 import {TextInput,Image, ImageBackground, Pressable, StyleSheet, Text, View, FlatList, Dimensions, Button, TouchableOpacity } from 'react-native';
 
 
-function LandingScreen({navigation}) {
+function LandingScreen({navigation,route}) {
+    const Username = route.params
+    if(!Username.Username)
+    {
+        console.log("no logged in user");
+    }
+    else{
+        console.log('logged in as :' ,Username);
+    }
     return (
         <ImageBackground style={styles.background} source={require("../assets/BGs/background1.png")}>
         
@@ -56,7 +64,7 @@ function LandingScreen({navigation}) {
             </TouchableOpacity>
 
             {/*play button*/}  
-            <TouchableOpacity onPress ={() => navigation.navigate('CreateGameScreen')} style={styles.ppfBtnImg}>
+            <TouchableOpacity onPress ={() => Username.Username? navigation.navigate('CreateGameScreen',{Username:Username.Username}):navigation.navigate('JoinGame')} style={styles.ppfBtnImg}>
             <Image
                 source={require('../assets/icons/controllerIcon.png')} 
             />
