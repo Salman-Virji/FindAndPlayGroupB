@@ -9,7 +9,6 @@
  *
  * Using ethreal for testing email sent
  * https://ethereal.email/login
- *
  */
 
 /** Node.js module to allow email sending */
@@ -26,16 +25,21 @@ const sendPasswordResetEmail = async (userEmail, resetTokenLink) => {
     try {
         /** Declare setup a smpt transport provider */
         const transporter = nodemailer.createTransport({
-            host: 'smtp.ethereal.email',
-            port: 587,
+            // host: 'smtp.ethereal.email',
+            // port: 587,
+            // auth: {
+            //     user: process.env.AUTH_USER,
+            //     pass: process.env.AUTH_PASS,
+            // },
+            // tls: {
+            //     // do not fail on invalid certs
+            //     rejectUnauthorized: false,
+            // },
+            service: 'gmail',
             auth: {
                 user: process.env.AUTH_USER,
-                pass: process.env.AUTH_PASS,
-            },
-            tls: {
-                // do not fail on invalid certs
-                rejectUnauthorized: false,
-            },
+                pass: process.env.AUTH_PASS
+            }
         });
 
         let message = {
@@ -77,9 +81,9 @@ const sendPasswordResetEmail = async (userEmail, resetTokenLink) => {
                           </div>
                         <h3 class="mt-3">Here is your reset link!</h3>
                         <h3 class="m-3"><a href="${resetTokenLink}">Click to reset password now...</a></h3>
-                        <p>If the link above does not work, please copy the address below into the browser and follow link...</p>
+                        <p>If the link above does not work, please copy the address below and paste it into the browser.</p>
                         <p>${resetTokenLink}</p>
-                        <p>Hurry, it will expire in 10 minutes</p>
+                        <p>Attention - The link will expire in 60 minutes.</p>
                     </div>
                 </body>
                 <script
@@ -97,11 +101,11 @@ const sendPasswordResetEmail = async (userEmail, resetTokenLink) => {
          */
         await transporter.sendMail(message, (err, info) => {
             if (err) {
-                console.log(`Error sending Link - ${err.message}`);
+                console.log(`Error sending link - ${err.message}`);
             }
 
             //console.log(`Reset Email sent sucessfully: ${info.messageId}`);
-            console.log(`Reset Link: ${resetTokenLink}`);
+            console.log(`Reset link: ${resetTokenLink}`);
         });
     } catch (error) {
         console.log(error, 'Email not sent');
@@ -109,3 +113,34 @@ const sendPasswordResetEmail = async (userEmail, resetTokenLink) => {
 };
 
 module.exports = sendPasswordResetEmail;
+
+// PREVIOUS CODE
+// const nodemailer = require("nodemailer");
+
+// const sendEmail = async (email, subject, text) => {
+//     try {
+//         const transporter = nodemailer.createTransport({
+//             //host: gmail,
+//             service: "Gmail",
+//             port: 587,
+//             secure: true,
+//             auth: {
+//                 user: 'findandplay78@gmail.com',
+//                 pass: 'FindAndPlay'
+//             },
+//         });
+
+//         await transporter.sendMail({
+//             from: 'findandplay78@gmail.com',
+//             to: email,
+//             subject: subject,
+//             text: text
+//         });
+
+//         console.log("Email sent sucessfully");
+//     } catch (error) {
+//         console.log(error, "Email not sent");
+//     }
+// };
+
+// module.exports = sendEmail;

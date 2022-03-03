@@ -1,4 +1,4 @@
-/** Environment Variables .env */
+/** Environment variables .env */
 require('dotenv').config();
 
 /** Express framework */

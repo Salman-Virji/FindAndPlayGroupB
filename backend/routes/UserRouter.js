@@ -1,24 +1,24 @@
 /** Middleware to create modular, mountable route handlers */
 const router = require('express').Router();
 
-//Node.js module that performs data encryption and decryption
+/** Node.js module that performs data encryption and decryption */
 const crypto = require('crypto');
 
-//Joi module validates the data based on schemas (building schemas to validate JavaScript objects)
+/** Joi module validates the data based on schemas (building schemas to validate JavaScript objects) */
 const Joi = require('joi');
 
-//For salting passwords
+/** For salting passwords */
 const bcrypt = require('bcrypt');
 
-// Reset password middleware, edited name to be more discriptive.
+/** Reset password middleware, edited name to be more discriptive. */
 const sendPasswordResetEmail = require('../utils/sendPasswordResetEmail');
 
-// These are the database models we are using to make instances in this router
+/** These are the database models we are using to make instances in this router */
 const UserModel = require('../models/UserModel');
 const ResetPasswordTokenModel = require('../models/ResetPasswordTokenModel');
 
-/*===========================================================*/
-// @ Thomas / Agyapal
+/** - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/** @ Thomas / Agyapal */
 const SessionTokenModel = require('../models/SessionTokenModel');
 
 router.route('/session/:id').post((req, res) => {
@@ -28,11 +28,11 @@ router.route('/session/:id').post((req, res) => {
 router.route('/session/:id').get( async (req, res) => {
     // get or check if valid session token...
     try {
-        //ISSUE - How to call the model??
+        // ISSUE - How to call the model??
         if (req.header.SessionTokenModel) {
             const token = req.header.SessionTokenModel.split(' ')[1];
             if (token) {
-                //check jwt
+                // check jwt
                 const payload = await jwt.verify(token, process.env.SECRET);
                 if (payload) {
                     req.user = payload;
@@ -53,8 +53,8 @@ router.route('/session/:id').get( async (req, res) => {
     }
 });
 
-/*===========================================================*/
-// @ Jody / Arianne
+/** - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
+/** @ Jody / Arianne */
 router.route('/logout/:id').post((req, res) => {
     // Delete session token if it exists
 });
@@ -67,7 +67,7 @@ router.route('/').get((req, res) => {
 });
 
 /******************************
- **** USER SIGN UP ROUTE *****
+ ***** USER SIGN UP ROUTE *****
  ******************************/
 router.route('/signup').post(async (req, res) => {
     // Creating variables to store in newUser object
@@ -87,13 +87,14 @@ router.route('/signup').post(async (req, res) => {
 
     // If successfull, user will be added, otherwise it will display an error
 
-    /* NOTE: We need to use middleware to check the input entry for sanitation and duplicate entry username/email...So that would mean is the username at least 6 chars or password is strong and email is valid email etc. This is simple to work in here.
+    /** NOTE: We need to use middleware to check the input entry for sanitation and duplicate entry username/email...
+     * So that would mean is the username at least 6 chars or password is strong and email is valid email etc. This is simple to work in here.
      */
 
     newUser
         .save()
         .then(() => {
-            data.msg = `New User ${newUser.username} added`;
+            data.msg = `New user ${newUser.username} added`;
             data.status = true;
             res.json(data);
         })
@@ -103,11 +104,11 @@ router.route('/signup').post(async (req, res) => {
             res.send(data);
         });
 });
-/**** END OF SIGN UP ****/
+/***** END OF USER SIGN UP ROUTE *****/
 
-/*************************************
- **** USER LOGIN / SIGN IN ROUTE *****
- *************************************/
+/*******************************************
+ ***** USER LOGIN / USER SIGN IN ROUTE *****
+ *******************************************/
 router.route('/login').post(async (req, res) => {
     const username = req.body.username.toLowerCase();
     const rawPassword = req.body.password;
@@ -117,10 +118,10 @@ router.route('/login').post(async (req, res) => {
         status: false,
     };
 
-    //Finding an user by username
+    // Finding an user by username
     UserModel.findOne({ username: username })
         .then(async (result) => {
-            //If 'Either' of the fields are empty, the user will be asked to complete them
+            // If 'Either' of the fields are empty, the user will be asked to complete them
             if (username == '' || rawPassword == '') {
                 data.msg = 'Please complete all fields';
                 res.send(data);
@@ -140,23 +141,21 @@ router.route('/login').post(async (req, res) => {
                 data.status = true;
                 res.send(data);
             } else {
-                data.msg = 'Invalid Login. Try again';
+                data.msg = 'Invalid username or password. Please try again.';
                 data.status = false;
                 res.send(data);
             }
         })
         .catch((err) => {
-            data.msg = `User Not Found, ${err.message}`;
+            data.msg = `User not found, ${err.message}`;
             data.status = false;
             res.send(data);
         });
 });
-
-
-/**** END OF SIGN IN / LOGIN ****/
+/***** END OF USER LOGIN / USER SIGN IN ROUTE *****/
 
 /*
- **** RESET PASSWORD TOKEN ROUTE *****
+ ***** RESET PASSWORD TOKEN ROUTE ******
  */
 router.post('/reset-pass', async (req, res) => {
     try {
@@ -189,7 +188,7 @@ router.post('/reset-pass', async (req, res) => {
         console.log(error);
     }
 });
-/**** END OF RESET PASSWORD TOKEN ****/
+/***** END OF RESET PASSWORD TOKEN ROUTE *****/
 
 const path = require('path');
 
@@ -197,17 +196,13 @@ router.get('/:userId/:token', async (req, res) => {
     try {
         res.sendFile(path.join(__dirname + '/reset.html'));
     } catch (error) {
-        res.send('An error occured');
+        res.send('An error occurred');
         console.log(error);
     }
 });
 
 router.post('/:userId/:token', async (req, res) => {
     //console.log(req.body) urlencoded... !
-    
-/** @TODO Small password validation in html */
-/** @TODO Fix token timeout length and test */
-
     try {
         const schema = Joi.object({ password: Joi.string().required() });
 
@@ -233,9 +228,9 @@ router.post('/:userId/:token', async (req, res) => {
 
 /** @TODO Render password set page and close */
 
-        res.send('password reset sucessfully.');
+        res.send('Password reset sucessfully');
     } catch (error) {
-        res.send('An error occured');
+        res.send('An error occurred');
         console.log(error);
     }
 });

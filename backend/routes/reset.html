@@ -32,7 +32,7 @@
                             id="form"
                         >
                             <label for="inputPassword5" class="form-label"
-                                >Create new Password</label
+                                >Create new password</label
                             >
                             <input
                                 type="text"
@@ -49,16 +49,17 @@
                             <label
                                 for="inputPassword5"
                                 class="form-label fw-bold"
-                                >Confirm new Password</label
+                                >Confirm new password</label
                             >
 
-                            <!--Using pattern to follow a password format
+                            <!-- Using pattern to follow a password format
                                 (?=.*\d) means that a number is req,
                                 .{6,} means that the password must be 6 characters long
 
                                 Can also add (?=.*[a-z]) if we require a lowercase letter in our password 
                                 and add (?=.*[A-Z]) if we require an uppercase letter in our password
                             -->
+
                             <input
                                 type="password"
                                 id="inputPassword2"
@@ -96,24 +97,23 @@
                 console.log(input1.value);
             });
 
-
-            //Password Validation
+            // Password validation
 
             // Creating two variables for password and confirmPassword and getting their values from the user input
             var password = document.getElementById("inputPassword1")
                     , confirm_password = document.getElementById("inputPassword2");
 
-            //Function to validate the password
-            function validatePassword(){
-            //If the passwords do not match then it would display the same otherwise it would change the password
-            if(password.value != confirm_password.value) {
-                confirm_password.setCustomValidity("Passwords Don't Match");
-            } else {
-                confirm_password.setCustomValidity('');
-            }
+            // Function to validate the password
+            function validatePassword() {
+                // If the passwords do not match then it would display a message to the user, otherwise it would change the password
+                if(password.value != confirm_password.value) {
+                    confirm_password.setCustomValidity("Passwords do not match");
+                } else {
+                    confirm_password.setCustomValidity('');
+                }
             }
 
-            //Calling the function
+            // Calling the function
             password.onchange = validatePassword;
             confirm_password.onkeyup = validatePassword;
         </script>
