@@ -1,16 +1,42 @@
+
 import React, { useState } from 'react';
+
 import {
-  Button, InputEvent
-  , Image, ImageBackground,
-  StyleSheet, Text,
+  Button,
+  InputEvent,
+  Image,
+  ImageBackground,
+  StyleSheet,
+  Text,
   TouchableOpacity,
-  View, TextInput
-} from 'react-native';
+  View,
+  TextInput,
+} from "react-native";
+
+
 
 export default function JoinGame({navigation,route}) {
     const [code,setCode] = useState("");
     const Player = route.params;
+
   return (
+    <ImageBackground
+      style={{ resizeMode: "contain", flex: 1 }}
+      source={require("../assets/BGs/background2.png")}
+    >
+      <View>
+        <TouchableOpacity>
+          <Text
+            style={{
+              fontSize: 60,
+              position: "absolute",
+              top: 200,
+              left: 240,
+              zIndex: 2,
+            }}
+          >
+            Join Game
+          </Text>
 
     
     <ImageBackground style={{ resizeMode: "contain", flex: 1 }}
@@ -28,7 +54,6 @@ export default function JoinGame({navigation,route}) {
             left: "20%",
             fontWeight: "bold",
             color: "#fff",
-          }} >Join Game</Text>
 
           <TextInput
           onChange={(e) => setCode(e)}
@@ -38,8 +63,10 @@ export default function JoinGame({navigation,route}) {
             placeholderTextColor="#808080"
             autoCapitalize="none"
             style={{
-              position: 'absolute',
-              top:600,
+
+              position: "absolute",
+              top: 300,
+
               borderRightWidth: 2,
               borderLeftWidth: 2,
               borderTopWidth: 2,
@@ -69,8 +96,17 @@ export default function JoinGame({navigation,route}) {
                 source={require('../assets/icons/logoutIcon.png')} 
             /> 
             <Text onPress ={() => navigation.navigate('SigninScreen')} style = {styles.loutoutBtnText} > Logout </Text>
-        </TouchableOpacity>
-
+       
+          <Image
+            source={require("../assets/icons/Logout.png")}
+            style={{
+              width: 150,
+              height: 150,
+              position: "absolute",
+              top: 80,
+              left: 50,
+            }}
+          />
 
           {/* 
 <ImageBackground source={require('./assets/splash.png')}>
@@ -78,92 +114,87 @@ export default function JoinGame({navigation,route}) {
 </ImageBackground> */}
 
 
+          <Image
+            source={require("../assets/icons/Play.png")}
+            style={{
+              width: 150,
+              height: 150,
+              position: "absolute",
+              top: 1000,
+              right: 330,
+            }}
+          />
 
-          <View style={{
-            position: 'absolute',
-            top: 450,
-            left: 250,
+          <Image
+            source={require("../assets/icons/Feed.png")}
+            style={{
+              width: 150,
+              height: 150,
+              position: "absolute",
+              top: 1000,
+              right: 50,
+            }}
+          />
 
-            borderColor: 'black',
-            width: 300,
-            zIndex: 3,
-            fontSize: 30,
+          <View
+            style={{
+              position: "absolute",
+              top: 450,
+              left: 250,
 
-          }} >
-
+              borderColor: "black",
+              width: 300,
+              zIndex: 3,
+              fontSize: 30,
+            }}
+          >
             <TouchableOpacity activeOpacity={0.95} style={styles.button2}>
               <Text style={styles.text}>JOIN</Text>
             </TouchableOpacity>
           </View>
+
       </View>
-      </ImageBackground>
-      );
-    
+    </ImageBackground>
+  );
 }
 
-      const styles = StyleSheet.create({
-        background:{
 
-        position:'absolute',
-      top:200
-
-
-    },
-      texts:{
-        fontSize:30
-
-    },
-    loutoutBtnText:{
-      fontSize:20,
-      fontWeight:'normal',
-      color:"#000000"
-  }, logoutBtnContainer:{ 
-    zIndex: 999, 
-    position:'absolute',
-    top:65,
-    left:30,
-    alignItems:"center",
-    backgroundColor: "#FFE551",
-    padding:15,
-    borderRadius:20,
-    shadowColor: "#000",
-    shadowOffset: {
-  width: 0,
-  height: 12,
-    },
-    shadowOpacity: 0.58,
-    shadowRadius: 16.00,
-    elevation: 24,
-},
-
-      button: {
-        flexDirection: 'row',
-      height: 50,
-      backgroundColor: 'yellow',
-      borderRadius:20,
-
-      alignItems: 'center',
-      justifyContent: 'center',
-      marginTop: 50,
-      elevation:3,
+const styles = StyleSheet.create({
+  background: {
+    position: "absolute",
+    top: 200,
   },
-      button2: {
-        flexDirection: 'row',
-        top:"135%",
-      height: "70%",
-      backgroundColor: 'lightblue',
-      borderRadius:20,
-      alignItems: 'center',
-      justifyContent: 'center',
-      marginTop: 50,
-},
-      text: {
-        fontSize: 40,
-      padding:10,
+  texts: {
+    fontSize: 30,
+  },
 
-      fontWeight: 'bold',
-  }
+  button: {
+    flexDirection: "row",
+    height: 50,
+    backgroundColor: "yellow",
+    borderRadius: 20,
 
-})
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 50,
+    elevation: 3,
+  },
+  button2: {
+    flexDirection: "row",
+    height: 50,
+    backgroundColor: "lightblue",
+    borderRadius: 20,
 
- 
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 50,
+    elevation: 3,
+  },
+  text: {
+    fontSize: 20,
+    padding: 10,
+
+    fontWeight: "bold",
+  },
+});
+
