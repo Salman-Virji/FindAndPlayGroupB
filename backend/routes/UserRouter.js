@@ -33,6 +33,7 @@ router.route('/').get((req, res) => {
  **** USER SIGN UP ROUTE *****
  ******************************/
 router.route('/signup').post(async (req, res) => {
+    console.log(req.body);
     // Creating variables to store in newUser object
     const username = req.body.username.toLowerCase();
     const email = req.body.email.toLowerCase();
@@ -46,7 +47,7 @@ router.route('/signup').post(async (req, res) => {
     // const password = md5(rawPassword);
 
     const newUser = UserModel({ username, email, password });
-
+    console.log(newUser);
     const data = {
         msg: '',
         status: false,

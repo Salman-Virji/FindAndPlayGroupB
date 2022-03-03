@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+
 import {
   Button,
   InputEvent,
@@ -14,9 +15,39 @@ import {
 
 //This component is used to calculate the dimensions of the device and set width of certain components accordingly e.g input box
 import { Dimensions } from "react-native";
+
 const { width, height } = Dimensions.get("window");
 
-function CreateGame({ navigation }) {
+function FormCheck(title,category,timeLimit,difficulty,r,setFormStatus,navigation,Host)
+{
+  if(title == "" || category =="" || timeLimit =="" || difficulty =="")
+  {
+    setFormStatus(true);
+    return;
+  }
+  setFormStatus(false);
+  createLobby(title,timeLimit,category,difficulty,r,navigation,Host);
+}
+
+
+function createLobby(title,timeLimit,category,difficulty,r,navigation,Host)
+{
+  console.log("Before crash\n");
+  console.log("\n host name before sending");
+  console.log("after crash \n");
+  navigation.navigate('gamelobby',{title:title,timeLimit:timeLimit,category:category,difficulty:difficulty,code:r,Host:Host.Username});
+}
+
+
+function CreateGame({ navigation,route }) {
+  const Host = route.params;
+  const [title,setTitle] = useState("");
+  const [category,setCategory] = useState("");
+  const [timeLimit,setTimeLimit] = useState("");
+  const [difficulty,setDifficulty] = useState("");
+  const [formFilled,setFormStatus] = useState(false);
+  const r = (Math.random() + 1).toString(36).substring(7);
+
   return (
     <ImageBackground
       style={{ resizeMode: "contain", flex: 1 }}
@@ -81,17 +112,6 @@ function CreateGame({ navigation }) {
       />
 
       <Image
-        source={require("../assets/icons/Play.png")}
-        style={{
-          width: 150,
-          height: 150,
-          position: "absolute",
-          top: 1000,
-          right: 330,
-        }}
-      />
-
-      <Image
         source={require("../assets/icons/Feed.png")}
         style={{
           width: 150,
@@ -101,15 +121,18 @@ function CreateGame({ navigation }) {
           right: 50,
         }}
       />
-
+      {formFilled? <Text style={styles.hiddenTxt}> please fill out all fields to create a game</Text> : <Text></Text>}
       <TextInput
-        underlineColorAndroid="transparent"
-        placeholder="Title"
-        placeholderTextColor="#fff"
-        autoCapitalize="none"
-        style={{
+          onChangeText={(e) => setTitle(e)}
+          value={title}
+          placeholderTextColor="#808080"
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
+          placeholder="Title"
+          placeholderTextColor="#fff"
+       style={{
           position: "absolute",
-          top: 340,
+          top: "30%",
           borderWidth: 3,
           // width: 350,
           width: width * 0.6,
@@ -127,20 +150,27 @@ function CreateGame({ navigation }) {
         }}
       />
 
-      <TextInput
-        underlineColorAndroid="transparent"
-        placeholder="Category"
-        placeholderTextColor="#fff"
-        autoCapitalize="none"
-        style={{
+         
+<TextInput
+          onChangeText={(e) => setCategory(e)}
+          value={category}
+          placeholderTextColor="#808080"
+          underlineColorAndroid="transparent"
+          autoCapitalize="none"
+          placeholder="Category"
+          placeholderTextColor="#fff"
+       style={{
           position: "absolute",
-          top: 440,
+          top: "37%",
           borderWidth: 3,
+          // width: 350,
           width: width * 0.6,
           alignItems: "center",
           textAlign: "center",
           padding: 12,
           left: 160,
+          fontSize: 30,
+          borderRadius: 20,
           fontSize: 20,
           borderRadius: 20,
           borderColor: "#fff",
@@ -148,15 +178,16 @@ function CreateGame({ navigation }) {
           color: "#fff",
         }}
       />
-
       <TextInput
+        onChangeText={(e) => setTimeLimit (e)}  
+        value={timeLimit}
         underlineColorAndroid="transparent"
         placeholder="Time Limit"
         placeholderTextColor="#fff"
         autoCapitalize="none"
         style={{
           position: "absolute",
-          top: 540,
+          top: "44%",
           borderWidth: 3,
           // width: 350,
           width: width * 0.6,
@@ -171,13 +202,15 @@ function CreateGame({ navigation }) {
           borderColor: "#fff",
           borderRadius: 20,
           color: "#fff",
-        }}
+        }
+      }
+      
       />
 
       <View
         style={{
           position: "absolute",
-          top: 700,
+          top: "56%",
           left: 160,
           borderColor: "black",
           width: 300,
@@ -185,12 +218,14 @@ function CreateGame({ navigation }) {
           fontSize: 20,
         }}
       >
-        <TouchableOpacity activeOpacity={0.95} style={styles.button}>
+        <TouchableOpacity activeOpacity={0.95} style={styles.button} onPress={() =>FormCheck(title,category,difficulty,timeLimit,r,setFormStatus,navigation,Host)}>
           <Text style={styles.text}>HOST</Text>
         </TouchableOpacity>
       </View>
 
       <TextInput
+      onChangeText={(e) => setDifficulty (e)}  
+      value={difficulty}
         underlineColorAndroid="transparent"
         placeholder="Difficulty"
         placeholderTextColor="#fff"
@@ -218,6 +253,12 @@ function CreateGame({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  hiddenTxt:{
+    left:"16%",
+    top:"25%",
+    fontSize:30,
+    color:"#fff"
+  },
   background: {
     position: "absolute",
     top: 200,

@@ -23,8 +23,8 @@ import { Dimensions } from "react-native";
 const { width, height } = Dimensions.get("window");
 
 function SigninScreen({ navigation }) {
-  const [username, setUsername] = useState("Username or Email"); //changed from"user"
-  const [password, setPassword] = useState("Password"); //changed from "pass"
+  const [username, setUsername] = useState(""); //changed from"user"
+  const [password, setPassword] = useState(""); //changed from "pass"
   const [message, setMessage] = useState("");
   const [isSelected, setSelection] = useState(false);
   const [validMsg, setValidmsg] = useState("");
@@ -45,8 +45,8 @@ function SigninScreen({ navigation }) {
       username: username,
       password: password,
     };
-
-    var url = `http://10.0.0.180:3000/users/login`; //Replace by your IP address
+    console.log(body);
+    var url = `http:10.0.0.63:3000/users/login`; //Replace by your IP address
 
     axios
       .post(url, body, navigation)
@@ -56,30 +56,14 @@ function SigninScreen({ navigation }) {
         setMessage(res.data.msg);
 
         if (res.data.status == true) {
-          navigation.navigate("LandingScreen", res.data);
+          console.log(username);
+          navigation.navigate("LandingScreen", {Username:username});
         }
       })
-      .catch((err) => console.log("error"));
+      .catch((err) => console.log(err));
   }
 
-  function SignUp() {
-    const body = {
-      username: username,
-      password: password,
-    };
-    if (username != "" || password != "") {
-      var url = `http://10.0.0.180:3000/users/signup`; //Replace by your IP address
-      axios
-        .post(url, body)
-        .then(() => {
-          clearFields();
-          setMessage("Username is taken");
-        })
-        .catch((err) => console.log("err"));
-    } else {
-      console.log("Empty space");
-    }
-  }
+ 
 
   return (
     //Setting background
@@ -130,6 +114,7 @@ function SigninScreen({ navigation }) {
             placeholderTextColor="#fff"
             autoCapitalize="none"
             value={password}
+            secureTextEntry={true}
             onChangeText={(e) => setPassword(e)}
           />
         </View>
@@ -174,7 +159,7 @@ function SigninScreen({ navigation }) {
             {/* Pressable makes the area Pressable */}
             <Pressable
               style={styles.loginButton}
-              onPress={() => navigation.navigate("LandingScreen")} //changed onclick to go to landingscreen
+              onPress={() => Login(username,password) } //changed onclick to go to landingscreen
             >
               <Text style={styles.loginText}>Login</Text>
             </Pressable>
@@ -182,7 +167,7 @@ function SigninScreen({ navigation }) {
           <View style={{ alignItems: "center" }}>
             <Pressable
               style={styles.btnWithoutAccount}
-              onPress={() => navigation.navigate("LandingScreen")} //changed onclick to go to landingscreen
+              onPress={() => navigation.navigate("LandingScreen",{Username:null})} //changed onclick to go to landingscreen
             >
               <Text style={([styles.loginText], { color: "black" })}>
                 Continue without account
