@@ -1,0 +1,45 @@
+{
+    "gameid": 1,  
+    "teamname": "Team 1",
+    "timelimit": "10:00", 
+    "totalscore": 50,
+    "location": "Park",
+    "playercount": 10,
+    "objectives": 
+        [ 
+            {
+                "objectiveid": 123, 
+                "description": "Squirrel", 
+                "points": 10,
+                "referenceimage": "url", 
+                "picturetaken": "",
+                "score": 0
+            },
+            {
+                "objectiveid": 124, 
+                "description": "Tree", 
+                "points": 5,
+                "referenceimage": "url", 
+                "picturetaken": "url",
+                "score": 5
+            }, 
+
+                {
+                "objective_id": 125, 
+                "description": "Rock", 
+                "points": 8,
+                "referenceimage": "url", 
+                "picturetaken": "url",
+                "score": 0
+            }, 
+            {
+                "objectiveid": 126, 
+                "description": "Lake", 
+                "points": 4,
+                "referenceimage": "url", 
+                "picturetaken": "url",
+                "score": 4
+            }
+        ]
+    
+}
