@@ -1,6 +1,4 @@
-
-import React, { useState } from 'react';
-
+import React from "react";
 import {
   Button,
   InputEvent,
@@ -13,12 +11,7 @@ import {
   TextInput,
 } from "react-native";
 
-
-
-export default function JoinGame({navigation,route}) {
-    const [code,setCode] = useState("");
-    const Player = route.params;
-
+function Joingame(props) {
   return (
     <ImageBackground
       style={{ resizeMode: "contain", flex: 1 }}
@@ -38,65 +31,67 @@ export default function JoinGame({navigation,route}) {
             Join Game
           </Text>
 
-    
-    <ImageBackground style={{ resizeMode: "contain", flex: 1 }}
-     source={require("../assets/BGs/background2.png")} >
-     
-    
-    
+          <Text
+            style={{
+              fontSize: 60,
+              position: "absolute",
+              top: 600,
+              left: 220,
+              zIndex: 2,
+            }}
+          >
+            Create Lobby
+          </Text>
 
-      <View
-      >
-          <Text style={{
-            fontSize: 100,
-            position: 'absolute',
-            top: 250,
-            left: "20%",
-            fontWeight: "bold",
-            color: "#fff",
+          <View
+            style={{
+              position: "absolute",
+              top: 700,
+              left: 250,
+              borderColor: "black",
+              width: 300,
+
+              zIndex: 3,
+              fontSize: 20,
+            }}
+          >
+            <TouchableOpacity activeOpacity={0.95} style={styles.button}>
+              <Text style={styles.text}>CREATE</Text>
+            </TouchableOpacity>
+          </View>
 
           <TextInput
-          onChange={(e) => setCode(e)}
-          value={code}
             underlineColorAndroid="transparent"
             placeholder="Game Code"
             placeholderTextColor="#808080"
             autoCapitalize="none"
             style={{
-
               position: "absolute",
               top: 300,
-
               borderRightWidth: 2,
               borderLeftWidth: 2,
               borderTopWidth: 2,
               borderBottomWidth: 2,
-              width: "80%",
-              alignItems: 'center',
-              textAlign: 'center',
+              width: 350,
+              alignItems: "center",
+              textAlign: "center",
               padding: 12,
-              left: "10%",
-              fontSize: 40,
-              borderRadius: 20
-
-
+              left: 220,
+              fontSize: 30,
+              borderRadius: 20,
             }}
           />
-          <Image source={require('../assets/icons/Settings.png')} style={{
-            width: 150,
-            height: 150,
-            position: 'absolute',
-            top: 80,
-            right: 50
-          }
+          <Image
+            source={require("../assets/icons/Settings.png")}
+            style={{
+              width: 150,
+              height: 150,
+              position: "absolute",
+              top: 80,
+              right: 50,
+            }}
+          />
 
-          } />
-         <TouchableOpacity onPress ={() => navigation.navigate('SigninScreen')} style ={styles.logoutBtnContainer}>
-            <Image
-                source={require('../assets/icons/logoutIcon.png')} 
-            /> 
-            <Text onPress ={() => navigation.navigate('SigninScreen')} style = {styles.loutoutBtnText} > Logout </Text>
-       
           <Image
             source={require("../assets/icons/Logout.png")}
             style={{
@@ -112,7 +107,16 @@ export default function JoinGame({navigation,route}) {
 <ImageBackground source={require('./assets/splash.png')}>
 
 </ImageBackground> */}
-
+          <Image
+            source={require("../assets/icons/Profile.png")}
+            style={{
+              width: 150,
+              height: 150,
+              position: "absolute",
+              top: 1000,
+              left: 50,
+            }}
+          />
 
           <Image
             source={require("../assets/icons/Play.png")}
@@ -152,12 +156,11 @@ export default function JoinGame({navigation,route}) {
               <Text style={styles.text}>JOIN</Text>
             </TouchableOpacity>
           </View>
-
+        </TouchableOpacity>
       </View>
     </ImageBackground>
   );
 }
-
 
 const styles = StyleSheet.create({
   background: {
@@ -198,3 +201,4 @@ const styles = StyleSheet.create({
   },
 });
 
+export default Joingame;
