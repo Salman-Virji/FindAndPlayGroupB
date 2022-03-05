@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Camera } from 'expo-camera';
 import {
   Button,
@@ -16,8 +16,15 @@ import {
 const pictures = [1, 2, 3];
 
 function Card(props) {
+
   return (
-    <View style={page.card}><Text>{props.text}</Text></View>
+    <TouchableOpacity
+      style={page.card}
+
+    >
+
+    </TouchableOpacity>
+
   )
 }
 function CreateCards() {
@@ -35,24 +42,25 @@ function CreateCards() {
 export default function GameScreen({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
-  const cameraRef = useRef(null); 
+  const [image, setImage] = useState(null);
+  const [showCamera, setShowCamera] = useState(false);
+  const cameraRef = useRef(null);
 
   const takePhoto = async () => {
-    if(cameraRef){
+    if (cameraRef) {
       console.log("Taking Photo");
-      try{
+      try {
         let photo = await cameraRef.current.takePictureAsync({
-          allowsEditing:true,
-          aspect:[4,3],
-          quality:1
+          allowsEditing: true,
+          aspect: [4, 3],
+          quality: 1
         });
         return photo;
-      }catch(e){
+      } catch (e) {
         console.log(e);
       }
     }
   };
-
 
   useEffect(() => {
     (async () => {
@@ -68,39 +76,74 @@ export default function GameScreen({ navigation }) {
     return <Text>No access to camera</Text>;
   }
   return (
-    <>
-      <Camera style={styles.camera} type={type} ref={cameraRef}>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              setType(
-                type === Camera.Constants.Type.back
-                  ? Camera.Constants.Type.front
-                  : Camera.Constants.Type.back
-              );
-            }}>
-            <Text style={styles.text}> Flip </Text>
-          </TouchableOpacity>
-        </View>
-        <View style={{ flex: 5, alignItems: "center" }}>
-          <CreateCards />
-        </View>
 
-        <View style={{ alignItems: "center", justifyContent: "center", flex: 4 }}>
+    <>
+      {showCamera ? (
+        <Camera style={styles.camera} type={type} ref={cameraRef}>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                setType(
+                  type === Camera.Constants.Type.back
+                    ? Camera.Constants.Type.front
+                    : Camera.Constants.Type.back
+                );
+              }}>
+              <Text style={styles.text}> Flip </Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity
+              onPress={() => setShowCamera(false)}
+            >
+              <Text style={styles.text}> Hide Camera </Text>
+            </TouchableOpacity>
+
+          </View>
+
+          <View style={{ flex: 5, alignItems: "center" }}>
+
+          </View>
+
+          <View style={{ alignItems: "center", justifyContent: "center", flex: 4 }}>
+            <TouchableOpacity
+              style={page.button}
+              onPress={async () => {
+                const r = await takePhoto();
+                if (!r.cancelled) {
+                  setImage(r.uri);
+                  setShowCamera(false);
+                }
+              }}
+            >
+              <Text>
+                Take Picture
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </Camera>
+        ) : (
+          //WHEN CAMERA IS OFF
+        <View style={{flex:1,justifyContent: "center",alignItems:"center"}}>
+          {image&&(
+            <Image
+              source={{uri:image}}
+              style={{width:200,height:200}}
+            />
+          )}
+
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
           <TouchableOpacity
-            style={page.button}
-            onPress = {async()=>{
-              const r = await takePhoto();
-              Alert.alert("DEBUG",JSON.stringify(r));
-            }}
+            onPress={() => setShowCamera(true)}
           >
-            <Text>
-              Take Picture
-            </Text>
+            
+            <Text>SHOW CAMERA</Text>
           </TouchableOpacity>
+
         </View>
-      </Camera>
+        </View>
+      )}
     </>
   )
 }
@@ -131,8 +174,11 @@ const page = StyleSheet.create({
     justifyContent: 'center',
     margin: 10,
     flex: 1,
-    height: "100%"
-  }
+  },
+  image: {
+    flex: 1,
+    justifyContent: "center"
+  },
 });
 //COMBINE STYLESHEETS
 const styles = StyleSheet.create({
@@ -145,10 +191,10 @@ const styles = StyleSheet.create({
     height: "100%"
   },
   buttonContainer: {
-    flex: 20,
+    flex: 1,
     backgroundColor: 'transparent',
     flexDirection: 'row',
-    margin: 20,
+    margin: 10,
   },
   button: {
     flex: 0.1,
