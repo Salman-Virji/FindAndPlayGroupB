@@ -44,6 +44,7 @@ export default function GameScreen({ navigation }) {
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [image, setImage] = useState(null);
   const [showCamera, setShowCamera] = useState(false);
+  const [objectiveId,setObjectiveId] = useState(null);
   const cameraRef = useRef(null);
 
   const takePhoto = async () => {
@@ -79,6 +80,7 @@ export default function GameScreen({ navigation }) {
 
     <>
       {showCamera ? (
+        //WHEN CAMERA IS ON
         <Camera style={styles.camera} type={type} ref={cameraRef}>
           <View style={styles.buttonContainer}>
             <TouchableOpacity
@@ -113,6 +115,7 @@ export default function GameScreen({ navigation }) {
                 const r = await takePhoto();
                 if (!r.cancelled) {
                   setImage(r.uri);
+                  Alert.alert("Photo taken for objective "+objectiveId)
                   setShowCamera(false);
                 }
               }}
@@ -125,6 +128,7 @@ export default function GameScreen({ navigation }) {
         </Camera>
         ) : (
           //WHEN CAMERA IS OFF
+          
         <View style={{flex:1,justifyContent: "center",alignItems:"center"}}>
           {image&&(
             <Image
@@ -132,15 +136,20 @@ export default function GameScreen({ navigation }) {
               style={{width:200,height:200}}
             />
           )}
-
-        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-          <TouchableOpacity
-            onPress={() => setShowCamera(true)}
-          >
-            
-            <Text>SHOW CAMERA</Text>
-          </TouchableOpacity>
-
+        <View style={{flex:1,justifyContent: "center",alignItems:"center",flexDirection:"row"}}>
+            {objectives.map(x=>{
+              return(
+                <TouchableOpacity
+                  style={page.card}
+                  onPress={()=>{
+                    setShowCamera(true)
+                    setObjectiveId(x.objectiveid)
+                    }}>
+                
+                  <Text>{x.description}</Text>
+                </TouchableOpacity>
+              )
+            })}
         </View>
         </View>
       )}
@@ -170,10 +179,9 @@ const page = StyleSheet.create({
     backgroundColor: '#eceff1',
     padding: 10,
     alignItems: 'center',
-    flexDirection: 'row',
     justifyContent: 'center',
-    margin: 10,
-    flex: 1,
+    margin:10
+
   },
   image: {
     flex: 1,
@@ -207,3 +215,40 @@ const styles = StyleSheet.create({
     color: 'white',
   },
 });
+
+const objectives =
+[ 
+    {
+        "objectiveid": 123, 
+        "description": "Squirrel", 
+        "points": 10,
+        "referenceimage": "url", 
+        "picturetaken": "",
+        "score": 0
+    },
+    {
+        "objectiveid": 124, 
+        "description": "Tree", 
+        "points": 5,
+        "referenceimage": "url", 
+        "picturetaken": "url",
+        "score": 5
+    }, 
+
+        {
+        "objective_id": 125, 
+        "description": "Rock", 
+        "points": 8,
+        "referenceimage": "url", 
+        "picturetaken": "url",
+        "score": 0
+    }, 
+    {
+        "objectiveid": 126, 
+        "description": "Lake", 
+        "points": 4,
+        "referenceimage": "url", 
+        "picturetaken": "url",
+        "score": 4
+    }
+]
