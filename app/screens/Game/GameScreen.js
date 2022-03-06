@@ -4,6 +4,7 @@ import {
   Button,
   InputEvent,
   Image,
+  Dimensions,
   ImageBackground,
   StyleSheet,
   Text,
@@ -13,7 +14,6 @@ import {
   TouchableOpacityBase,
   Alert,
 } from "react-native";
-const pictures = [1, 2, 3];
 
 function Card(props) {
 
@@ -27,24 +27,15 @@ function Card(props) {
 
   )
 }
-function CreateCards() {
-  return (
-    <View style={{ flexDirection: 'row' }}>
-      {pictures.map(x => {
-        return <Card text={x} key={x} />
-      })}
-    </View>
-  )
-
-}
-
 
 export default function GameScreen({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
-  const [image, setImage] = useState(null);
   const [showCamera, setShowCamera] = useState(false);
-  const [objectiveId,setObjectiveId] = useState(null);
+  const [objectives, setObjectives] = useState(tempObj);
+  const [currentObjectiveId, setCurrentObjectiveId] = useState(null);
+
+
   const cameraRef = useRef(null);
 
   const takePhoto = async () => {
@@ -114,8 +105,11 @@ export default function GameScreen({ navigation }) {
               onPress={async () => {
                 const r = await takePhoto();
                 if (!r.cancelled) {
-                  setImage(r.uri);
-                  Alert.alert("Photo taken for objective "+objectiveId)
+                  for(var i = 0 ; i<objectives.length;i++){
+                    if(objectives[i].objectiveid == currentObjectiveId){
+                      objectives[i].picturetaken=r.uri;
+                    }
+                  }
                   setShowCamera(false);
                 }
               }}
@@ -126,31 +120,40 @@ export default function GameScreen({ navigation }) {
             </TouchableOpacity>
           </View>
         </Camera>
-        ) : (
-          //WHEN CAMERA IS OFF
-          
-        <View style={{flex:1,justifyContent: "center",alignItems:"center"}}>
-          {image&&(
-            <Image
-              source={{uri:image}}
-              style={{width:200,height:200}}
-            />
-          )}
-        <View style={{flex:1,justifyContent: "center",alignItems:"center",flexDirection:"row"}}>
-            {objectives.map(x=>{
-              return(
-                <TouchableOpacity
-                  style={page.card}
-                  onPress={()=>{
-                    setShowCamera(true)
-                    setObjectiveId(x.objectiveid)
+      ) : (
+        //WHEN CAMERA IS OFF
+
+        <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+          <View style={{ flex: 1 }}></View>
+          <View style={{ flex: 1, justifyContent: "center", alignItems: "center", flexDirection: "row", flexWrap: "wrap", width: "100%" }}>
+            {objectives.map(x => {
+              if (x.picturetaken == null) {
+                return (
+                  <TouchableOpacity
+                    key={x.objectiveid}
+                    style={page.card}
+                    onPress={() => {
+                      setShowCamera(true)
+                      setCurrentObjectiveId(x.objectiveid)
                     }}>
-                
-                  <Text>{x.description}</Text>
-                </TouchableOpacity>
-              )
+                    <Text>{x.description}</Text>
+                  </TouchableOpacity>
+                )
+              } else {
+                return (
+                  <TouchableOpacity key={x.objectiveid} style={page.card}>
+                    <ImageBackground source={{uri:x.picturetaken}} resizeMode="cover" style={{flex:1,justifyContent: "center",width:"100%",height:"100%"}}>
+                      <Text>{x.description}</Text>
+
+                    </ImageBackground>
+                  </TouchableOpacity>
+                )
+
+
+              }
+
             })}
-        </View>
+          </View>
         </View>
       )}
     </>
@@ -176,12 +179,14 @@ const page = StyleSheet.create({
     color: '#000'
   },
   card: {
-    backgroundColor: '#eceff1',
-    padding: 10,
+    backgroundColor: '#8C92AC',
+    padding: 20,
+    margin: 1,
+    flexBasis: "40%",
     alignItems: 'center',
     justifyContent: 'center',
-    margin:10
-
+    width: Dimensions.get('window').width * 0.5,
+    height: 125
   },
   image: {
     flex: 1,
@@ -216,39 +221,39 @@ const styles = StyleSheet.create({
   },
 });
 
-const objectives =
-[ 
+const tempObj =
+  [
     {
-        "objectiveid": 123, 
-        "description": "Squirrel", 
-        "points": 10,
-        "referenceimage": "url", 
-        "picturetaken": "",
-        "score": 0
+      "objectiveid": 123,
+      "description": "Squirrel",
+      "points": 10,
+      "referenceimage": null,
+      "picturetaken": null,
+      "score": 0
     },
     {
-        "objectiveid": 124, 
-        "description": "Tree", 
-        "points": 5,
-        "referenceimage": "url", 
-        "picturetaken": "url",
-        "score": 5
-    }, 
+      "objectiveid": 124,
+      "description": "Tree",
+      "points": 5,
+      "referenceimage": null,
+      "picturetaken": null,
+      "score": 5
+    },
 
-        {
-        "objective_id": 125, 
-        "description": "Rock", 
-        "points": 8,
-        "referenceimage": "url", 
-        "picturetaken": "url",
-        "score": 0
-    }, 
     {
-        "objectiveid": 126, 
-        "description": "Lake", 
-        "points": 4,
-        "referenceimage": "url", 
-        "picturetaken": "url",
-        "score": 4
+      "objectiveid": 125,
+      "description": "Rock",
+      "points": 8,
+      "referenceimage": null,
+      "picturetaken": null,
+      "score": 0
+    },
+    {
+      "objectiveid": 126,
+      "description": "Cat",
+      "points": 4,
+      "referenceimage": null,
+      "picturetaken": null,
+      "score": 4
     }
-]
+  ]
