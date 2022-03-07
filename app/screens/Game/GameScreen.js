@@ -20,9 +20,7 @@ function Card(props) {
   return (
     <TouchableOpacity
       style={page.card}
-
     >
-
     </TouchableOpacity>
 
   )
@@ -122,10 +120,7 @@ export default function GameScreen({ navigation }) {
         </Camera>
       ) : (
         //WHEN CAMERA IS OFF
-
-        <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-          <View style={{ flex: 1 }}></View>
-          <View style={{ flex: 1, justifyContent: "center", alignItems: "center", flexDirection: "row", flexWrap: "wrap", width: "100%" }}>
+          <View style={{backgroundColor: "#1f1f1f",justifyContent: "center",alignContent: "center",flex:1,flexDirection: "row", flexWrap: "wrap"}}>
             {objectives.map(x => {
               if (x.picturetaken == null) {
                 return (
@@ -141,10 +136,9 @@ export default function GameScreen({ navigation }) {
                 )
               } else {
                 return (
-                  <TouchableOpacity key={x.objectiveid} style={page.card}>
+                  <TouchableOpacity key={x.objectiveid} style={page.card} disabled={true}>
                     <ImageBackground source={{uri:x.picturetaken}} resizeMode="cover" style={{flex:1,justifyContent: "center",width:"100%",height:"100%"}}>
                       <Text>{x.description}</Text>
-
                     </ImageBackground>
                   </TouchableOpacity>
                 )
@@ -154,7 +148,6 @@ export default function GameScreen({ navigation }) {
 
             })}
           </View>
-        </View>
       )}
     </>
   )
@@ -180,13 +173,12 @@ const page = StyleSheet.create({
   },
   card: {
     backgroundColor: '#8C92AC',
-    padding: 20,
     margin: 1,
-    flexBasis: "40%",
+    flexBasis: "33%",
     alignItems: 'center',
     justifyContent: 'center',
-    width: Dimensions.get('window').width * 0.5,
-    height: 125
+    width: Dimensions.get('window').width * 0.33,
+    height: Dimensions.get('window').width * 0.33,
   },
   image: {
     flex: 1,
