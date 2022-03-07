@@ -20,9 +20,7 @@ var cookieParser = require("cookie-parser");
 var session = require("express-session");
 
 
-router.use(function(req,res,next){
-    res.status(404).send("Not found");
-})
+
 
 router.use(cookieParser());
 
@@ -31,13 +29,14 @@ router.use(
         key: "user_sid",
         secret: "SecretFind",
         resave: false,
-        saveUninitialized: false,
+        saveUninitialized:false,
         cookie: {
-          expires: 60000,
+          expires: 7200,
         },
       })
    
 )
+
 
 router.use((req,res,next)=>{
     if(req.cookies.user_sid && !req.session.username){
@@ -48,12 +47,19 @@ res.clearCookie("user_sid");
 
 var sessionChecker = (req,res,next)=>{
     if(req.session.username && req.cookies.user_sid){
-    res.send('TOHomePageafterLogin');
+   res.redirect('/Homepage')
     }
     next();
 }
 
-
+router.route('/Homepage').get((req, res)=>{
+    if(req.session.username && req.cookies.user_sid){
+        res.send("HomePageReached")
+    }
+    else{
+        res.send("You need to login first");
+    }
+})
 
 /** - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /** @ Thomas / Agyapal */
@@ -105,14 +111,7 @@ var sessionChecker = (req,res,next)=>{
 //     res.redirect("/LandingScreen");
 // });
 
-router.route("/Homepage", (req,res)=>{
-    if(req.session.username && req.cookies.user_sid){
-        res.send("HomePageReached")
-    }
-    else{
-        res.send("Login page(Case of failure");
-    }
-})
+
 /** - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /** @ Jody / Arianne */
 router.route('/logout').post((req, res) => {
