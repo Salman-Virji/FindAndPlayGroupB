@@ -1,7 +1,5 @@
 /** Middleware to create modular, mountable route handlers */
 const router = require('express').Router();
-const session = require("express-session");
-const MongoDBStore = require("connect-mongodb-session")(session);
 /** Node.js module that performs data encryption and decryption */
 const crypto = require('crypto');
 
@@ -18,88 +16,128 @@ const sendPasswordResetEmail = require('../utils/sendPasswordResetEmail');
 const UserModel = require('../models/UserModel');
 const ResetPasswordTokenModel = require('../models/ResetPasswordTokenModel');
 
+var cookieParser = require("cookie-parser");
+var session = require("express-session");
+
+
+router.use(function(req,res,next){
+    res.status(404).send("Not found");
+})
+
+router.use(cookieParser());
+
+router.use(
+    session({
+        key: "user_sid",
+        secret: "SecretFind",
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+          expires: 60000,
+        },
+      })
+   
+)
+
+router.use((req,res,next)=>{
+    if(req.cookies.user_sid && !req.session.username){
+res.clearCookie("user_sid");
+    }
+    next();
+})
+
+var sessionChecker = (req,res,next)=>{
+    if(req.session.username && req.cookies.user_sid){
+    res.send('TOHomePageafterLogin');
+    }
+    next();
+}
+
+
+
 /** - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /** @ Thomas / Agyapal */
-const SessionTokenModel = require('../models/SessionTokenModel');
+// const SessionTokenModel = require('../models/SessionTokenModel');
 
-// const store = new MongoDBStore({
-//     uri: " mongodb+srv://test:test@realmcluster.mvyvj.mongodb.net/testDB?retryWrites=true&w=majority",
-//     collection:"sessiontokens"
+// // const store = new MongoDBStore({
+// //     uri: " mongodb+srv://test:test@realmcluster.mvyvj.mongodb.net/testDB?retryWrites=true&w=majority",
+// //     collection:"sessiontokens"
+// // });
+
+// // router.use(
+// //     session({
+// //         secret:"secret",
+// //         resave:false,
+// //         saveUninitialized:false,
+// //         store:store
+// //     })
+// // );
+
+
+
+// router.route('/session/:id').get((req, res) => {
+//     // post new token after login...
+//     const error = req.session.error;
+//     delete req.session.error;
+//     res.render("login", { err: error });
 // });
 
-// router.use(
-//     session({
-//         secret:"secret",
-//         resave:false,
-//         saveUninitialized:false,
-//         store:store
-//     })
-// );
-var store = new MongoDBStore({
-    uri: 'mongodb://localhost:27017/sessiontokens',
-    collection: 'sessiontokens'
-  });
+// router.route('/session/:id').post(async (req, res) => {
+//     // get or check if valid session token...
+//     const { email, password } = req.body;
 
-  store.on('error', function(error) {
-    console.log(error);
-  });
+//     const user = await user.findOne({ email });
 
-router.use(session({
-    secret:'Hidden Message',
-    resave:false,
-    saveUninitialized:true,
-    cookie:{secure:true,
-    maxAge:60000}
-}))
+//     if (!user) {
+//         req.session.error = "Invalid Credentials";
+//         return res.redirect("/login");
+//     }
 
+//     const isMatch = await bcrypt.compare(password, user.password);
 
-router.route('/session/:id').get((req, res) => {
-    // post new token after login...
-    const error = req.session.error;
-    delete req.session.error;
-    res.render("login", { err: error });
-});
+//     if (!isMatch) {
+//         req.session.error = "Invalid Credentials";
+//         return res.redirect("/login");
+//     }
 
-router.route('/session/:id').post(async (req, res) => {
-    // get or check if valid session token...
-    const { email, password } = req.body;
+//     req.session.isAuth = true;
+//     req.session.username = user.username;
+//     res.redirect("/LandingScreen");
+// });
 
-    const user = await user.findOne({ email });
-
-    if (!user) {
-        req.session.error = "Invalid Credentials";
-        return res.redirect("/login");
+router.route("/Homepage", (req,res)=>{
+    if(req.session.username && req.cookies.user_sid){
+        res.send("HomePageReached")
     }
-
-    const isMatch = await bcrypt.compare(password, user.password);
-
-    if (!isMatch) {
-        req.session.error = "Invalid Credentials";
-        return res.redirect("/login");
+    else{
+        res.send("Login page(Case of failure");
     }
-
-    req.session.isAuth = true;
-    req.session.username = user.username;
-    res.redirect("/LandingScreen");
-});
-
+})
 /** - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /** @ Jody / Arianne */
-router.route('/logout/:id').post((req, res) => {
+router.route('/logout').post((req, res) => {
     // Delete session token if it exists
+    if(req.session.username && req.cookies.user_sid){
+        res.clearCookie("user_sid");
+        res.redirect("/");
+
+    }
+    else{
+        res.redirect('/login')
+    }
 });
 
 /******************************
  **** BASE ROUTE *****
  ******************************/
-router.route('/').get((req, res) => {
+router.route('/').get(sessionChecker,(req, res) => {
     res.send('🙂 UserModel Route Connected 🙂');
 });
 
 /******************************
  ***** USER SIGN UP ROUTE *****
  ******************************/
-router.route('/signup').post(async (req, res) => {
+router.route('/signup').post(sessionChecker, async (req, res) => {
     // Creating variables to store in newUser object
     const username = req.body.username.toLowerCase();
     const email = req.body.email.toLowerCase();
@@ -139,7 +177,7 @@ router.route('/signup').post(async (req, res) => {
 /*******************************************
  ***** USER LOGIN / USER SIGN IN ROUTE *****
  *******************************************/
-router.route('/login').post(async (req, res) => {
+router.route('/login').post(sessionChecker, async (req, res) => {
     const username = req.body.username.toLowerCase();
     const rawPassword = req.body.password;
 
@@ -221,6 +259,7 @@ router.post('/reset-pass', async (req, res) => {
 /***** END OF RESET PASSWORD TOKEN ROUTE *****/
 
 const path = require('path');
+const { appendFile } = require('fs');
 
 router.get('/:userId/:token', async (req, res) => {
     try {
