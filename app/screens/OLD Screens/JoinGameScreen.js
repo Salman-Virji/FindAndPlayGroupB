@@ -1,15 +1,4 @@
-import React from "react";
-import {
-  Button,
-  InputEvent,
-  Image,
-  ImageBackground,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  TextInput,
-} from "react-native";
+
 
 function Joingame(props) {
   return (
@@ -40,7 +29,7 @@ function Joingame(props) {
               zIndex: 2,
             }}
           >
-            Create Lobby
+            Create Lobby 11
           </Text>
 
           <View

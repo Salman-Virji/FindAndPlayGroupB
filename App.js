@@ -5,12 +5,12 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 // Importing screen components to Navigation Container
-import Lobby from "./app/screens/GameLobby";
+//import Lobby from "./app/screens/GameLobby";
 import SigninScreen from "./app/screens/SigninScreen";
 import RegisterScreen from "./app/screens/RegisterScreen";
 import RegistarScreenT from "./app/screens/RegisterscreenT";
 import LandingScreen from "./app/screens/LandingScreen";
-import JoinGame from "./app/screens/JoinGameScreen";
+//import JoinGame from "./app/screens/JoinGameScreen";
 import ForgotPasswordScreen from "./app/screens/ForgotPasswordScreen";
 import ForgotPasswordTablet from "./app/screens/ForgotPasswordTablet";
 import CreateGameScreen from "./app/screens/CreateGameScreen";
@@ -57,16 +57,16 @@ function App() {
           component={CreateGameScreen}
           options={{ headerShown: false }}
         />
-        <Stack.Screen
+        {/* <Stack.Screen
           name="JoinGame"
           component={JoinGame}
           options={{ headerShown: false }}
-        />
-        <Stack.Screen
+        /> */}
+         {/* <Stack.Screen
           name="gamelobby"
           component={Lobby}
-          options={{ headerShown: false }}/>
-      </Stack.Navigator>
+          options={{ headerShown: false }}/> */}
+      </Stack.Navigator> 
     </NavigationContainer>
   );
 }
