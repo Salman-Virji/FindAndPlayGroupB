@@ -1,30 +1,15 @@
-import React, { useState, useEffect, useRef } from 'react';
 import { Camera } from 'expo-camera';
+import React, { useEffect, useRef, useState } from 'react';
 import {
-  Button,
-  InputEvent,
-  Image,
   Dimensions,
   ImageBackground,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
-  TextInput,
-  TouchableOpacityBase,
-  Alert,
+  View
 } from "react-native";
+import { CustomCamera } from './Components/CustomCamera';
 
-function Card(props) {
-
-  return (
-    <TouchableOpacity
-      style={page.card}
-    >
-    </TouchableOpacity>
-
-  )
-}
 
 export default function GameScreen({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
@@ -38,10 +23,10 @@ export default function GameScreen({ navigation }) {
 
   const takePhoto = async () => {
     if (cameraRef) {
-      console.log("Taking Photo");
       try {
         let photo = await cameraRef.current.takePictureAsync({
-          allowsEditing: true,
+          autoFocus:false,
+          skipProcessing:true,
           aspect: [4, 3],
           quality: 1
         });
@@ -70,59 +55,13 @@ export default function GameScreen({ navigation }) {
     <>
       {showCamera ? (
         //WHEN CAMERA IS ON
-        <Camera style={styles.camera} type={type} ref={cameraRef}>
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                setType(
-                  type === Camera.Constants.Type.back
-                    ? Camera.Constants.Type.front
-                    : Camera.Constants.Type.back
-                );
-              }}>
-              <Text style={styles.text}> Flip </Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              onPress={() => setShowCamera(false)}
-            >
-              <Text style={styles.text}> Hide Camera </Text>
-            </TouchableOpacity>
-
-          </View>
-
-          <View style={{ flex: 5, alignItems: "center" }}>
-
-          </View>
-
-          <View style={{ alignItems: "center", justifyContent: "center", flex: 4 }}>
-            <TouchableOpacity
-              style={page.button}
-              onPress={async () => {
-                const r = await takePhoto();
-                if (!r.cancelled) {
-                  for(var i = 0 ; i<objectives.length;i++){
-                    if(objectives[i].objectiveid == currentObjectiveId){
-                      objectives[i].picturetaken=r.uri;
-                    }
-                  }
-                  setShowCamera(false);
-                }
-              }}
-            >
-              <Text>
-                Take Picture
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </Camera>
+        CustomCamera(type, cameraRef, setType, setShowCamera, takePhoto, objectives, currentObjectiveId)
       ) : (
         //WHEN CAMERA IS OFF
-          <View style={{backgroundColor: "#1f1f1f",justifyContent: "center",alignContent: "center",flex:1,flexDirection: "row", flexWrap: "wrap"}}>
+        <View style={{flex:1,justifyContent: "center",alignItems: "center",backgroundColor: "#1f1f1f"}}>
+          <View style={{justifyContent: "center",alignContent: "center",flex:1,flexDirection: "row", flexWrap: "wrap"}}>
             {objectives.map(x => {
-              if (x.picturetaken == null) {
+              if (x.picturetaken == null) { //return card w/ picture taken or not
                 return (
                   <TouchableOpacity
                     key={x.objectiveid}
@@ -148,11 +87,14 @@ export default function GameScreen({ navigation }) {
 
             })}
           </View>
+          <TouchableOpacity style={page.button}>
+            <Text>Confirm</Text>
+          </TouchableOpacity>
+        </View>
       )}
     </>
   )
 }
-
 const page = StyleSheet.create({
   button: {
     alignItems: "center",
@@ -249,3 +191,5 @@ const tempObj =
       "score": 4
     }
   ]
+
+
