@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "connect-mongo": "^4.6.0",
     "connect-mongodb-session": "^3.1.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -20,7 +21,7 @@
     "joi": "^17.6.0",
     "jsdoc": "^3.6.10",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.2.1",
+    "mongoose": "^6.2.5",
     "nodemailer": "^6.7.2",
     "nodemon": "^2.0.15"
   }

@@ -11,7 +11,9 @@ const bcrypt = require('bcrypt');
 
 /** Reset password middleware, edited name to be more discriptive. */
 const sendPasswordResetEmail = require('../utils/sendPasswordResetEmail');
+const mongoose = require('mongoose')
 
+const MongoStore = require("connect-mongo");
 /** These are the database models we are using to make instances in this router */
 const UserModel = require('../models/UserModel');
 const ResetPasswordTokenModel = require('../models/ResetPasswordTokenModel');
@@ -19,7 +21,12 @@ const ResetPasswordTokenModel = require('../models/ResetPasswordTokenModel');
 var cookieParser = require("cookie-parser");
 var session = require("express-session");
 
+const url = 'mongodb+srv://test:test@realmcluster.mvyvj.mongodb.net/testDB?retryWrites=true&w=majority';
 
+    let store = new MongoStore({
+        mongoUrl: url,
+        collectionName:"sessiontokens"
+    })
 
 
 router.use(cookieParser());
@@ -28,8 +35,9 @@ router.use(
     session({
         key: "user_sid",
         secret: "SecretFind",
-        resave: false,
-        saveUninitialized:false,
+        resave: true,
+        store: store,
+        saveUninitialized:true,
         cookie: {
           expires: 7200,
         },
@@ -37,6 +45,13 @@ router.use(
    
 )
 
+
+router.use(function(req,res,next){
+    console.log(req.session);
+    console.log("+++++++++++++");
+    console.log(req.user);
+    next();
+})
 
 router.use((req,res,next)=>{
     if(req.cookies.user_sid && !req.session.username){
@@ -183,6 +198,7 @@ router.route('/login').post(sessionChecker, async (req, res) => {
     const data = {
         msg: '',
         status: false,
+        msgs: req.session
     };
 
     // Finding an user by username
@@ -259,6 +275,8 @@ router.post('/reset-pass', async (req, res) => {
 
 const path = require('path');
 const { appendFile } = require('fs');
+const { Mongoose } = require('mongoose');
+const { nextTick } = require('process');
 
 router.get('/:userId/:token', async (req, res) => {
     try {
