@@ -1,6 +1,11 @@
 /** Environment variables .env */
 require('dotenv').config();
-const port = process.env.LOCALHOST_PORT || 3000;
+const PORT = process.env.LOCALHOST_PORT || 3000;
+const ROOT = 'http://localhost:3000/users';
+
+/** MongoDB Connection Logic - Extracted to config folder - Jody */
+const ConnectMongoDB = require('./config/database');
+ConnectMongoDB();
 
 /** Express framework */
 const express = require('express');
@@ -20,8 +25,4 @@ app.use(cors());
 const userRouter = require('./routes/UserRouter');
 app.use('/users', userRouter);
 
-/** MongoDB Connection Logic - Extracted to config folder - Jody */
-require('./config/database');
-Connect_To_MongoDB();
-
-app.listen(port, () => console.log('Server listening on port ' + port));
+app.listen(PORT, () => console.log(`Connected to Port [ ${PORT} ] | Serving [ ${ROOT} ]`));
