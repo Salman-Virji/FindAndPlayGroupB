@@ -1,4 +1,6 @@
-
+import Checkbox from "expo-checkbox";
+import React, { useState } from "react";
+import axios from "axios";
 
 //Importing whatever components are required from react native
 import {
@@ -38,7 +40,7 @@ export default function Lobby({navigation,route})
     >
       <View style={styles.LobbyTitleContainer} >
       <Text style={styles.LobbyName}> {lobby.title}</Text>
-      <Text style={styles.LobbyCode}> 111Game Code :{lobby.code}</Text>
+      <Text style={styles.LobbyCode}> Game Code :{lobby.code}</Text>
       </View>
       <View style={styles.LobbyDetailscontainer}>
         
@@ -68,7 +70,7 @@ export default function Lobby({navigation,route})
           width:"80%",
           backgroundColor:"#50a4ff",
 
-        }}>111 Launch Game </Text>
+        }}> Launch Game </Text>
         </Pressable>
         <Pressable onPress={() => navigation.navigate("LandingScreen",{Username:lobby.Host})} >
           <Text style ={{

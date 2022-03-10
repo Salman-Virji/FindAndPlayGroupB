@@ -16,22 +16,7 @@ import React, { Children, Component, useState } from "react";
 
 
 
-
-
-export default function RegisterScreenT({ navigation }) {
-  // set use state hooks to track singup form input
-
-  const [Username, SetUsername] = useState("Username");
-  const [Email, SetEmail] = useState("Email");
-  const [Password, SetPassword] = useState("Password");
-  const [ConfirmPassword, SetConfirmPassword] = useState("Confirm Password");
-  // uses state to track which msg's should be displayed and update the page dynamically
-  const [usernameV,UpdateUsernameVisbility]= useState(false);
-  const [emailV,UpdateEmailVisbility]= useState(false);
-  const [passwordV,UpdatePassVisbility]= useState(false);
-  const [CpasswordV,UpdateCpassVisbility]= useState(false);
-  
-  function CheckFormFilled(username, password, email,ConfirmPassword)
+function CheckFormFilled(username, password, email,ConfirmPassword,navigation,UpdateUsernameVisbility,UpdateEmailVisbility,UpdatePassVisbility,UpdateCpassVisbility)
 {
   var incomplete = false;
   if(username == "" || username == "Username")
@@ -76,7 +61,7 @@ export default function RegisterScreenT({ navigation }) {
     SignUp(username,password,email,navigation)
   }
 }
-function SignUp(username, password, email) {
+function SignUp(username, password, email, navigation) {
   const body = {
     username: username,
     email: email,
@@ -91,6 +76,19 @@ function SignUp(username, password, email) {
       })
       .catch((err) => console.log(err));
 }
+
+export default function RegisterScreenT({ navigation }) {
+  // set use state hooks to track singup form input
+
+  const [Username, SetUsername] = useState("Username");
+  const [Email, SetEmail] = useState("Email");
+  const [Password, SetPassword] = useState("Password");
+  const [ConfirmPassword, SetConfirmPassword] = useState("Confirm Password");
+  // uses state to track which msg's should be displayed and update the page dynamically
+  const [usernameV,UpdateUsernameVisbility]= useState(false);
+  const [emailV,UpdateEmailVisbility]= useState(false);
+  const [passwordV,UpdatePassVisbility]= useState(false);
+  const [CpasswordV,UpdateCpassVisbility]= useState(false);
   return (
     <ImageBackground
       style={styles.background}
@@ -113,7 +111,7 @@ function SignUp(username, password, email) {
       
         {//inoput fields and disdplay mesages for if form is not completed properly
         // controlls if the text is visible or not
-         usernameV ? <Text style={ styles.inputTxt}>Please enter a username</Text> :<Text style={ styles.inputTxt}></Text>}
+         usernameV ? <Text style={styles.input, styles.inputTxt}>Please enter a username</Text> :<Text style={styles.input, styles.inputTxt}></Text>}
         <TextInput
           style={styles.input}
           onChangeText={(e) => SetUsername(e)}
@@ -121,8 +119,9 @@ function SignUp(username, password, email) {
           underlineColorAndroid="transparent"
           autoCapitalize="none"
           placeholder="Username"
+          placeholderTextColor="#fff"
         />
-        { emailV ? <Text style={ styles.inputTxt}>Please enter a Valid Email</Text> : <Text style={ styles.inputTxt}></Text>}
+        { emailV ? <Text style={styles.input, styles.inputTxt}>Please enter a Valid Email</Text> : <Text style={styles.input, styles.inputTxt}></Text>}
         
         <TextInput
           style={styles.input}
@@ -130,17 +129,19 @@ function SignUp(username, password, email) {
           placeholder="Email"
           placeholderTextColor="#808080"
           autoCapitalize="none"
+          placeholderTextColor="#fff"
         />
-        { passwordV ? <Text style={styles.inputTxt}>Please enter a Password</Text> : <Text style={styles.inputTxt}></Text>}
+        { passwordV ? <Text style={styles.input, styles.inputTxt}>Please enter a Password</Text> : <Text style={styles.input, styles.inputTxt}></Text>}
         <TextInput
           style={styles.input}
           onChangeText={(e) => SetPassword(e)}
           placeholder="Password"
           placeholderTextColor="#808080"
           autoCapitalize="none"
+          placeholderTextColor="#fff"
           secureTextEntry={true}
         />
-        { CpasswordV ? <Text style={ styles.inputTxtP}>Please make sure your passwords match</Text> : <Text style={ styles.inputTxtP}></Text>}
+        { CpasswordV ? <Text style={styles.input, styles.inputTxtP}>Please make sure your passwords match</Text> : <Text style={styles.input,  styles.inputTxtP}></Text>}
         <TextInput
           style={styles.input}
           onChangeText={(e) => SetConfirmPassword(e)}
@@ -148,6 +149,7 @@ function SignUp(username, password, email) {
           placeholderTextColor="#808080"
           secureTextEntry={true}
           autoCapitalize="none"
+          placeholderTextColor="#fff"
         />
       </View>
 
