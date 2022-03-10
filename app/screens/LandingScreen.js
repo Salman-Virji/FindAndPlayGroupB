@@ -51,7 +51,7 @@ function LandingScreen({navigation,route}) {
                     margin:10,
                     border:2,
                     borderColor:'#000000'
-                }} onPress={() => navigation.navigate('JoinGame', {Username:Username})}>
+                }} onPress={() => navigation.navigate('CreateGameScreen', {Username:Username})}>
                     <Text style={{
                         textAlign:'center',
                         left:'10%',
@@ -126,7 +126,7 @@ function LandingScreen({navigation,route}) {
             </TouchableOpacity>
 
             {/*play button*/}  
-            <TouchableOpacity onPress ={() => Username.Username? setVisibility(true):navigation.navigate('JoinGame')} style={styles.ppfBtnImg}>
+            <TouchableOpacity onPress ={() => Username.Username? setVisibility(true):navigation.navigate('CreateGameScreen')} style={styles.ppfBtnImg}>
             <Image
                 source={require('../assets/icons/controllerIcon.png')} 
             />
