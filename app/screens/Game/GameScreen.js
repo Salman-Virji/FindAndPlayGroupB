@@ -15,6 +15,8 @@ import {
   Alert,
 } from "react-native";
 
+import ChooseObjectiveCard from './ChooseObjectiveCard';
+
 function Card(props) {
 
   return (
@@ -124,15 +126,17 @@ export default function GameScreen({ navigation }) {
             {objectives.map(x => {
               if (x.picturetaken == null) {
                 return (
+                    <>
                   <TouchableOpacity
-                    key={x.objectiveid}
+                    key={x}
                     style={page.card}
                     onPress={() => {
                       setShowCamera(true)
                       setCurrentObjectiveId(x.objectiveid)
                     }}>
-                    <Text>{x.description}</Text>
+                    <ChooseObjectiveCard text={x.description} source={x.referenceimage} key={x.objectiveid}/>
                   </TouchableOpacity>
+                  </>
                 )
               } else {
                 return (
@@ -140,6 +144,7 @@ export default function GameScreen({ navigation }) {
                     <ImageBackground source={{uri:x.picturetaken}} resizeMode="cover" style={{flex:1,justifyContent: "center",width:"100%",height:"100%"}}>
                       <Text>{x.description}</Text>
                     </ImageBackground>
+                    {/* <ChooseObjectiveCard text={x.description} source={{x.}}></ChooseObjectiveCard> */}
                   </TouchableOpacity>
                 )
 
@@ -151,6 +156,10 @@ export default function GameScreen({ navigation }) {
       )}
     </>
   )
+}
+const onPressFunction=() => {
+  setShowCamera(true)
+  setCurrentObjectiveId(x.objectiveid)
 }
 
 const page = StyleSheet.create({
@@ -219,7 +228,7 @@ const tempObj =
       "objectiveid": 123,
       "description": "Squirrel",
       "points": 10,
-      "referenceimage": null,
+      referenceimage: "squirrel",
       "picturetaken": null,
       "score": 0
     },
@@ -227,16 +236,16 @@ const tempObj =
       "objectiveid": 124,
       "description": "Tree",
       "points": 5,
-      "referenceimage": null,
+      "referenceimage": "tree",
       "picturetaken": null,
       "score": 5
     },
 
     {
       "objectiveid": 125,
-      "description": "Rock",
+      "description": "Bird",
       "points": 8,
-      "referenceimage": null,
+      "referenceimage": "bird",
       "picturetaken": null,
       "score": 0
     },
@@ -244,7 +253,7 @@ const tempObj =
       "objectiveid": 126,
       "description": "Cat",
       "points": 4,
-      "referenceimage": null,
+      "referenceimage": "cat",
       "picturetaken": null,
       "score": 4
     }

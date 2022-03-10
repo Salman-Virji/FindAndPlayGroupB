@@ -25,16 +25,16 @@ export default function ChooseObjectiveScreen({navigation}){
       >
           <View style={page.container}>
             <View style={{flex:1,padding:10, width:"90%", height: "20%"}}>
-                <View style={{flex:1,marginTop:20,justifyContent:"center",alignItems: "center"}}>
-                <Text style={styles.logo}> Can you find?</Text>
+                <View style={styles.title}>
+                  <Text style={styles.logo}> Can you find?</Text>
                 </View>
-                <View style={{flex:1,margin:0,justifyContent:"center",alignItems: "center"}}>
+                <View style={styles.timer}>
                     <Text style={styles.logo}>00:00</Text>
                 </View>
-                <View style={{flex:8,marginTop:10,justifyContent:"center",alignItems: "center"}}>
-                    <View style={{flex:1,flexDirection:"row", margin:0,justifyContent:"center",alignItems: "center"}}>
-                      <View style={{flex:1, flexDirection:"column", margin:5, height: "100%", justifyContent:"center",alignItems: "center"}}>
-                          <View style={{flex:4, flexDirection:"column", margin:5, height: "100%", width: "100%",justifyContent:"center",alignItems: "center"}}>
+                <View style={styles.objectives_container}>
+                    <View style={styles.objectives_row}>
+                      <View style={styles.single_objective}>
+                          <View style={styles.image_container}>
                               <Image
                                   source={require("../../assets/images/red-squirrel.jpg")}
                                   style={{
@@ -50,8 +50,8 @@ export default function ChooseObjectiveScreen({navigation}){
                           </View>
                       </View>
 
-                      <View style={{flex:1, flexDirection:"column", margin:5, height: "100%", justifyContent:"center",alignItems: "center"}}>
-                          <View style={{flex:4, flexDirection:"column", margin:5, height: "100%", width:"100%", justifyContent:"center",alignItems: "center"}}>
+                      <View style={styles.single_objective}>
+                          <View style={styles.image_container}>
                           <Image
                                   source={require("../../assets/images/tree.jpg")}
                                   style={{
@@ -66,9 +66,9 @@ export default function ChooseObjectiveScreen({navigation}){
                           </View>
                       </View>
                     </View>
-                    <View style={{flex:1,flexDirection:"row", margin:0,justifyContent:"center",alignItems: "center"}}>
-                      <View style={{flex:1, flexDirection:"column", margin:5, height: "100%", justifyContent:"center",alignItems: "center"}}>
-                          <View style={{flex:4, flexDirection:"column", margin:5, height: "100%", width: "100%", justifyContent:"center",alignItems: "center"}}>
+                    <View style={styles.objectives_row}>
+                      <View style={styles.single_objective}>
+                          <View style={styles.image_container}>
                           <Image
                                   source={require("../../assets/images/cat.jpg")}
                                   style={{
@@ -83,8 +83,8 @@ export default function ChooseObjectiveScreen({navigation}){
                           </View>
                       </View>
 
-                      <View style={{flex:1, flexDirection:"column", margin:5, height: "100%",justifyContent:"center",alignItems: "center"}}>
-                          <View style={{flex:4, flexDirection:"column", margin:5, height: "100%", width: "100%",justifyContent:"center",alignItems: "center"}}>
+                      <View style={styles.single_objective}>
+                          <View style={styles.image_container}>
                           <Image
                                   source={require("../../assets/images/bird.jpg")}
                                   style={{
@@ -106,7 +106,7 @@ export default function ChooseObjectiveScreen({navigation}){
                     </View>
 
               </View>
-              <View style={{alignItems: "center",justifyContent:"center",flex:1}}>
+              <View style={styles.objectives_nav_container}>
               </View>
           </View>
 
@@ -129,6 +129,60 @@ const page = StyleSheet.create({
   });
 
   const styles = StyleSheet.create({
+
+    title: {
+      flex:1,
+      marginTop:20,
+      justifyContent:"center",
+      alignItems: "center"
+    },
+
+    timer: {
+      flex:1,
+      margin:0,
+      justifyContent:"center",
+      alignItems: "center"
+    },
+
+    objectives_container:{
+      flex:8,
+      marginTop:10,
+      justifyContent:"center",
+      alignItems: "center"
+    },
+
+    objectives_nav_container: {
+      alignItems: "center",
+      justifyContent:"center",
+      flex:1
+    },
+
+    objectives_row: {
+      flex:1,
+      flexDirection:"row", 
+      margin:0,
+      justifyContent:"center",
+      alignItems: "center"
+    },
+
+    single_objective:{
+      flex:1, 
+      flexDirection:"column", 
+      margin:5, height: "100%", 
+      justifyContent:"center",
+      alignItems: "center"
+    },
+
+    image_container:{
+      flex:4, 
+      flexDirection:"column", 
+      margin:5, 
+      height: "100%", 
+      width: "100%",
+      justifyContent:"center",
+      alignItems: "center"
+
+    },
 
     logo: {
       //text css
