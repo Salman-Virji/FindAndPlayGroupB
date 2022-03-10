@@ -1,5 +1,6 @@
 /** Middleware to create modular, mountable route handlers */
 const router = require('express').Router();
+
 /** Node.js module that performs data encryption and decryption */
 const crypto = require('crypto');
 
@@ -11,70 +12,71 @@ const bcrypt = require('bcrypt');
 
 /** Reset password middleware, edited name to be more discriptive. */
 const sendPasswordResetEmail = require('../utils/sendPasswordResetEmail');
-const mongoose = require('mongoose')
 
-const MongoStore = require("connect-mongo");
+// const mongoose = require('mongoose')
+// const MongoStore = require("connect-mongo");
+
 /** These are the database models we are using to make instances in this router */
 const UserModel = require('../models/UserModel');
 const ResetPasswordTokenModel = require('../models/ResetPasswordTokenModel');
 
-var cookieParser = require("cookie-parser");
-var session = require("express-session");
+/** Added by Arianne when trying to implement a cookie session */
+const jwt = require('jsonwebtoken');
 
-const url = 'mongodb+srv://test:test@realmcluster.mvyvj.mongodb.net/testDB?retryWrites=true&w=majority';
+// var cookieParser = require("cookie-parser");
+// var session = require("express-session");
 
-    let store = new MongoStore({
-        mongoUrl: url,
-        collectionName:"sessiontokens"
-    })
+// const url = 'mongodb+srv://test:test@realmcluster.mvyvj.mongodb.net/testDB?retryWrites=true&w=majority';
 
+//     let store = new MongoStore({
+//         mongoUrl: url,
+//         collectionName:"sessiontokens"
+//     })
 
-router.use(cookieParser());
+// router.use(cookieParser());
 
-router.use(
-    session({
-        key: "user_sid",
-        secret: "SecretFind",
-        resave: true,
-        store: store,
-        saveUninitialized:true,
-        cookie: {
-          expires: 7200,
-        },
-      })
-   
-)
+// router.use(
+//     session({
+//         key: "user_sid",
+//         secret: "SecretFind",
+//         resave: true,
+//         store: store,
+//         saveUninitialized:true,
+//         cookie: {
+//           expires: 7200,
+//         },
+//       })
+// )
 
+// router.use(function(req,res,next){
+//     console.log(req.session);
+//     console.log("+++++++++++++");
+//     console.log(req.user);
+//     next();
+// })
 
-router.use(function(req,res,next){
-    console.log(req.session);
-    console.log("+++++++++++++");
-    console.log(req.user);
-    next();
-})
+// router.use((req,res,next)=>{
+//     if(req.cookies.user_sid && !req.session.username){
+// res.clearCookie("user_sid");
+//     }
+//     next();
+// })
 
-router.use((req,res,next)=>{
-    if(req.cookies.user_sid && !req.session.username){
-res.clearCookie("user_sid");
-    }
-    next();
-})
+// var sessionChecker = (req,res,next)=>{
+//     if(req.session.username && req.cookies.user_sid){
+//    res.redirect('/Homepage')
+//     }
+//     next();
+// }
 
-var sessionChecker = (req,res,next)=>{
-    if(req.session.username && req.cookies.user_sid){
-   res.redirect('/Homepage')
-    }
-    next();
-}
-
-router.route('/Homepage').get((req, res)=>{
-    if(req.session.username && req.cookies.user_sid){
-        res.send("HomePageReached")
-    }
-    else{
-        res.send("You need to login first");
-    }
-})
+// router.route('/Homepage').get((req, res)=>{
+//     if(req.session.username && req.cookies.user_sid){
+//         res.send("HomePageReached")
+//     }
+//     else{
+//         res.send("You need to login first");
+//     }
+// })
 
 /** - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /** @ Thomas / Agyapal */
@@ -93,8 +95,6 @@ router.route('/Homepage').get((req, res)=>{
 // //         store:store
 // //     })
 // // );
-
-
 
 // router.route('/session/:id').get((req, res) => {
 //     // post new token after login...
@@ -126,32 +126,38 @@ router.route('/Homepage').get((req, res)=>{
 //     res.redirect("/LandingScreen");
 // });
 
-
 /** - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - */
 /** @ Jody / Arianne */
-router.route('/logout').post((req, res) => {
-    // Delete session token if it exists
-    if(req.session.username && req.cookies.user_sid){
-        res.clearCookie("user_sid");
-        res.redirect("/");
+// router.route('/logout').post((req, res) => {
+//     // Delete session token if it exists
+//     if(req.session.username && req.cookies.user_sid){
+//         res.clearCookie("user_sid");
+//         res.redirect("/");
 
-    }
-    else{
-        res.redirect('/login')
-    }
-});
+//     }
+//     else{
+//         res.redirect('/login')
+//     }
+// });
+
+/** Added by Arianne when trying to implement a cookie session */
+// router.route('/logout').post((req, res) => {
+//     res.clearCookie('nToken');
+//     res.redirect("/");
+//     //return res.redirect('/');
+// });
 
 /******************************
  **** BASE ROUTE *****
  ******************************/
-router.route('/').get(sessionChecker,(req, res) => {
+router.route('/').get((req, res) => {
     res.send('🙂 UserModel Route Connected 🙂');
 });
 
 /******************************
  ***** USER SIGN UP ROUTE *****
  ******************************/
-router.route('/signup').post(sessionChecker, async (req, res) => {
+router.route('/signup').post(async (req, res) => {
     // Creating variables to store in newUser object
     const username = req.body.username.toLowerCase();
     const email = req.body.email.toLowerCase();
@@ -176,9 +182,16 @@ router.route('/signup').post(sessionChecker, async (req, res) => {
     newUser
         .save()
         .then(() => {
+            /** Added by Arianne when trying to implement a cookie session */
+            //const token = jwt.sign({ _id: user._id }, process.env.SECRET, { expiresIn: '2 hours'});
+            //res.cookie('nToken', token, { maxAge: 2 * 60 * 60 * 1000, httpOnly: true });
+
             data.msg = `New user ${newUser.username} added`;
             data.status = true;
             res.json(data);
+            /** Added by Arianne when trying to implement a cookie session */
+            //res.redirect('/');
+            //return res.redirect('/');
         })
         .catch((err) => {
             data.msg = 'Error: ' + err;
@@ -191,14 +204,14 @@ router.route('/signup').post(sessionChecker, async (req, res) => {
 /*******************************************
  ***** USER LOGIN / USER SIGN IN ROUTE *****
  *******************************************/
-router.route('/login').post(sessionChecker, async (req, res) => {
+router.route('/login').post(async (req, res) => {
     const username = req.body.username.toLowerCase();
     const rawPassword = req.body.password;
 
     const data = {
         msg: '',
         status: false,
-        msgs: req.session
+        //msgs: req.session
     };
 
     // Finding an user by username
@@ -219,10 +232,21 @@ router.route('/login').post(sessionChecker, async (req, res) => {
             );
 
             if (validation) {
+                /** Added by Arianne when trying to implement a cookie session */
+                // // Create a token
+                // const token = jwt.sign({ _id: user._id, username: user.username }, process.env.SECRET, {
+                //     expiresIn: '2 hours'
+                // });
+                // // Set a cookie and redirect to root
+                // res.cookie('nToken', token, { maxAge: 2 * 60 * 60 * 1000, httpOnly: true });
+
                 // SET SESSION TOKEN IN DB  middleware function to set session cookie.
                 data.msg = `${username} AUTHENTICATED - SET SESSION TOKEN AND SEND USER TO MAIN AREA OF APP`;
                 data.status = true;
                 res.send(data);
+                /** Added by Arianne when trying to implement a cookie session */
+                //res.redirect('/');
+                //return res.redirect('/');
             } else {
                 data.msg = 'Invalid username or password. Please try again.';
                 data.status = false;

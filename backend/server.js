@@ -6,9 +6,15 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 
+/** Added by Arianne when trying to implement a cookie session */
+const cookieParser = require('cookie-parser');
+
 app.use(express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+/** Added by Arianne when trying to implement a cookie session */
+app.use(cookieParser());
 
 /** Cross-origin resource sharing for tranfering data between front and backend */
 app.use(cors());
