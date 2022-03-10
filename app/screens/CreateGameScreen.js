@@ -44,6 +44,10 @@ function createLobby(title,timeLimit,category,difficulty,playerCount,objective,n
 
 function CreateGame({ navigation,route }) {
   const Host = route.params;
+  /*example json object
+   const [location,setLocation] = useState({Value:"Team Name",Index:null});
+
+  */
   const [title,setTitle] = useState("Team Name");
   const [location,setLocation] = useState("Location");
   const [category,setCategory] = useState("");
@@ -60,6 +64,18 @@ function CreateGame({ navigation,route }) {
 
   //Location option toggle 
   function toggleLocation(){
+    /*example json array
+    
+      var Locations =["Schoolyard","Nature Park","Playground"]
+
+        Switch(location)
+        {
+          case null:
+              break;
+              
+        }
+    */
+
     if(location == "Location")
     {
       setLocation(location => location = "School Yard")
