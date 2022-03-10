@@ -33,7 +33,7 @@ export default function Lobby({navigation,route})
     return(
       <ImageBackground
       style={styles.background}
-      source={require("../assets/BGs/background2.png")}
+      source={require("../../assets/BGs/background2.png")}
       
     >
       <View style={styles.LobbyTitleContainer} >
@@ -84,7 +84,7 @@ export default function Lobby({navigation,route})
         }}> Cancel </Text>
         </Pressable>  
         </View>
-      <Image source={require('../assets/icons/Settings.png')} style={{
+      <Image source={require('../../assets/icons/Settings.png')} style={{
             width: 150,
             height: 150,
             position: 'absolute',
@@ -95,7 +95,7 @@ export default function Lobby({navigation,route})
           } />
          <TouchableOpacity onPress ={() => navigation.navigate('SigninScreen')} style ={styles.logoutBtnContainer}>
             <Image
-                source={require('../assets/icons/logoutIcon.png')} 
+                source={require('../../assets/icons/logoutIcon.png')} 
             /> 
             <Text onPress ={() => navigation.navigate('SigninScreen')} style = {styles.loutoutBtnText} > Logout </Text>
         </TouchableOpacity>

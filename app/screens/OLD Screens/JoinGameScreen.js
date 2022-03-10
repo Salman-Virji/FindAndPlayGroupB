@@ -4,7 +4,7 @@ function Joingame(props) {
   return (
     <ImageBackground
       style={{ resizeMode: "contain", flex: 1 }}
-      source={require("../assets/BGs/background2.png")}
+      source={require("../../assets/BGs/background2.png")}
     >
       <View>
         <TouchableOpacity>
@@ -71,7 +71,7 @@ function Joingame(props) {
             }}
           />
           <Image
-            source={require("../assets/icons/Settings.png")}
+            source={require("../../assets/icons/Settings.png")}
             style={{
               width: 150,
               height: 150,
@@ -82,7 +82,7 @@ function Joingame(props) {
           />
 
           <Image
-            source={require("../assets/icons/Logout.png")}
+            source={require("../../assets/icons/Logout.png")}
             style={{
               width: 150,
               height: 150,
@@ -97,7 +97,7 @@ function Joingame(props) {
 
 </ImageBackground> */}
           <Image
-            source={require("../assets/icons/Profile.png")}
+            source={require("../../assets/icons/Profile.png")}
             style={{
               width: 150,
               height: 150,
@@ -108,7 +108,7 @@ function Joingame(props) {
           />
 
           <Image
-            source={require("../assets/icons/Play.png")}
+            source={require("../../assets/icons/Play.png")}
             style={{
               width: 150,
               height: 150,
@@ -119,7 +119,7 @@ function Joingame(props) {
           />
 
           <Image
-            source={require("../assets/icons/Feed.png")}
+            source={require("../../assets/icons/Feed.png")}
             style={{
               width: 150,
               height: 150,

@@ -5,12 +5,12 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 // Importing screen components to Navigation Container
-import Lobby from "./app/screens/GameLobby";
+import Lobby from "./app/screens/OLD Screens/GameLobby";
 import SigninScreen from "./app/screens/SigninScreen";
 import RegisterScreen from "./app/screens/RegisterScreen";
 import RegistarScreenT from "./app/screens/RegisterscreenT";
 import LandingScreen from "./app/screens/LandingScreen";
-import JoinGame from "./app/screens/JoinGameScreen";
+import JoinGame from "./app/screens/OLD Screens/JoinGameScreen";
 import ForgotPasswordScreen from "./app/screens/ForgotPasswordScreen";
 import ForgotPasswordTablet from "./app/screens/ForgotPasswordTablet";
 import CreateGameScreen from "./app/screens/CreateGameScreen";
