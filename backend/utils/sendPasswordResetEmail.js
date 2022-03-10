@@ -1,16 +1,3 @@
-/**
- * NOTES
- * @summary
- * 1. Extracted the AUTH detail as it should not be public see .env, as per docs.
- * 2. Updated some of the variable names to be more descriptive.
- * 3. Updated the transporter method with text link and html too.
- * 4. Removed the subtitle param as this won't change, it's hardcoded into the function.
- * 5. Added JSDoc support for clear documentation and commenting. Ref: AirBnb or google code style guides for more info.
- *
- * Using ethreal for testing email sent
- * https://ethereal.email/login
- */
-
 /** Node.js module to allow email sending */
 const nodemailer = require('nodemailer');
 
@@ -113,34 +100,3 @@ const sendPasswordResetEmail = async (userEmail, resetTokenLink) => {
 };
 
 module.exports = sendPasswordResetEmail;
-
-// PREVIOUS CODE
-// const nodemailer = require("nodemailer");
-
-// const sendEmail = async (email, subject, text) => {
-//     try {
-//         const transporter = nodemailer.createTransport({
-//             //host: gmail,
-//             service: "Gmail",
-//             port: 587,
-//             secure: true,
-//             auth: {
-//                 user: 'findandplay78@gmail.com',
-//                 pass: 'FindAndPlay'
-//             },
-//         });
-
-//         await transporter.sendMail({
-//             from: 'findandplay78@gmail.com',
-//             to: email,
-//             subject: subject,
-//             text: text
-//         });
-
-//         console.log("Email sent sucessfully");
-//     } catch (error) {
-//         console.log(error, "Email not sent");
-//     }
-// };
-
-// module.exports = sendEmail;
