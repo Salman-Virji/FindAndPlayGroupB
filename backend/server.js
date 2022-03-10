@@ -3,14 +3,19 @@ require('dotenv').config();
 const PORT = process.env.LOCALHOST_PORT || 3000;
 const ROOT = 'http://localhost:3000/users';
 
-/** MongoDB Connection Logic - Extracted to config folder - Jody */
+/** MongoDB Connection Logic */
 const ConnectMongoDB = require('./config/database');
 ConnectMongoDB();
 
 /** Express framework */
 const express = require('express');
 const app = express();
-app.use(express.static('public'));
+
+/** Define view engine and static paths */
+const path = require('path');
+app.set('view engine', 'ejs');
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'views')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -22,7 +27,7 @@ app.use(cookieParser());
 const cors = require('cors');
 app.use(cors());
 
-const userRouter = require('./routes/UserRouter');
-app.use('/users', userRouter);
+app.use('/users', require('./routes/Auth.routes'));
+app.use('/', require('./routes/Other.routes'));
 
 app.listen(PORT, () => console.log(`Connected to Port [ ${PORT} ] | Serving [ ${ROOT} ]`));
