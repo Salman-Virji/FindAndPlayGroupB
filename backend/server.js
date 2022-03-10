@@ -27,7 +27,7 @@ app.use(cookieParser());
 const cors = require('cors');
 app.use(cors());
 
-app.use('/users', require('./routes/Auth.routes'));
+app.use('/auth', require('./routes/Auth.routes'));
 app.use('/', require('./routes/Other.routes'));
 
 app.listen(PORT, () => console.log(`Connected to Port [ ${PORT} ] | Serving [ ${ROOT} ]`));
