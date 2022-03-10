@@ -1,10 +1,12 @@
 const router = require('express').Router();
+const { DisplayRoot, DisplayReset } = require('../controllers/Other.controller')
 
 /**
- * Routing: http://localhost:3000/
+ * @summary Routing
+ * Base: http://localhost:3000/
+ * Test Reset Form: http://localhost:3000/reset
  */
-router.get('/', (req, res) => {
-    res.render('root');
-});
+router.get('/', DisplayRoot);
+router.get('/reset', DisplayReset);
 
 module.exports = router;
