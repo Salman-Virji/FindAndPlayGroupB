@@ -1,3 +1,4 @@
+import { Center, Switch } from "native-base";
 import React, { useState } from "react";
 
 import {
@@ -13,13 +14,13 @@ import {
   TouchableOpacityBase,
   Pressable,
 } from "react-native";
-
+import { RFPercentage } from "react-native-responsive-fontsize";
 //This component is used to calculate the dimensions of the device and set width of certain components accordingly e.g input box
 import { Dimensions } from "react-native";
 
 const { width, height } = Dimensions.get("window");
 
-function FormCheck(title,category,timeLimit,difficulty,r,setFormStatus,navigation,Host)
+function FormCheck(title,category,timeLimit,difficulty,setFormStatus,playerCount,objective,navigation,Host)
 {
   if(title == "" || category =="" || timeLimit =="" || difficulty =="" || playerCount =="" || objective =="")
   {
@@ -27,11 +28,11 @@ function FormCheck(title,category,timeLimit,difficulty,r,setFormStatus,navigatio
     return;
   }
   setFormStatus(false);
-  createLobby(title,timeLimit,category,difficulty,r,navigation,Host);
+  createLobby(title,timeLimit,category,difficulty,playerCount,objective,r,navigation,Host);
 }
 
 
-function createLobby(title,timeLimit,category,difficulty,playerCount,objective,r,navigation,Host)
+function createLobby(title,timeLimit,category,difficulty,playerCount,objective,navigation,Host)
 {
   console.log("Before crash\n");
   console.log("\n host name before sending");
@@ -46,12 +47,17 @@ function CreateGame({ navigation,route }) {
   const [location,setLocation] = useState("Location");
   const [category,setCategory] = useState("");
   const [playerCount,setPlayerCount] = useState("Player Count");
-  const [objective,setObjective] = useState("");
+  const [Settingobjective,setingObjectives] = useState(true);
+  const [Objective1, SetObjective1]= useState({ Objective:"Objective 1",PointValue:5});
+  const [Objective2, SetObjective2]= useState({ Objective:"Objective 2",PointValue:5});
+  const [Objective3, SetObjective3]= useState({ Objective:"Objective 3",PointValue:5});
+  const [Objective4, SetObjective4]= useState({ Objective:"Objective 4",PointValue:5});
   const [timeLimit,setTimeLimit] = useState("Time Limit");
   const [difficulty,setDifficulty] = useState("");
   const [formFilled,setFormStatus] = useState(false);
-  const r = (Math.random() + 1).toString(36).substring(7);
+  console.log(Settingobjective);
 
+  //Location option toggle 
   function toggleLocation(){
     if(location == "Location")
     {
@@ -71,6 +77,7 @@ function CreateGame({ navigation,route }) {
     }
     
   }
+  //Time Limit option toggle 
   function toggleTimeLimit(){
     if(timeLimit == "Time Limit")
     {
@@ -90,6 +97,7 @@ function CreateGame({ navigation,route }) {
     }
     
   }
+  //Player count option toggle 
  function checkPlayerCount(){
     if(playerCount == "Player Count")
     setPlayerCount(playerCount => playerCount = "1 Player")
@@ -105,9 +113,87 @@ function CreateGame({ navigation,route }) {
     else if (playerCount =="4 Players"){
       setPlayerCount(playerCount => playerCount = "Player Count")
     }
-
- }
+    console.log(title+"\n",location+"\n",timeLimit+"\n",playerCount);
   
+ }
+ var teamName = "";
+ function teamNameHandler(teamName){
+   setTitle(title=>title = teamName)
+ }
+ function ChangePoints(Change,objectivenumber)
+ {
+   switch(objectivenumber)
+    {
+      case 1:
+        var curval = Objective1.PointValue;
+          switch(Change)
+          {
+            case "+":
+              SetObjective1(Prev => ({
+                ...Prev,
+                PointValue:curval+5
+              }));
+              break;
+            case "-":
+              SetObjective1(Prev => ({
+                ...Prev,
+                PointValue:curval-5
+              }));
+              break;
+          }
+          case 2:
+            var curval = Objective1.PointValue;
+            switch(Change)
+            {
+              case "+":
+                SetObjective2(Prev => ({
+                  ...Prev,
+                  PointValue:curval+5
+                }));
+                break;
+              case "-":
+                SetObjective2(Prev => ({
+                  ...Prev,
+                  PointValue:curval-5
+                }));
+                break;
+            }
+          case 3:
+            var curval = Objective1.PointValue;
+            switch(Change)
+            {
+              case "+":
+                SetObjective3(Prev => ({
+                  ...Prev,
+                  PointValue:curval+5
+                }));
+                break;
+              case "-":
+                SetObjective3(Prev => ({
+                  ...Prev,
+                  PointValue:curval-5
+                }));
+                break;
+            }
+          case 4:
+            var curval = Objective1.PointValue;
+            switch(Change)
+            {
+              case "+":
+                SetObjective4(Prev => ({
+                  ...Prev,
+                  PointValue:curval+5
+                }));
+                break;
+              case "-":
+                SetObjective4(Prev => ({
+                  ...Prev,
+                  PointValue:curval-5
+                }));
+                break;
+            }
+    }
+ }
 
   return (
 
@@ -164,14 +250,16 @@ function CreateGame({ navigation,route }) {
       {formFilled? <Text style={styles.hiddenTxt}> please fill out all fields to create a game</Text> : <Text></Text>}
 
       {/* Team Name Input */}
+      
       <TextInput
-          onChangeText={(e) => setTitle(e)}
+          onChangeText={(teamName) => setTitle(teamName)}
+         
           value={title}
           placeholderTextColor="#808080"
           underlineColorAndroid="transparent"
           autoCapitalize="none"
-          placeholder="Title"
-          placeholderTextColor="#fff"
+          placeholder="Team name"
+
        style={{
           position: "absolute",
           top: "30%",
@@ -194,7 +282,7 @@ function CreateGame({ navigation,route }) {
       {/* Location selector */}
       
       <TextInput   
-        
+        editable = {false}
         value={location}
         underlineColorAndroid="transparent"
         placeholder={location}
@@ -217,14 +305,21 @@ function CreateGame({ navigation,route }) {
           borderColor: "#fff",
           borderRadius: 20,
           color: "#fff",
+         
+          
         }
         
       }
       
       
       />
+
+      <Image source={require('../assets/Btn/arrowbutton.png')} style={styles.arrowbtn1}
+
+           />
       <Pressable
-              style={styles.btnSendrequest3}
+      
+              style={styles.arrowbtn1}
               onPress= {() =>toggleLocation()  } 
               
             >
@@ -233,14 +328,13 @@ function CreateGame({ navigation,route }) {
 
           {/* Time Limit selector */}
         <TextInput
+        editable = {false}
           onChangeText={(e) => setTimeLimit(e)}
           value={timeLimit}
           placeholder={timeLimit}
           placeholderTextColor="#808080"
           underlineColorAndroid="transparent"
           autoCapitalize="none"
-          placeholder="Category"
-          placeholderTextColor="#fff"
        style={{
           position: "absolute",
           top: "42%",
@@ -260,8 +354,10 @@ function CreateGame({ navigation,route }) {
           color: "#fff",
         }}
       />
+
+<Image source={require('../assets/Btn/arrowbutton.png')} style={styles.arrowbtn2}/>
       <Pressable
-              style={styles.btnSendrequest1}
+              style={styles.arrowbtn2}
               onPress= {() =>toggleTimeLimit()  } 
               
             >
@@ -272,7 +368,8 @@ function CreateGame({ navigation,route }) {
       
             
       <TextInput   
-        //onChangeText={(e) => setPlayerCount (e)}  
+        //onChangeText={(e) => setPlayerCount (e)} 
+        editable = {false} 
         value={playerCount}
         underlineColorAndroid="transparent"
         placeholder={playerCount}
@@ -300,18 +397,22 @@ function CreateGame({ navigation,route }) {
       }
       
       />
+
+<Image source={require('../assets/Btn/arrowbutton.png')} style={styles.arrowbtn3}
+
+/>
       <Pressable
-              style={styles.btnSendrequest}
+              style={styles.arrowbtn3}
               onPress= {() =>checkPlayerCount()  } 
               
             >
-              <Text > hi </Text>
+              
       </Pressable>
 
       {/* objective Count selector */}
-      <TextInput
-        onChangeText={(e) => setObjective (e)}  
-        value={objective}
+     
+      <TextInput 
+        value="Objectives"
         underlineColorAndroid="transparent"
         placeholder="Objective"
         placeholderTextColor="#fff"
@@ -334,10 +435,76 @@ function CreateGame({ navigation,route }) {
           borderRadius: 20,
           color: "#fff",
         }
-      }
-      
+      }       
       />
+        <Pressable
+              style={styles.btnSendrequest4}
+              onPress = {() => Settingobjective? setingObjectives(false) : setingObjectives(true) } 
+            >
+              <Text>V</Text></Pressable>
+      {Settingobjective?
+        <View style={styles.ObjectiveContainer}>
+          <View style={styles.ObjectiveInputView}>
+            <TextInput style={styles.ObjectiveInput} placeholder={Objective1.Objective} value={Objective1.Objective} />
+            <Pressable >
+              <Text style={styles.PointDecrease}> -</Text >
+            </Pressable>
 
+            <Text style={styles.ObjectivePointInput}> {Objective1.PointValue.toString()}</Text>   
+            
+            <Pressable>
+              <Text style={styles.PointIncreas}>+</Text>
+            </Pressable>
+            <Pressable style={styles.ObjectiveCompleted} >
+            <Text></Text>
+            </Pressable>
+            </View>
+           
+            <View style={styles.ObjectiveInputView}>
+            <TextInput style={styles.ObjectiveInput} placeholder={Objective2.Objective} value={Objective2.Objective} />
+            <Pressable >
+              <Text  style={styles.PointDecrease}>-</Text>
+            </Pressable>
+            <Text style={styles.ObjectivePointInput}> {Objective2.PointValue.toString()}</Text>   
+            <Pressable >
+              <Text style={styles.PointIncreas}>+</Text>
+            </Pressable>
+            <Pressable style={styles.ObjectiveCompleted}>
+            <Text></Text>
+            </Pressable>
+            </View>
+
+            <View style={styles.ObjectiveInputView}>
+            <TextInput style={styles.ObjectiveInput} placeholder={Objective3.Objective} value={Objective3.Objective} />
+            <Pressable >
+              <Text  style={styles.PointDecrease} >-</Text>
+            </Pressable>
+            <Text style={styles.ObjectivePointInput}> {Objective3.PointValue.toString()}</Text>   
+            <Pressable>
+              <Text style={styles.PointIncreas}>+</Text>
+            </Pressable>
+            <Pressable style={styles.ObjectiveCompleted}>
+            <Text></Text>
+            </Pressable>
+            </View>
+
+            <View style={styles.ObjectiveInputView}>
+            <TextInput style={styles.ObjectiveInput} placeholder={Objective4.Objective} value={Objective4.Objective} />
+            
+            <Pressable >
+              <Text style={styles.PointDecrease}>-</Text>
+            </Pressable>
+            <Text style={styles.ObjectivePointInput}> {Objective4.PointValue.toString()}</Text>   
+            <Pressable>
+              <Text style={styles.PointIncreas}>+</Text>
+            </Pressable>
+            <Pressable style={styles.ObjectiveCompleted}> 
+              <Text></Text>
+            </Pressable>
+            </View>
+          
+        </View>:null
+      }
 
       <View
         style={{
@@ -385,6 +552,107 @@ function CreateGame({ navigation,route }) {
 }
 
 const styles = StyleSheet.create({
+
+  arrowbtn3:{ //timelimitbutton
+    width: 40,
+    height: 40,
+    position: 'absolute',
+    top: "48.8%",
+    right: "22%"
+  },
+  arrowbtn2:{ //timelimitbutton
+    width: 40,
+    height: 40,
+    position: 'absolute',
+    top: "42.8%",
+    right: "22%"
+  },
+  arrowbtn1:{ //location button
+    width: 40,
+    height: 40,
+    position: 'absolute',
+    top: "36.7%",
+    right: "22%"
+  },
+  ObjectiveCompleted:{
+    margin:5,
+    alignItems:"center",
+    top:"3%",
+    flex:0.2,
+    backgroundColor:"#fff",
+    borderRadius:25
+  },
+  ObjectiveInputView:{
+    borderWidth: 1,
+    borderRadius:25,
+    borderColor:"#fff",
+    flexDirection:"row",
+    alignItems:"flex-start",
+    marginLeft:20,
+    fontSize:RFPercentage(5),
+    position:"relative",
+    width:"80%"
+  },
+  PointIncreas:{
+    flex:1,
+    top:"-10%",
+    margin:5,
+    fontSize:RFPercentage(2),
+    position:"relative",
+  },
+  PointDecrease:{
+    flex:1,
+    top:"-20%",
+    margin:5,
+    fontSize:RFPercentage(2),
+    position:"relative",
+  },
+  ObjectiveInput:{
+    margin:5,
+    flex:1.5,
+    fontSize:RFPercentage(1.5),
+    position:"relative",
+    zIndex:5
+  },
+  ObjectivePointInput:{
+    flex:0.5,
+    fontSize:RFPercentage(2),
+    position:"relative",
+    width:"5%"
+  },
+  ObjectiveContainer:{
+    flexDirection:"column",
+    borderColor:"#fff",
+    alignItems:"stretch",
+    justifyContent:"center",
+    height:"auto",
+    width:"auto",
+    padding:20,
+    borderWidth: 5,
+    borderTopWidth:0,
+    borderRadius:25,
+    position:"relative", 
+    top:"55%",
+    width: width * 0.4,
+    left:"30%",
+    zIndex:5
+  },
+  btnSendrequest4: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 25,
+    paddingHorizontal: 32,
+    borderRadius: 30,
+    elevation: 5,
+    width: "10%",
+    fontSize: 20,
+    height: 0,
+    shadowColor: "rgba(46, 229, 157, 0.4)",
+    fontSize: 40,
+    left:"40%",
+    top:"42%",
+    zIndex:4
+  },
   btnSendrequest3: {
     alignItems: "center",
     justifyContent: "center",
@@ -433,6 +701,7 @@ const styles = StyleSheet.create({
   left:"20%",
   top:475,
 },
+
   hiddenTxt:{
     left:"16%",
     top:"25%",
