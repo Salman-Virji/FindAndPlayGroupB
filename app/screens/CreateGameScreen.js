@@ -71,7 +71,17 @@ function CreateGame({ navigation,route }) {
         Switch(location)
         {
           case null:
+            setLocation(Locations[0],0);
               break;
+          case 0:
+            setLocation(Locations[1],1);
+            break;
+             case 1:
+            setLocation(Locations[2],2);
+            break;
+             case 2:
+            setLocation(Locations[0],0);
+            break;
               
         }
     */
