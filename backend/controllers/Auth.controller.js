@@ -43,6 +43,8 @@ const New_Sign_Up = async (request, response) => {
         const newuser = UserModel({ username, email, password });
         await newuser.save();
 
+        /** @TODO Return user ID in json response not object */
+
         /** 201 Created and successful */
         response.status(201).json({ newuser, success: true });
     } catch (error) {
@@ -57,9 +59,10 @@ const New_Sign_Up = async (request, response) => {
     }
 };
 
-/*******************************************
- ***** USER LOGIN / USER SIGN IN ROUTE *****
- *******************************************/
+/**
+ * @description User Sign In
+ * @route POST http://localhost:3000/auth/sign-in
+ * */
 // router.route('/login').post(async (req, res) => {
 //     // const username = req.body.username.toLowerCase();
 //     // const rawPassword = req.body.password;
