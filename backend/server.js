@@ -16,8 +16,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 /** Cross-origin resource sharing for tranfering data between front and backend */
-const cors = require('cors');
-app.use(cors());
+// const cors = require('cors');
+// app.use(cors());
 
 /** MongoDB and store connection logic */
 const { ConnectMongoDB, SessionStore } = require('./config/database');
@@ -25,7 +25,6 @@ ConnectMongoDB();
 app.use(SessionStore);
 
 /** Routing */
-app.use('/session', require('./routes/Session.routes'));
 app.use('/auth', require('./routes/Auth.routes'));
 app.use('/', require('./routes/Other.routes'));
 

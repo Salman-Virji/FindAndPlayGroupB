@@ -1,32 +1,31 @@
 {
-  "name": "backend",
-  "version": "1.0.0",
-  "description": "",
+  "name": "findandplayapp-backend",
+  "version": "15.3.2",
+  "description": "Work from Group B2 Backend",
   "main": "index.js",
   "scripts": {
     "start": "nodemon server.js",
-    "dev": "nodemon server.js",
-    "session": "nodemon session.js"
+    "dev": "nodemon server.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Group B2 Backend",
   "license": "ISC",
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.16.1",
     "bcrypt": "^5.0.1",
     "connect-mongo": "^4.6.0",
-    "connect-mongodb-session": "^3.1.1",
-    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.2",
     "express-session": "^1.17.2",
     "joi": "^17.6.0",
-    "jsdoc": "^3.6.10",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.5",
-    "nodemailer": "^6.7.2",
+    "nodemailer": "^6.7.2"
+  },
+  "devDependencies": {
+    "jsdoc": "^3.6.10",
     "nodemon": "^2.0.15"
   }
 }

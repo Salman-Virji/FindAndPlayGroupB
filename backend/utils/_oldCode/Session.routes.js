@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const GenrateToken = require('../utils/generateToken')
+const GenrateToken = require('../generateToken')
 
 const DisplaySession = async (request, response) => {
     request.session.user = { userID: GenrateToken() };

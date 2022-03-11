@@ -5,7 +5,6 @@ const MongoStore = require('connect-mongo');
 
 const ConnectMongoDB = () => {
     try {
-        //Create the database connection
         mongoose.connect(process.env.ATLAS_URI, {
             useNewUrlParser: true,
             useUnifiedTopology: true,

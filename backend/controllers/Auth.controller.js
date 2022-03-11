@@ -1,23 +1,19 @@
-// const Sign_Out = async (request, response) => response.send('User Sign Out');
-// const Reset_Password = async (request, response) =>
-//     response.send('User Reset Password');
-
-// https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#server_error_responses
-
+/** Packages */
 const Joi = require('joi');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+/** Mongoose Models */
 const UserModel = require('../models/UserModel');
 const SessionTokenModel = require('../models/SessionTokenModel');
-const { SignUpSchema, SignInSchema } = require('./Validation.controller');
+const ResetPasswordTokenModel = require('../models/ResetPasswordTokenModel');
 
+/** Utility and Validation */
 const GenerateToken = require('../utils/generateToken');
 const sendPasswordResetEmail = require('../utils/sendPasswordResetEmail');
-const ResetPasswordTokenModel = require('../models/ResetPasswordTokenModel');
-const session = require('express-session');
+const { SignUpSchema, SignInSchema } = require('./Validation.controller');
 
-//#region REGISTER NEW USER
+//#region NEW USER SIGN-UP
 /**
  * @description Register a new user
  * @route POST http://localhost:3000/auth/new-signup
@@ -25,7 +21,6 @@ const session = require('express-session');
 const New_Sign_Up = async (request, response) => {
     try {
         const result = await SignUpSchema.validateAsync(request.body);
-        console.log(result);
     } catch (error) {
         return response.status(409).send(error.details[0].message);
     }
@@ -45,10 +40,8 @@ const New_Sign_Up = async (request, response) => {
         const newuser = new UserModel({ username, email, password });
         await newuser.save();
 
-        /** @TODO Return user ID in json response not object */
-
         /** 201 Created and successful */
-        response.status(201).json({ newuser, success: true });
+        response.status(201).json({ _id: newuser._id, success: true });
     } catch (error) {
         const field = Object.keys(error.keyValue);
         const msg = `${field} already exists - ${error.code}`;
@@ -61,6 +54,7 @@ const New_Sign_Up = async (request, response) => {
     }
 };
 //#endregion
+
 //#region SIGN IN USER
 /**
  * @description User Sign In
@@ -117,13 +111,13 @@ const Sign_In = async (request, response) => {
 };
 //#endregion
 
-/** @TODO */
-//#region SIGN IN USER
+/** @TODO - Full Method */
+//#region SIGN OUT USER
 /**
  * @description User Sign Out
  * @route POST http://localhost:3000/auth/sign-in
  * */
- const Sign_Out = async (request, response) => {
+const Sign_Out = async (request, response) => {
     /**
      * @TODO
      * 1. Get active user ID or token
@@ -131,9 +125,12 @@ const Sign_In = async (request, response) => {
      * 3. if active, delete session token and request token
      * 4. Redirect to login.
      */
+    response.send('User Sign Out');
 };
 //#endregion
 
+/** @TODO - Update Syntax and Refs */
+//#region REGISTER NEW USER
 /**
  * @description Reset Password Request
  * @route POST http://localhost:3000/auth/reset
@@ -161,10 +158,13 @@ const Sign_In = async (request, response) => {
 //     //     console.log(error);
 //     // }
 // });
+//#endregion
 
+/** @TODO - Update Syntax and Refs */
+//#region REGISTER NEW USER
 /**
  * @description Update Password $id $token
- * @route GET http://localhost:3000/auth//:userId/:token
+ * @route GET http://localhost:3000/auth/:userId/:token
  * */
 // router.get('/:userId/:token', async (req, res) => {
 //     // try {
@@ -174,10 +174,13 @@ const Sign_In = async (request, response) => {
 //     //     console.log(error);
 //     // }
 // });
+//#endregion
 
+/** @TODO - Update Syntax and Refs */
+//#region REGISTER NEW USER
 /**
  * @description Update Password $id $token
- * @route POST http://localhost:3000/auth//:userId/:token
+ * @route POST http://localhost:3000/auth/:userId/:token
  * */
 // router.post('/:userId/:token', async (req, res) => {
 //     // try {
@@ -202,5 +205,9 @@ const Sign_In = async (request, response) => {
 //     //     console.log(error);
 //     // }
 // });
+//#endregion
 
-module.exports = { New_Sign_Up, Sign_In };
+/** @TODO - Update Exports as other methods are completed. */
+module.exports = { New_Sign_Up, Sign_In, Sign_Out };
+
+// https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#server_error_responses
