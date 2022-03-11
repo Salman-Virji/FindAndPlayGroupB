@@ -130,7 +130,7 @@ const Sign_Out = async (request, response) => {
 //#endregion
 
 /** @TODO - Update Syntax and Refs */
-//#region REGISTER NEW USER
+//#region RESET PASSWORD LINK
 /**
  * @description Reset Password Request
  * @route POST http://localhost:3000/auth/reset
@@ -161,7 +161,7 @@ const Sign_Out = async (request, response) => {
 //#endregion
 
 /** @TODO - Update Syntax and Refs */
-//#region REGISTER NEW USER
+//#region UPDATE PASSWORD
 /**
  * @description Update Password $id $token
  * @route GET http://localhost:3000/auth/:userId/:token
@@ -177,7 +177,7 @@ const Sign_Out = async (request, response) => {
 //#endregion
 
 /** @TODO - Update Syntax and Refs */
-//#region REGISTER NEW USER
+//#region UPDATE PASSWORD
 /**
  * @description Update Password $id $token
  * @route POST http://localhost:3000/auth/:userId/:token
