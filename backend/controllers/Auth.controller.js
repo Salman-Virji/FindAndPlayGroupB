@@ -1,4 +1,3 @@
-// const Sign_In = async (request, response) => response.send('User Sign In');
 // const Sign_Out = async (request, response) => response.send('User Sign Out');
 // const Reset_Password = async (request, response) =>
 //     response.send('User Reset Password');
@@ -25,7 +24,7 @@ const New_Sign_Up = async (request, response) => {
         const result = await SignUpSchema.validateAsync(request.body);
         console.log(result);
     } catch (error) {
-        return response.status(400).send(error.details[0].message);
+        return response.status(409).send(error.details[0].message);
     }
 
     const user = await UserModel.findOne({ email: request.body.email });
@@ -63,56 +62,42 @@ const New_Sign_Up = async (request, response) => {
  * @description User Sign In
  * @route POST http://localhost:3000/auth/sign-in
  * */
-// router.route('/login').post(async (req, res) => {
-//     // const username = req.body.username.toLowerCase();
-//     // const rawPassword = req.body.password;
-//     // const data = {
-//     //     msg: '',
-//     //     status: false,
-//     //     //msgs: req.session
-//     // };
-//     // // Finding an user by username
-//     // UserModel.findOne({ username: username })
-//     //     .then(async (result) => {
-//     //         // If 'Either' of the fields are empty, the user will be asked to complete them
-//     //         if (username == '' || rawPassword == '') {
-//     //             data.msg = 'Please complete all fields';
-//     //             res.send(data);
-//     //             return;
-//     //         }
-//     //         /* The user is 'authenticated', we will have to redirect and set cookie.*/
-//     //         /* BCrypt Hash Unwrap */
-//     //         const validation = await bcrypt.compare(
-//     //             rawPassword,
-//     //             result.password
-//     //         );
-//     //         if (validation) {
-//     //             /** Added by Arianne when trying to implement a cookie session */
-//     //             // // Create a token
-//     //             // const token = jwt.sign({ _id: user._id, username: user.username }, process.env.SECRET, {
-//     //             //     expiresIn: '2 hours'
-//     //             // });
-//     //             // // Set a cookie and redirect to root
-//     //             // res.cookie('nToken', token, { maxAge: 2 * 60 * 60 * 1000, httpOnly: true });
-//     //             // SET SESSION TOKEN IN DB  middleware function to set session cookie.
-//     //             data.msg = `${username} AUTHENTICATED - SET SESSION TOKEN AND SEND USER TO MAIN AREA OF APP`;
-//     //             data.status = true;
-//     //             res.send(data);
-//     //             /** Added by Arianne when trying to implement a cookie session */
-//     //             //res.redirect('/');
-//     //             //return res.redirect('/');
-//     //         } else {
-//     //             data.msg = 'Invalid username or password. Please try again.';
-//     //             data.status = false;
-//     //             res.send(data);
-//     //         }
-//     //     })
-//     //     .catch((err) => {
-//     //         data.msg = `User not found, ${err.message}`;
-//     //         data.status = false;
-//     //         res.send(data);
-//     //     });
-// });
+const Sign_In = async (request, response) => {
+    try {
+        const result = await SignInSchema.validateAsync(request.body);
+        console.log(result);
+    } catch (error) {
+        return response.status(422).send({
+            ErrorDetails: error.details[0].message,
+            Messege: 'Invalid password or email',
+        });
+    }
+
+    const user = await UserModel.findOne({ username });
+
+    if (!user) {
+        return response.status(422).send({
+            ErrorDetails: error.details[0].message,
+            Messege: 'Cannot find user',
+        });
+    }
+
+    const { password } = request.body;
+
+    try {
+        const validation = await bcrypt.compare(password, user.password);
+        if (validation) {
+            /** @TODO make token */
+
+
+            res.status(200).send();
+        } else {
+            data.msg = 'Invalid username or password. Please try again.';
+            data.status = false;
+            res.send(data);
+        }
+    } catch (error) {}
+};
 
 // router.post('/reset-pass', async (req, res) => {
 //     // try {

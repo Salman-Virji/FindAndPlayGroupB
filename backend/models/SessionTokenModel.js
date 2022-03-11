@@ -22,7 +22,7 @@ const sessionTokenSchema = new Schema(
         createdAt: {
             type: Date,
             default: Date.now,
-            expires: 20000,
+            expireAfterSeconds: 60000,
         },
     },
     {
