@@ -9,12 +9,15 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const UserModel = require('../models/UserModel');
-const { SignUpSchema } = require('./Validation.controller');
+const SessionTokenModel = require('../models/SessionTokenModel');
+const { SignUpSchema, SignInSchema } = require('./Validation.controller');
 
 const GenerateToken = require('../utils/generateToken');
 const sendPasswordResetEmail = require('../utils/sendPasswordResetEmail');
 const ResetPasswordTokenModel = require('../models/ResetPasswordTokenModel');
+const session = require('express-session');
 
+//#region REGISTER NEW USER
 /**
  * @description Register a new user
  * @route POST http://localhost:3000/auth/new-signup
@@ -39,7 +42,7 @@ const New_Sign_Up = async (request, response) => {
     const password = await bcrypt.hash(request.body.password, salt);
 
     try {
-        const newuser = UserModel({ username, email, password });
+        const newuser = new UserModel({ username, email, password });
         await newuser.save();
 
         /** @TODO Return user ID in json response not object */
@@ -57,7 +60,8 @@ const New_Sign_Up = async (request, response) => {
         });
     }
 };
-
+//#endregion
+//#region SIGN IN USER
 /**
  * @description User Sign In
  * @route POST http://localhost:3000/auth/sign-in
@@ -65,40 +69,75 @@ const New_Sign_Up = async (request, response) => {
 const Sign_In = async (request, response) => {
     try {
         const result = await SignInSchema.validateAsync(request.body);
-        console.log(result);
     } catch (error) {
         return response.status(422).send({
-            ErrorDetails: error.details[0].message,
+            ErrorDetails: error,
             Messege: 'Invalid password or email',
         });
     }
+    const { username, password } = request.body;
 
-    const user = await UserModel.findOne({ username });
+    const user = await UserModel.findOne({ username: username });
 
     if (!user) {
         return response.status(422).send({
-            ErrorDetails: error.details[0].message,
             Messege: 'Cannot find user',
         });
     }
 
-    const { password } = request.body;
-
     try {
         const validation = await bcrypt.compare(password, user.password);
         if (validation) {
-            /** @TODO make token */
+            const sessionJWToken = jwt.sign(
+                { userID: user._id },
+                process.env.SECRET
+            );
 
+            const SessionToken = new SessionTokenModel({
+                userID: user._id,
+                isActive: true,
+                token: sessionJWToken,
+            });
+            SessionToken.save();
 
-            res.status(200).send();
+            request.session.user = { SessionToken };
+            return response.status(200).send({ SessionToken });
         } else {
-            data.msg = 'Invalid username or password. Please try again.';
-            data.status = false;
-            res.send(data);
+            return response.status(422).send({
+                ErrorDetails: error,
+                Messege: 'Invalid password or email',
+            });
         }
-    } catch (error) {}
+    } catch (error) {
+        return response.status(422).send({
+            ErrorDetails: error,
+            Messege: 'Invalid password or email',
+        });
+    }
 };
+//#endregion
 
+/** @TODO */
+//#region SIGN IN USER
+/**
+ * @description User Sign Out
+ * @route POST http://localhost:3000/auth/sign-in
+ * */
+ const Sign_Out = async (request, response) => {
+    /**
+     * @TODO
+     * 1. Get active user ID or token
+     * 2. Check if session is active
+     * 3. if active, delete session token and request token
+     * 4. Redirect to login.
+     */
+};
+//#endregion
+
+/**
+ * @description Reset Password Request
+ * @route POST http://localhost:3000/auth/reset
+ * */
 // router.post('/reset-pass', async (req, res) => {
 //     // try {
 //     //     const schema = Joi.object({ email: Joi.string().email().required() });
@@ -123,6 +162,10 @@ const Sign_In = async (request, response) => {
 //     // }
 // });
 
+/**
+ * @description Update Password $id $token
+ * @route GET http://localhost:3000/auth//:userId/:token
+ * */
 // router.get('/:userId/:token', async (req, res) => {
 //     // try {
 //     //     res.sendFile(path.join(__dirname + '/reset.html'));
@@ -132,6 +175,10 @@ const Sign_In = async (request, response) => {
 //     // }
 // });
 
+/**
+ * @description Update Password $id $token
+ * @route POST http://localhost:3000/auth//:userId/:token
+ * */
 // router.post('/:userId/:token', async (req, res) => {
 //     // try {
 //     //     const schema = Joi.object({ password: Joi.string().required() });
@@ -156,4 +203,4 @@ const Sign_In = async (request, response) => {
 //     // }
 // });
 
-module.exports = { New_Sign_Up };
+module.exports = { New_Sign_Up, Sign_In };

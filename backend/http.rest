@@ -1,8 +1,0 @@
-# NEW-SIGN-UP Route
-POST http://localhost:3000/auth/
-Content-Type: application/json
-
-{
-  "email": "yourstruly267@gmail.com",
-  "password": "123lkjl4"
-}

@@ -14,7 +14,7 @@ const ConnectMongoDB = () => {
         const connection = mongoose.connection;
 
         connection.on('connected', function () {
-            console.log(`Connected to MongoDB [ ${mongoose.connection.name} ] | Connected to SessionStore`);
+            console.log(`Connected to MongoDB [ ${mongoose.connection.name} ] | Connected to SessionStore [ expresssession ]`);
         });
 
         connection.on('error', function (err) {
@@ -32,9 +32,9 @@ const SessionStore = session({
         collection: 'expresssession',
     }),
     secret: process.env.SECRET,
-    resave: false,
+    resave: true,
     saveUninitialized: false,
-    cookie: { maxAge: 60000 },
+    cookie: { maxAge: 60000 * 2 },
 })
 
 module.exports = { ConnectMongoDB, SessionStore };

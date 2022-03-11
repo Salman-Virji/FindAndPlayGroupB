@@ -1,4 +1,5 @@
 /** Node.js-based Object Data Modeling (ODM) library for MongoDB */
+const { boolean } = require('joi');
 const mongoose = require('mongoose');
 
 /** Blueprint for defining the structure of a Mongoose model that maps directly to a MongoDB collection */
@@ -6,7 +7,7 @@ const Schema = mongoose.Schema;
 
 const sessionTokenSchema = new Schema(
     {
-        userId: {
+        userID: {
             type: Schema.Types.ObjectId,
             required: true,
             ref: 'User',
@@ -22,11 +23,8 @@ const sessionTokenSchema = new Schema(
         createdAt: {
             type: Date,
             default: Date.now,
-            expireAfterSeconds: 60000,
+            expires: 60000 * 3,
         },
-    },
-    {
-        timestamps: true,
     }
 );
 
