@@ -2,29 +2,16 @@ import { Camera } from 'expo-camera';
 import React, { useEffect, useRef, useState } from 'react';
 import {
   Dimensions,
-  ImageBackground,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View, ScrollView
 } from "react-native";
 import { CustomCamera } from './Components/CustomCamera';
 
-<<<<<<< HEAD
-import ChooseObjectiveCard from './ChooseObjectiveCard';
+import ChooseObjectiveCard from './Components/ChooseObjectiveCard';
 
-function Card(props) {
 
-  return (
-    <TouchableOpacity
-      style={page.card}
-    >
-    </TouchableOpacity>
-
-  )
-}
-=======
->>>>>>> 5ad54603cea6f71c3dd231133004fa58fdc791d5
 
 export default function GameScreen({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
@@ -40,8 +27,8 @@ export default function GameScreen({ navigation }) {
     if (cameraRef) {
       try {
         let photo = await cameraRef.current.takePictureAsync({
-          autoFocus:false,
-          skipProcessing:true,
+          autoFocus: false,
+          skipProcessing: true,
           aspect: [4, 3],
           quality: 1
         });
@@ -66,44 +53,41 @@ export default function GameScreen({ navigation }) {
     return <Text>No access to camera</Text>;
   }
   return (
-
     <>
       {showCamera ? (
         //WHEN CAMERA IS ON
         CustomCamera(type, cameraRef, setType, setShowCamera, takePhoto, objectives, currentObjectiveId)
       ) : (
         //WHEN CAMERA IS OFF
-        <View style={{flex:1,justifyContent: "center",alignItems: "center",backgroundColor: "#1f1f1f"}}>
-          <View style={{justifyContent: "center",alignContent: "center",flex:1,flexDirection: "row", flexWrap: "wrap"}}>
-            {objectives.map(x => {
-              if (x.picturetaken == null) { //return card w/ picture taken or not
-                return (
-                    <>
-                  <TouchableOpacity
-                    key={x}
-                    style={page.card}
-                    onPress={() => {
-                      setShowCamera(true)
-                      setCurrentObjectiveId(x.objectiveid)
-                    }}>
-                    <ChooseObjectiveCard text={x.description} source={x.referenceimage} key={x.objectiveid}/>
-                  </TouchableOpacity>
-                  </>
-                )
-              } else {
-                return (
-                  <TouchableOpacity key={x.objectiveid} style={page.card} disabled={true}>
-                    <ImageBackground source={{uri:x.picturetaken}} resizeMode="cover" style={{flex:1,justifyContent: "center",width:"100%",height:"100%"}}>
-                      <Text>{x.description}</Text>
-                    </ImageBackground>
-                    {/* <ChooseObjectiveCard text={x.description} source={{x.}}></ChooseObjectiveCard> */}
-                  </TouchableOpacity>
-                )
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#FFE551" }}>
+          <View style={{ alignItems:"center",justifyContent: "center", flex: 1,overflow:"hidden", flexWrap: "wrap",maxHeight:Dimensions.get("window").width * 0.80,backgroundColor: "#1f1f1f"}}>
+              <ScrollView style={{flex: 1,height:"100%"}}
+                contentContainerStyle={{flexDirection: "row", flexWrap: "wrap",justifyContent: "center", alignItems: "center"}}>
+              {objectives.map(x => {
+                if (x.picturetaken == null) { //return card w/ picture taken or not
+                  return (
+                    <TouchableOpacity
+                      key={x.objectiveid}
+                      style={page.card}
+                      onPress={() => {
+                        setShowCamera(true)
+                        setCurrentObjectiveId(x.objectiveid)
+                      }}>
+                      <ChooseObjectiveCard objective={x} source={require("../../assets/images/red-squirrel.jpg")} />
+                    </TouchableOpacity>
+                  )
+                } else {
+                  return (
+                    <TouchableOpacity key={x.objectiveid} style={page.card} disabled={true}>
+                      <ChooseObjectiveCard objective={x} source={{ uri: x.picturetaken }} />
+                    </TouchableOpacity>
+                  )
 
 
-              }
+                }
 
-            })}
+              })}
+              </ScrollView>
           </View>
           <TouchableOpacity style={page.button}>
             <Text>Confirm</Text>
@@ -113,14 +97,7 @@ export default function GameScreen({ navigation }) {
     </>
   )
 }
-<<<<<<< HEAD
-const onPressFunction=() => {
-  setShowCamera(true)
-  setCurrentObjectiveId(x.objectiveid)
-}
 
-=======
->>>>>>> 5ad54603cea6f71c3dd231133004fa58fdc791d5
 const page = StyleSheet.create({
   button: {
     alignItems: "center",
@@ -136,13 +113,12 @@ const page = StyleSheet.create({
     padding: 24,
   },
   text: {
-    fontSize: 30,
+    fontSize: 10,
     color: '#000'
   },
   card: {
-    backgroundColor: '#8C92AC',
-    margin: 1,
-    flexBasis: "33%",
+    flexBasis: "40%",
+    margin:5,
     alignItems: 'center',
     justifyContent: 'center',
     width: Dimensions.get('window').width * 0.33,
@@ -209,8 +185,32 @@ const tempObj =
       "score": 0
     },
     {
-      "objectiveid": 126,
+      "objectiveid": 127,
       "description": "Cat",
+      "points": 4,
+      "referenceimage": "cat",
+      "picturetaken": null,
+      "score": 4
+    },
+    {
+      "objectiveid": 129,
+      "description": "Tele",
+      "points": 4,
+      "referenceimage": "cat",
+      "picturetaken": null,
+      "score": 4
+    },
+    {
+      "objectiveid": 130,
+      "description": "Bear",
+      "points": 4,
+      "referenceimage": "cat",
+      "picturetaken": null,
+      "score": 4
+    },
+    {
+      "objectiveid": 131,
+      "description": "Lion",
       "points": 4,
       "referenceimage": "cat",
       "picturetaken": null,

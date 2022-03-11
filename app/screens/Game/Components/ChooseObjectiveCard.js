@@ -1,6 +1,6 @@
 import { Center } from "native-base";
 import React, { Component } from "react";
-import getImage from "./GameImages";
+import getImage from "../GameImages";
 //import React from "react";
 import {
     Button,
@@ -31,9 +31,7 @@ export class ChooseObjectiveCard extends Component {
 
   render() {
       return (
-            
-            <>
-            <View style={{flex:1,padding:10, width:"90%", height: "20%"}}>
+            <View style={{flex:1, width:"100%"}}>
                   <View style={styles.single_objective}>
                       <View style={styles.image_container}>
                           <Image
@@ -48,11 +46,10 @@ export class ChooseObjectiveCard extends Component {
                           />
                       </View>
                       <View style={styles.viewTitle}>
-                          <Text style={styles.text}> {this.props.text}</Text>
+                          <Text style={styles.text}> {this.props.objective.description}</Text>
                       </View>
                   </View>
               </View>
-            </>
       );
     }
 }
@@ -112,7 +109,7 @@ export default ChooseObjectiveCard;
     single_objective:{
       flex:1, 
       flexDirection:"column", 
-      margin:5, height: "100%", 
+      height: "100%", 
       justifyContent:"center",
       alignItems: "center"
     },
@@ -120,7 +117,7 @@ export default ChooseObjectiveCard;
     image_container:{
       flex:4, 
       flexDirection:"column", 
-      margin:5, 
+
       height: "100%", 
       width: "100%",
       justifyContent:"center",
