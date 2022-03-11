@@ -1,7 +1,7 @@
 {
     "gameid": 1,  
     "teamname": "Team 1",
-    "timelimit": "10:00", 
+    "timelimit": 10, 
     "totalscore": 50,
     "location": "Park",
     "playercount": 10,
