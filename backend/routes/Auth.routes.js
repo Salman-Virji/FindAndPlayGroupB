@@ -1,6 +1,6 @@
 /** Middleware to create modular, mountable route handlers */
 const router = require('express').Router();
-const { * } = require('../controllers/Auth.controller')
+const { New_Sign_Up } = require('../controllers/Auth.controller')
 
 /**
  * @summary Routing
@@ -16,15 +16,15 @@ const { * } = require('../controllers/Auth.controller')
  * RESET-PASSWORD: POST http://localhost:3000/auth
  */
 
-router.get('/', New_Sign_Up);
-router.get('/new-signup', New_Sign_Up);
+router.post('/', New_Sign_Up);
+router.post('/new-signup', New_Sign_Up);
 
-router.get('/sign-in', Sign_In);
-router.post('/sign-in', Sign_In);
+// router.get('/sign-in', Sign_In);
+// router.post('/sign-in', Sign_In);
 
-router.post('/sign-out/', Sign_Out);
+// router.post('/sign-out/', Sign_Out) 
 
-router.get('/reset-password', Reset_Password);
-router.post('/reset-password/:id/:token', Reset_Password);
+// router.get('/reset-password', Reset_Password);
+// router.post('/reset-password/:id/:token', Reset_Password);
 
 module.exports = router;

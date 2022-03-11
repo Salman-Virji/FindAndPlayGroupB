@@ -1,7 +1,7 @@
 /** Environment variables .env */
 require('dotenv').config();
 const PORT = process.env.LOCALHOST_PORT || 3000;
-const ROOT = 'http://localhost:3000/users';
+const ROOT = `http://localhost:${PORT}/auth`;
 
 /** MongoDB Connection Logic */
 const ConnectMongoDB = require('./config/database');
