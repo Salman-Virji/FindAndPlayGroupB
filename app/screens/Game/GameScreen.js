@@ -18,8 +18,6 @@ export default function GameScreen({ navigation }) {
   const [showCamera, setShowCamera] = useState(false);
   const [objectives, setObjectives] = useState(tempObj);
   const [currentObjectiveId, setCurrentObjectiveId] = useState(null);
-
-
   const cameraRef = useRef(null);
 
   const takePhoto = async () => {
@@ -60,7 +58,7 @@ export default function GameScreen({ navigation }) {
         //WHEN CAMERA IS OFF
         <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#FFE551" }}>
           <View style={{ marginTop: 30, margin: 10 }}><Text>Timer</Text></View>
-          <View style={{ alignItems: "center", justifyContent: "center", flex: 5, overflow: "hidden", flexWrap: "wrap", maxHeight: Dimensions.get("window").width * 0.80, backgroundColor: "rgbar(255,0,0,0.1)" }}>
+          <View style={{ alignItems: "center", justifyContent: "center", flex: 5, overflow: "hidden", flexWrap: "wrap", maxHeight: Dimensions.get("window").width * 1.00, backgroundColor: "rgbar(255,0,0,0.1)" }}>
             <ScrollView style={{ flex: 1, height: "100%" }}
               scrollIndicatorInset={10}
               contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center", alignItems: "center" }}>

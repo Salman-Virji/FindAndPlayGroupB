@@ -148,7 +148,7 @@ export default ChooseObjectiveCard;
       alignItems: "center"  
     },
     text: {
-      fontSize: 30,
+      fontSize: Dimensions.get('window').width * 0.05,
       color: "white",
       fontWeight: "bold",
        textShadowColor: "rgba(0, 0, 0, 1)",
