@@ -7,14 +7,16 @@ import {
   StyleSheet,
   Dimensions
 } from "react-native";
+import CountdownTimer from '../Timer/CountdownTimer';
 
-export function CustomCamera({ type, cameraRef, setType, setShowCamera, takePhoto, currentObjectiveId, objectives }) {
+export function CustomCamera({ type, cameraRef, setType, setShowCamera, takePhoto, currentObjectiveId, objectives, startTime }) {
   return (<Camera style={styles.camera} type={type} ref={cameraRef}>
     <View style={styles.buttonContainer}>
       <TouchableOpacity style={styles.buttonContainer} onPress={() => {
         setType(type === Camera.Constants.Type.back ? Camera.Constants.Type.front : Camera.Constants.Type.back);
       }}>
         <Text style={styles.text}> Flip </Text>
+        <CountdownTimer countdownTimestampMs={startTime+ (60000 * GameData.timelimit)}/>
       </TouchableOpacity>
     </View>
     <View style={styles.buttonContainer}>
@@ -55,6 +57,11 @@ export function CustomCamera({ type, cameraRef, setType, setShowCamera, takePhot
     </View>
   </Camera>);
 }
+
+const GameData = {
+  "timelimit": 10, 
+}
+
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
