@@ -89,7 +89,15 @@ export default function GameScreen({ navigation }) {
             </ScrollView>
           </View>
           <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: "rgba(255,0,0,0.1)", width: "100%" }}>
-            <TouchableOpacity style={styles.generic_button}>
+            <TouchableOpacity 
+              style={styles.generic_button}
+              onPress ={()=>{
+                navigation.navigate("EndScreen",
+                  {Data:tempObj}
+                )
+
+              }} //https://reactnavigation.org/docs/params/
+              >
               <Text>Confirm</Text>
             </TouchableOpacity>
           </View>
