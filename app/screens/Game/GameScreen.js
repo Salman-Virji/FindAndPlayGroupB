@@ -60,8 +60,10 @@ export default function GameScreen({ navigation }) {
       ) : (
         //WHEN CAMERA IS OFF
         <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#FFE551" }}>
-          <View style={{ alignItems:"center",justifyContent: "center", flex: 1,overflow:"hidden", flexWrap: "wrap",maxHeight:Dimensions.get("window").width * 0.80,backgroundColor: "#1f1f1f"}}>
+          <View style={{marginTop:30,margin:10}}><Text>Timer</Text></View>
+          <View style={{ alignItems:"center",justifyContent: "center", flex: 5,overflow:"hidden", flexWrap: "wrap",maxHeight:Dimensions.get("window").width * 0.80,backgroundColor:"rgbar(255,0,0,0.1)"}}>
               <ScrollView style={{flex: 1,height:"100%"}}
+                scrollIndicatorInset={10}
                 contentContainerStyle={{flexDirection: "row", flexWrap: "wrap",justifyContent: "center", alignItems: "center"}}>
               {objectives.map(x => {
                 if (x.picturetaken == null) { //return card w/ picture taken or not
@@ -89,9 +91,12 @@ export default function GameScreen({ navigation }) {
               })}
               </ScrollView>
           </View>
-          <TouchableOpacity style={page.button}>
-            <Text>Confirm</Text>
-          </TouchableOpacity>
+          <View style={{flex:1,justifyContent: 'center',alignItems: 'center',backgroundColor:"rgba(255,0,0,0.1)",width:"100%"}}>
+            <TouchableOpacity style={page.button}>
+              <Text>Confirm</Text>
+            </TouchableOpacity>
+          </View>
+
         </View>
       )}
     </>
@@ -163,7 +168,7 @@ const tempObj =
       "objectiveid": 123,
       "description": "Squirrel",
       "points": 10,
-      referenceimage: "squirrel",
+      "referenceimage": "squirrel",
       "picturetaken": null,
       "score": 0
     },

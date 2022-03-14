@@ -117,7 +117,6 @@ export default ChooseObjectiveCard;
     image_container:{
       flex:4, 
       flexDirection:"column", 
-
       height: "100%", 
       width: "100%",
       justifyContent:"center",
