@@ -63,6 +63,7 @@ export default function GameScreen({ navigation }) {
         //WHEN CAMERA IS OFF
         <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#FFE551" }}>
           <View style={{ marginTop: 30, margin: 10 }}>
+            {/* calling the timer */}
             <CountdownTimer countdownTimestampMs={startTime+ (60000 * GameData.timelimit)}/>
           </View>
           <View style={{ alignItems: "center", justifyContent: "center", flex: 5, overflow: "hidden", flexWrap: "wrap", maxHeight: Dimensions.get("window").width * 1.00, backgroundColor: "rgbar(255,0,0,0.1)" }}>
