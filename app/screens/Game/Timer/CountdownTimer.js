@@ -16,15 +16,19 @@ import {
   } from "react-native";
   
 
+// const defaultRemainingTime = {
+//     seconds: '00',
+//     minutes: '00',
+//     hours: '00',
+//     days: '00', 
+// }
 const defaultRemainingTime = {
-    seconds: '01',
-    minutes: '00',
-    hours: '00',
-    days: '00', 
+ 
 }
 var finished = false;
 
 const CountdownTimer = ({countdownTimestampMs}) => {
+    
     const [remainingTime, setRemainingTime] = useState(defaultRemainingTime);
 
     useEffect(() => {
@@ -59,9 +63,6 @@ const CountdownTimer = ({countdownTimestampMs}) => {
 }
 
 const styles = StyleSheet.create({
-
-
-
     logo: {
       //text css
       fontSize: 50,

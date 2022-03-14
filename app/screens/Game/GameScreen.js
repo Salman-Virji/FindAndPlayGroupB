@@ -1,5 +1,6 @@
 import { Camera } from 'expo-camera';
 import React, { useEffect, useRef, useState } from 'react';
+import CountdownTimer from './Timer/CountdownTimer';
 import {
   Dimensions,
   StyleSheet,
@@ -8,10 +9,8 @@ import {
   View, ScrollView
 } from "react-native";
 import { CustomCamera } from './Components/CustomCamera';
-
+import getImage from './GameImages';
 import ChooseObjectiveCard from './Components/ChooseObjectiveCard';
-
-
 
 export default function GameScreen({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
@@ -19,9 +18,13 @@ export default function GameScreen({ navigation }) {
   const [showCamera, setShowCamera] = useState(false);
   const [objectives, setObjectives] = useState(tempObj);
   const [currentObjectiveId, setCurrentObjectiveId] = useState(null);
+  const startTime = Date.now()
+  const [startTimeState] = useState(startTime);
 
 
   const cameraRef = useRef(null);
+
+  
 
   const takePhoto = async () => {
     if (cameraRef) {
@@ -56,10 +59,12 @@ export default function GameScreen({ navigation }) {
     <>
       {showCamera ? (
         //WHEN CAMERA IS ON
-        CustomCamera(type, cameraRef, setType, setShowCamera, takePhoto, objectives, currentObjectiveId)
+        
+        CustomCamera(type, cameraRef, setType, setShowCamera, takePhoto, objectives, currentObjectiveId, startTimeState)
       ) : (
         //WHEN CAMERA IS OFF
         <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#FFE551" }}>
+          <CountdownTimer countdownTimestampMs={startTimeState+ (60000 * GameData.timelimit)}/>
           <View style={{ alignItems:"center",justifyContent: "center", flex: 1,overflow:"hidden", flexWrap: "wrap",maxHeight:Dimensions.get("window").width * 0.80,backgroundColor: "#1f1f1f"}}>
               <ScrollView style={{flex: 1,height:"100%"}}
                 contentContainerStyle={{flexDirection: "row", flexWrap: "wrap",justifyContent: "center", alignItems: "center"}}>
@@ -73,7 +78,7 @@ export default function GameScreen({ navigation }) {
                         setShowCamera(true)
                         setCurrentObjectiveId(x.objectiveid)
                       }}>
-                      <ChooseObjectiveCard objective={x} source={require("../../assets/images/red-squirrel.jpg")} />
+                      <ChooseObjectiveCard objective={x} source={getImage(x.referenceimage)} />
                     </TouchableOpacity>
                   )
                 } else {
@@ -157,13 +162,17 @@ const styles = StyleSheet.create({
   },
 });
 
+const GameData = {
+  "timelimit": 10, 
+}
+
 const tempObj =
   [
     {
       "objectiveid": 123,
       "description": "Squirrel",
       "points": 10,
-      referenceimage: "squirrel",
+      "referenceimage": "squirrel",
       "picturetaken": null,
       "score": 0
     },
