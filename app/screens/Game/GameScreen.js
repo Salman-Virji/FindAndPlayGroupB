@@ -7,9 +7,8 @@ import {
   TouchableOpacity,
   View, ScrollView
 } from "react-native";
-import { CustomCamera } from './Components/CustomCamera';
-
 import ChooseObjectiveCard from './Components/ChooseObjectiveCard';
+import { CustomCamera } from './Components/CustomCamera';
 
 
 
@@ -56,21 +55,21 @@ export default function GameScreen({ navigation }) {
     <>
       {showCamera ? (
         //WHEN CAMERA IS ON
-        CustomCamera(type, cameraRef, setType, setShowCamera, takePhoto, objectives, currentObjectiveId)
+        <CustomCamera  cameraRef={cameraRef} type={type} objectives={objectives} currentObjectiveId={currentObjectiveId} setType={setType} setShowCamera={setShowCamera} takePhoto={takePhoto}   />
       ) : (
         //WHEN CAMERA IS OFF
         <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#FFE551" }}>
-          <View style={{marginTop:30,margin:10}}><Text>Timer</Text></View>
-          <View style={{ alignItems:"center",justifyContent: "center", flex: 5,overflow:"hidden", flexWrap: "wrap",maxHeight:Dimensions.get("window").width * 0.80,backgroundColor:"rgbar(255,0,0,0.1)"}}>
-              <ScrollView style={{flex: 1,height:"100%"}}
-                scrollIndicatorInset={10}
-                contentContainerStyle={{flexDirection: "row", flexWrap: "wrap",justifyContent: "center", alignItems: "center"}}>
+          <View style={{ marginTop: 30, margin: 10 }}><Text>Timer</Text></View>
+          <View style={{ alignItems: "center", justifyContent: "center", flex: 5, overflow: "hidden", flexWrap: "wrap", maxHeight: Dimensions.get("window").width * 0.80, backgroundColor: "rgbar(255,0,0,0.1)" }}>
+            <ScrollView style={{ flex: 1, height: "100%" }}
+              scrollIndicatorInset={10}
+              contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center", alignItems: "center" }}>
               {objectives.map(x => {
                 if (x.picturetaken == null) { //return card w/ picture taken or not
                   return (
                     <TouchableOpacity
                       key={x.objectiveid}
-                      style={page.card}
+                      style={styles.card}
                       onPress={() => {
                         setShowCamera(true)
                         setCurrentObjectiveId(x.objectiveid)
@@ -80,7 +79,7 @@ export default function GameScreen({ navigation }) {
                   )
                 } else {
                   return (
-                    <TouchableOpacity key={x.objectiveid} style={page.card} disabled={true}>
+                    <TouchableOpacity key={x.objectiveid} style={styles.card} disabled={true}>
                       <ChooseObjectiveCard objective={x} source={{ uri: x.picturetaken }} />
                     </TouchableOpacity>
                   )
@@ -89,10 +88,10 @@ export default function GameScreen({ navigation }) {
                 }
 
               })}
-              </ScrollView>
+            </ScrollView>
           </View>
-          <View style={{flex:1,justifyContent: 'center',alignItems: 'center',backgroundColor:"rgba(255,0,0,0.1)",width:"100%"}}>
-            <TouchableOpacity style={page.button}>
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: "rgba(255,0,0,0.1)", width: "100%" }}>
+            <TouchableOpacity style={styles.generic_button}>
               <Text>Confirm</Text>
             </TouchableOpacity>
           </View>
@@ -103,41 +102,24 @@ export default function GameScreen({ navigation }) {
   )
 }
 
-const page = StyleSheet.create({
-  button: {
+//COMBINE STYLESHEETS
+export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  generic_button: {
     alignItems: "center",
     backgroundColor: "#DDDDDD",
     padding: 10,
     width: "50%"
   },
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#1e140a',
-    padding: 24,
-  },
-  text: {
-    fontSize: 10,
-    color: '#000'
-  },
   card: {
     flexBasis: "40%",
-    margin:5,
+    margin: 5,
     alignItems: 'center',
     justifyContent: 'center',
     width: Dimensions.get('window').width * 0.33,
     height: Dimensions.get('window').width * 0.33,
-  },
-  image: {
-    flex: 1,
-    justifyContent: "center"
-  },
-});
-//COMBINE STYLESHEETS
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
   },
   camera: {
     flex: 5,
@@ -160,6 +142,12 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: 'white',
   },
+  photoButton: {
+    alignItems: "center",
+    backgroundColor: "#DDDDDD",
+    padding: 10,
+    width: "50%"
+  }
 });
 
 const tempObj =
@@ -222,5 +210,7 @@ const tempObj =
       "score": 4
     }
   ]
+
+
 
 
