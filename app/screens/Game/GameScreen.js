@@ -80,7 +80,7 @@ export default function GameScreen({ navigation }) {
                         setShowCamera(true)
                         setCurrentObjectiveId(x.objectiveid)
                       }}>
-                      <ChooseObjectiveCard objective={x} source={getImage(x.referenceimage)} />
+                      <ChooseObjectiveCard objective={x} source={x.referenceimage} />
                     </TouchableOpacity>
                   )
                 } else {
@@ -176,7 +176,7 @@ const tempObj =
       "description": "Squirrel",
       "points": 10,
       "referenceimage": require('../../assets/images/red-squirrel.jpg'),
-      "picturetaken":  require('../../assets/images/cat.jpg'),
+      "picturetaken": null,
       "score": 0,
       "hasSet": false
     },

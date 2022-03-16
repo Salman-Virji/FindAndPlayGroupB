@@ -109,22 +109,24 @@ function confrimWheel({items}) {
           keyExtractor={(item) => item.description}
           horizontal
           pagingEnabled
+          showsHorizontalScrollIndicator={false}
           renderItem={({item}) => {
             return (
             <View style={{justifyContent: 'center', alignItems: 'center', width}}>
               <View style={styles.cardContainer}>
                 <View style={{alignItems: 'center', justifyContent: 'center'}}>
                 <Text style={styles.textDescription}>{item.description}</Text>
+                {console.log(item.picturetaken)}
                   </View>
                   <Image
-                    source={item.picturetaken != null? item.picturetaken : item.referenceimage} 
+                    source={item.picturetaken != null?  item.picturetaken : item.referenceimage} 
                     style={{
                       width: imageWidth,
                       resizeMode: 'cover',
                       borderRadius: 15,
                       marginBottom: 20,
                       padding: 50,
-                      backgroundColor: 'black'
+                      backgroundColor: 'red'
                     }} 
                   />
                   <FlatButton item={item}/>
