@@ -119,7 +119,7 @@ function confrimWheel({items}) {
                 {console.log(item.picturetaken)}
                   </View>
                   <Image
-                    source={item.picturetaken != null?  item.picturetaken : item.referenceimage} 
+                    source={item.picturetaken != null? {uri:item.picturetaken}: item.referenceimage} 
                     style={{
                       width: imageWidth,
                       resizeMode: 'cover',

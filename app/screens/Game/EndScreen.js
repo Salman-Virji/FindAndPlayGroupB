@@ -5,9 +5,9 @@ import {
     View,
   } from "react-native";
 import ConfrimWheel from './Components/ConfirmWheel';
-export default function EndScreen({route}){
+export default function EndScreen({route,navigation}){
     return(
-        <ConfrimWheel items={tempObj} />
+        <ConfrimWheel items={route.params.Data} />
     )
 }
 
