@@ -1,0 +1,10 @@
+{
+    "EXAMPLE":"NEW USER SIGN UP",
+    "_id": { "$oid": "620d293797551f3d1a09eee2" },
+    "username": "admin",
+    "email": "admin@gmail.com",
+    "password": "$2b$10$92mEzbr6Y6MxR3hAy7jXO.JNfDX5izYyvvAoqzpZbtg/Fwdv04eWm",
+    "createdAt": { "$date": "2022-02-16T16:41:27.526Z" },
+    "updatedAt": { "$date": "2022-02-16T16:41:27.526Z" },
+    "__v": 0
+}

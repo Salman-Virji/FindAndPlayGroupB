@@ -1,36 +1,33 @@
-//Express framework
+/** Environment variables .env */
+require('dotenv').config();
+const PORT = process.env.LOCALHOST_PORT || 3000;
+const ROOT = `http://localhost:${PORT}/auth`;
+
+/** Express framework */
 const express = require('express');
 const app = express();
-const port = 3000;
 
-//To access the .env file
-require('dotenv').config();
-
-//Cross-origin resource sharing for tranfering data between front and backend
-const cors = require('cors');
-
-//MongoDB middleware for query drivers
-const mongoose = require('mongoose');
-
-const usersRouter = require('./routes/UserRouter');
-
+/** Define view engine and static paths */
+const path = require('path');
+app.set('view engine', 'ejs');
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'views')));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+/** Cross-origin resource sharing for tranfering data between front and backend */
+const cors = require('cors');
 app.use(cors());
 
-//Connection string for mongoose (to connect to MongoDB)
-//Can be updated in .env file.
-const uri = process.env.ATLAS_URI;
-mongoose.connect(uri);
-const connection = mongoose.connection;
+/** MongoDB and store connection logic */
+const { ConnectMongoDB, SessionStore } = require('./config/database');
+ConnectMongoDB();
+app.use(SessionStore);
 
-//Connecting to testDB for now
-//Can switch to a different database by changing the URI inside the .env file
-connection.once('open', () => {
-    console.log("MongoDB database connection established succesfully");
-});
+/** Routing */
+app.use('/auth', require('./routes/Auth.routes'));
+app.use('/', require('./routes/Other.routes'));
 
-app.use('/users',usersRouter);
-
-app.listen(port, function () {
-  console.log('Server listening on port ' + port);
-});
+app.listen(PORT, () =>
+    console.log(`Connected to Port [ ${PORT} ] | Serving [ ${ROOT} ]`)
+);
