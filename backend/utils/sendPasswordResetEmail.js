@@ -15,8 +15,8 @@ const sendPasswordResetEmail = async (userEmail, resetTokenLink) => {
             service: 'gmail',
             auth: {
                 user: process.env.AUTH_USER,
-                pass: process.env.AUTH_PASS
-            }
+                pass: process.env.AUTH_PASS,
+            },
         });
 
         let message = {
@@ -81,8 +81,8 @@ const sendPasswordResetEmail = async (userEmail, resetTokenLink) => {
                 console.log(`Error sending link - ${err.message}`);
             }
 
-            //console.log(`Reset Email sent sucessfully: ${info.messageId}`);
-            console.log(`Reset link: ${resetTokenLink}`);
+            console.log(`Reset link:`);
+            console.log(`${resetTokenLink}`);
         });
     } catch (error) {
         console.log(error, 'Email not sent');

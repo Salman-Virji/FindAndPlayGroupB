@@ -15,6 +15,7 @@ const {
     SignUpSchema,
     SignInSchema,
     ResetPasswordSchema,
+    PasswordSchema,
 } = require('./Validation.controller');
 
 //#region NEW USER SIGN-UP
@@ -115,36 +116,52 @@ const Sign_In = async (request, response) => {
 };
 //#endregion
 
-/** @TODO - Testing */
+/** @TODO - Testing and clean up */
 //#region SIGN OUT USER
 /**
  * @description User Sign Out
  * @route POST http://localhost:3000/auth/sign-in
  * */
 const Sign_Out = async (request, response) => {
-    const activeSession = await SessionTokenModel.find().sort({ _id: 1 });
+    try {
+        const { _id } = request.body;
+        const activeSession = await SessionTokenModel.find().sort({ _id: 1 });
+        const { token } = activeSession[0];
+        const user = await UserModel.findOne({ _id });
+        const { username } = user;
 
-    const activeID = activeSession._id;
+        /** @TODO - Clean up and delete from db too! */
+        // activeSession.isActive
+        //     ? await SessionTokenModel.deleteOne({ _id: 1 })
+        //     : response.send('User session not present');
 
-    activeSession.isActive
-        ? await SessionTokenModel.deleteOne({ _id: 1 })
-        : response.send('User session not present');
+        if (request.session) {
+            request.session.destroy();
+        }
 
-    if (response.session.user) {
-        response.session.destroy();
+        response.send({
+            userid: _id,
+            username: username,
+            sessionMongo: token || 'No Token',
+            messageMongo: 'User has been signed out',
+            sessionExpress: request.session || 'ExpressSession Ended',
+        });
+    } catch (error) {
+        response.send({
+            Error: error.message,
+            sessionExpress: request.session || 'ExpressSession Ended',
+        });
     }
-
-    response.send('User Sign Out').render('signout', { UserSignedOut: activeID });
 };
 //#endregion
 
 /** @TODO - Testing */
 //#region RESET PASSWORD LINK
 /**
- * @description Reset Password Request
- * @route POST http://localhost:3000/auth/reset
+ * @description Password_Reset_Request
+ * @route POST http://localhost:3000/auth/reset-password
  * */
-const Reset_Password_Request = async (request, response) => {
+const Password_Reset_Request = async (request, response) => {
     try {
         const result = await ResetPasswordSchema.validateAsync(request.body);
     } catch (error) {
@@ -166,13 +183,16 @@ const Reset_Password_Request = async (request, response) => {
             }).save();
         }
 
-        const resetTokenLink = `http://localhost:3000/users/${user._id}/${token.token}`;
+        const resetTokenLink = `http://localhost:3000/auth/reset-password/${user._id}/${token.token}`;
 
         await sendPasswordResetEmail(user.email, resetTokenLink);
 
-        res.send('Password reset link sent to your email account');
+        response.send({
+            msg: 'Password reset link sent to your email account',
+            link: resetTokenLink,
+        });
     } catch (error) {
-        res.send('An error occurred');
+        response.send('An error occurred');
 
         console.log(error);
     }
@@ -180,12 +200,12 @@ const Reset_Password_Request = async (request, response) => {
 //#endregion
 
 /** @TODO - Testing */
-//#region UPDATE PASSWORD
+//#region UPDATE PASSWORD FORM
 /**
- * @description Update Password $id $token
- * @route GET http://localhost:3000/auth/:userId/:token
+ * @description Renders Password_Update_Page
+ * @route GET http://localhost:3000/auth/reset-password/:userId/:token
  * */
-const Reset_Password_Page = async (request, response) => {
+const Password_Update_Page = async (request, response) => {
     try {
         response.render('reset');
     } catch (error) {
@@ -198,39 +218,42 @@ const Reset_Password_Page = async (request, response) => {
 /** @TODO Render password set page and close and Testing */
 //#region UPDATE PASSWORD
 /**
- * @description Update Password $id $token
- * @route POST http://localhost:3000/auth/:userId/:token
+ * @description Password_Update $id $token
+ * @route POST http://localhost:3000/auth/reset-password/:userId/:token
  * */
-const Password_Update = async (req, res) => {
+const Password_Update = async (request, response) => {
     try {
         const result = await PasswordSchema.validateAsync(request.body);
     } catch (error) {
-        return response.status(409).send(error.details[0].message);
+        return response.status(409).send(error.message);
     }
 
     try {
-        const user = await UserModel.findById(req.params.userId);
+        const user = await UserModel.findById(request.params.userId);
 
-        if (!user) return res.status(400).send('Invalid or expired link');
+        console.log(user)
 
         const token = await ResetPasswordTokenModel.findOne({
             userId: user._id,
-            token: req.params.token,
+            token: request.params.token,
         });
 
-        if (!token) return res.status(400).send('Invalid or expired link');
+        /** @TODO - Issue somewhere here with token */
+        // TypeError: Cannot read properties of null (reading '_id')
+
+        if (!token) return request.status(400).send('Invalid or expired link');
 
         const salt = await bcrypt.genSalt(10);
-        user.password = await bcrypt.hash(req.body.password, salt);
+        user.password = await bcrypt.hash(request.body.password, salt);
 
         await user.save();
         await token.delete();
 
         /** @TODO Render password set page and close */
 
-        res.send('Password reset sucessfully');
+        response.send('Password reset sucessfully');
     } catch (error) {
-        res.send('An error occurred');
+        response.send('An error occurred');
         console.log(error);
     }
 };
@@ -240,8 +263,8 @@ module.exports = {
     New_Sign_Up,
     Sign_In,
     Sign_Out,
-    Reset_Password_Request,
-    Reset_Password_Page,
+    Password_Reset_Request,
+    Password_Update_Page,
     Password_Update,
 };
 
