@@ -101,7 +101,7 @@ export default function GameScreen({ navigation }) {
               style={styles.generic_button}
               onPress ={()=>{
                 navigation.navigate("EndScreen",
-                  {Data:tempObj.objectives}
+                  {Data:tempObj}
                 )
 
               }} //https://reactnavigation.org/docs/params/
@@ -236,5 +236,5 @@ const tempObj =
       "hasSet": false
     }]
   }
-  
+
 
