@@ -4,21 +4,21 @@ const mongoose = require('mongoose');
 /** Blueprint for defining the structure of a Mongoose model that maps directly to a MongoDB collection */
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema(
+const resetTokenSchema = new Schema(
     {
-        username: {
-            type: String,
+        userId: {
+            type: Schema.Types.ObjectId,
             required: true,
-            unique: true,
+            ref: 'User',
         },
-        email: {
+        token: {
             type: String,
             required: true,
-            unique: true,
         },
-        password: {
-            type: String,
-            required: true,
+        createdAt: {
+            type: Date,
+            default: Date.now,
+            expires: 3600,
         },
     },
     {
@@ -26,6 +26,6 @@ const userSchema = new Schema(
     }
 );
 
-const User = mongoose.model('User', userSchema);
+const ResetPasswordToken = mongoose.model('ResetPasswordToken', resetTokenSchema);
 
-module.exports = User;
+module.exports = ResetPasswordToken;
