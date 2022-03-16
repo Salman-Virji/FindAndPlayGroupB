@@ -135,6 +135,8 @@ const Sign_Out = async (request, response) => {
         //     ? await SessionTokenModel.deleteOne({ _id: 1 })
         //     : response.send('User session not present');
 
+        //await activeSession.delete();
+
         if (request.session) {
             request.session.destroy();
         }
@@ -223,25 +225,18 @@ const Password_Update_Page = async (request, response) => {
  * */
 const Password_Update = async (request, response) => {
     try {
-        const result = await PasswordSchema.validateAsync(request.body);
-    } catch (error) {
-        return response.status(409).send(error.message);
-    }
+        const { error } = await PasswordSchema.validateAsync(request.body);
 
-    try {
-        const user = await UserModel.findById(request.params.userId);
+        if (error) return response.status(400).send(error.message);
 
-        console.log(user)
+        const user = await UserModel.findById(request.params.id);
 
         const token = await ResetPasswordTokenModel.findOne({
-            userId: user._id,
+            userId: user.id,
             token: request.params.token,
         });
 
-        /** @TODO - Issue somewhere here with token */
-        // TypeError: Cannot read properties of null (reading '_id')
-
-        if (!token) return request.status(400).send('Invalid or expired link');
+        if (!token) return response.status(400).send('Invalid or expired link');
 
         const salt = await bcrypt.genSalt(10);
         user.password = await bcrypt.hash(request.body.password, salt);
@@ -251,7 +246,11 @@ const Password_Update = async (request, response) => {
 
         /** @TODO Render password set page and close */
 
-        response.send('Password reset sucessfully');
+        response.send({
+            messege: 'Password reset successfully',
+            raw: request.body.password,
+            hashed: user.password,
+        });
     } catch (error) {
         response.send('An error occurred');
         console.log(error);
