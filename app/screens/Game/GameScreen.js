@@ -101,7 +101,7 @@ export default function GameScreen({ navigation }) {
               style={styles.generic_button}
               onPress ={()=>{
                 navigation.navigate("EndScreen",
-                  {Data:tempObj}
+                  {Data:tempObj.objectives}
                 )
 
               }} //https://reactnavigation.org/docs/params/
@@ -171,65 +171,70 @@ const GameData = {
 const tempObj =
   {  
     "timelimit": 10,   
-    objectives: [  
-      {
-        "objectiveid": 123,
-        "description": "Squirrel",
-        "points": 10,
-        "referenceimage": "squirrel",
-        "picturetaken": null,
-        "score": 0
-      },
-      {
-        "objectiveid": 124,
-        "description": "Tree",
-        "points": 5,
-        "referenceimage": "tree",
-        "picturetaken": null,
-        "score": 5
-      },
-
-      {
-        "objectiveid": 125,
-        "description": "Bird",
-        "points": 8,
-        "referenceimage": "bird",
-        "picturetaken": null,
-        "score": 0
-      },
-      {
-        "objectiveid": 127,
-        "description": "Cat",
-        "points": 4,
-        "referenceimage": "cat",
-        "picturetaken": null,
-        "score": 4
-      },
-      {
-        "objectiveid": 129,
-        "description": "Tele",
-        "points": 4,
-        "referenceimage": "cat",
-        "picturetaken": null,
-        "score": 4
-      },
-      {
-        "objectiveid": 130,
-        "description": "Bear",
-        "points": 4,
-        "referenceimage": "cat",
-        "picturetaken": null,
-        "score": 4
-      },
-      {
-        "objectiveid": 131,
-        "description": "Lion",
-        "points": 4,
-        "referenceimage": "cat",
-        "picturetaken": null,
-        "score": 4
-      }
-    ]
+    objectives: [{
+      "objectiveid": 123,
+      "description": "Squirrel",
+      "points": 10,
+      "referenceimage": require('../../assets/images/red-squirrel.jpg'),
+      "picturetaken":  require('../../assets/images/cat.jpg'),
+      "score": 0,
+      "hasSet": false
+    },
+    {
+      "objectiveid": 124,
+      "description": "Tree",
+      "points": 5,
+      "referenceimage": require('../../assets/images/tree.jpg'),
+      "picturetaken": null,
+      "score": 5,
+      "hasSet": false
+    },
+    
+    {
+      "objectiveid": 125,
+      "description": "Bird",
+      "points": 8,
+      "referenceimage": require('../../assets/images/bird.jpg'),
+      "picturetaken": null,
+      "score": 0,
+      "hasSet": false
+    },
+    {
+      "objectiveid": 127,
+      "description": "Cat",
+      "points": 4,
+      "referenceimage": require('../../assets/images/cat.jpg'),
+      "picturetaken": null,
+      "score": 4,
+      "hasSet": false
+    },
+    {
+      "objectiveid": 129,
+      "description": "Tele",
+      "points": 4,
+      "referenceimage": require('../../assets/images/red-squirrel.jpg'),
+      "picturetaken": null,
+      "score": 4,
+      "hasSet": false
+    },
+    {
+      "objectiveid": 130,
+      "description": "Bear",
+      "points": 4,
+      "referenceimage": require('../../assets/images/red-squirrel.jpg'),
+      "picturetaken": null,
+      "score": 4,
+      "hasSet": false
+    },
+    {
+      "objectiveid": 131,
+      "description": "Lion",
+      "points": 4,
+      "referenceimage": require('../../assets/images/red-squirrel.jpg'),
+      "picturetaken": null,
+      "score": 4,
+      "hasSet": false
+    }]
   }
-
+  
 
