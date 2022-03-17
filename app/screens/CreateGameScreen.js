@@ -24,8 +24,7 @@ const { width, height } = Dimensions.get("window");
 
 function CreateGame({ navigation,route }) {
   const Host = route.params;
-  const [title,setTitle] = useState("Team Name");
-  const [location,setLocation] = useState({Value:"Location",Index:null});
+  const [title,setTitle] = useState("");
   const [playerCount,setPlayerCount] = useState(0);
   const [Settingobjective,setingObjectives] = useState(false);
   const [Objective1, SetObjective1]= useState({ Objective:"Objective 1",PointValue:5,Checked:false});
@@ -33,10 +32,8 @@ function CreateGame({ navigation,route }) {
   const [Objective3, SetObjective3]= useState({ Objective:"Objective 3",PointValue:5,Checked:false});
   const [Objective4, SetObjective4]= useState({ Objective:"Objective 4",PointValue:5,Checked:false});
   const [timeLimit,setTimeLimit] = useState({Value:"time limit",Index:null});
-  const [difficulty,setDifficulty] = useState({Value:"difficulty",Index:null});
+  const [location,setLocation] = useState({Value:"Location",Index:null});
   const [formFilled,setFormStatus] = useState(false);
-  const[point, setPoint] = useState(0)
-  var points = 0;
 
   function FormCheck(title,category,timeLimit,difficulty,playerCount,objective,navigation,Host)
 {
@@ -60,8 +57,6 @@ function createLobby(title,timeLimit,category,difficulty,objective,navigation,Ho
   //Location option toggle 
   function toggleLocation(change){
           //example string array
-          console.log("hi", "change is :" , change);
-
           var Locations =["Schoolyard","Nature Park","Playground"]
           if(location.Index == null)
           {
@@ -70,6 +65,7 @@ function createLobby(title,timeLimit,category,difficulty,objective,navigation,Ho
           else
           {
             var newIndex = location.Index+1;
+            // checks if it is at the end of the array and loops if needed
             if(newIndex >=3)
             {
               if(change == '+')
@@ -89,6 +85,7 @@ function createLobby(title,timeLimit,category,difficulty,objective,navigation,Ho
               }
              else{
               newIndex = location.Index-1;
+               // checks if it is at the start of the array and loops if needed
               if(newIndex <0)
               {
                 setLocation({Value:Locations[2],Index:2})
@@ -105,7 +102,6 @@ function createLobby(title,timeLimit,category,difficulty,objective,navigation,Ho
         }
   //Time Limit option toggle 
   function toggleTimeLimit(change){
-    console.log("hi", "change is :" , change);
 
           var TimeLimits =["0:30","1:00","1:30","2:00"]
           if(timeLimit.Index == null)
@@ -116,6 +112,7 @@ function createLobby(title,timeLimit,category,difficulty,objective,navigation,Ho
           else
           {
             var newIndex = timeLimit.Index+1;
+            // checks if it is at the end of the array and loops if needed
             if(newIndex >=4)
             {
               if(change == '+')
@@ -135,6 +132,7 @@ function createLobby(title,timeLimit,category,difficulty,objective,navigation,Ho
               }
              else{
               newIndex = timeLimit.Index-1;
+              // checks if it is at the start of the array and loops if needed
               if(newIndex <0)
               {
                 setTimeLimit({Value:TimeLimits[3],Index:3})
@@ -151,7 +149,9 @@ function createLobby(title,timeLimit,category,difficulty,objective,navigation,Ho
   //Player count option toggle 
  function checkPlayerCount(change)
  {
-  console.log("hi", "change is :" , change);
+            /*
+              uses the passed string value to determine what actions to take with edge cases for max and min
+            */
     if(change =='+')
     {
       setPlayerCount(playerCount+1);
@@ -175,14 +175,19 @@ function createLobby(title,timeLimit,category,difficulty,objective,navigation,Ho
  // passes in a string value to indicate increment or decrement and a intiger for which objective is being changed
  function ChangePoints(objectivenumber,Change)
  {
+   //uses passed in int to match to corresponding json object
    switch(objectivenumber)
     {
       case 1:
+        /*
+              uses the passed string value to determine what actions to take with edge cases for max and min
+            */
         var curval = Objective1.PointValue;
           switch(Change)
           {
+            
             case "+":
-              if(curval<95){
+              if(curval<90){
                 SetObjective1(Prev => ({
                   ...Prev,
                   PointValue:curval+5
@@ -201,11 +206,14 @@ function createLobby(title,timeLimit,category,difficulty,objective,navigation,Ho
           }
           break;
           case 2:
+            /*
+              uses the passed string value to determine what actions to take with edge cases for max and min
+            */
             var curval = Objective2.PointValue;
             switch(Change)
             {
               case "+":
-              if(curval<95){
+              if(curval<90){
                 SetObjective2(Prev => ({
                   ...Prev,
                   PointValue:curval+5
@@ -224,6 +232,9 @@ function createLobby(title,timeLimit,category,difficulty,objective,navigation,Ho
             }
             break;
           case 3:
+            /*
+              uses the passed string value to determine what actions to take with edge cases for max and min
+            */
             var curval = Objective3.PointValue;
             switch(Change)
             {
@@ -247,11 +258,14 @@ function createLobby(title,timeLimit,category,difficulty,objective,navigation,Ho
             }
             break;
           case 4:
+            /*
+              uses the passed string value to determine what actions to take with edge cases for max and min
+            */
             var curval = Objective4.PointValue;
             switch(Change)
             {
               case "+":
-              if(curval<95){
+              if(curval<90){
                 SetObjective4(Prev => ({
                   ...Prev,
                   PointValue:curval+5
@@ -267,7 +281,6 @@ function createLobby(title,timeLimit,category,difficulty,objective,navigation,Ho
               }
               
               break;
-                break;
             }
             break;
     }
@@ -275,9 +288,13 @@ function createLobby(title,timeLimit,category,difficulty,objective,navigation,Ho
  // passes in an integer to represent which objective it is and uses a ternary statement to change the is chekced value
  function IsChecked(objectivenumber)
  {
+   // matches passed in int to corresponding json object
    switch(objectivenumber)
     {
           case 1:
+            /* uses a ternary statement to check if the corresponding json objects
+             boolean value is true or false 
+            and sets it to the opposite*/
             Objective1.Checked?  SetObjective1(Prev => ({
               ...Prev,
               Checked:false
@@ -287,6 +304,9 @@ function createLobby(title,timeLimit,category,difficulty,objective,navigation,Ho
             }));        
             break;
           case 2:
+             /* uses a ternary statement to check if the corresponding json objects
+             boolean value is true or false 
+            and sets it to the opposite*/
             Objective1.Checked?  SetObjective2(Prev => ({
               ...Prev,
               Checked:false
@@ -296,6 +316,9 @@ function createLobby(title,timeLimit,category,difficulty,objective,navigation,Ho
             }));        
             break;
           case 3:
+             /* uses a ternary statement to check if the corresponding json objects
+             boolean value is true or false 
+            and sets it to the opposite*/
             Objective1.Checked?  SetObjective3(Prev => ({
               ...Prev,
               Checked:false
@@ -305,6 +328,9 @@ function createLobby(title,timeLimit,category,difficulty,objective,navigation,Ho
             }));        
             break;
           case 4:
+             /* uses a ternary statement to check if the corresponding json objects
+             boolean value is true or false 
+            and sets it to the opposite*/
             Objective1.Checked?  SetObjective4(Prev => ({
               ...Prev,
               Checked:false
@@ -372,7 +398,7 @@ function createLobby(title,timeLimit,category,difficulty,objective,navigation,Ho
           onChangeText={(teamName) => setTitle(teamName)}
          
           value={title}
-          placeholderTextColor="#808080"
+          placeholderTextColor="#fff"
           underlineColorAndroid="transparent"
           autoCapitalize="none"
           placeholder="Team name"
@@ -563,6 +589,7 @@ function createLobby(title,timeLimit,category,difficulty,objective,navigation,Ho
         placeholder="Objective"
         placeholderTextColor="#fff"
         autoCapitalize="none"
+        
         style={{
           position: "absolute",
           top: "54%",
@@ -590,34 +617,41 @@ function createLobby(title,timeLimit,category,difficulty,objective,navigation,Ho
               style={styles.arrowbtn4}
               onPress = {() => Settingobjective? setingObjectives(false) : setingObjectives(true) } 
             >
-              <Text>V</Text></Pressable>
+              </Pressable>
               {// dropdown menu when its rendered
               }
       {Settingobjective?
         <View style={styles.ObjectiveContainer}>
           <View style={styles.ObjectiveInputView}>
-            {// input for object
+            {// input for objective
             }
             <TextInput style={styles.ObjectiveInput}
                        placeholder={Objective1.Objective} 
-                       
+                       placeholderTextColor="#fff"
                        onChange={(e) => SetObjective1(Prev => ({
-                        
+                        /*deconstructs current json object and inserts new values
+                         where a matching key/value pair is found*/
                         Objective:e,
                         ...Prev
                       }))}/>
             <Pressable onPress={()=>ChangePoints(1,"-")}>
             {// display and buttons for adjusting point value
             }
+            {
+              // button for decreasing point value
+            }
               <Text style={styles.PointDecrease}> -</Text >
             </Pressable >
-
+                {// changes and stores point value of the objectives
+                }
             <Text style={styles.ObjectivePointInput}> {Objective1.PointValue.toString()}</Text>   
-            
+            {
+              // button for increasing point value
+            }
             <Pressable onPress={()=>ChangePoints(1,"+")}>
               <Text style={styles.PointIncreas}>+</Text>
             </Pressable>
-            {// checkbox to indicate if it should include all 4 objectives or not
+            {// checkbox for objectives
             }
             <BouncyCheckbox style={styles.ObjectiveCompleted} onPress={() => IsChecked(1)} isChecked={Objective1.Checked}>
             <Text></Text>
@@ -625,19 +659,40 @@ function createLobby(title,timeLimit,category,difficulty,objective,navigation,Ho
             </View>
            
             <View style={styles.ObjectiveInputView}>
+                {// input for objective
+            }
             <TextInput style={styles.ObjectiveInput} 
             placeholder={Objective2.Objective} 
+            placeholderTextColor="#fff"
             onChange={(e) => SetObjective2(Prev => ({
+              /*deconstructs current json object and inserts new values
+                         where a matching key/value pair is found*/
               Objective:e,
               ...Prev
             }))}/>
+             {// display and buttons for adjusting point value
+            }
+            {
+              // button for decreasing point value
+            }
             <Pressable  onPress={()=>ChangePoints(2,"-")}>
+              {// changes and stores point value of the objectives
+                }
               <Text  style={styles.PointDecrease}>-</Text>
             </Pressable>
+
+              {// changes and stores point value of the objectives
+                }
             <Text style={styles.ObjectivePointInput}> {Objective2.PointValue.toString()}</Text>   
             <Pressable onPress={()=>ChangePoints(2,"+")}>
+
+            {
+              // button for increasing point value
+            }
               <Text style={styles.PointIncreas}>+</Text>
             </Pressable>
+            {// checkbox for objectives
+            }
             <BouncyCheckbox style={styles.ObjectiveCompleted}
            onPress={() => IsChecked(2)} isChecked={Objective2.Checked}
             >
@@ -646,20 +701,36 @@ function createLobby(title,timeLimit,category,difficulty,objective,navigation,Ho
             </View>
 
             <View style={styles.ObjectiveInputView}>
+              {// input for objective
+            }
             <TextInput style={styles.ObjectiveInput}
              placeholder={Objective3.Objective}
-               
+             placeholderTextColor="#fff"
+              /*deconstructs current json object and inserts new values
+                         where a matching key/value pair is found*/
               onChange={(e) => SetObjective3(Prev => ({
                 Objective:e,
                 ...Prev
               }))}/>
+               {// display and buttons for adjusting point value
+            }
+            {
+              // button for decreasing point value
+            }
             <Pressable onPress={()=>ChangePoints(3,"-")}>
               <Text  style={styles.PointDecrease} >-</Text>
             </Pressable>
+            {// changes and stores point value of the objectives
+                }
             <Text style={styles.ObjectivePointInput}> {Objective3.PointValue.toString()}</Text>   
             <Pressable onPress={()=>ChangePoints(3,"+")}>
+            {
+              // button for increasing point value
+            }
               <Text style={styles.PointIncreas}>+</Text>
             </Pressable>
+              {// checkbox for objectives
+            }
             <BouncyCheckbox style={styles.ObjectiveCompleted}
               onPress={() => IsChecked(3)} isChecked={Objective3.Checked}
             >
@@ -668,21 +739,37 @@ function createLobby(title,timeLimit,category,difficulty,objective,navigation,Ho
             </View>
 
             <View style={styles.ObjectiveInputView}>
+               {// input for objective
+            }
             <TextInput style={styles.ObjectiveInput}
+            
              placeholder={Objective4.Objective} 
-
+             placeholderTextColor="#fff"
+             /*deconstructs current json object and inserts new values
+                         where a matching key/value pair is found*/
              onChange={(e) => SetObjective4(Prev => ({
               Objective:e,
               ...Prev
             }))}/>
-            
+              {// display and buttons for adjusting point value
+            }
+            {
+              // button for decreasing point value
+            }
             <Pressable onPress={()=>ChangePoints(4,"-")}  >
               <Text style={styles.PointDecrease}>-</Text>
             </Pressable>
+             {// changes and stores point value of the objectives
+                }
             <Text style={styles.ObjectivePointInput}> {Objective4.PointValue.toString()}</Text>   
+            {
+              // button for increasing point value
+            }
             <Pressable onPress={()=>ChangePoints(4,"+")}  >
               <Text style={styles.PointIncreas}>+</Text>
             </Pressable  >
+            {// checkbox for objectives
+            }
             <BouncyCheckbox style={styles.ObjectiveCompleted} onPress={() => IsChecked(4)} isChecked={Objective4.Checked}> 
               <Text></Text>
             </BouncyCheckbox>
@@ -706,32 +793,7 @@ function createLobby(title,timeLimit,category,difficulty,objective,navigation,Ho
           <Text style={styles.text}>Start</Text>
         </TouchableOpacity>
       </View>
-        {/* Difficulty selector
-      <TextInput
-      onChangeText={(e) => setDifficulty (e)}  
-      value={difficulty}
-        underlineColorAndroid="transparent"
-        placeholder="Difficulty"
-        placeholderTextColor="#fff"
-        autoCapitalize="none"
-        style={{
-          position: "absolute",
-          top: 640,
-          borderWidth: 3,
-          width: width * 0.6,
-          alignItems: "center",
-          textAlign: "center",
-          padding: 12,
-          left: 160,
-          fontSize: 30,
-          borderRadius: 20,
-          fontSize: 20,
-          borderRadius: 20,
-          borderColor: "#fff",
-          borderRadius: 20,
-          color: "#fff",
-        }}
-      /> */}
+       
     </ImageBackground>
   );
     }
@@ -801,6 +863,8 @@ const styles = StyleSheet.create({
     borderRadius:25
   },
   ObjectiveInputView:{
+    padding:3,
+    margin:1,
     borderWidth: 1,
     borderRadius:25,
     borderColor:"#fff",
@@ -809,7 +873,7 @@ const styles = StyleSheet.create({
     marginLeft:20,
     fontSize:RFPercentage(5),
     position:"relative",
-    width:"80%"
+    width:"90%"
   },
   PointIncreas:{
     flex:1,
