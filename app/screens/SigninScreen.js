@@ -58,7 +58,7 @@ function SigninScreen({ navigation }) {
     };
 
     console.log(body);
-    var url = `http:192.168.0.20:3000/users/login`; //Replace by your IP address
+    var url = `http:10.0.0.135:3000/users/login`; //Replace by your IP address
 
     axios
       .post(url, body, navigation)

@@ -21,6 +21,11 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+      <Stack.Screen
+          name="LandingScreen"
+          component={LandingScreen}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name="SigninScreen"
           component={SigninScreen}
@@ -42,11 +47,7 @@ function App() {
           component={RegistarScreenT}
           options={{ headerShown: false }}
         />
-        <Stack.Screen
-          name="LandingScreen"
-          component={LandingScreen}
-          options={{ headerShown: false }}
-        />
+        
         <Stack.Screen
           name="ForgotPasswordScreen"
           component={ForgotPasswordScreen}
