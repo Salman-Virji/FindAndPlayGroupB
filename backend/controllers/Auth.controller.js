@@ -1,5 +1,4 @@
 /** Packages */
-const Joi = require('joi');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
@@ -26,25 +25,35 @@ const sendResetLink_ETHEREAL = require('../utils/sendResetEmail_ethereal');
  * @route POST http://localhost:3000/auth/new-signup
  * */
 const New_Sign_Up = async (request, response) => {
+    const username = request.body.username;
+    const email = request.body.email;
+    const password = request.body.password;
+
+    /** @TODO - Fix some issues with this */
     /** Handle Errors - Data Validation */
-    const { error } = await SignUpSchema.validateAsync(request.body);
-    if (error)
-        return response
-            .status(403)
-            .json({
-                data: 'Data Validation Error' || 'Failed',
-                success: false,
-            });
+    // try {
+    //     const value = await SignInSchema.validateAsync({
+    //         username: username,
+    //         email: email,
+    //         password: password,
+    //     });
+    // } catch (err) {
+    //     return response.status(401).json({
+    //         data: 'Data Validation Error',
+    //         success: false,
+    //         loc: 'validatation catch',
+    //         err: err.details,
+    //     });
+    // }
 
     /** Handle Errors - User Already Exists */
-    const userExists = await UserModel.findOne({ email: request.body.email });
+    const userExists = await UserModel.findOne({ email: email });
     if (userExists)
-        return response
-            .status(403)
-            .json({
-                data: 'Username or Password Already Exists' || 'Failed',
-                success: false,
-            });
+        return response.status(401).json({
+            data: 'Username or Password Already Exists',
+            success: false,
+            loc: 'dupilcate user if',
+        });
 
     /** Create User, Hash Password and Save */
     try {
@@ -58,11 +67,15 @@ const New_Sign_Up = async (request, response) => {
         });
         await newuser.save();
 
-        response.status(201).json({ data: newuser, success: true });
-    } catch (error) {
         response
-            .status(403)
-            .json({ data: error.message || 'Failed', success: false });
+            .status(201)
+            .json({ data: newuser, success: true, loc: 'end try sign up' });
+    } catch (error) {
+        response.status(403).json({
+            data: error.message,
+            success: false,
+            loc: 'sign up catch',
+        });
     }
 };
 //#endregion
@@ -73,32 +86,39 @@ const New_Sign_Up = async (request, response) => {
  * @route POST http://localhost:3000/auth/sign-in
  * */
 const Sign_In = async (request, response) => {
-    /** Handle Errors - Data Validation */
-    const { error } = await SignInSchema.validateAsync(request.body);
-    if (error)
-        return response.status(403).json({
-            data: 'Username or Email could not be validated',
-            success: false,
-        });
+    const username = request.body.username;
+    const password = request.body.password;
 
-    /** Handle Errors - Username does not exist */
-    const user = await UserModel.findOne({ username: request.body.username });
-    if (!user)
-        return response
-            .status(403)
-            .json({ data: 'Username or Email does not exist', success: false });
-
-    /** Handle Errors - Username has an active session */
-    const userSignedIn = await SessionTokenModel.findOne({ userID: user._id });
-    // response.json({user: userSignedIn});
-
-    if (userSignedIn)
-        return response
-            .status(403)
-            .json({ data: 'User is already signed in!', success: false });
-
-    /** Sign In User, Compare Passwords, Generate JWT and Save */
     try {
+        /** Handle Errors - Data Validation */
+        const error = SignInSchema.validate(request.body);
+        if (error)
+            return response.status(403).json({
+                data: 'Username or Email could not be validated',
+                success: false,
+                loc: 'validation if',
+            });
+
+        /** Handle Errors - Username does not exist */
+        const user = await UserModel.findOne({ username: username });
+        if (!user)
+            response.status(403).json({
+                data: 'Username or Email does not exist',
+                success: false,
+                loc: 'username not found if',
+            });
+
+        // /** Handle Errors - Username has an active session */
+        // const userSignedIn = await SessionTokenModel.findOne({ userID: user._id });
+        // // response.json({user: userSignedIn});
+
+        // if (userSignedIn)
+        //     return response
+        //         .status(403)
+        //         .json({ data: 'User is already signed in!', success: false });
+
+        /** Sign In User, Compare Passwords, Generate JWT and Save */
+
         const validation = await bcrypt.compare(
             request.body.password,
             user.password
@@ -123,7 +143,7 @@ const Sign_In = async (request, response) => {
     } catch (error) {
         return response
             .status(403)
-            .json({ data: error.message || 'Failed', success: false });
+            .json({ data: error.message, success: false, loc: 'catch' });
     }
 };
 //#endregion
@@ -177,12 +197,11 @@ const Sign_Out = async (request, response) => {
  * */
 const Password_Reset_Request = async (request, response) => {
     try {
-        const result = await ResetPasswordSchema.validateAsync(request.body);
-    } catch (error) {
-        return response.status(409).send(error.details[0].message);
-    }
+        const { error } = await ResetPasswordSchema.validateAsync(request.body);
+        if (error) {
+            return response.status(409).send(error.message);
+        }
 
-    try {
         const user = await UserModel.findOne({ email: request.body.email });
 
         if (!user)
@@ -207,7 +226,7 @@ const Password_Reset_Request = async (request, response) => {
 
         response.send({
             msg: 'Password reset link sent to your email account',
-            link: resetTokenLink,
+            link: resetURL,
         });
     } catch (error) {
         response.send('An error occurred');
