@@ -27,6 +27,8 @@ function CreateGame({ navigation,route }) {
   const [title,setTitle] = useState("");
   const [playerCount,setPlayerCount] = useState(0);
   const [Settingobjective,setingObjectives] = useState(false);
+
+
   const [Objective1, SetObjective1]= useState({ Objective:"Objective 1",PointValue:5,Checked:false});
   const [Objective2, SetObjective2]= useState({ Objective:"Objective 2",PointValue:5,Checked:false});
   const [Objective3, SetObjective3]= useState({ Objective:"Objective 3",PointValue:5,Checked:false});
@@ -35,23 +37,85 @@ function CreateGame({ navigation,route }) {
   const [location,setLocation] = useState({Value:"Location",Index:null});
   const [formFilled,setFormStatus] = useState(false);
 
-  function FormCheck(title,category,timeLimit,difficulty,playerCount,objective,navigation,Host)
+  
+/*
+
+  function to bundle game lobby info as a json object and send it to the next page for group b3
+
+*/
+function createLobby()
 {
-  if(title == "" || category =="" || timeLimit =="" || difficulty =="" || playerCount =="" || objective =="")
+  var timeInMin;
+  if(timeLimit.Value == "2:00")
   {
-    setFormStatus(true);
-    return;
+      timeInMin = 120;
   }
-  setFormStatus(false);
-  createLobby(title,timeLimit,category,difficulty,playerCount,objective,r,navigation,Host);
+  else if(timeLimit.Value == "1:30")
+  {
+    timeInMin = 90;
+  }
+  else if(timeLimit.Value == "1:00")
+  {
+    timeInMin = 60;
+  }
+  else
+  {
+    timeInMin = 30;
+  }
+  var gameLobby ={
+    "gameid": 1,  
+    "teamname": title,
+    "timelimit": timeInMin, 
+    "totalscore": Objective1.PointValue+Objective2.PointValue+Objective3.PointValue+Objective4.PointValue,
+    "location": "Park",
+    "playercount": playerCount,
+    "objectives": 
+        [ 
+        {  
+            "timelimit": timeInMin,   
+            "objectives": [{
+            "objectiveid": 1,
+            "description": Objective1.Objective,
+            "points": Objective1.PointValue,
+            "referenceimage": "",
+            "picturetaken": null,
+            "score": 0,
+            "hasSet": Objective1.Checked
+            },
+             {
+            "objectiveid": 2,
+            "description": Objective2.Objective,
+            "points": Objective2.PointValue,
+            "referenceimage": "",
+            "picturetaken": null,
+            "score": 0,
+            "hasSet": Objective2.Checked
+            },
+            
+            {
+              "objectiveid": 3,
+              "description": Objective3.Objective,
+              "points": Objective3.PointValue,
+              "referenceimage": "",
+              "picturetaken": null,
+              "score": 0,
+              "hasSet": Objective3.Checked
+            },
+            {
+              "objectiveid": 4,
+              "description": Objective4.Objective,
+              "points": Objective4.PointValue,
+              "referenceimage": "",
+              "picturetaken": null,
+              "score": 0,
+              "hasSet": Objective4.Checked
+            }]
+        }
+    ]
+    
 }
 
-function createLobby(title,timeLimit,category,difficulty,objective,navigation,Host)
-{
-  console.log("Before crash\n");
-  console.log("\n host name before sending");
-  console.log("after crash \n");
-  navigation.navigate('gamelobby',{title:title,timeLimit:timeLimit,category:category,difficulty:difficulty,code:r,Host:Host.Username});
+  navigation.navigate("",{GameLobby:GameLobby})
 }
 
   //Location option toggle 
@@ -789,7 +853,7 @@ function createLobby(title,timeLimit,category,difficulty,objective,navigation,Ho
           fontSize: 20,
         }}
       >
-        <TouchableOpacity activeOpacity={0.95} style={styles.button} onPress={() =>FormCheck(title,category,difficulty,timeLimit,r,navigation,Host)}>
+        <TouchableOpacity activeOpacity={0.95} style={styles.button} onPress={() =>createLobby()}>
           <Text style={styles.text}>Start</Text>
         </TouchableOpacity>
       </View>
