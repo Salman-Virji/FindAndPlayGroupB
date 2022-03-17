@@ -17,6 +17,7 @@ import {
 import { RFPercentage } from "react-native-responsive-fontsize";
 //This component is used to calculate the dimensions of the device and set width of certain components accordingly e.g input box
 import { Dimensions } from "react-native";
+//import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 const { width, height } = Dimensions.get("window");
 
@@ -43,38 +44,116 @@ function createLobby(title,timeLimit,category,difficulty,playerCount,objective,n
 
 function CreateGame({ navigation,route }) {
   const Host = route.params;
+  /*example json object
+   const [location,setLocation] = useState({Value:"Team Name",Index:null});
+
+  */
   const [title,setTitle] = useState("Team Name");
   const [location,setLocation] = useState("Location");
   const [category,setCategory] = useState("");
   const [playerCount,setPlayerCount] = useState("Player Count");
-  const [Settingobjective,setingObjectives] = useState(true);
-  const [Objective1, SetObjective1]= useState({ Objective:"Objective 1",PointValue:5});
-  const [Objective2, SetObjective2]= useState({ Objective:"Objective 2",PointValue:5});
-  const [Objective3, SetObjective3]= useState({ Objective:"Objective 3",PointValue:5});
-  const [Objective4, SetObjective4]= useState({ Objective:"Objective 4",PointValue:5});
+  const [Settingobjective,setingObjectives] = useState(false);
+  const [Objective1, SetObjective1]= useState({ Objective:"Objective 1",PointValue:5,Checked:false});
+  const [Objective2, SetObjective2]= useState({ Objective:"Objective 2",PointValue:5,Checked:false});
+  const [Objective3, SetObjective3]= useState({ Objective:"Objective 3",PointValue:5,Checked:false});
+  const [Objective4, SetObjective4]= useState({ Objective:"Objective 4",PointValue:5,Checked:false});
   const [timeLimit,setTimeLimit] = useState("Time Limit");
   const [difficulty,setDifficulty] = useState("");
   const [formFilled,setFormStatus] = useState(false);
+  const[point, setPoint] = useState(0)
   console.log(Settingobjective);
+  var points = 0;
+  function increment(){
+   
+    if(point != 3){
+      setPoint(setPoint=> setPoint +1)
+    }
+    else if(point == 3){
+      setPoint(setPoint=> setPoint = 0)
+    }
 
+    toggleLocation();
+    
+    //setPoint(setPoint=> setPoint +1)
+    console.log("increment" + point);
+  }
+  function decrement(){
+    
+    
+      setPoint(setPoint=> setPoint -1)
+    
+    
+    
+    
+    toggleLocation()
+    console.log("decrement" + point);
+  }
   //Location option toggle 
   function toggleLocation(){
-    if(location == "Location")
+    /*example json array
+    
+      var Locations =["Schoolyard","Nature Park","Playground"]
+
+        Switch(location)
+        {
+          case null:
+            setLocation(Locations[0],0);
+              break;
+          case 0:
+            setLocation(Locations[1],1);
+            break;
+             case 1:
+            setLocation(Locations[2],2);
+            break;
+             case 2:
+            setLocation(Locations[0],0);
+            break;
+              
+        }
+    */
+
+    
+    if(point == 3)
     {
+      //points =3;
+      setLocation(location => location = "School Yard")
+    }
+    if(point == 2)
+    {
+      //points =1;
+      setLocation(location => location = "Nature Park")
+    }
+    if(point == 1)
+    {
+      //points =2;
+      setLocation(location => location = "Playground")
+    }
+    if(point == 0)
+    {
+      //points =3;
+      setLocation(location => location = "Location")
+    }
+
+    /*if(location == "Location")
+    {
+      points =0;
       setLocation(location => location = "School Yard")
     }
     if(location == "School Yard")
     {
+      points =1;
       setLocation(location => location = "Nature Park")
     }
     if(location == "Nature Park")
     {
+      points =2;
       setLocation(location => location = "Playground")
     }
     if(location == "Playground")
     {
+      points =3;
       setLocation(location => location = "Location")
-    }
+    }*/
     
   }
   //Time Limit option toggle 
@@ -120,7 +199,9 @@ function CreateGame({ navigation,route }) {
  function teamNameHandler(teamName){
    setTitle(title=>title = teamName)
  }
- function ChangePoints(Change,objectivenumber)
+
+ // passes in a string value to indicate increment or decrement and a intiger for which objective is being changed
+ function ChangePoints(objectivenumber,Change)
  {
    switch(objectivenumber)
     {
@@ -129,69 +210,136 @@ function CreateGame({ navigation,route }) {
           switch(Change)
           {
             case "+":
-              SetObjective1(Prev => ({
-                ...Prev,
-                PointValue:curval+5
-              }));
+              if(curval<95){
+                SetObjective1(Prev => ({
+                  ...Prev,
+                  PointValue:curval+5
+                }));
+              }
               break;
             case "-":
-              SetObjective1(Prev => ({
-                ...Prev,
-                PointValue:curval-5
-              }));
+              if(curval>5){
+                SetObjective1(Prev => ({
+                  ...Prev,
+                  PointValue:curval-5
+                }));
+              }
+              
               break;
           }
+          break;
           case 2:
-            var curval = Objective1.PointValue;
+            var curval = Objective2.PointValue;
             switch(Change)
             {
               case "+":
+              if(curval<95){
                 SetObjective2(Prev => ({
                   ...Prev,
                   PointValue:curval+5
                 }));
-                break;
-              case "-":
+              }
+              break;
+            case "-":
+              if(curval>5){
                 SetObjective2(Prev => ({
                   ...Prev,
                   PointValue:curval-5
                 }));
-                break;
+              }
+              
+              break;
             }
+            break;
           case 3:
-            var curval = Objective1.PointValue;
+            var curval = Objective3.PointValue;
             switch(Change)
             {
               case "+":
+              if(curval<95){
                 SetObjective3(Prev => ({
                   ...Prev,
                   PointValue:curval+5
                 }));
-                break;
-              case "-":
+              }
+              break;
+            case "-":
+              if(curval>5){
                 SetObjective3(Prev => ({
                   ...Prev,
                   PointValue:curval-5
                 }));
-                break;
+              }
+              
+              break;
             }
+            break;
           case 4:
-            var curval = Objective1.PointValue;
+            var curval = Objective4.PointValue;
             switch(Change)
             {
               case "+":
+              if(curval<95){
                 SetObjective4(Prev => ({
                   ...Prev,
                   PointValue:curval+5
                 }));
-                break;
-              case "-":
+              }
+              break;
+            case "-":
+              if(curval>5){
                 SetObjective4(Prev => ({
                   ...Prev,
                   PointValue:curval-5
                 }));
+              }
+              
+              break;
                 break;
             }
+            break;
+    }
+ }
+ function IsChecked(objectivenumber)
+ {
+   switch(objectivenumber)
+    {
+          case 1:
+            Objective1.Checked?  SetObjective1(Prev => ({
+              ...Prev,
+              Checked:false
+            })):      SetObjective1(Prev => ({
+              ...Prev,
+              Checked:true
+            }));        
+            break;
+          case 2:
+            Objective1.Checked?  SetObjective2(Prev => ({
+              ...Prev,
+              Checked:false
+            })):      SetObjective2(Prev => ({
+              ...Prev,
+              Checked:true
+            }));        
+            break;
+          case 3:
+            Objective1.Checked?  SetObjective3(Prev => ({
+              ...Prev,
+              Checked:false
+            })):      SetObjective3(Prev => ({
+              ...Prev,
+              Checked:true
+            }));        
+            break;
+          case 4:
+            Objective1.Checked?  SetObjective4(Prev => ({
+              ...Prev,
+              Checked:false
+            })):      SetObjective4(Prev => ({
+              ...Prev,
+              Checked:true
+            }));        
+            break;
     }
  }
 
@@ -317,10 +465,22 @@ function CreateGame({ navigation,route }) {
       <Image source={require('../assets/Btn/arrowbutton.png')} style={styles.arrowbtn1}
 
            />
+ 
       <Pressable
       
               style={styles.arrowbtn1}
-              onPress= {() =>toggleLocation()  } 
+              onPress= {() =>increment()  } 
+              
+            >
+              
+      </Pressable>
+      <Image source={require('../assets/Btn/arrowbutton.png')} style={styles.arrowbtn11}
+
+/>
+      <Pressable
+      
+              style={styles.arrowbtn11}
+              onPress= {() =>decrement()  } 
               
             >
               
@@ -419,7 +579,7 @@ function CreateGame({ navigation,route }) {
         autoCapitalize="none"
         style={{
           position: "absolute",
-          top: "56%",
+          top: "54%",
           borderWidth: 3,
           // width: 350,
           width: width * 0.6,
@@ -437,70 +597,109 @@ function CreateGame({ navigation,route }) {
         }
       }       
       />
+      <Image source={require('../assets/Btn/arrowbutton.png')} style={styles.arrowbtn4}
+
+/>
         <Pressable
-              style={styles.btnSendrequest4}
+              style={styles.arrowbtn4}
               onPress = {() => Settingobjective? setingObjectives(false) : setingObjectives(true) } 
             >
               <Text>V</Text></Pressable>
+              {// dropdown menu when its rendered
+              }
       {Settingobjective?
         <View style={styles.ObjectiveContainer}>
           <View style={styles.ObjectiveInputView}>
-            <TextInput style={styles.ObjectiveInput} placeholder={Objective1.Objective} value={Objective1.Objective} />
-            <Pressable >
+            {// input for object
+            }
+            <TextInput style={styles.ObjectiveInput}
+                       placeholder={Objective1.Objective} 
+                       
+                       onChange={(e) => SetObjective1(Prev => ({
+                        
+                        Objective:e,
+                        ...Prev
+                      }))}/>
+            <Pressable onPress={()=>ChangePoints(1,"-")}>
+            {// display and buttons for adjusting point value
+            }
               <Text style={styles.PointDecrease}> -</Text >
-            </Pressable>
+            </Pressable >
 
             <Text style={styles.ObjectivePointInput}> {Objective1.PointValue.toString()}</Text>   
             
-            <Pressable>
+            <Pressable onPress={()=>ChangePoints(1,"+")}>
               <Text style={styles.PointIncreas}>+</Text>
             </Pressable>
-            <Pressable style={styles.ObjectiveCompleted} >
+            {// checkbox to indicate if it should include all 4 objectives or not
+            }
+            <BouncyCheckbox style={styles.ObjectiveCompleted} onPress={() => IsChecked(1)} isChecked={Objective1.Checked}>
             <Text></Text>
-            </Pressable>
+            </BouncyCheckbox>
             </View>
            
             <View style={styles.ObjectiveInputView}>
-            <TextInput style={styles.ObjectiveInput} placeholder={Objective2.Objective} value={Objective2.Objective} />
-            <Pressable >
+            <TextInput style={styles.ObjectiveInput} 
+            placeholder={Objective2.Objective} 
+            onChange={(e) => SetObjective2(Prev => ({
+              Objective:e,
+              ...Prev
+            }))}/>
+            <Pressable  onPress={()=>ChangePoints(2,"-")}>
               <Text  style={styles.PointDecrease}>-</Text>
             </Pressable>
             <Text style={styles.ObjectivePointInput}> {Objective2.PointValue.toString()}</Text>   
-            <Pressable >
+            <Pressable onPress={()=>ChangePoints(2,"+")}>
               <Text style={styles.PointIncreas}>+</Text>
             </Pressable>
-            <Pressable style={styles.ObjectiveCompleted}>
+            <BouncyCheckbox style={styles.ObjectiveCompleted}
+           onPress={() => IsChecked(2)} isChecked={Objective2.Checked}
+            >
             <Text></Text>
-            </Pressable>
+            </BouncyCheckbox>
             </View>
 
             <View style={styles.ObjectiveInputView}>
-            <TextInput style={styles.ObjectiveInput} placeholder={Objective3.Objective} value={Objective3.Objective} />
-            <Pressable >
+            <TextInput style={styles.ObjectiveInput}
+             placeholder={Objective3.Objective}
+               
+              onChange={(e) => SetObjective3(Prev => ({
+                Objective:e,
+                ...Prev
+              }))}/>
+            <Pressable onPress={()=>ChangePoints(3,"-")}>
               <Text  style={styles.PointDecrease} >-</Text>
             </Pressable>
             <Text style={styles.ObjectivePointInput}> {Objective3.PointValue.toString()}</Text>   
-            <Pressable>
+            <Pressable onPress={()=>ChangePoints(3,"+")}>
               <Text style={styles.PointIncreas}>+</Text>
             </Pressable>
-            <Pressable style={styles.ObjectiveCompleted}>
+            <BouncyCheckbox style={styles.ObjectiveCompleted}
+              onPress={() => IsChecked(3)} isChecked={Objective3.Checked}
+            >
             <Text></Text>
-            </Pressable>
+            </BouncyCheckbox>
             </View>
 
             <View style={styles.ObjectiveInputView}>
-            <TextInput style={styles.ObjectiveInput} placeholder={Objective4.Objective} value={Objective4.Objective} />
+            <TextInput style={styles.ObjectiveInput}
+             placeholder={Objective4.Objective} 
+
+             onChange={(e) => SetObjective4(Prev => ({
+              Objective:e,
+              ...Prev
+            }))}/>
             
-            <Pressable >
+            <Pressable onPress={()=>ChangePoints(4,"-")}  >
               <Text style={styles.PointDecrease}>-</Text>
             </Pressable>
             <Text style={styles.ObjectivePointInput}> {Objective4.PointValue.toString()}</Text>   
-            <Pressable>
+            <Pressable onPress={()=>ChangePoints(4,"+")}  >
               <Text style={styles.PointIncreas}>+</Text>
-            </Pressable>
-            <Pressable style={styles.ObjectiveCompleted}> 
+            </Pressable  >
+            <BouncyCheckbox style={styles.ObjectiveCompleted} onPress={() => IsChecked(4)} isChecked={Objective4.Checked}> 
               <Text></Text>
-            </Pressable>
+            </BouncyCheckbox>
             </View>
           
         </View>:null
@@ -553,6 +752,14 @@ function CreateGame({ navigation,route }) {
 
 const styles = StyleSheet.create({
 
+  arrowbtn4:{ //timelimitbutton
+    zIndex:3,
+    width: 40,
+    height: 40,
+    position: 'absolute',
+    top: "55%",
+    right: "22%"
+  },
   arrowbtn3:{ //timelimitbutton
     width: 40,
     height: 40,
@@ -574,10 +781,18 @@ const styles = StyleSheet.create({
     top: "36.7%",
     right: "22%"
   },
+  arrowbtn11:{ //location button2
+    width: 40,
+    height: 40,
+    transform: [{ rotate: "180deg" }],
+    position: 'absolute',
+    bottom: "59.7%",
+    left: "22%"
+  },
   ObjectiveCompleted:{
     margin:5,
     alignItems:"center",
-    top:"3%",
+    top:"1%",
     flex:0.2,
     backgroundColor:"#fff",
     borderRadius:25
@@ -632,9 +847,9 @@ const styles = StyleSheet.create({
     borderTopWidth:0,
     borderRadius:25,
     position:"relative", 
-    top:"55%",
-    width: width * 0.4,
-    left:"30%",
+    top:"57%",
+    width: width * 0.5,
+    left:"25%",
     zIndex:5
   },
   btnSendrequest4: {
