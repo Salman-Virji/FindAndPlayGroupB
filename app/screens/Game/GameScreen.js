@@ -23,7 +23,7 @@ export default function GameScreen({ navigation }) {
 
   const cameraRef = useRef(null);
 
-  
+
 
   const takePhoto = async () => {
     if (cameraRef) {
@@ -58,21 +58,21 @@ export default function GameScreen({ navigation }) {
     <>
       {showCamera ? (
         //WHEN CAMERA IS ON
-        <CustomCamera  cameraRef={cameraRef} type={type} objectives={objectives.objectives} currentObjectiveId={currentObjectiveId} setType={setType} setShowCamera={setShowCamera} takePhoto={takePhoto} startTime={startTime}  />
+        <CustomCamera cameraRef={cameraRef} type={type} objectives={objectives.objectives} currentObjectiveId={currentObjectiveId} setType={setType} setShowCamera={setShowCamera} takePhoto={takePhoto} startTime={startTime} />
       ) : (
         //WHEN CAMERA IS OFF
         <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#FFE551" }}>
           <View style={{ marginTop: 30, margin: 10 }}>
             {/* calling the timer */}
-            <CountdownTimer countdownTimestampMs={startTime+ (60000 * GameData.timelimit)}/>
+            <CountdownTimer countdownTimestampMs={startTime + (60000 * GameData.timelimit)} />
           </View>
           <View style={{ alignItems: "center", justifyContent: "center", flex: 5, overflow: "hidden", flexWrap: "wrap", maxHeight: Dimensions.get("window").width * 1.00, backgroundColor: "rgbar(255,0,0,0.1)" }}>
             <ScrollView style={{ flex: 1, height: "100%" }}
               scrollIndicatorInset={10}
               contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center", alignItems: "center" }}>
               {objectives.objectives.map(x => {
-                if (x.picturetaken == null) { //return card w/ picture taken or not
-                  return (
+                return (
+                  x.picturetaken == null ?
                     <TouchableOpacity
                       key={x.objectiveid}
                       style={styles.card}
@@ -81,31 +81,30 @@ export default function GameScreen({ navigation }) {
                         setCurrentObjectiveId(x.objectiveid)
                       }}>
                       <ChooseObjectiveCard objective={x} source={x.referenceimage} />
+                    </TouchableOpacity> :
+                    <TouchableOpacity
+                      key={x.objectiveid}
+                      style={styles.card}
+                      >
+                      <ChooseObjectiveCard objective={x} source={{uri:x.picturetaken}} />
                     </TouchableOpacity>
-                  )
-                } else {
-                  return (
-                    <TouchableOpacity key={x.objectiveid} style={styles.card} disabled={true}>
-                      <ChooseObjectiveCard objective={x} source={{ uri: x.picturetaken }} />
-                    </TouchableOpacity>
-                  )
 
-
-                }
-
-              })}
+                )
+              }
+              )
+              }
             </ScrollView>
           </View>
           <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: "rgba(255,0,0,0.1)", width: "100%" }}>
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.generic_button}
-              onPress ={()=>{
+              onPress={() => {
                 navigation.navigate("EndScreen",
-                  {Data:tempObj.objectives}
+                  { Data: tempObj.objectives }
                 )
 
               }} //https://reactnavigation.org/docs/params/
-              >
+            >
               <Text>Confirm</Text>
             </TouchableOpacity>
           </View>
@@ -165,76 +164,76 @@ export const styles = StyleSheet.create({
 });
 
 const GameData = {
-  "timelimit": 10, 
+  "timelimit": 10,
 }
 
 const tempObj =
-  {  
-    "timelimit": 10,   
-    objectives: [{
-      "objectiveid": 123,
-      "description": "Squirrel",
-      "points": 10,
-      "referenceimage": require('../../assets/images/red-squirrel.jpg'),
-      "picturetaken": null,
-      "score": 0,
-      "hasSet": false
-    },
-    {
-      "objectiveid": 124,
-      "description": "Tree",
-      "points": 5,
-      "referenceimage": require('../../assets/images/tree.jpg'),
-      "picturetaken": null,
-      "score": 5,
-      "hasSet": false
-    },
-    
-    {
-      "objectiveid": 125,
-      "description": "Bird",
-      "points": 8,
-      "referenceimage": require('../../assets/images/bird.jpg'),
-      "picturetaken": null,
-      "score": 0,
-      "hasSet": false
-    },
-    {
-      "objectiveid": 127,
-      "description": "Cat",
-      "points": 4,
-      "referenceimage": require('../../assets/images/cat.jpg'),
-      "picturetaken": null,
-      "score": 4,
-      "hasSet": false
-    },
-    {
-      "objectiveid": 129,
-      "description": "Tele",
-      "points": 4,
-      "referenceimage": require('../../assets/images/red-squirrel.jpg'),
-      "picturetaken": null,
-      "score": 4,
-      "hasSet": false
-    },
-    {
-      "objectiveid": 130,
-      "description": "Bear",
-      "points": 4,
-      "referenceimage": require('../../assets/images/red-squirrel.jpg'),
-      "picturetaken": null,
-      "score": 4,
-      "hasSet": false
-    },
-    {
-      "objectiveid": 131,
-      "description": "Lion",
-      "points": 4,
-      "referenceimage": require('../../assets/images/red-squirrel.jpg'),
-      "picturetaken": null,
-      "score": 4,
-      "hasSet": false
-    }]
-  }
+{
+  "timelimit": 10,
+  objectives: [{
+    "objectiveid": 123,
+    "description": "Squirrel",
+    "points": 10,
+    "referenceimage": require('../../assets/images/red-squirrel.jpg'),
+    "picturetaken": null,
+    "score": 0,
+    "hasSet": false
+  },
+  {
+    "objectiveid": 124,
+    "description": "Tree",
+    "points": 5,
+    "referenceimage": require('../../assets/images/tree.jpg'),
+    "picturetaken": null,
+    "score": 5,
+    "hasSet": false
+  },
+
+  {
+    "objectiveid": 125,
+    "description": "Bird",
+    "points": 8,
+    "referenceimage": require('../../assets/images/bird.jpg'),
+    "picturetaken": null,
+    "score": 0,
+    "hasSet": false
+  },
+  {
+    "objectiveid": 127,
+    "description": "Cat",
+    "points": 4,
+    "referenceimage": require('../../assets/images/cat.jpg'),
+    "picturetaken": null,
+    "score": 4,
+    "hasSet": false
+  },
+  {
+    "objectiveid": 129,
+    "description": "Tele",
+    "points": 4,
+    "referenceimage": require('../../assets/images/red-squirrel.jpg'),
+    "picturetaken": null,
+    "score": 4,
+    "hasSet": false
+  },
+  {
+    "objectiveid": 130,
+    "description": "Bear",
+    "points": 4,
+    "referenceimage": require('../../assets/images/red-squirrel.jpg'),
+    "picturetaken": null,
+    "score": 4,
+    "hasSet": false
+  },
+  {
+    "objectiveid": 131,
+    "description": "Lion",
+    "points": 4,
+    "referenceimage": require('../../assets/images/red-squirrel.jpg'),
+    "picturetaken": null,
+    "score": 4,
+    "hasSet": false
+  }]
+}
 
 
