@@ -12,10 +12,14 @@ const sendPasswordResetEmail = async (userEmail, resetTokenLink) => {
     try {
         /** Declare setup a smpt transport provider */
         const transporter = nodemailer.createTransport({
-            service: 'gmail',
+            host: 'smtp.gmail.com',
+            port: 587,
             auth: {
                 user: process.env.AUTH_USER,
                 pass: process.env.AUTH_PASS,
+            },
+            tls: {
+                rejectUnauthorized: false,
             },
         });
 

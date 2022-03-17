@@ -24,38 +24,37 @@ const {
  * @route POST http://localhost:3000/auth/new-signup
  * */
 const New_Sign_Up = async (request, response) => {
+    /** Handle Errors - Data Validation */
+    const { error } = await SignUpSchema.validateAsync(request.body);
+    if (error)
+        return response
+            .status(403)
+            .json({ data: "Data Validation Error" || 'Failed', success: false });
+
+    /** Handle Errors - User Already Exists */
+    const userExists = await UserModel.findOne({ email: request.body.email });
+    if (userExists)
+        return response
+            .status(403)
+            .json({ data: "Username or Password Already Exists" || 'Failed', success: false });
+
+    /** Create User, Hash Password and Save */
     try {
-        const result = await SignUpSchema.validateAsync(request.body);
-    } catch (error) {
-        return response.status(409).send(error.details[0].message);
-    }
+        const salt = await bcrypt.genSalt(10);
+        const password = await bcrypt.hash(request.body.password, salt);
 
-    const user = await UserModel.findOne({ email: request.body.email });
-
-    if (user) {
-        return response.status(409).send('Account already exists');
-    }
-
-    const { username, email } = request.body;
-
-    const salt = await bcrypt.genSalt(10);
-    const password = await bcrypt.hash(request.body.password, salt);
-
-    try {
-        const newuser = new UserModel({ username, email, password });
+        const newuser = new UserModel({
+            username: request.body.username,
+            email: request.body.email,
+            password: password,
+        });
         await newuser.save();
 
-        /** 201 Created and successful */
-        response.status(201).json({ _id: newuser._id, success: true });
+        response.status(201).json({ data: newuser, success: true });
     } catch (error) {
-        const field = Object.keys(error.keyValue);
-        const msg = `${field} already exists - ${error.code}`;
-
-        /** 409 Conflict */
-        response.status(409).json({
-            messege: msg,
-            success: false,
-        });
+        response
+            .status(403)
+            .json({ data: error.message || 'Failed', success: false });
     }
 };
 //#endregion
@@ -66,52 +65,57 @@ const New_Sign_Up = async (request, response) => {
  * @route POST http://localhost:3000/auth/sign-in
  * */
 const Sign_In = async (request, response) => {
-    try {
-        const result = await SignInSchema.validateAsync(request.body);
-    } catch (error) {
-        return response.status(422).send({
-            ErrorDetails: error,
-            Messege: 'Invalid password or email',
+    /** Handle Errors - Data Validation */
+    const { error } = await SignInSchema.validateAsync(request.body);
+    if (error)
+        return response.status(403).json({
+            data: 'Username or Email could not be validated',
+            success: false,
         });
-    }
-    const { username, password } = request.body;
 
-    const user = await UserModel.findOne({ username: username });
+    /** Handle Errors - Username does not exist */
+    const user = await UserModel.findOne({ username: request.body.username });
+    if (!user)
+        return response
+            .status(403)
+            .json({ data: 'Username or Email does not exist', success: false });
 
-    if (!user) {
-        return response.status(422).send({
-            Messege: 'Cannot find user',
-        });
-    }
+    /** Handle Errors - Username has an active session */
+    const userSignedIn = await SessionTokenModel.findOne({ userID: user._id });
+    // response.json({user: userSignedIn});
 
+    if (userSignedIn)
+        return response
+            .status(403)
+            .json({ data: "User is already signed in!", success: false });
+
+    /** Sign In User, Compare Passwords, Generate JWT and Save */
     try {
-        const validation = await bcrypt.compare(password, user.password);
+        const validation = await bcrypt.compare(
+            request.body.password,
+            user.password
+        );
+
+        /** Generate JsonWebToken */
         if (validation) {
-            const sessionJWToken = jwt.sign(
-                { userID: user._id },
-                process.env.SECRET
-            );
+            const JWToken = jwt.sign({ userID: user._id }, process.env.SECRET);
 
+            /** Set JWT to mongoDB and save */
             const SessionToken = new SessionTokenModel({
                 userID: user._id,
                 isActive: true,
-                token: sessionJWToken,
+                token: JWToken,
             });
             SessionToken.save();
 
+            /** Express Sessions */
             request.session.user = { SessionToken };
-            return response.status(200).send({ SessionToken });
-        } else {
-            return response.status(422).send({
-                ErrorDetails: error,
-                Messege: 'Invalid password or email',
-            });
+            return response.status(200).json({ data: JWToken, success: true });
         }
     } catch (error) {
-        return response.status(422).send({
-            ErrorDetails: error,
-            Messege: 'Invalid password or email',
-        });
+        return response
+            .status(403)
+            .json({ data: error.message || 'Failed', success: false });
     }
 };
 //#endregion
@@ -135,14 +139,14 @@ const Sign_Out = async (request, response) => {
         //     ? await SessionTokenModel.deleteOne({ _id: 1 })
         //     : response.send('User session not present');
 
-        //await activeSession.delete();
+        await SessionTokenModel.deleteOne({ userID: _id })
 
         if (request.session) {
             request.session.destroy();
         }
 
         response.send({
-            userid: _id,
+            userID: _id,
             username: username,
             sessionMongo: token || 'No Token',
             messageMongo: 'User has been signed out',
