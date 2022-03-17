@@ -78,9 +78,14 @@ function CreateGame({ navigation,route }) {
     console.log("increment" + point);
   }
   function decrement(){
-    
-    
+    if (point == 0){
+      setPoint(setPoint=> setPoint = 3)
+    }
+    else if(point >0){
       setPoint(setPoint=> setPoint -1)
+    }
+    
+      
     
     
     
