@@ -1,6 +1,6 @@
 import { Center, Switch } from "native-base";
 import React, { useState } from "react";
-
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 import {
   Button,
   InputEvent,
@@ -17,11 +17,28 @@ import {
 import { RFPercentage } from "react-native-responsive-fontsize";
 //This component is used to calculate the dimensions of the device and set width of certain components accordingly e.g input box
 import { Dimensions } from "react-native";
-import BouncyCheckbox from "react-native-bouncy-checkbox";
+//import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 const { width, height } = Dimensions.get("window");
 
-function FormCheck(title,category,timeLimit,difficulty,setFormStatus,playerCount,objective,navigation,Host)
+
+function CreateGame({ navigation,route }) {
+  const Host = route.params;
+  const [title,setTitle] = useState("Team Name");
+  const [location,setLocation] = useState({Value:"Location",Index:null});
+  const [playerCount,setPlayerCount] = useState(0);
+  const [Settingobjective,setingObjectives] = useState(false);
+  const [Objective1, SetObjective1]= useState({ Objective:"Objective 1",PointValue:5,Checked:false});
+  const [Objective2, SetObjective2]= useState({ Objective:"Objective 2",PointValue:5,Checked:false});
+  const [Objective3, SetObjective3]= useState({ Objective:"Objective 3",PointValue:5,Checked:false});
+  const [Objective4, SetObjective4]= useState({ Objective:"Objective 4",PointValue:5,Checked:false});
+  const [timeLimit,setTimeLimit] = useState({Value:"time limit",Index:null});
+  const [difficulty,setDifficulty] = useState({Value:"difficulty",Index:null});
+  const [formFilled,setFormStatus] = useState(false);
+  const[point, setPoint] = useState(0)
+  var points = 0;
+
+  function FormCheck(title,category,timeLimit,difficulty,playerCount,objective,navigation,Host)
 {
   if(title == "" || category =="" || timeLimit =="" || difficulty =="" || playerCount =="" || objective =="")
   {
@@ -32,8 +49,7 @@ function FormCheck(title,category,timeLimit,difficulty,setFormStatus,playerCount
   createLobby(title,timeLimit,category,difficulty,playerCount,objective,r,navigation,Host);
 }
 
-
-function createLobby(title,timeLimit,category,difficulty,playerCount,objective,navigation,Host)
+function createLobby(title,timeLimit,category,difficulty,objective,navigation,Host)
 {
   console.log("Before crash\n");
   console.log("\n host name before sending");
@@ -41,108 +57,116 @@ function createLobby(title,timeLimit,category,difficulty,playerCount,objective,n
   navigation.navigate('gamelobby',{title:title,timeLimit:timeLimit,category:category,difficulty:difficulty,code:r,Host:Host.Username});
 }
 
-
-function CreateGame({ navigation,route }) {
-  const Host = route.params;
-  /*example json object
-   const [location,setLocation] = useState({Value:"Team Name",Index:null});
-
-  */
-  const [title,setTitle] = useState("Team Name");
-  const [location,setLocation] = useState("Location");
-  const [category,setCategory] = useState("");
-  const [playerCount,setPlayerCount] = useState("Player Count");
-  const [Settingobjective,setingObjectives] = useState(false);
-  const [Objective1, SetObjective1]= useState({ Objective:"Objective 1",PointValue:5,Checked:false});
-  const [Objective2, SetObjective2]= useState({ Objective:"Objective 2",PointValue:5,Checked:false});
-  const [Objective3, SetObjective3]= useState({ Objective:"Objective 3",PointValue:5,Checked:false});
-  const [Objective4, SetObjective4]= useState({ Objective:"Objective 4",PointValue:5,Checked:false});
-  const [timeLimit,setTimeLimit] = useState("Time Limit");
-  const [difficulty,setDifficulty] = useState("");
-  const [formFilled,setFormStatus] = useState(false);
-  console.log(Settingobjective);
-
   //Location option toggle 
-  function toggleLocation(){
-    /*example json array
-    
-      var Locations =["Schoolyard","Nature Park","Playground"]
+  function toggleLocation(change){
+          //example string array
+          console.log("hi", "change is :" , change);
 
-        Switch(location)
-        {
-          case null:
-            setLocation(Locations[0],0);
-              break;
-          case 0:
-            setLocation(Locations[1],1);
-            break;
-             case 1:
-            setLocation(Locations[2],2);
-            break;
-             case 2:
-            setLocation(Locations[0],0);
-            break;
+          var Locations =["Schoolyard","Nature Park","Playground"]
+          if(location.Index == null)
+          {
+            setLocation({Value:Locations[0],Index:0});
+          }
+          else
+          {
+            var newIndex = location.Index+1;
+            if(newIndex >=3)
+            {
+              if(change == '+')
+              {
+                newIndex = 0;
+                setLocation({Value:Locations[0],Index:0});
+              }
+             else{
+              newIndex = location.Index-1;
+              setLocation({Value:Locations[newIndex],Index:newIndex});
+             }
+            }
+            else{
+              if(change == '+')
+              {
+                setLocation({Value:Locations[newIndex],Index:newIndex});
+              }
+             else{
+              newIndex = location.Index-1;
+              if(newIndex <0)
+              {
+                setLocation({Value:Locations[2],Index:2})
+              }
+              else{
+                setLocation({Value:Locations[newIndex],Index:newIndex});
+              }
+
+             }
               
+            }
+          }  
+          console.log("after setting : " , location.Value,"\n",location.Index);
         }
-    */
-
-    if(location == "Location")
-    {
-      setLocation(location => location = "School Yard")
-    }
-    if(location == "School Yard")
-    {
-      setLocation(location => location = "Nature Park")
-    }
-    if(location == "Nature Park")
-    {
-      setLocation(location => location = "Playground")
-    }
-    if(location == "Playground")
-    {
-      setLocation(location => location = "Location")
-    }
-    
-  }
   //Time Limit option toggle 
-  function toggleTimeLimit(){
-    if(timeLimit == "Time Limit")
-    {
-      setTimeLimit(timeLimit => timeLimit = "10 mins")
-    }
-    if(timeLimit == "10 mins")
-    {
-      setTimeLimit(timeLimit => timeLimit = "30 mins")
-    }
-    if(timeLimit == "30 mins")
-    {
-      setTimeLimit(timeLimit => timeLimit = "1 Hour")
-    }
-    if(timeLimit == "1 Hour")
-    {
-      setTimeLimit(timeLimit => timeLimit = "Time Limit")
-    }
-    
-  }
+  function toggleTimeLimit(change){
+    console.log("hi", "change is :" , change);
+
+          var TimeLimits =["0:30","1:00","1:30","2:00"]
+          if(timeLimit.Index == null)
+          {
+            setTimeLimit({Value:TimeLimits[0],Index:0});
+
+          }
+          else
+          {
+            var newIndex = timeLimit.Index+1;
+            if(newIndex >=4)
+            {
+              if(change == '+')
+              {
+                newIndex = 0;
+                setTimeLimit({Value:TimeLimits[0],Index:0});
+              }
+             else{
+              newIndex = timeLimit.Index-1;
+              setTimeLimit({Value:TimeLimits[newIndex],Index:newIndex});
+             }
+            }
+            else{
+              if(change == '+')
+              {
+                setTimeLimit({Value:TimeLimits[newIndex],Index:newIndex});
+              }
+             else{
+              newIndex = timeLimit.Index-1;
+              if(newIndex <0)
+              {
+                setTimeLimit({Value:TimeLimits[3],Index:3})
+              }
+              else{
+                setTimeLimit({Value:TimeLimits[newIndex],Index:newIndex});
+              }
+             }
+              
+            }
+          }  
+          console.log("after setting : " , timeLimit.Value,"\n",timeLimit.Index);
+        }
   //Player count option toggle 
- function checkPlayerCount(){
-    if(playerCount == "Player Count")
-    setPlayerCount(playerCount => playerCount = "1 Player")
-    if(playerCount =="1 Player"){
-      setPlayerCount(playerCount => playerCount = "2 Players")
+ function checkPlayerCount(change)
+ {
+  console.log("hi", "change is :" , change);
+    if(change =='+')
+    {
+      setPlayerCount(playerCount+1);
     }
-    if(playerCount =="2 Players"){
-      setPlayerCount(playerCount => playerCount = "3 Players")
+    else{
+      if(playerCount >0)
+      {
+        setPlayerCount(playerCount-1);
+      }
+      else
+      {
+        setPlayerCount(0);
+      }
     }
-    if(playerCount =="3 Players"){
-      setPlayerCount(playerCount => playerCount = "4 Players")
-    }
-    else if (playerCount =="4 Players"){
-      setPlayerCount(playerCount => playerCount = "Player Count")
-    }
-    console.log(title+"\n",location+"\n",timeLimit+"\n",playerCount);
-  
- }
+  }
  var teamName = "";
  function teamNameHandler(teamName){
    setTitle(title=>title = teamName)
@@ -248,6 +272,7 @@ function CreateGame({ navigation,route }) {
             break;
     }
  }
+ // passes in an integer to represent which objective it is and uses a ternary statement to change the is chekced value
  function IsChecked(objectivenumber)
  {
    switch(objectivenumber)
@@ -340,10 +365,6 @@ function CreateGame({ navigation,route }) {
         </Text>
       </View>
 
-      
-
-       {/* Check if the form is  filled */}
-      {formFilled? <Text style={styles.hiddenTxt}> please fill out all fields to create a game</Text> : <Text></Text>}
 
       {/* Team Name Input */}
       
@@ -379,9 +400,9 @@ function CreateGame({ navigation,route }) {
       
       <TextInput   
         editable = {false}
-        value={location}
+        value={location.Value}
         underlineColorAndroid="transparent"
-        placeholder={location}
+        placeholder={location.Value}
         placeholderTextColor="#fff"
         autoCapitalize="none"
         style={{
@@ -413,10 +434,22 @@ function CreateGame({ navigation,route }) {
       <Image source={require('../assets/Btn/arrowbutton.png')} style={styles.arrowbtn1}
 
            />
+ 
       <Pressable
       
               style={styles.arrowbtn1}
-              onPress= {() =>toggleLocation()  } 
+              onPress= {() =>toggleLocation('+')  } 
+              
+            >
+              
+      </Pressable>
+      <Image source={require('../assets/Btn/arrowbutton.png')} style={styles.arrowbtn11}
+
+/>
+      <Pressable
+      
+              style={styles.arrowbtn11}
+              onPress= {() =>toggleLocation('-') } 
               
             >
               
@@ -426,8 +459,8 @@ function CreateGame({ navigation,route }) {
         <TextInput
         editable = {false}
           onChangeText={(e) => setTimeLimit(e)}
-          value={timeLimit}
-          placeholder={timeLimit}
+          value={timeLimit.Value}
+          placeholder={timeLimit.Value}
           placeholderTextColor="#808080"
           underlineColorAndroid="transparent"
           autoCapitalize="none"
@@ -454,7 +487,7 @@ function CreateGame({ navigation,route }) {
 <Image source={require('../assets/Btn/arrowbutton.png')} style={styles.arrowbtn2}/>
       <Pressable
               style={styles.arrowbtn2}
-              onPress= {() =>toggleTimeLimit()  } 
+              onPress= {() =>toggleTimeLimit('+')  } 
               
             >
               
@@ -462,13 +495,20 @@ function CreateGame({ navigation,route }) {
       {/* Player Count selector */}
       {/* <Pressable onPress ={setPlayerCount === "2", console.log(playerCount)} > */}
       
-            
+      <Image source={require('../assets/Btn/arrowbutton.png')} style={styles.arrowbtn22}/>
+      <Pressable
+              style={styles.arrowbtn22}
+              onPress= {() =>toggleTimeLimit('-')  } 
+              
+            >
+              
+      </Pressable>
       <TextInput   
         //onChangeText={(e) => setPlayerCount (e)} 
         editable = {false} 
-        value={playerCount}
+        value={playerCount.toString()}
         underlineColorAndroid="transparent"
-        placeholder={playerCount}
+        placeholder={playerCount.toString()}
         placeholderTextColor="#fff"
         autoCapitalize="none"
         style={{
@@ -499,15 +539,25 @@ function CreateGame({ navigation,route }) {
 />
       <Pressable
               style={styles.arrowbtn3}
-              onPress= {() =>checkPlayerCount()  } 
+              onPress= {() =>checkPlayerCount("+")  } 
               
             >
               
       </Pressable>
+      <Image source={require('../assets/Btn/arrowbutton.png')} style={styles.arrowbtn33}
 
+/>
+      <Pressable
+              style={styles.arrowbtn33}
+              onPress= {() =>checkPlayerCount("-")  } 
+              
+            >
+              
+      </Pressable>
       {/* objective Count selector */}
      
       <TextInput 
+        editable={false}
         value="Objectives"
         underlineColorAndroid="transparent"
         placeholder="Objective"
@@ -652,7 +702,7 @@ function CreateGame({ navigation,route }) {
           fontSize: 20,
         }}
       >
-        <TouchableOpacity activeOpacity={0.95} style={styles.button} onPress={() =>FormCheck(title,category,difficulty,timeLimit,r,setFormStatus,navigation,Host)}>
+        <TouchableOpacity activeOpacity={0.95} style={styles.button} onPress={() =>FormCheck(title,category,difficulty,timeLimit,r,navigation,Host)}>
           <Text style={styles.text}>Start</Text>
         </TouchableOpacity>
       </View>
@@ -684,7 +734,7 @@ function CreateGame({ navigation,route }) {
       /> */}
     </ImageBackground>
   );
-}
+    }
 
 const styles = StyleSheet.create({
 
@@ -694,7 +744,8 @@ const styles = StyleSheet.create({
     height: 40,
     position: 'absolute',
     top: "55%",
-    right: "22%"
+    right: "22%",
+    transform: [{ rotate: "90deg" }],
   },
   arrowbtn3:{ //timelimitbutton
     width: 40,
@@ -703,6 +754,14 @@ const styles = StyleSheet.create({
     top: "48.8%",
     right: "22%"
   },
+  arrowbtn33:{ //timelimitbutton
+    width: 40,
+    height: 40,
+    position: 'absolute',
+    top: "48.8%",
+    left: "22%",
+    transform: [{ rotate: "180deg" }],
+  },
   arrowbtn2:{ //timelimitbutton
     width: 40,
     height: 40,
@@ -710,12 +769,28 @@ const styles = StyleSheet.create({
     top: "42.8%",
     right: "22%"
   },
+  arrowbtn22:{ //timelimitbutton
+    width: 40,
+    height: 40,
+    position: 'absolute',
+    top: "42.8%",
+    left: "22%",
+    transform: [{ rotate: "180deg" }],
+  },
   arrowbtn1:{ //location button
     width: 40,
     height: 40,
     position: 'absolute',
     top: "36.7%",
     right: "22%"
+  },
+  arrowbtn11:{ //location button2
+    width: 40,
+    height: 40,
+    transform: [{ rotate: "180deg" }],
+    position: 'absolute',
+    bottom: "59.7%",
+    left: "22%"
   },
   ObjectiveCompleted:{
     margin:5,
@@ -775,7 +850,7 @@ const styles = StyleSheet.create({
     borderTopWidth:0,
     borderRadius:25,
     position:"relative", 
-    top:"57%",
+    top:"58.5%",
     width: width * 0.5,
     left:"25%",
     zIndex:5
