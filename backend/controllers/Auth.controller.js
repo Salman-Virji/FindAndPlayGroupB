@@ -10,13 +10,15 @@ const ResetPasswordTokenModel = require('../models/ResetPasswordTokenModel');
 
 /** Utility and Validation */
 const GenerateToken = require('../utils/generateToken');
-const sendPasswordResetEmail = require('../utils/sendPasswordResetEmail');
 const {
     SignUpSchema,
     SignInSchema,
     ResetPasswordSchema,
     PasswordSchema,
 } = require('./Validation.controller');
+
+const sendResetLink_GMAIL = require('../utils/sendResetEmail_gmail');
+const sendResetLink_ETHEREAL = require('../utils/sendResetEmail_ethereal');
 
 //#region NEW USER SIGN-UP
 /**
@@ -29,14 +31,20 @@ const New_Sign_Up = async (request, response) => {
     if (error)
         return response
             .status(403)
-            .json({ data: "Data Validation Error" || 'Failed', success: false });
+            .json({
+                data: 'Data Validation Error' || 'Failed',
+                success: false,
+            });
 
     /** Handle Errors - User Already Exists */
     const userExists = await UserModel.findOne({ email: request.body.email });
     if (userExists)
         return response
             .status(403)
-            .json({ data: "Username or Password Already Exists" || 'Failed', success: false });
+            .json({
+                data: 'Username or Password Already Exists' || 'Failed',
+                success: false,
+            });
 
     /** Create User, Hash Password and Save */
     try {
@@ -87,7 +95,7 @@ const Sign_In = async (request, response) => {
     if (userSignedIn)
         return response
             .status(403)
-            .json({ data: "User is already signed in!", success: false });
+            .json({ data: 'User is already signed in!', success: false });
 
     /** Sign In User, Compare Passwords, Generate JWT and Save */
     try {
@@ -139,7 +147,7 @@ const Sign_Out = async (request, response) => {
         //     ? await SessionTokenModel.deleteOne({ _id: 1 })
         //     : response.send('User session not present');
 
-        await SessionTokenModel.deleteOne({ userID: _id })
+        await SessionTokenModel.deleteOne({ userID: _id });
 
         if (request.session) {
             request.session.destroy();
@@ -189,9 +197,13 @@ const Password_Reset_Request = async (request, response) => {
             }).save();
         }
 
-        const resetTokenLink = `http://localhost:3000/auth/reset-password/${user._id}/${token.token}`;
+        const resetURL = `http://localhost:3000/auth/reset-password/${user._id}/${token.token}`;
 
-        await sendPasswordResetEmail(user.email, resetTokenLink);
+        /** @param PRODUCTION - limit of 100 emails per day! */
+        await sendResetLink_GMAIL(user.email, resetURL);
+
+        /** @param DEVELOPMENT - unlimited */
+        // await sendResetLink_ETHEREAL(user.email, resetURL);
 
         response.send({
             msg: 'Password reset link sent to your email account',

@@ -1,34 +1,44 @@
-/** Node.js module to allow email sending */
-const nodemailer = require('nodemailer');
+'use strict';
 
-/** To access the .env file */
-require('dotenv').config();
+const nodemailer = require('nodemailer');
 
 /**
  * @param { string } userEmail - The email of the user to send reset link to.
- * @param { string } resetTokenLink - The custom generated token link to email to users email.
+ * @param { string } resetURL - The custom generated token link to email to users email.
  */
-const sendPasswordResetEmail = async (userEmail, resetTokenLink) => {
+const sendResetLink_ETHEREAL = async (email, resetURL) => {
     try {
-        /** Declare setup a smpt transport provider */
-        const transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            port: 587,
+        /**
+         * @summary This will create a fake smtp host for testing
+         * use the gmail to see in your own email address.
+         */
+        let testAccount = await nodemailer.createTestAccount();
+
+        let transporter_ethereal = nodemailer.createTransport({
+            service: 'Ethereal',
             auth: {
-                user: process.env.AUTH_USER,
-                pass: process.env.AUTH_PASS,
-            },
-            tls: {
-                rejectUnauthorized: false,
+                user: testAccount.user,
+                pass: testAccount.pass,
             },
         });
 
-        let message = {
-            from: 'Find and Play App <findandplay78@gmail.com>',
-            to: userEmail,
-            subject: 'Reset Password Request',
-            text: `LINK(paste into browser):\n${resetTokenLink}`,
-            html: `<!DOCTYPE html>
+        /** Verifying the Ethereal transport instance */
+        await transporter_ethereal.verify((error, success) => {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('T0 - Ethereal randomhost - Server is ready');
+            }
+        });
+
+        /** Send Mail on selected transport instance */
+        await transporter_ethereal.sendMail(
+            {
+                from: 'Find and Play App <findandplay78@gmail.com>',
+                to: email,
+                subject: 'Reset Password Request',
+                text: `LINK(paste into browser):\n${resetURL}`,
+                html: `<!DOCTYPE html>
             <html lang="en">
                 <head>
                     <meta charset="UTF-8" />
@@ -57,13 +67,13 @@ const sendPasswordResetEmail = async (userEmail, resetTokenLink) => {
                     <div class="container">
                         <div class="row justify-content-md-center">
                             <div class="col col-lg-10">
-                             <img src="https://tinyurl.com/fnpemailheader" alt="email header logo">
+                            <img src="https://tinyurl.com/fnpemailheader" alt="email header logo">
                             </div>
-                          </div>
+                        </div>
                         <h3 class="mt-3">Here is your reset link!</h3>
-                        <h3 class="m-3"><a href="${resetTokenLink}">Click to reset password now...</a></h3>
+                        <h3 class="m-3"><a href="${resetURL}">Click to reset password now...</a></h3>
                         <p>If the link above does not work, please copy the address below and paste it into the browser.</p>
-                        <p>${resetTokenLink}</p>
+                        <p>${resetURL}</p>
                         <p>Attention - The link will expire in 60 minutes.</p>
                     </div>
                 </body>
@@ -73,24 +83,21 @@ const sendPasswordResetEmail = async (userEmail, resetTokenLink) => {
                     crossorigin="anonymous"
                 ></script>
             </html>`,
-        };
-
-        /**
-         * @param { Object } message - Data messege object to email.
-         * @param { CallbackError } err - Will report if any error from callback.
-         * @param { CallbackInformation } info - Will report transport sent info.
-         */
-        await transporter.sendMail(message, (err, info) => {
-            if (err) {
-                console.log(`Error sending link - ${err.message}`);
+            },
+            (error, info) => {
+                if (error) {
+                    console.log(`${error}`);
+                    console.log(`${error.message}`);
+                } else {
+                    console.log(`Message sent: ${info.messageId}`);
+                    console.log(`Message response: ${info.response}`);
+                }
+                console.log(`URL: ${nodemailer.getTestMessageUrl(info)}`);
             }
-
-            console.log(`Reset link:`);
-            console.log(`${resetTokenLink}`);
-        });
+        );
     } catch (error) {
-        console.log(error, 'Email not sent');
+        console.log(`Error: ${error.message}`);
     }
 };
 
-module.exports = sendPasswordResetEmail;
+module.exports = sendResetLink_ETHEREAL;
