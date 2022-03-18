@@ -125,6 +125,7 @@ const Sign_In = async (request, response) => {
 
         response.status(201).json({
             data: {
+                id: payload,
                 session_jwt: JWToken,
                 success: true,
                 location: 'end try sign in',
@@ -149,35 +150,36 @@ const Sign_In = async (request, response) => {
  * @route POST http://localhost:3000/auth/sign-in
  * */
 const Sign_Out = async (request, response) => {
+    const id = request.body.id;
+
     try {
-        const { _id } = request.body;
-        const activeSession = await SessionTokenModel.find().sort({ _id: 1 });
-        const { token } = activeSession[0];
-        const user = await User.findOne({ _id });
-        const { username } = user;
+        const activeSession = await SessionToken.findOne({
+            id
+        });
+        if (!activeSession) throw new Error('No active session found!');
 
-        /** @TODO - Clean up and delete from db too! */
-        // activeSession.isActive
-        //     ? await SessionTokenModel.deleteOne({ _id: 1 })
-        //     : response.send('User session not present');
+        const JWToken = activeSession.session_jwt;
 
-        await SessionTokenModel.deleteOne({ userID: _id });
+        const user = await User.findOne({ id });
 
-        if (request.session) {
-            request.session.destroy();
-        }
+        // if (request.session) {
+        //     request.session.destroy();
+        // }
 
         response.send({
-            userID: _id,
-            username: username,
-            sessionMongo: token || 'No Token',
-            messageMongo: 'User has been signed out',
-            sessionExpress: request.session || 'ExpressSession Ended',
+            id: id,
+            user: user,
+            sessionMongo: JWToken,
+            sessionExpress: request.session.cookie,
         });
     } catch (error) {
-        response.send({
-            Error: error.message,
-            sessionExpress: request.session || 'ExpressSession Ended',
+        response.status(401).json({
+            data: {
+                error: error.message,
+                success: false,
+                location: 'CATCH - SignIn',
+                express_session: request.session.cookie,
+            },
         });
     }
 };

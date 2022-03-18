@@ -36,13 +36,13 @@ const SessionStore = session({
         collectionName: process.env.ATLAS_COLLECTION,
         autoRemove: 'interval',
         autoRemoveInterval: 10, // In Minutes: Removes session after 60 mins
-        ttl: 180, // In Seconds: Time to live 180 seconds = 3 mins
+        ttl: 1000 * 60, // In Seconds: Time to live 180 seconds = 3 mins
         touchAfter: 1 // In Seconds: Interval between session updates.
     }),
     secret: process.env.SECRET,
     resave: true,
     saveUninitialized: false,
-    cookie: { expiresIn: 180 }
+    cookie: { expiresIn: 1000 * 60 }
 });
 
 module.exports = { ConnectMongoDB, SessionStore };
