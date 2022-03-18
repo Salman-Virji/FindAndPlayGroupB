@@ -4,28 +4,32 @@ const mongoose = require('mongoose');
 /** Blueprint for defining the structure of a Mongoose model that maps directly to a MongoDB collection */
 const Schema = mongoose.Schema;
 
-const resetTokenSchema = new Schema(
+const sessionTokenSchema = new Schema(
     {
-        userId: {
+        session_id: {
             type: Schema.Types.ObjectId,
             required: true,
             ref: 'User',
         },
-        token: {
+        session_jwt: {
             type: String,
             required: true,
         },
         createdAt: {
             type: Date,
             default: Date.now,
-            expires: 3600,
+            expires: 180, // expires after 180 seconds = 3 mins
         },
     },
     {
-        timestamps: true,
+        timestamps: false,
     }
 );
+/**
+ * @param session_id - session id ref user
+ * @param session_jwt - jsonwebtoken 
+ * @param createdAt - date stored
+ */
+const SessionToken = mongoose.model('session_token', sessionTokenSchema);
 
-const ResetPasswordToken = mongoose.model('ResetPasswordToken', resetTokenSchema);
-
-module.exports = ResetPasswordToken;
+module.exports = SessionToken;

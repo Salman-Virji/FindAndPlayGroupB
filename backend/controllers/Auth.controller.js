@@ -2,10 +2,10 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-/** Mongoose Models */
-const UserModel = require('../models/UserModel');
-const SessionTokenModel = require('../models/SessionTokenModel');
-const ResetPasswordTokenModel = require('../models/ResetPasswordTokenModel');
+/** Mongoose Models / Schema */
+const User = require('../models/User.model');
+const SessionToken = require('../models/SessionToken.model');
+const ResetToken = require('../models/ResetToken.model');
 
 /** Utility and Validation */
 const GenerateToken = require('../utils/generateToken');
@@ -23,58 +23,52 @@ const sendResetLink_ETHEREAL = require('../utils/sendResetEmail_ethereal');
 /**
  * @description Register a new user
  * @route POST http://localhost:3000/auth/new-signup
+ * @summary Passing Tests - see testing/signup.test.md
  * */
 const New_Sign_Up = async (request, response) => {
     const username = request.body.username;
     const email = request.body.email;
-    const password = request.body.password;
+    let password = request.body.password;
 
-    /** @TODO - Fix some issues with this */
-    /** Handle Errors - Data Validation */
-    // try {
-    //     const value = await SignInSchema.validateAsync({
-    //         username: username,
-    //         email: email,
-    //         password: password,
-    //     });
-    // } catch (err) {
-    //     return response.status(401).json({
-    //         data: 'Data Validation Error',
-    //         success: false,
-    //         loc: 'validatation catch',
-    //         err: err.details,
-    //     });
-    // }
-
-    /** Handle Errors - User Already Exists */
-    const userExists = await UserModel.findOne({ email: email });
-    if (userExists)
-        return response.status(401).json({
-            data: 'Username or Password Already Exists',
-            success: false,
-            loc: 'dupilcate user if',
-        });
-
-    /** Create User, Hash Password and Save */
     try {
-        const salt = await bcrypt.genSalt(10);
-        const password = await bcrypt.hash(request.body.password, salt);
+        /** Handle Errors - Data Validation */
+        const { error } = await SignUpSchema.validate({
+            username: username,
+            email: email,
+            password: password,
+        });
+        if (error) throw new Error(error.message.replace(/\"/g, ''));
 
-        const newuser = new UserModel({
+        /** Handle Errors - User Already Exists */
+        const userExists = await User.findOne({ email: email });
+        if (userExists) throw new Error('Username or Password Already Exists');
+
+        /** Create User, Hash Password and Save */
+        const salt = await bcrypt.genSalt(10);
+        password = await bcrypt.hash(password, salt);
+
+        const newuser = new User({
             username: request.body.username,
             email: request.body.email,
             password: password,
         });
         await newuser.save();
 
-        response
-            .status(201)
-            .json({ data: newuser, success: true, loc: 'end try sign up' });
+        response.status(201).json({
+            data: {
+                id: newuser.id,
+                username: newuser.username,
+                success: true,
+                loc: 'end try sign up',
+            },
+        });
     } catch (error) {
-        response.status(403).json({
-            data: error.message,
-            success: false,
-            loc: 'sign up catch',
+        response.status(401).json({
+            data: {
+                error: error.message,
+                location: 'CATCH - New Sign Up',
+                success: false,
+            },
         });
     }
 };
@@ -87,63 +81,70 @@ const New_Sign_Up = async (request, response) => {
  * */
 const Sign_In = async (request, response) => {
     const username = request.body.username;
-    const password = request.body.password;
+    let password = request.body.password;
 
     try {
-        /** Handle Errors - Data Validation */
-        const error = SignInSchema.validate(request.body);
-        if (error)
-            return response.status(403).json({
-                data: 'Username or Email could not be validated',
-                success: false,
-                loc: 'validation if',
-            });
+        /** Handle Errors - Data Validation
+         * @note option > { abortEarly: false } will return
+         * all the validation errors not just the first
+         */
+        const { error } = await SignInSchema.validate(request.body, {
+            abortEarly: false,
+        });
+        if (error) throw new Error(error.message.replace(/\"/g, ''));
 
         /** Handle Errors - Username does not exist */
-        const user = await UserModel.findOne({ username: username });
-        if (!user)
-            response.status(403).json({
-                data: 'Username or Email does not exist',
-                success: false,
-                loc: 'username not found if',
-            });
+        const userExists = await User.findOne({ username: username });
+        if (!userExists) throw new Error('Username or Email does not exist!');
 
-        // /** Handle Errors - Username has an active session */
-        // const userSignedIn = await SessionTokenModel.findOne({ userID: user._id });
-        // // response.json({user: userSignedIn});
-
-        // if (userSignedIn)
-        //     return response
-        //         .status(403)
-        //         .json({ data: 'User is already signed in!', success: false });
+        /** Handle Errors - Username has an active session */
+        const activeUserSession = await SessionToken.findOne({
+            session_id: userExists.id,
+        });
+        if (activeUserSession) throw new Error('User already signed in!');
 
         /** Sign In User, Compare Passwords, Generate JWT and Save */
-
         const validation = await bcrypt.compare(
-            request.body.password,
-            user.password
+            password,
+            userExists.password
         );
 
         /** Generate JsonWebToken */
         if (validation) {
-            const JWToken = jwt.sign({ userID: user._id }, process.env.SECRET);
+            const JWToken = jwt.sign({ session_id: userExists.id }, process.env.SECRET);
+
+            console.log(JWToken)
 
             /** Set JWT to mongoDB and save */
-            const SessionToken = new SessionTokenModel({
-                userID: user._id,
-                isActive: true,
-                token: JWToken,
-            });
-            SessionToken.save();
-
-            /** Express Sessions */
-            request.session.user = { SessionToken };
-            return response.status(200).json({ data: JWToken, success: true });
+            // const SessionToken = new SessionTokenModel({
+            //     userID: user._id,
+            //     isActive: true,
+            //     token: JWToken,
+            // });
+            // SessionToken.save();
         }
+        /** Express Sessions */
+        // request.session.user = { SessionToken };
+        // return response.status(200).json({ data: JWToken, success: true });
+
+        response.status(201).json({
+            data: {
+                id: userExists.id,
+                jwt: 'pending',
+                success: true,
+                loc: 'end try sign in',
+                active: activeUserSession,
+                val: validation,
+            },
+        });
     } catch (error) {
-        return response
-            .status(403)
-            .json({ data: error.message, success: false, loc: 'catch' });
+        response.status(401).json({
+            data: {
+                error: error.message,
+                location: 'CATCH - SignIn',
+                success: false,
+            },
+        });
     }
 };
 //#endregion
@@ -159,7 +160,7 @@ const Sign_Out = async (request, response) => {
         const { _id } = request.body;
         const activeSession = await SessionTokenModel.find().sort({ _id: 1 });
         const { token } = activeSession[0];
-        const user = await UserModel.findOne({ _id });
+        const user = await User.findOne({ _id });
         const { username } = user;
 
         /** @TODO - Clean up and delete from db too! */
@@ -202,12 +203,12 @@ const Password_Reset_Request = async (request, response) => {
             return response.status(409).send(error.message);
         }
 
-        const user = await UserModel.findOne({ email: request.body.email });
+        const user = await User.findOne({ email: request.body.email });
 
         if (!user)
             return res.status(400).send("User with given email doesn't exist");
 
-        let token = await ResetPasswordTokenModel.findOne({ userId: user._id });
+        let token = await ResetToken.findOne({ userId: user._id });
 
         if (!token) {
             token = await new ResetPasswordTokenModel({
@@ -264,7 +265,7 @@ const Password_Update = async (request, response) => {
 
         if (error) return response.status(400).send(error.message);
 
-        const user = await UserModel.findById(request.params.id);
+        const user = await User.findById(request.params.id);
 
         const token = await ResetPasswordTokenModel.findOne({
             userId: user.id,
