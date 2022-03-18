@@ -109,7 +109,9 @@ const Sign_In = async (request, response) => {
 
         /** Generate JsonWebToken */
         const payload = userExists.id;
-        const JWToken = jwt.sign(payload, process.env.SECRET);
+        const JWToken = jwt.sign({ payload }, process.env.SECRET, {
+            expiresIn: '2h',
+        });
 
         /** Set JWT to mongoDB and save */
         const sessionToken = new SessionToken({
@@ -118,16 +120,14 @@ const Sign_In = async (request, response) => {
         });
         sessionToken.save();
 
-        request.session.auth = JWToken
-
-        /** Express Sessions */
+        /** Set Express Session */
+        request.session.auth = JWToken;
 
         response.status(201).json({
             data: {
-                id: userExists.id,
                 session_jwt: JWToken,
                 success: true,
-                loc: 'end try sign in',
+                location: 'end try sign in',
             },
         });
     } catch (error) {

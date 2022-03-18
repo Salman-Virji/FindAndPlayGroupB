@@ -42,6 +42,7 @@ const SessionStore = session({
     secret: process.env.SECRET,
     resave: true,
     saveUninitialized: false,
+    cookie: { expiresIn: 180 }
 });
 
 module.exports = { ConnectMongoDB, SessionStore };
