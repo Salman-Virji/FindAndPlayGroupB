@@ -103,38 +103,31 @@ const Sign_In = async (request, response) => {
         });
         if (activeUserSession) throw new Error('User already signed in!');
 
-        /** Sign In User, Compare Passwords, Generate JWT and Save */
-        const validation = await bcrypt.compare(
-            password,
-            userExists.password
-        );
+        /** Compare Passwords */
+        const validation = await bcrypt.compare(password, userExists.password);
+        if (!validation) throw new Error('Authentication failed!');
 
         /** Generate JsonWebToken */
-        if (validation) {
-            const JWToken = jwt.sign({ session_id: userExists.id }, process.env.SECRET);
+        const payload = userExists.id;
+        const JWToken = jwt.sign(payload, process.env.SECRET);
 
-            console.log(JWToken)
+        /** Set JWT to mongoDB and save */
+        const sessionToken = new SessionToken({
+            session_id: payload,
+            session_jwt: JWToken,
+        });
+        sessionToken.save();
 
-            /** Set JWT to mongoDB and save */
-            // const SessionToken = new SessionTokenModel({
-            //     userID: user._id,
-            //     isActive: true,
-            //     token: JWToken,
-            // });
-            // SessionToken.save();
-        }
+        request.session.auth = JWToken
+
         /** Express Sessions */
-        // request.session.user = { SessionToken };
-        // return response.status(200).json({ data: JWToken, success: true });
 
         response.status(201).json({
             data: {
                 id: userExists.id,
-                jwt: 'pending',
+                session_jwt: JWToken,
                 success: true,
                 loc: 'end try sign in',
-                active: activeUserSession,
-                val: validation,
             },
         });
     } catch (error) {
