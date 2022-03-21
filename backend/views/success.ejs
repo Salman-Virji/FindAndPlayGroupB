@@ -13,7 +13,7 @@
             crossorigin="anonymous"
         />
 
-        <title>Reset Password</title>
+        <title>Reset Password Success</title>
     </head>
     <body class="bg-success">
         <div class="container justify-content-center align-items-center">
@@ -24,30 +24,12 @@
                             src="https://tinyurl.com/fnpemailheader"
                             alt="email header logo"
                         />
-
-                        <form
-                            action=""
-                            method="post"
-                            class="form p-3"
-                            id="form"
+                        <div
+                            class="container justify-content-center align-items-center"
                         >
-                            <label for="input-email" class="form-label"
-                                >Enter email to reset</label
-                            >
-                            <input
-                                type="text"
-                                id="input-email"
-                                class="form-control mb-2"
-                            />
-
-                            <button
-                                id="btn"
-                                type="submit"
-                                class="btn btn-outline-primary"
-                            >
-                                Send Link
-                            </button>
-                        </form>
+                            <h2>Success - Password has been reset</h2>
+                            <h3><%=username%></h3>
+                        </div>
                     </div>
                 </div>
             </div>

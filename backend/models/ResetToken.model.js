@@ -1,33 +1,31 @@
 /** Node.js-based Object Data Modeling (ODM) library for MongoDB */
-const { boolean } = require('joi');
 const mongoose = require('mongoose');
 
 /** Blueprint for defining the structure of a Mongoose model that maps directly to a MongoDB collection */
 const Schema = mongoose.Schema;
 
-const sessionTokenSchema = new Schema(
+const resetTokenSchema = new Schema(
     {
-        userID: {
+        reset_id: {
             type: Schema.Types.ObjectId,
             required: true,
             ref: 'User',
         },
-        isActive: {
-            type: Boolean,
-            required: true,
-        },
-        token: {
+        reset_token: {
             type: String,
             required: true,
         },
         createdAt: {
             type: Date,
             default: Date.now,
-            expires: 60000 * 3,
+            expires: 180, // expires after 180 seconds = 3 mins
         },
+    },
+    {
+        timestamps: false,
     }
 );
 
-const SessionToken = mongoose.model('SessionToken', sessionTokenSchema);
+const ResetToken = mongoose.model('reset_token', resetTokenSchema);
 
-module.exports = SessionToken;
+module.exports = ResetToken;

@@ -4,28 +4,23 @@ const mongoose = require('mongoose');
 /** Blueprint for defining the structure of a Mongoose model that maps directly to a MongoDB collection */
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema(
+const sessionTokenSchema = new Schema(
     {
-        username: {
-            type: String,
+        session_id: {
+            type: Schema.Types.ObjectId,
             required: true,
-            unique: true,
+            ref: 'User',
         },
-        email: {
-            type: String,
-            required: true,
-            unique: true,
-        },
-        password: {
+        session_jwt: {
             type: String,
             required: true,
         },
     },
     {
-        timestamps: true,
+        timestamps: false,
     }
 );
 
-const User = mongoose.model('User', userSchema);
+const SessionToken = mongoose.model('session_token', sessionTokenSchema);
 
-module.exports = User;
+module.exports = SessionToken;

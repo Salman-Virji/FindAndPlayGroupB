@@ -1,27 +1,27 @@
 const Joi = require('joi');
 
 const SignUpSchema = Joi.object({
-    username: Joi.string().min(6).max(15).alphanum().lowercase().required(),
-    email: Joi.string().email().lowercase().required(),
-    password: Joi.string().min(6).required(),
+    username: Joi.string().min(6).lowercase().alphanum().trim().required(),
+    password: Joi.string().min(6).trim().required(),
+    email: Joi.string().email().lowercase().trim().required(),
 });
 
 const SignInSchema = Joi.object({
-    username: Joi.string().lowercase().required(),
-    password: Joi.string().required(),
+    username: Joi.string().min(6).lowercase().alphanum().trim().required(),
+    password: Joi.string().min(6).trim().required(),
 });
 
-const ResetPasswordSchema = Joi.object({
-    email: Joi.string().email().lowercase().required(),
+const EmailSchema = Joi.object({
+    email: Joi.string().email().lowercase().trim().required(),
 });
 
 const PasswordSchema = Joi.object({
-    password: Joi.string().min(6).required(),
+    password: Joi.string().min(6).trim().required(),
 });
 
 module.exports = {
     SignUpSchema,
     SignInSchema,
-    ResetPasswordSchema,
+    EmailSchema,
     PasswordSchema,
 };
