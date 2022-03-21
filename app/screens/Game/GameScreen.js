@@ -6,11 +6,13 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View, ScrollView
+  View, ScrollView, 
+  ImageBackground
 } from "react-native";
 import { CustomCamera } from './Components/CustomCamera';
 import getImage from './GameImages';
 import ChooseObjectiveCard from './Components/ChooseObjectiveCard';
+
 
 export default function GameScreen({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
@@ -61,8 +63,11 @@ export default function GameScreen({ navigation }) {
         <CustomCamera cameraRef={cameraRef} type={type} objectives={objectives.objectives} currentObjectiveId={currentObjectiveId} setType={setType} setShowCamera={setShowCamera} takePhoto={takePhoto} startTime={startTime} />
       ) : (
         //WHEN CAMERA IS OFF
-        <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: "#FFE551" }}>
-          <View style={{ marginTop: 30, margin: 10 }}>
+        <ImageBackground
+        style={{ resizeMode: "contain", flex: 1 }}
+        source={require("../../assets/BGs/background2.png")}
+        >
+          <View style={{ marginTop: 30, margin: 10, justifyContent: "center", alignItems: "center", width: "100%"}}>
             {/* calling the timer */}
             <CountdownTimer countdownTimestampMs={startTime + (60000 * GameData.timelimit)} />
           </View>
@@ -108,8 +113,7 @@ export default function GameScreen({ navigation }) {
               <Text>Confirm</Text>
             </TouchableOpacity>
           </View>
-
-        </View>
+        </ImageBackground>
       )}
     </>
   )

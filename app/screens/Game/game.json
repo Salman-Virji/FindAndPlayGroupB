@@ -7,39 +7,73 @@
     "playercount": 10,
     "objectives": 
         [ 
-            {
-                "objectiveid": 123, 
-                "description": "Squirrel", 
-                "points": 10,
-                "referenceimage": "url", 
-                "picturetaken": "",
-                "score": 0
+        {  
+            "timelimit": 10,   
+            "objectives": [{
+            "objectiveid": 123,
+            "description": "Squirrel",
+            "points": 10,
+            "referenceimage": "",
+            "picturetaken": null,
+            "score": 0,
+            "hasSet": false
             },
             {
-                "objectiveid": 124, 
-                "description": "Tree", 
-                "points": 5,
-                "referenceimage": "url", 
-                "picturetaken": "url",
-                "score": 5
-            }, 
-
-                {
-                "objective_id": 125, 
-                "description": "Rock", 
-                "points": 8,
-                "referenceimage": "url", 
-                "picturetaken": "url",
-                "score": 0
-            }, 
+            "objectiveid": 124,
+            "description": "Tree",
+            "points": 5,
+            "referenceimage": "",
+            "picturetaken": null,
+            "score": 5,
+            "hasSet": false
+            },
+            
             {
-                "objectiveid": 126, 
-                "description": "Lake", 
-                "points": 4,
-                "referenceimage": "url", 
-                "picturetaken": "url",
-                "score": 4
-            }
-        ]
+            "objectiveid": 125,
+            "description": "Bird",
+            "points": 8,
+            "referenceimage": "",
+            "picturetaken": null,
+            "score": 0,
+            "hasSet": false
+            },
+            {
+            "objectiveid": 127,
+            "description": "Cat",
+            "points": 4,
+            "referenceimage": "",
+            "picturetaken": null,
+            "score": 4,
+            "hasSet": false
+            },
+            {
+            "objectiveid": 129,
+            "description": "Tele",
+            "points": 4,
+            "referenceimage": "",
+            "picturetaken": null,
+            "score": 4,
+            "hasSet": false
+            },
+            {
+            "objectiveid": 130,
+            "description": "Bear",
+            "points": 4,
+            "referenceimage": "",
+            "picturetaken": null,
+            "score": 4,
+            "hasSet": false
+            },
+            {
+            "objectiveid": 131,
+            "description": "Lion",
+            "points": 4,
+            "referenceimage": "",
+            "picturetaken": null,
+            "score": 4,
+            "hasSet": false
+            }]
+        }
+    ]
     
 }
