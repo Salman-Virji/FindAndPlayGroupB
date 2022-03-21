@@ -31,50 +31,21 @@
                             class="form p-3"
                             id="form"
                         >
-                            <label for="inputPassword5" class="form-label"
-                                >Create new password</label
+                            <label for="input-email" class="form-label"
+                                >Enter email to reset</label
                             >
                             <input
                                 type="text"
-                                id="inputPassword1"
+                                id="input-email"
                                 class="form-control mb-2"
-                                aria-describedby="passwordHelpBlock"
-                                pattern="(?=.*\d).{6,}"
                             />
 
-                            <div id="passwordHelpBlock" class="form-text mb-3">
-                                Your password must contain a number and must be
-                                more than 6 characters long
-                            </div>
-
-                            <label
-                                for="inputPassword5"
-                                class="form-label fw-bold"
-                                >Confirm new password</label
-                            >
-
-                            <!-- Using pattern to follow a password format
-                                (?=.*\d) means that a number is req,
-                                .{6,} means that the password must be 6 characters long
-
-                                Can also add (?=.*[a-z]) if we require a lowercase letter in our password 
-                                and add (?=.*[A-Z]) if we require an uppercase letter in our password
-                            -->
-
-                            <input
-                                type="text"
-                                id="inputPassword2"
-                                class="form-control mb-3"
-                                aria-describedby="passwordHelpBlock"
-                                name="password"
-                                pattern="(?=.*\d).{6,}"
-                            />
                             <button
                                 id="btn"
                                 type="submit"
                                 class="btn btn-outline-primary"
                             >
-                                Confirm
+                                Send Link
                             </button>
                         </form>
                     </div>
@@ -86,45 +57,5 @@
             integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
             crossorigin="anonymous"
         ></script>
-        <script>
-            /**
-             * [Error [ValidationError]: "password" is not allowed to be empty] {
-                _original: { password: '' },
-                details: [
-                    {
-                    message: '"password" is not allowed to be empty',
-                    path: [Array],
-                    type: 'string.empty',
-                    context: [Object]
-                    }
-                ]
-                }
-             * 
-             * 
-             * 
-             * */
-
-            // Password validation
-
-            // Creating two variables for password and confirmPassword and getting their values from the user input
-            var password = document.getElementById('inputPassword1'),
-                confirm_password = document.getElementById('inputPassword2');
-
-            // Function to validate the password
-            function validatePassword() {
-                // If the passwords do not match then it would display a message to the user, otherwise it would change the password
-                if (password.value != confirm_password.value) {
-                    confirm_password.setCustomValidity(
-                        'Passwords do not match'
-                    );
-                } else {
-                    confirm_password.setCustomValidity('');
-                }
-            }
-
-            // Calling the function
-            password.onchange = validatePassword;
-            confirm_password.onkeyup = validatePassword;
-        </script>
     </body>
 </html>
