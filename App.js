@@ -5,15 +5,15 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 // Importing screen components to Navigation Container
-import Lobby from "./backend/testing/app_testing/screens/InApp/GameLobby";
-import SigninScreen from "../app/screens/SigninScreen";
-import RegisterScreen from "../app/screens/RegisterScreen";
-import RegistarScreenT from "../app/screens/RegisterscreenT";
-import LandingScreen from "./backend/testing/app_testing/screens/InApp/LandingScreen";
-import JoinGame from "./backend/testing/app_testing/screens/InApp/JoinGameScreen";
-import ForgotPasswordScreen from "../app/screens/ForgotPasswordScreen";
-import ForgotPasswordTablet from "../app/screens/ForgotPasswordTablet";
-import CreateGameScreen from "./backend/testing/app_testing/screens/InApp/CreateGameScreen";
+import Lobby from "./app/screens/GameLobby";
+import SigninScreen from "./app/screens/SigninScreen";
+import RegisterScreen from "./app/screens/RegisterScreen";
+import RegistarScreenT from "./app/screens/RegisterscreenT";
+import LandingScreen from "./app/screens/LandingScreen";
+import JoinGame from "./app/screens/JoinGameScreen";
+import ForgotPasswordScreen from "./app/screens/ForgotPasswordScreen";
+import ForgotPasswordTablet from "./app/screens/ForgotPasswordTablet";
+import CreateGameScreen from "./app/screens/CreateGameScreen";
 // Part of React Navigation to create a 'Stack' style navigation object
 const Stack = createNativeStackNavigator();
 
