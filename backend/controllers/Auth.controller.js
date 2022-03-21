@@ -19,13 +19,13 @@ const {
 const sendResetLink_GMAIL = require('../utils/sendResetEmail_gmail');
 const sendResetLink_ETHEREAL = require('../utils/sendResetEmail_ethereal');
 
-//#region NEW USER SIGN-UP
 /**
  * @description Register a new user
  * @route POST http://localhost:3000/auth/new-signup
  * @summary Passing Tests - see testing/signup.test.md
  * */
 const New_Sign_Up = async (request, response) => {
+    //#region NEW USER SIGN-UP
     const username = request.body.username;
     const email = request.body.email;
     let password = request.body.password;
@@ -53,17 +53,17 @@ const New_Sign_Up = async (request, response) => {
             password: password,
         });
         await newuser.save();
+        //#endregion
 
-        response.status(201).json({
+        response.status(200).json({
             data: {
-                id: newuser.id,
-                username: newuser.username,
+                msg: newuser.id,
+                location: 'TRY - Sign Up End',
                 success: true,
-                loc: 'end try sign up',
             },
         });
     } catch (error) {
-        response.status(401).json({
+        response.status(400).json({
             data: {
                 error: error.message,
                 location: 'CATCH - New Sign Up',
@@ -72,14 +72,13 @@ const New_Sign_Up = async (request, response) => {
         });
     }
 };
-//#endregion
 
-//#region SIGN IN USER
 /**
  * @description User Sign In
  * @route POST http://localhost:3000/auth/sign-in
  * */
 const Sign_In = async (request, response) => {
+    //#region SIGN IN USER
     const username = request.body.username;
     let password = request.body.password;
 
@@ -122,172 +121,210 @@ const Sign_In = async (request, response) => {
 
         /** Set Express Session */
         request.session.auth = JWToken;
+        //#endregion
 
-        response.status(201).json({
+        response.status(200).json({
             data: {
-                id: payload,
-                session_jwt: JWToken,
+                msg: JWToken,
+                location: 'TRY - Sign In End',
                 success: true,
-                location: 'end try sign in',
             },
         });
     } catch (error) {
-        response.status(401).json({
+        response.status(400).json({
             data: {
                 error: error.message,
-                location: 'CATCH - SignIn',
+                location: 'CATCH - Sign In',
                 success: false,
             },
         });
     }
 };
-//#endregion
 
-/** @TODO - Testing and clean up */
-//#region SIGN OUT USER
 /**
  * @description User Sign Out
  * @route POST http://localhost:3000/auth/sign-in
+ * @TODO - Testing and clean up
  * */
 const Sign_Out = async (request, response) => {
+    //#region SIGN OUT USER
+
+    // This is the user _id equal to session_id
     const id = request.body.id;
 
     try {
-        const activeSession = await SessionToken.findOne({
-            id
+        const activeUserSession = await SessionToken.findOne({
+            session_id: id,
         });
-        if (!activeSession) throw new Error('No active session found!');
 
-        const JWToken = activeSession.session_jwt;
+        if (!activeUserSession) {
+            return response.status(200).json({
+                data: {
+                    msg: `${id} is not signed in!`,
+                    redirect: '/sign-in',
+                    success: true,
+                    location: 'TRY - Check For Session - Not found',
+                },
+            });
+        }
 
-        const user = await User.findOne({ id });
+        await SessionToken.deleteOne({ session_id: id });
+        console.log('Deleted');
 
-        // if (request.session) {
-        //     request.session.destroy();
-        // }
+        if (request.session) {
+            request.session.destroy();
+        }
 
-        response.send({
-            id: id,
-            user: user,
-            sessionMongo: JWToken,
-            sessionExpress: request.session.cookie,
-        });
+        //#endregion
+        response
+            .status(200)
+            .json({
+                data: {
+                    msg: `${id} has been signed out!`,
+                    redirect: '/sign-in',
+                    location: 'TRY - Sign Out End',
+                    success: true,
+                },
+            })
+            .render('signout', { username: id });
     } catch (error) {
         response.status(401).json({
             data: {
                 error: error.message,
+                location: 'CATCH - Sign Out',
                 success: false,
-                location: 'CATCH - SignIn',
-                express_session: request.session.cookie,
+            },
+        });
+    }
+};
+
+/**
+ * @description Password_Reset_Request
+ * @route POST http://localhost:3000/auth/reset-password
+ * @TODO - Testing
+ * */
+const Password_Reset_Request = async (request, response) => {
+    //#region RESET PASSWORD LINK
+    const email = request.body.email;
+
+    try {
+        const { error } = await ResetPasswordSchema.validate(request.body, {
+            abortEarly: false,
+        });
+        if (error) throw new Error(error.message.replace(/\"/g, ''));
+
+        const user = await User.findOne({ email: email });
+        if (!user) throw new Error('Email does not exist!');
+
+        const Reset_token = await ResetToken.findOne({ reset_id: user._id });
+
+        if (!Reset_token) {
+            newToken = await new ResetToken({
+                reset_id: user._id,
+                reset_token: GenerateToken(),
+            }).save();
+        }
+
+        const resetURL = `http://localhost:3000/auth/reset-password/${newToken.reset_id}/${newToken.reset_token}`;
+
+        /** @param PRODUCTION - limit of 100 emails per day! */
+        // await sendResetLink_GMAIL(user.email, resetURL);
+
+        /** @param DEVELOPMENT - unlimited */
+        await sendResetLink_ETHEREAL(user.email, resetURL);
+
+        //#endregion
+        response.status(200).json({
+            data: {
+                msg: 'Password reset link sent to your email account',
+                link: resetURL,
+                location: 'TRY - Reset Password End',
+                success: true,
+            },
+        });
+    } catch (error) {
+        response.status(400).json({
+            data: {
+                error: error.message,
+                location: 'CATCH - Reset Password',
+                success: false,
+            },
+        });
+    }
+};
+
+/**
+ * @description Renders Password_Update_Page
+ * @route GET http://localhost:3000/auth/reset-password/:userId/:token
+ * @TODO - Testing
+ * */
+const Password_Update_Page = async (request, response) => {
+    //#region UPDATE PASSWORD FORM
+    try {
+        response.render('reset');
+    } catch (error) {
+        response.status(400).json({
+            data: {
+                error: error.message,
+                location: 'CATCH - Send Reset Password Form',
+                success: false,
             },
         });
     }
 };
 //#endregion
 
-/** @TODO - Testing */
-//#region RESET PASSWORD LINK
-/**
- * @description Password_Reset_Request
- * @route POST http://localhost:3000/auth/reset-password
- * */
-const Password_Reset_Request = async (request, response) => {
-    try {
-        const { error } = await ResetPasswordSchema.validateAsync(request.body);
-        if (error) {
-            return response.status(409).send(error.message);
-        }
-
-        const user = await User.findOne({ email: request.body.email });
-
-        if (!user)
-            return res.status(400).send("User with given email doesn't exist");
-
-        let token = await ResetToken.findOne({ userId: user._id });
-
-        if (!token) {
-            token = await new ResetPasswordTokenModel({
-                userId: user._id,
-                token: GenerateToken(),
-            }).save();
-        }
-
-        const resetURL = `http://localhost:3000/auth/reset-password/${user._id}/${token.token}`;
-
-        /** @param PRODUCTION - limit of 100 emails per day! */
-        await sendResetLink_GMAIL(user.email, resetURL);
-
-        /** @param DEVELOPMENT - unlimited */
-        // await sendResetLink_ETHEREAL(user.email, resetURL);
-
-        response.send({
-            msg: 'Password reset link sent to your email account',
-            link: resetURL,
-        });
-    } catch (error) {
-        response.send('An error occurred');
-
-        console.log(error);
-    }
-};
-//#endregion
-
-/** @TODO - Testing */
-//#region UPDATE PASSWORD FORM
-/**
- * @description Renders Password_Update_Page
- * @route GET http://localhost:3000/auth/reset-password/:userId/:token
- * */
-const Password_Update_Page = async (request, response) => {
-    try {
-        response.render('reset');
-    } catch (error) {
-        response.send('An error occurred');
-        console.log(error);
-    }
-};
-//#endregion
-
-/** @TODO Render password set page and close and Testing */
-//#region UPDATE PASSWORD
 /**
  * @description Password_Update $id $token
  * @route POST http://localhost:3000/auth/reset-password/:userId/:token
+ * @TODO Testing
  * */
 const Password_Update = async (request, response) => {
-    try {
-        const { error } = await PasswordSchema.validateAsync(request.body);
+    //#region UPDATE PASSWORD
+    const password = request.body.password;
 
-        if (error) return response.status(400).send(error.message);
+    try {
+        const { error } = await ResetPasswordSchema.validate(request.body, {
+            abortEarly: false,
+        });
+        if (error) throw new Error(error.message.replace(/\"/g, ''));
 
         const user = await User.findById(request.params.id);
+        if (!user) throw new Error('Error with reset link, please try again!');
 
-        const token = await ResetPasswordTokenModel.findOne({
-            userId: user.id,
-            token: request.params.token,
+        const Reset_token = await ResetToken.findOne({
+            reset_id: request.params.id,
+            reset_token: request.params.token,
         });
-
-        if (!token) return response.status(400).send('Invalid or expired link');
+        if (!Reset_token) throw new Error('Invalid or expired link');
 
         const salt = await bcrypt.genSalt(10);
-        user.password = await bcrypt.hash(request.body.password, salt);
+        user.password = await bcrypt.hash(password, salt);
 
         await user.save();
-        await token.delete();
+        await Reset_token.delete();
 
-        /** @TODO Render password set page and close */
-
-        response.send({
-            messege: 'Password reset successfully',
-            raw: request.body.password,
-            hashed: user.password,
-        });
+        //#endregion
+        response
+            .status(200)
+            .json({
+                data: {
+                    msg: 'Password has been reset, proceed to login',
+                    location: 'TRY - Reset Link Password End',
+                    success: true,
+                },
+            })
+            .render('success', { username: user.username });
     } catch (error) {
-        response.send('An error occurred');
-        console.log(error);
+        response.status(400).json({
+            data: {
+                error: error.message,
+                location: 'CATCH - Reset Link Password',
+                success: false,
+            },
+        });
     }
 };
-//#endregion
 
 module.exports = {
     New_Sign_Up,
