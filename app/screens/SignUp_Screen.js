@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import baseURL from './axios'
 
 import {
     Image,
@@ -30,7 +31,7 @@ export default function SignUpScreen({ navigation }) {
             password: password,
         };
         if (username != '' || password != '') {
-            const url = `http://10.0.0.180:3000/auth/new-signup`; //Replace by your IP address
+            const url = `${baseURL}/auth/new-signup`; //Replace by your IP address
             axios
                 .post(url, body, navigation)
                 .then(() => {
