@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+
 import {
     Image,
     TextInput,
     TouchableOpacity,
     ImageBackground,
-    Pressable,
     StyleSheet,
     Text,
     View,
 } from 'react-native';
 
-export default function RegisterScreen({ navigation }) {
+export default function SignUpScreen({ navigation }) {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -30,7 +30,7 @@ export default function RegisterScreen({ navigation }) {
             password: password,
         };
         if (username != '' || password != '') {
-            var url = `http://10.0.0.180:3000/users/signup`; //Replace by your IP address
+            const url = `http://10.0.0.180:3000/auth/new-signup`; //Replace by your IP address
             axios
                 .post(url, body, navigation)
                 .then(() => {
@@ -194,5 +194,3 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
 });
-
-//export default RegisterScreen;
