@@ -12,7 +12,7 @@ const GenerateToken = require('../utils/generateToken');
 const {
     SignUpSchema,
     SignInSchema,
-    ResetPasswordSchema,
+    EmailSchema,
     PasswordSchema,
 } = require('./Validation.controller');
 
@@ -208,7 +208,7 @@ const Password_Reset_Request = async (request, response) => {
     const email = request.body.email;
 
     try {
-        const { error } = await ResetPasswordSchema.validate(request.body, {
+        const { error } = await EmailSchema.validate(request.body, {
             abortEarly: false,
         });
         if (error) throw new Error(error.message.replace(/\"/g, ''));
@@ -284,7 +284,7 @@ const Password_Update = async (request, response) => {
     const password = request.body.password;
 
     try {
-        const { error } = await ResetPasswordSchema.validate(request.body, {
+        const { error } = await PasswordSchema.validate(request.body, {
             abortEarly: false,
         });
         if (error) throw new Error(error.message.replace(/\"/g, ''));

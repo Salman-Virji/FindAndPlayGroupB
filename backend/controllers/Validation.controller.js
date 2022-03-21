@@ -11,7 +11,7 @@ const SignInSchema = Joi.object({
     password: Joi.string().min(6).trim().required(),
 });
 
-const ResetPasswordSchema = Joi.object({
+const EmailSchema = Joi.object({
     email: Joi.string().email().lowercase().trim().required(),
 });
 
@@ -22,6 +22,6 @@ const PasswordSchema = Joi.object({
 module.exports = {
     SignUpSchema,
     SignInSchema,
-    ResetPasswordSchema,
+    EmailSchema,
     PasswordSchema,
 };
