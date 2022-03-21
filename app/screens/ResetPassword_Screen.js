@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import baseURL from './axios'
+import base_url from './axios';
 
 import {
     TextInput,
@@ -39,10 +38,9 @@ export default function ResetPasswordScreen({ navigation }) {
         };
 
         console.log(body);
-        var URL = `${baseURL}/auth/reset-password`; //Replace by your IP address
 
-        axios
-            .post(URL, body, navigation)
+        base_url
+            .post('/reset-password', body, navigation)
             .then((res) => {
                 console.log(res.data);
 

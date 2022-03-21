@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import baseURL from './axios'
+// import axios from 'axios';
+import fetch from 'node-fetch';
 
 import {
     TextInput,
@@ -34,31 +34,30 @@ export default function SignInScreen({ navigation }) {
         setPassword('');
     }
 
-    function Login() {
+    async function Login() {
         //Email and password validation
         inputValidation(username, password);
 
-        const body = {
+        const data = {
             username: username,
             password: password,
         };
 
-        console.log(body);
-        var URL = `${baseURL}/auth/sign-in`; //Replace by your IP address
+        const response = await fetch('http://localhost:3000/auth/sign-in', {
+            method: post,
+            body: JSON.stringify(data),
+            headers: { 'Content-Type': 'application/json' },
+        });
+        const res = await response.json();
+        console.log(res);
 
-        axios
-            .post(URL, body, navigation)
-            .then((res) => {
-                console.log(res.data);
-
-                if (res.data.status == true) {
-                    console.log(username);
-                    navigation.navigate('Protected', {
-                        Username: username,
-                    });
-                }
-            })
-            .catch((err) => console.log(err));
+        // axios.post('http://localhost:3000/auth/sign-in', data)
+        //   .then(function (response) {
+        //     console.log(response);
+        //   })
+        //   .catch(function (error) {
+        //     console.log(error);
+        //   });
     }
 
     return (

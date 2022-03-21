@@ -1,7 +1,11 @@
 import axios from 'axios';
 
-const ip = '91.125.242.225'; // This is your own IP not localhost
-
-const base_url = axios.create({ baseURL: `https://${ip}:3000` });
-
-export default base_url;
+// export async function LoginAttempt(data) {
+//     console.log(`In LoginAttempt: ${data}`);
+//     const res = await axios
+//         .post(`http://localhost:3000/auth/sign-in`, data)
+//         .catch(function (error) {
+//             console.log(error.toJSON());
+//         });
+//     return res;
+// }

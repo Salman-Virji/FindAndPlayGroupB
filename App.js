@@ -8,7 +8,7 @@ import * as Group2B from './app/screens';
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-    const [validToken, setValidToken] = useState(false);
+    const [validToken, setValidToken] = React.useState(false);
     return (
         <NavigationContainer>
             <Stack.Navigator>
@@ -17,7 +17,7 @@ export default function App() {
                         {/* PROTECTED */}
                         <Stack.Screen
                             name='Protected'
-                            component={Group2B.Protected_Screen}
+                            component={Group2B.ProtectedScreen}
                             options={{ headerShown: false }}
                         />
                     </>
@@ -26,21 +26,21 @@ export default function App() {
                         {/* SIGN IN */}
                         <Stack.Screen
                             name='SignIn'
-                            component={Group2B.SignIn_Screen}
+                            component={Group2B.SignInScreen}
                             options={{ headerShown: false }}
                         />
 
                         {/* SIGN UP */}
                         <Stack.Screen
                             name='SignUp'
-                            component={Group2B.SignUp_Screen}
+                            component={Group2B.SignUpScreen}
                             options={{ headerShown: false }}
                         />
 
                         {/* RESET PASSWORD */}
                         <Stack.Screen
                             name='ResetPassword'
-                            component={Group2B.ResetPassword_Screen}
+                            component={Group2B.ResetPasswordScreen}
                             options={{ headerShown: false }}
                         />
                     </>
