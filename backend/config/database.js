@@ -27,7 +27,6 @@ const ConnectMongoDB = () => {
 };
 
 /**
- * @ttl Time to live in seconds
  * @maxAge cookie ttl in milliseconds
  */
 const SessionStore = session({
@@ -35,14 +34,13 @@ const SessionStore = session({
         mongoUrl: process.env.ATLAS_URI,
         collectionName: process.env.ATLAS_COLLECTION,
         autoRemove: 'interval',
-        autoRemoveInterval: 10, // In Minutes: Removes session after 60 mins
-        ttl: 1000 * 60, // In Seconds: Time to live 180 seconds = 3 mins
+        autoRemoveInterval: 10, // In Minutes: Removes session after 10 mins if expired
         touchAfter: 1 // In Seconds: Interval between session updates.
     }),
     secret: process.env.SECRET,
     resave: true,
     saveUninitialized: false,
-    cookie: { expiresIn: 1000 * 60 }
+    cookie: { maxAge: 1000 * 60 * 60 * 24 } // 1 day
 });
 
 module.exports = { ConnectMongoDB, SessionStore };

@@ -1,6 +1,7 @@
 /** Packages */
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const session = require('express-session');
 
 /** Mongoose Models / Schema */
 const User = require('../models/User.model');
@@ -120,12 +121,19 @@ const Sign_In = async (request, response) => {
         sessionToken.save();
 
         /** Set Express Session */
-        request.session.auth = JWToken;
+        request.session.user = session_jwt;
+
+        /** Send newSession to frontend to store as kpv */
+        const newSession = await SessionToken.findOne({
+            session_id: payload,
+        });
+        if (newSession) throw new Error('Cannot find session!');
+
         //#endregion
 
         response.status(200).json({
             data: {
-                msg: JWToken,
+                msg: newSession._id,
                 location: 'TRY - Sign In End',
                 success: true,
             },
