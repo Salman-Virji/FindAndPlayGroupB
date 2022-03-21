@@ -9,9 +9,12 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
-backend/.env
 *.env 
 
 # macOS
 .DS_Store
-backend/testing/jwt.test.js
+
+# backend
+backend/testing/
+backend/.env
+
