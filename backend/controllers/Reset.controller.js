@@ -12,6 +12,14 @@ const { EmailSchema, PasswordSchema } = require('./Validation.controller');
 const sendResetLink_GMAIL = require('../utils/sendResetEmail_gmail');
 const sendResetLink_ETHEREAL = require('../utils/sendResetEmail_ethereal');
 
+/** @description VIEW Renders Password_Reset_Page */
+const Password_Reset_Page = async (request, response) =>
+    response.render('reset');
+    
+/** @description VIEW Renders Password_Update_Page */
+const Password_Update_Page = async (request, response) =>
+    response.render('update');
+
 /**
  * @description Password_Reset_Request
  * @route POST http://localhost:3000/auth/reset-password
@@ -68,27 +76,6 @@ const Password_Reset_Request = async (request, response) => {
 };
 
 /**
- * @description VIEW Renders Password_Reset_Page
- * @route GET http://localhost:3000/auth/reset-password/:userId/:token
- * @TODO - Testing - Working but not using to take email currently, use postman
- * */
-const Password_Reset_Page = async (request, response) => {
-    //#region UPDATE PASSWORD FORM
-    try {
-        response.render('reset');
-    } catch (error) {
-        response.status(400).json({
-            data: {
-                error: error.message,
-                location: 'CATCH - Send Reset Password Form',
-                success: false,
-            },
-        });
-    }
-};
-//#endregion
-
-/**
  * @description Password_Update $id $token
  * @route POST http://localhost:3000/auth/reset-password/:userId/:token
  * @TODO Testing - Working but the password script is allowing for empty string. Need to fix this.
@@ -130,27 +117,6 @@ const Password_Update_Request = async (request, response) => {
         });
     }
 };
-
-/**
- * @description VIEW Renders Password_Update_Page
- * @route GET http://localhost:3000/auth/reset-password/:userId/:token
- * @TODO - Testing - Working but the password script is allowing for empty string. Need to fix this.
- * */
-const Password_Update_Page = async (request, response) => {
-    //#region UPDATE PASSWORD FORM
-    try {
-        response.render('update');
-    } catch (error) {
-        response.status(400).json({
-            data: {
-                error: error.message,
-                location: 'CATCH - Send Reset Password Form',
-                success: false,
-            },
-        });
-    }
-};
-//#endregion
 
 module.exports = {
     Password_Reset_Request,

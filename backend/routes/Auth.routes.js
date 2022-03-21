@@ -14,6 +14,20 @@ const {
     Password_Reset_Page,
 } = require('../controllers/Reset.controller');
 
+router.get('/', async (request, response) => response.render('root'));
+
+router.post('/new-signup', New_Sign_Up);
+router.post('/sign-in', Sign_In);
+router.post('/sign-out', Sign_Out);
+router.post('/validate-token', ValidateToken);
+
+router.get('/reset-password', Password_Reset_Page); // VIEW
+router.post('/reset-password', Password_Reset_Request);
+router.get('/reset-password/:id/:token', Password_Update_Page); // VIEW
+router.post('/reset-password/:id/:token', Password_Update_Request);
+
+module.exports = router;
+
 /**
  * @summary Routing
  * USERS/ROOT: GET http://localhost:3000/auth
@@ -28,17 +42,3 @@ const {
  * UPDATE-VIEW: GET http://localhost:3000/auth/reset-password/:id/:token
  * UPDATE-PASSWORD: POST http://localhost:3000/auth/reset-password/:id/:token
  */
-
-router.get('/', async (request, response) => response.render('root'));
-
-router.post('/new-signup', New_Sign_Up);
-router.post('/sign-in', Sign_In);
-router.post('/sign-out', Sign_Out);
-router.post('/validate-token', ValidateToken);
-
-router.get('/reset-password', Password_Reset_Page); // VIEW
-router.post('/reset-password', Password_Reset_Request);
-router.get('/reset-password/:id/:token', Password_Update_Page); // VIEW
-router.post('/reset-password/:id/:token', Password_Update_Request);
-
-module.exports = router;
