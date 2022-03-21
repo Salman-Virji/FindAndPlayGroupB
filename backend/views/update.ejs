@@ -118,7 +118,13 @@
                         'Passwords do not match'
                     );
                 } else {
-                    confirm_password.setCustomValidity('');
+                    if (password.value === '' || confirm_password.value === '') {
+                        confirm_password.setCustomValidity(
+                            'Password cannot be empty'
+                        );
+                    } else{
+                        confirm_password.setCustomValidity('');
+                    }
                 }
             }
 

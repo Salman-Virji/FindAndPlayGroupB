@@ -4,6 +4,7 @@ const {
     New_Sign_Up,
     Sign_In,
     Sign_Out,
+    ValidateToken,
 } = require('../controllers/Auth.controller');
 
 const {
@@ -20,10 +21,11 @@ const {
  * NEW-SIGNUP: POST http://localhost:3000/auth/new-signup
  * SIGN-IN: POST http://localhost:3000/auth/sign-in
  * SIGN-OUT: POST http://localhost:3000/auth/sign-out
+ * VALIDATE: POST http://localhost:3000/auth/validate-token
  *
- * SEND-RESET-LINK: GET http://localhost:3000/auth/reset-password
+ * SEND-VIEW: GET http://localhost:3000/auth/reset-password
  * SEND-RESET-LINK: POST http://localhost:3000/auth/reset-password
- * SET-NEW-PASSWORD: GET http://localhost:3000/auth/reset-password/:id/:token
+ * UPDATE-VIEW: GET http://localhost:3000/auth/reset-password/:id/:token
  * UPDATE-PASSWORD: POST http://localhost:3000/auth/reset-password/:id/:token
  */
 
@@ -31,11 +33,12 @@ router.get('/', async (request, response) => response.render('root'));
 
 router.post('/new-signup', New_Sign_Up);
 router.post('/sign-in', Sign_In);
-router.post('/sign-out/', Sign_Out);
+router.post('/sign-out', Sign_Out);
+router.post('/validate-token', ValidateToken);
 
-router.get('/reset-password', Password_Reset_Page);
+router.get('/reset-password', Password_Reset_Page); // VIEW
 router.post('/reset-password', Password_Reset_Request);
-router.get('/reset-password/:id/:token', Password_Update_Page);
+router.get('/reset-password/:id/:token', Password_Update_Page); // VIEW
 router.post('/reset-password/:id/:token', Password_Update_Request);
 
 module.exports = router;

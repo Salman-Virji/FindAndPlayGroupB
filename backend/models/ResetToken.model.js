@@ -18,7 +18,7 @@ const resetTokenSchema = new Schema(
         createdAt: {
             type: Date,
             default: Date.now,
-            expires: 60, // expires after 60 seconds = 1 mins
+            expires: 180, // expires after 180 seconds = 3 mins
         },
     },
     {

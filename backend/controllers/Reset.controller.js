@@ -7,10 +7,7 @@ const ResetToken = require('../models/ResetToken.model');
 
 /** Utility and Validation */
 const GenerateToken = require('../utils/generateToken');
-const {
-    EmailSchema,
-    PasswordSchema,
-} = require('./Validation.controller');
+const { EmailSchema, PasswordSchema } = require('./Validation.controller');
 
 const sendResetLink_GMAIL = require('../utils/sendResetEmail_gmail');
 const sendResetLink_ETHEREAL = require('../utils/sendResetEmail_ethereal');
@@ -18,7 +15,7 @@ const sendResetLink_ETHEREAL = require('../utils/sendResetEmail_ethereal');
 /**
  * @description Password_Reset_Request
  * @route POST http://localhost:3000/auth/reset-password
- * @TODO - Testing
+ * @TODO - Tested and Working! Check ethereal link in console!
  * */
 const Password_Reset_Request = async (request, response) => {
     //#region RESET PASSWORD LINK
@@ -71,11 +68,11 @@ const Password_Reset_Request = async (request, response) => {
 };
 
 /**
- * @description Renders Password_Reset_Page
+ * @description VIEW Renders Password_Reset_Page
  * @route GET http://localhost:3000/auth/reset-password/:userId/:token
- * @TODO - Testing
+ * @TODO - Testing - Working but not using to take email currently, use postman
  * */
- const Password_Reset_Page = async (request, response) => {
+const Password_Reset_Page = async (request, response) => {
     //#region UPDATE PASSWORD FORM
     try {
         response.render('reset');
@@ -94,7 +91,7 @@ const Password_Reset_Request = async (request, response) => {
 /**
  * @description Password_Update $id $token
  * @route POST http://localhost:3000/auth/reset-password/:userId/:token
- * @TODO Testing
+ * @TODO Testing - Working but the password script is allowing for empty string. Need to fix this.
  * */
 const Password_Update_Request = async (request, response) => {
     //#region UPDATE PASSWORD
@@ -122,16 +119,7 @@ const Password_Update_Request = async (request, response) => {
         await Reset_token.delete();
 
         //#endregion
-        response
-            .status(200)
-            .json({
-                data: {
-                    msg: 'Password has been reset, proceed to login',
-                    location: 'TRY - Reset Link Password End',
-                    success: true,
-                },
-            })
-            .render('success', { username: user.username });
+        response.status(200).render('success', { username: user.username });
     } catch (error) {
         response.status(400).json({
             data: {
@@ -144,11 +132,11 @@ const Password_Update_Request = async (request, response) => {
 };
 
 /**
- * @description Renders Password_Update_Page
+ * @description VIEW Renders Password_Update_Page
  * @route GET http://localhost:3000/auth/reset-password/:userId/:token
- * @TODO - Testing
+ * @TODO - Testing - Working but the password script is allowing for empty string. Need to fix this.
  * */
- const Password_Update_Page = async (request, response) => {
+const Password_Update_Page = async (request, response) => {
     //#region UPDATE PASSWORD FORM
     try {
         response.render('update');

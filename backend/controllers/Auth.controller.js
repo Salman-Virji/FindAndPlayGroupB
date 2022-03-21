@@ -66,6 +66,7 @@ const New_Sign_Up = async (request, response) => {
 /**
  * @description User Sign In
  * @route POST http://localhost:3000/auth/sign-in
+ * @summary Passing Tests - But need to look into express-session, I don't think it's needed.
  * */
 const Sign_In = async (request, response) => {
     //#region SIGN IN USER
@@ -94,10 +95,10 @@ const Sign_In = async (request, response) => {
 
         /** Compare Passwords */
         const validation = await bcrypt.compare(password, userExists.password);
-        if (!validation) throw new Error('Authentication failed!');
+        if (!validation) throw new Error('Password Authentication failed!');
 
         /** Generate JsonWebToken */
-        const payload = userExists.id;
+        const payload = userExists._id;
         const JWToken = jwt.sign({ payload }, process.env.SECRET, {
             expiresIn: '2h',
         });
@@ -110,19 +111,20 @@ const Sign_In = async (request, response) => {
         sessionToken.save();
 
         /** Set Express Session */
-        request.session.user = session_jwt;
+        request.session.user = sessionToken;
 
+        /** @TODO - Not sure we really need this */
         /** Send newSession to frontend to store as kpv */
-        const newSession = await SessionToken.findOne({
-            session_id: payload,
-        });
-        if (newSession) throw new Error('Cannot find session!');
+        // const newSession = await SessionToken.findOne({
+        //     session_id: userExists._id,
+        // });
+        // if (newSession) throw new Error('Cannot find session!');
 
         //#endregion
 
         response.status(200).json({
             data: {
-                msg: newSession._id,
+                msg: sessionToken._id,
                 location: 'TRY - Sign In End',
                 success: true,
             },
@@ -141,17 +143,17 @@ const Sign_In = async (request, response) => {
 /**
  * @description User Sign Out
  * @route POST http://localhost:3000/auth/sign-in
- * @TODO - Testing and clean up
+ * @TODO - Passing Tests - Need to clean and make clear comments
  * */
 const Sign_Out = async (request, response) => {
     //#region SIGN OUT USER
 
-    // This is the user _id equal to session_id
+    // This is the user id equal to SessionToken _id
     const id = request.body.id;
 
     try {
         const activeUserSession = await SessionToken.findOne({
-            session_id: id,
+            _id: id,
         });
 
         if (!activeUserSession) {
@@ -165,7 +167,7 @@ const Sign_Out = async (request, response) => {
             });
         }
 
-        await SessionToken.deleteOne({ session_id: id });
+        await SessionToken.deleteOne({ _id: id });
         console.log('Deleted');
 
         if (request.session) {
@@ -175,14 +177,14 @@ const Sign_Out = async (request, response) => {
         //#endregion
         response
             .status(200)
-            .json({
-                data: {
-                    msg: `${id} has been signed out!`,
-                    redirect: '/sign-in',
-                    location: 'TRY - Sign Out End',
-                    success: true,
-                },
-            })
+            // .json({
+            //     data: {
+            //         msg: `${id} has been signed out!`,
+            //         redirect: '/sign-in',
+            //         location: 'TRY - Sign Out End',
+            //         success: true,
+            //     },
+            // })
             .render('signout', { username: id });
     } catch (error) {
         response.status(401).json({
@@ -195,8 +197,44 @@ const Sign_Out = async (request, response) => {
     }
 };
 
+/**
+ * @description User Sign Out
+ * @route POST http://localhost:3000/auth/RefreshToken
+ * @TODO - Write Method
+ * */
+const ValidateToken = async (request, response) => {
+    //#region Validate / Refresh Token
+    const authorization = request.header.authorization;
+    try {
+        /**
+         * 1. Get BEARER token
+         * 2. Check DB for sessionToken
+         * 3. Verify JWT on sessionToken
+         * 4. Return boolean to change KPV on frontend. 
+         */
+
+        //#endregion
+        response.status(200).json({
+            data: {
+                msg: `Validate Token`,
+                location: 'TRY - Validate Token End',
+                success: true,
+            },
+        });
+    } catch (error) {
+        response.status(401).json({
+            data: {
+                error: error.message,
+                location: 'CATCH - Validate Token',
+                success: false,
+            },
+        });
+    }
+};
+
 module.exports = {
     New_Sign_Up,
     Sign_In,
     Sign_Out,
+    ValidateToken,
 };
