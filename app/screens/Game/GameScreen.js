@@ -2,16 +2,14 @@ import { Camera } from 'expo-camera';
 import React, { useEffect, useRef, useState } from 'react';
 import CountdownTimer from './Timer/CountdownTimer';
 import {
-  Dimensions,
-  StyleSheet,
   Text,
   TouchableOpacity,
-  View, ScrollView, 
-  ImageBackground
+  View, ImageBackground
 } from "react-native";
 import { CustomCamera } from './Components/CustomCamera';
 import getImage from './GameImages';
-import ChooseObjectiveCard from './Components/ChooseObjectiveCard';
+import { ObjectiveSelect } from './Components/ObjectiveSelect';
+import { styles } from './Styles/styles';
 
 
 export default function GameScreen({ navigation }) {
@@ -43,6 +41,7 @@ export default function GameScreen({ navigation }) {
     }
   };
 
+  //Updates
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
@@ -53,54 +52,36 @@ export default function GameScreen({ navigation }) {
   if (hasPermission === null) {
     return <View />;
   }
+
   if (hasPermission === false) {
     return <Text>No access to camera</Text>;
   }
+
   return (
     <>
       {showCamera ? (
         //WHEN CAMERA IS ON
-        <CustomCamera cameraRef={cameraRef} type={type} objectives={objectives.objectives} currentObjectiveId={currentObjectiveId} setType={setType} setShowCamera={setShowCamera} takePhoto={takePhoto} startTime={startTime} />
+        <CustomCamera
+          cameraRef={cameraRef} type={type}
+          objectives={objectives.objectives}
+          currentObjectiveId={currentObjectiveId}
+          setType={setType}
+          setShowCamera={setShowCamera}
+          takePhoto={takePhoto}
+          startTime={startTime} />
       ) : (
         //WHEN CAMERA IS OFF
         <ImageBackground
-        style={{ resizeMode: "contain", flex: 1 }}
-        source={require("../../assets/BGs/background2.png")}
+          style={{ resizeMode: "contain", flex: 1 }}
+          source={require("../../assets/BGs/background2.png")}
         >
-          <View style={{ marginTop: 30, margin: 10, justifyContent: "center", alignItems: "center", width: "100%"}}>
+          <View style={{ marginTop: 30, margin: 10, justifyContent: "center", alignItems: "center", width: "100%" }}>
             {/* calling the timer */}
             <CountdownTimer countdownTimestampMs={startTime + (60000 * GameData.timelimit)} />
           </View>
-          <View style={{ alignItems: "center", justifyContent: "center", flex: 5, overflow: "hidden", flexWrap: "wrap", maxHeight: Dimensions.get("window").width * 1.00, backgroundColor: "rgbar(255,0,0,0.1)" }}>
-            <ScrollView style={{ flex: 1, height: "100%" }}
-              scrollIndicatorInset={10}
-              contentContainerStyle={{ flexDirection: "row", flexWrap: "wrap", justifyContent: "center", alignItems: "center" }}>
-              {objectives.objectives.map(x => {
-                return (
-                  x.picturetaken == null ?
-                    <TouchableOpacity
-                      key={x.objectiveid}
-                      style={styles.card}
-                      onPress={() => {
-                        setShowCamera(true)
-                        setCurrentObjectiveId(x.objectiveid)
-                      }}>
-                      <ChooseObjectiveCard objective={x} source={x.referenceimage} />
-                    </TouchableOpacity> :
-                    <TouchableOpacity
-                      key={x.objectiveid}
-                      style={styles.card}
-                      >
-                      <ChooseObjectiveCard objective={x} source={{uri:x.picturetaken}} />
-                    </TouchableOpacity>
-
-                )
-              }
-              )
-              }
-            </ScrollView>
-          </View>
-          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: "rgba(255,0,0,0.1)", width: "100%" }}>
+            <ObjectiveSelect gameObject={tempObj} setShowCamera={setShowCamera} setCurrentObjectiveId={setCurrentObjectiveId} />
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: "100%" }}>
+            {/*Temp Button*/}
             <TouchableOpacity
               style={styles.generic_button}
               onPress={() => {
@@ -118,54 +99,6 @@ export default function GameScreen({ navigation }) {
     </>
   )
 }
-
-//COMBINE STYLESHEETS
-export const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  generic_button: {
-    alignItems: "center",
-    backgroundColor: "#DDDDDD",
-    padding: 10,
-    width: "50%"
-  },
-  card: {
-    flexBasis: "40%",
-    margin: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: Dimensions.get('window').width * 0.33,
-    height: Dimensions.get('window').width * 0.33,
-  },
-  camera: {
-    flex: 5,
-    width: "100%",
-    height: "100%"
-  },
-  buttonContainer: {
-    flex: 1,
-    backgroundColor: 'transparent',
-    flexDirection: 'row',
-    margin: 10,
-  },
-  button: {
-    flex: 0.1,
-    alignSelf: 'flex-end',
-    alignItems: 'center',
-  },
-  text: {
-    flex: 1,
-    fontSize: 12,
-    color: 'white',
-  },
-  photoButton: {
-    alignItems: "center",
-    backgroundColor: "#DDDDDD",
-    padding: 10,
-    width: "50%"
-  }
-});
 
 const GameData = {
   "timelimit": 10,
@@ -239,5 +172,7 @@ const tempObj =
     "hasSet": false
   }]
 }
+
+
 
 
