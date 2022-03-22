@@ -17,20 +17,22 @@ import CreateGameScreen from "./app/screens/CreateGameScreen";
 // Part of React Navigation to create a 'Stack' style navigation object
 const Stack = createNativeStackNavigator();
 
+
 function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
       <Stack.Screen
-          name="LandingScreen"
-          component={LandingScreen}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
           name="SigninScreen"
           component={SigninScreen}
           options={{ headerShown: false }}
         />
+      <Stack.Screen
+          name="LandingScreen"
+          component={LandingScreen}
+          options={{ headerShown: false }}
+        />
+  
         <Stack.Screen
           name="ForgotPasswordTablet"
           component={ForgotPasswordTablet}
