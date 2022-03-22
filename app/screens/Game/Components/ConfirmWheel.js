@@ -20,7 +20,6 @@ import {
 const { width } = Dimensions.get('screen');
 const imageWidth = width * 0.7;
 const imageHeight = imageWidth * 1.5;
-const {height} = Dimensions.get('screen');
 
 
 
@@ -66,9 +65,9 @@ function makeRed({item}){
         <View style={{alignItems: 'center', paddingBottom: 20}}>
           <Text style={{fontSize: 25, fontWeight: 'bold'}}>{points}</Text>
         </View>
-        <View style={{flexDirection:'row',justifyContent:'center'}}>
-            <Btn color={"#228B22"} btnText="Accept" item={item} onClick={makeGreen} />
-            <Btn color={"#51A0F8"} btnText="Decline" item={item} onClick={makeRed} />
+        <View>
+            <Btn color={"#51A0F8"} btnText="Accept" item={item} onClick={makeGreen} />
+            <Btn color={"#FF624E"} btnText="Decline" item={item} onClick={makeRed} />
             
         </View>
       </View>
@@ -103,8 +102,8 @@ function confrimWheel({items}) {
       <SafeAreaView style={styles.container}>
         <StatusBar hidden/>
        
-        <View >
-        <ImageBackground   style={{ resizeMode: "cover", flex: 1,flexDirection:'column',padding:25,justifyContent:'center',alignItems:'center' }} source={require("../../../assets/BGs/background2.png")}>
+        <View>
+        <ImageBackground   style={{ resizeMode: "contain", flex: 1 }} source={require("../../../assets/BGs/background2.png")}>
           <FlatList
           data={items}
           keyExtractor={(item) => item.description}
@@ -113,7 +112,7 @@ function confrimWheel({items}) {
           showsHorizontalScrollIndicator={false}
           renderItem={({item}) => {
             return (
-            <View style={{ flex:1,justifyContent: 'center', alignItems: 'center', width}}>
+            <View style={{justifyContent: 'center', alignItems: 'center', width}}>
               <View style={styles.cardContainer}>
                 <View style={{alignItems: 'center', justifyContent: 'center'}}>
                 <Text style={styles.textDescription}>{item.description}</Text>
@@ -128,7 +127,6 @@ function confrimWheel({items}) {
                       marginBottom: 20,
                       padding: 50,
                       backgroundColor: 'red'
-                      
                     }} 
                   />
                   <FlatButton item={item}/>
@@ -161,27 +159,19 @@ function confrimWheel({items}) {
   const styles = StyleSheet.create({
     container: {
       flex: 1,
-      flexDirection:'column',
       justifyContent: 'center',
       alignItems: 'center',
- 
-     
   
     },
     cardContainer:{
       backgroundColor: '#FEE14E',
-      borderRadius: 20, 
-      padding: 15,
-       color:'white',
-       
+       borderRadius: 20, 
+       padding: 15
     },
     textDescription:{
- 
       paddingBottom: 50, 
       fontSize: 35,
-       fontWeight: 'bold',
-       color:'#000',
- 
+       fontWeight: 'bold'
     },
     buttonGreen: {
         borderRadius: 8,
@@ -196,7 +186,7 @@ function confrimWheel({items}) {
         backgroundColor: 'red',
     },
     buttonText: {
-      color:'#fff',
+        color: '#000',
         fontSize:25,
         fontWeight: 'bold',
         justifyContent: 'center',
@@ -209,26 +199,27 @@ function confrimWheel({items}) {
       margin: 75, 
       padding: 25, 
       alignItems: 'center',
-
-      elevation:10,
- 
+      paddingHorizontal:7,
+      paddingVertical:7,
+      elevation:10
+     
     },
     finishText:{
       fontSize:35,
       fontWeight: 'bold', 
-      color:'#fff',
+      color: 'black',
       textTransform:'uppercase'
     },
     buttonContainer:{
-      
-      
-      padding: 50, 
+      alignItems: 'center', 
+      justifyContent: 'center', 
+      padding: 20, 
       borderRadius: 5,
-      margin:30,
-      elevation:10,
-   
+      margin:10,
+      paddingHorizontal:3,
+      paddingVertical:3,
+      elevation:2,
       textTransform:'uppercase',
-    
     }
    
   });
