@@ -1,13 +1,3 @@
-# Backend Repo has been rehosted to 
-
-[BACKEND](https://github.com/devjody/findandplay-backend)
-
-Keeping the Frontend and Backend apart due to too many conflicts and testing. 
-
-## FRONTEND devs, use this as your backend and disregard old BACKEND code in 
-
-https://github.com/Salman-Virji/FindAndPlayGroupB/tree/groupB2_updated_160322
-
 # FindAndPlayGroupB
 
 Team of 18, split into 3 subgroups B1, B2, B3.
@@ -35,3 +25,6 @@ See docs for navgation - !(React Navigation)[https://reactnavigation.org/docs/ge
 * apps folder - > assets -> subfolders for each asset type  
 
 Note : Layout does not scroll up with keyboard anymore becuase of "softwareKeyboardLayoutMode": "pan" added to app.json , this solves layout breaking but could be a future issue 
+
+
+TESTING THIS
