@@ -5,27 +5,28 @@ import {
   TouchableOpacity,
   View,
   StyleSheet,
-  Image,
-  Dimensions
+  BackHandler
 } from "react-native";
 import CountdownTimer from '../Timer/CountdownTimer';
 
 export function CustomCamera({ type, cameraRef, setType, setShowCamera, takePhoto, currentObjectiveId, objectives, startTime }) {
+
+  const backHandler = BackHandler.addEventListener("hardwareBackPress",()=>{
+    setShowCamera(false);
+    return true;
+  });
+
   return (<Camera style={styles.camera} type={type} ref={cameraRef}>
-    <View style={styles.buttonContainer}>
-      <TouchableOpacity style={styles.buttonContainer} onPress={() => {
-        setType(type === Camera.Constants.Type.back ? Camera.Constants.Type.front : Camera.Constants.Type.back);
-      }}>
-        <Text style={styles.text}> Flip </Text>
-        <CountdownTimer countdownTimestampMs={startTime+ (60000 * GameData.timelimit)}/>
-      </TouchableOpacity>
+    <View style={styles.timerContainer}>
+
+      <CountdownTimer countdownTimestampMs={startTime + (60000 * GameData.timelimit)} />
     </View>
+    {/*
     <View style={styles.buttonContainer}>
       <TouchableOpacity onPress={() => setShowCamera(false)}>
         <Text style={styles.text}> Hide Camera </Text>
       </TouchableOpacity>
-
-    </View>
+    </View>*/}
 
     <View style={{
       flex: 5,
@@ -39,6 +40,12 @@ export function CustomCamera({ type, cameraRef, setType, setShowCamera, takePhot
       justifyContent: "center",
       flex: 4
     }}>
+      {/* CURRENTLY UNUSED CAMERA FLIP
+      <TouchableOpacity style={styles.buttonContainer} onPress={() => {
+        setType(type === Camera.Constants.Type.back ? Camera.Constants.Type.front : Camera.Constants.Type.back);
+      }}>
+        <Text style={styles.text}> Flip </Text>
+       </TouchableOpacity>*/}
       <TouchableOpacity style={styles.photoButton} onPress={async () => {
         const r = await takePhoto();
         if (!r.cancelled) {
@@ -52,14 +59,14 @@ export function CustomCamera({ type, cameraRef, setType, setShowCamera, takePhot
         }
       }}>
 
- 
+
       </TouchableOpacity>
     </View>
   </Camera>);
 }
 
 const GameData = {
-  "timelimit": 10, 
+  "timelimit": 10,
 }
 
 export const styles = StyleSheet.create({
@@ -76,6 +83,13 @@ export const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     flexDirection: 'row',
     margin: 10,
+  },
+  timerContainer: {
+    display:"flex",
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'transparent',
+    margin: 20,
   },
   button: {
     flex: 0.1,
