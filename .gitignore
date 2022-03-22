@@ -13,8 +13,3 @@ web-build/
 
 # macOS
 .DS_Store
-
-# backend
-backend/testing/
-backend/.env
-
