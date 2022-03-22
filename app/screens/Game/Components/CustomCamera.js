@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   View,
   StyleSheet,
+  Image,
   Dimensions
 } from "react-native";
 import CountdownTimer from '../Timer/CountdownTimer';
@@ -50,9 +51,8 @@ export function CustomCamera({ type, cameraRef, setType, setShowCamera, takePhot
           setShowCamera(false);
         }
       }}>
-        <Text>
-          Take Picture
-        </Text>
+
+ 
       </TouchableOpacity>
     </View>
   </Camera>);
@@ -88,9 +88,19 @@ export const styles = StyleSheet.create({
     color: 'white',
   },
   photoButton: {
-    alignItems: "center",
-    backgroundColor: "#DDDDDD",
-    padding: 10,
-    width: "50%"
-  }
+    borderRadius: 40,
+    width: 80,
+    height: 80,
+    borderWidth: 5,
+    borderColor: 'white',
+    overflow: 'hidden',
+
+  },
+  innerCircle: {
+    borderRadius: 35,
+    width: 70,
+    height: 70,
+    margin: 5,
+    backgroundColor: 'black'
+  },
 });
