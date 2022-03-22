@@ -72,6 +72,7 @@ const Sign_In = async (request, response) => {
     //#region SIGN IN USER
     const username = request.body.username;
     let password = request.body.password;
+    console.log('HERE')
 
     try {
         /** Handle Errors - Data Validation
