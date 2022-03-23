@@ -23,8 +23,8 @@ import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 const { width } = Dimensions.get('window');
 
 function SigninScreen({ navigation }) {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [username, setUsername] = useState('arianne'); // For testing
+    const [password, setPassword] = useState('testing1'); // For testing
     const [message, setMessage] = useState('');
     const [isSelected, setSelection] = useState(false);
     const [validMsg, setValidmsg] = useState('');
@@ -60,7 +60,6 @@ function SigninScreen({ navigation }) {
             if (response.status == 200) {
                 const { session_id } = response.data;
 
-                console.log(`User sign in with...`);
                 console.log(`Session ID: ${session_id}`);
 
                 /** @TODO  -------------------------------- */
@@ -75,10 +74,9 @@ function SigninScreen({ navigation }) {
                 });
             }
         } catch (error) {
-            const { error: errorIssue, session_id } = error.response.data;
+            const { error: errorIssue } = error.response.data;
 
-            console.log(`Error found: ${errorIssue}`);
-            console.log(`Session ID: ${session_id}`);
+            console.log(`Error found => ${errorIssue})`);
 
             Alert.alert(
                 'Cannot Authenticate Username or Password',
@@ -192,7 +190,7 @@ function SigninScreen({ navigation }) {
                         placeholderTextColor='#fff'
                         autoCapitalize='none'
                         value={password}
-                        secureTextEntry={true}
+                        secureTextEntry={false}
                         onChangeText={(e) => setPassword(e)}
                     />
 
