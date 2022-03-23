@@ -26,16 +26,20 @@ export function ObjectiveSelect({ gameObject, setShowCamera, setCurrentObjective
       alignItems: "center"
     }}>
       {gameObject.objectives.map(x => {
-        return x.picturetaken == null ? <TouchableOpacity key={x.objectiveid} style={styles.card} onPress={() => {
-          setShowCamera(true);
-          setCurrentObjectiveId(x.objectiveid);
-        }}>
-          <ChooseObjectiveCard objective={x} source={x.referenceimage} />
-        </TouchableOpacity> : <TouchableOpacity key={x.objectiveid} style={styles.card}>
-          <ChooseObjectiveCard objective={x} source={{
-            uri: x.picturetaken
-          }} />
-        </TouchableOpacity>;
+        return (
+          x.picturetaken == null ?
+            <TouchableOpacity key={x.objectiveid} style={styles.card} onPress={() => {
+              setShowCamera(true);
+              setCurrentObjectiveId(x.objectiveid);
+            }}>
+              <ChooseObjectiveCard objective={x} source={x.referenceimage} />
+            </TouchableOpacity>
+          : <TouchableOpacity key={x.objectiveid} style={styles.card}>
+              <ChooseObjectiveCard objective={x} source={{
+                uri: x.picturetaken
+              }} />
+            </TouchableOpacity>
+            );
       })}
     </ScrollView>
   </View>);
