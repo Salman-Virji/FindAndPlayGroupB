@@ -9,16 +9,33 @@ import {
 } from "react-native";
 import CountdownTimer from '../Timer/CountdownTimer';
 
-export function CustomCamera({ type, cameraRef, setType, setShowCamera, takePhoto, currentObjectiveId, objectives, startTime }) {
+export function CustomCamera({ type, cameraRef, setType, setShowCamera, currentObjectiveId, objectives, startTime }) {
 
   const backHandler = BackHandler.addEventListener("hardwareBackPress",()=>{
     setShowCamera(false);
+    console.log("camera backhandler");
+    backHandler.remove();
     return true;
   });
+  const takePhoto = async () => {
+    if (cameraRef) {
+      try {
+        let photo = await cameraRef.current.takePictureAsync({
+          autoFocus: false,
+          skipProcessing: true,
+          aspect: [4, 3],
+          quality: 1
+        });
+        backHandler.remove();
+        return photo;
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  };
 
   return (<Camera style={styles.camera} type={type} ref={cameraRef}>
     <View style={styles.timerContainer}>
-
       <CountdownTimer countdownTimestampMs={startTime + (60000 * GameData.timelimit)} />
     </View>
     {/*
@@ -54,12 +71,9 @@ export function CustomCamera({ type, cameraRef, setType, setShowCamera, takePhot
               objectives[i].picturetaken = r.uri;
             }
           }
-
           setShowCamera(false);
         }
       }}>
-
-
       </TouchableOpacity>
     </View>
   </Camera>);
