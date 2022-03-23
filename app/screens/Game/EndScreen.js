@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
-    Text,
-    TextComponent,
-    View,
+    BackHandler
   } from "react-native";
 import ConfrimWheel from './Components/ConfirmWheel';
 export default function EndScreen({route,navigation}){
+ 
     return(
         <ConfrimWheel items={route.params.Data} />
     )

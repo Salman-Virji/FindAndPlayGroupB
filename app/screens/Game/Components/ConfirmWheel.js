@@ -13,23 +13,13 @@ import {
   TouchableOpacity,ImageBackground
 } from 'react-native';
 
-
-
-
-
 const { width } = Dimensions.get('screen');
 const imageWidth = width * 0.7;
 const imageHeight = imageWidth * 1.5;
 
-
-
-function logged(){
-    console.log("rip")
-}
-
 function Btn({color, btnText, onClick, item}) {
     return (
-      <TouchableOpacity onPress={() => onClick != null? onClick({item}) : logged} >
+      <TouchableOpacity onPress={() => onClick != null? onClick({item}) : console.log("rip")} >
         <View style={[styles.buttonContainer,{backgroundColor: `${color}` }]}>
           <Text style={styles.buttonText}>{btnText}</Text>
         </View>
@@ -74,9 +64,6 @@ function makeRed({item}){
     )
 }
 function confrimWheel({items}) {
-
-  console.log(items.length)
-
   function finishGame(){
     let count = 0;
     let points = 0;
@@ -116,7 +103,6 @@ function confrimWheel({items}) {
               <View style={styles.cardContainer}>
                 <View style={{alignItems: 'center', justifyContent: 'center'}}>
                 <Text style={styles.textDescription}>{item.description}</Text>
-                {console.log(item.picturetaken)}
                   </View>
                   <Image
                     source={item.picturetaken != null? {uri:item.picturetaken}: item.referenceimage} 

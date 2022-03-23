@@ -19,29 +19,10 @@ export default function GameScreen({ navigation }) {
   const [objectives, setObjectives] = useState(tempObj);
   const [currentObjectiveId, setCurrentObjectiveId] = useState(null);
   const [startTime] = useState(Date.now());
-
-
   const cameraRef = useRef(null);
 
 
-
-  const takePhoto = async () => {
-    if (cameraRef) {
-      try {
-        let photo = await cameraRef.current.takePictureAsync({
-          autoFocus: false,
-          skipProcessing: true,
-          aspect: [4, 3],
-          quality: 1
-        });
-        return photo;
-      } catch (e) {
-        console.log(e);
-      }
-    }
-  };
-
-  //Updates
+  //Updates permissions
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
@@ -67,7 +48,6 @@ export default function GameScreen({ navigation }) {
           currentObjectiveId={currentObjectiveId}
           setType={setType}
           setShowCamera={setShowCamera}
-          takePhoto={takePhoto}
           startTime={startTime} />
       ) : (
         //WHEN CAMERA IS OFF
@@ -75,11 +55,15 @@ export default function GameScreen({ navigation }) {
           style={{ resizeMode: "contain", flex: 1 }}
           source={require("../../assets/BGs/background2.png")}
         >
-          <View style={{ marginTop: 30, margin: 10, justifyContent: "center", alignItems: "center", width: "100%" }}>
+          <View 
+            style ={{ marginTop: 30, margin: 10, justifyContent: "center", alignItems: "center", width: "100%" }}>
             {/* calling the timer */}
-            <CountdownTimer countdownTimestampMs={startTime + (60000 * GameData.timelimit)} />
+            <CountdownTimer countdownTimestampMs={startTime + (60000 * tempObj.timelimit)} />
           </View>
-            <ObjectiveSelect gameObject={tempObj} setShowCamera={setShowCamera} setCurrentObjectiveId={setCurrentObjectiveId} />
+            <ObjectiveSelect 
+              gameObject={tempObj} 
+              setShowCamera={setShowCamera} 
+              setCurrentObjectiveId={setCurrentObjectiveId} />
           <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: "100%" }}>
             {/*Temp Button*/}
             <TouchableOpacity
@@ -98,10 +82,6 @@ export default function GameScreen({ navigation }) {
       )}
     </>
   )
-}
-
-const GameData = {
-  "timelimit": 10,
 }
 
 const tempObj =
