@@ -122,6 +122,7 @@ function confrimWheel({items}) {
                     source={item.picturetaken != null? {uri:item.picturetaken}: item.referenceimage} 
                     style={{
                       width: imageWidth,
+                      height: imageWidth*0.7,
                       resizeMode: 'cover',
                       borderRadius: 15,
                       marginBottom: 20,
