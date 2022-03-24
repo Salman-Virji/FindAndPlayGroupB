@@ -45,7 +45,11 @@ function SigninScreen({ navigation }) {
       username: username,
       password: password,
     };
+
     console.log(body);
+    console.log(username);
+    navigation.navigate("CreateGameScreen", {Username:username});
+    /*
     var url = `http:10.0.0.63:3000/users/login`; //Replace by your IP address
 
     axios
@@ -56,11 +60,12 @@ function SigninScreen({ navigation }) {
         setMessage(res.data.msg);
 
         if (res.data.status == true) {
-          console.log(username);
-          navigation.navigate("LandingScreen", {Username:username});
+          
         }
       })
       .catch((err) => console.log(err));
+   */ 
+      
   }
 
  

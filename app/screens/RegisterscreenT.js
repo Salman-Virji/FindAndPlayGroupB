@@ -68,6 +68,7 @@ function SignUp(username, password, email, navigation) {
     password: password,
   };
   navigation.navigate("SigninScreen");
+    /*
     var url = `http:10.0.0.63:3000/users/signup`;
     axios
       .post(url, body)
@@ -76,6 +77,7 @@ function SignUp(username, password, email, navigation) {
         
       })
       .catch((err) => console.log(err));
+    */
 }
 
 export default function RegisterScreenT({ navigation }) {
