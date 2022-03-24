@@ -58,7 +58,7 @@ export default function GameScreen({ navigation }) {
           <View 
             style ={{ marginTop: 30, margin: 10, justifyContent: "center", alignItems: "center", width: "100%" }}>
             {/* calling the timer */}
-            <CountdownTimer countdownTimestampMs={startTime + (60000 * tempObj.timelimit)} />
+            <CountdownTimer countdownTimestampMs={startTime + (60000 * tempObj.timelimit)} navigation={navigation} tempObj={tempObj} />
           </View>
             <ObjectiveSelect 
               gameObject={tempObj} 
@@ -72,7 +72,6 @@ export default function GameScreen({ navigation }) {
                 navigation.navigate("EndScreen",
                   { Data: tempObj.objectives }
                 )
-
               }} //https://reactnavigation.org/docs/params/
             >
               <Text>Confirm</Text>
@@ -86,7 +85,7 @@ export default function GameScreen({ navigation }) {
 
 const tempObj =
 {
-  "timelimit": 10,
+  "timelimit": 0.2,
   objectives: [{
     "objectiveid": 123,
     "description": "Squirrel",
