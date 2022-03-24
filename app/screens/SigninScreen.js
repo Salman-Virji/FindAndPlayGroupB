@@ -17,7 +17,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
 } from "react-native";
-
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 //This component is used to calculate the dimensions of the device and set width of certain components accordingly e.g input box
 import { Dimensions } from "react-native";
 const { width, height } = Dimensions.get("window");
@@ -28,12 +28,20 @@ function SigninScreen({ navigation }) {
   const [message, setMessage] = useState("");
   const [isSelected, setSelection] = useState(false);
   const [validMsg, setValidmsg] = useState("");
-
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   // function showValidationMsg() { // function creates error username is readonly
   //   if(username = " ",username="" ||( password = " ", password ="")){
   //     setValidmsg=("Please enter a valid Username or Password");
   //   }
   // }
+
+  const inputValidation = () => {
+    if (username.length == 0) setEmailError("Username or email is required");
+    else setEmailError("");
+    if (password.length == 0) setPasswordError("Password is required");
+    else setPasswordError("");
+  };
 
   function clearFields() {
     setUsername("");
@@ -41,29 +49,31 @@ function SigninScreen({ navigation }) {
   }
 
   function Login() {
+    //Email and password validation
+    inputValidation(username, password);
+
     const body = {
       username: username,
       password: password,
     };
+
     console.log(body);
-    var url = `http:10.0.0.63:3000/users/login`; //Replace by your IP address
+    var url = `http:192.168.0.20:3000/users/login`; //Replace by your IP address
 
     axios
       .post(url, body, navigation)
       .then((res) => {
         console.log(res.data);
-        clearFields();
+        //clearFields(); //Commented this one for better user experience cause everything empty fields are being handled in input validation
         setMessage(res.data.msg);
 
         if (res.data.status == true) {
           console.log(username);
-          navigation.navigate("LandingScreen", {Username:username});
+          navigation.navigate("LandingScreen", { Username: username });
         }
       })
       .catch((err) => console.log(err));
   }
-
- 
 
   return (
     //Setting background
@@ -98,6 +108,7 @@ function SigninScreen({ navigation }) {
           <Text style={styles.signintext}> Sign-In </Text>
 
           {/* TextInput is like input box */}
+
           <TextInput
             style={styles.input}
             underlineColorAndroid="transparent"
@@ -107,6 +118,11 @@ function SigninScreen({ navigation }) {
             value={username}
             onChangeText={(e) => setUsername(e)}
           />
+
+          {emailError.length > 0 ? (
+            <Text style={styles.inputValiation}>{emailError}</Text>
+          ) : null}
+
           <TextInput
             style={styles.input2}
             underlineColorAndroid="transparent"
@@ -117,6 +133,10 @@ function SigninScreen({ navigation }) {
             secureTextEntry={true}
             onChangeText={(e) => setPassword(e)}
           />
+
+          {passwordError.length > 0 ? (
+            <Text style={styles.inputValiation}>{passwordError}</Text>
+          ) : null}
         </View>
 
         <View
@@ -127,18 +147,21 @@ function SigninScreen({ navigation }) {
           }}
         >
           <View style={{ flexDirection: "row" }}>
-            <Checkbox
+            {/* Removing the remeber me checkbox*/}
+
+            {/* <Checkbox
               style={styles.checkbox}
               value={isSelected}
               onValueChange={setSelection}
               //color={true ? "#4630EB" : undefined}
-            />
+            /> */}
+            {/*             
             <Text
               style={{ color: "white", marginLeft: 10, fontWeight: "bold" }}
             >
               {" "}
               Remember me!
-            </Text>
+            </Text> */}
           </View>
           <View style={{}}>
             <Text
@@ -159,21 +182,25 @@ function SigninScreen({ navigation }) {
             {/* Pressable makes the area Pressable */}
             <Pressable
               style={styles.loginButton}
-              onPress={() => Login(username,password) } //changed onclick to go to landingscreen
+              onPress={() => navigation.navigate("CreateGameScreen")} //changed onclick to go to landingscreen
             >
               <Text style={styles.loginText}>Login</Text>
             </Pressable>
           </View>
-          <View style={{ alignItems: "center" }}>
+
+          {/*Got rid of continue without account as per new deisgnw*/}
+          {/* <View style={{ alignItems: "center" }}>
             <Pressable
               style={styles.btnWithoutAccount}
-              onPress={() => navigation.navigate("LandingScreen",{Username:null})} //changed onclick to go to landingscreen
+              onPress={() =>
+                navigation.navigate("LandingScreen", { Username: null })
+              } //changed onclick to go to landingscreen
             >
               <Text style={([styles.loginText], { color: "black" })}>
                 Continue without account
               </Text>
             </Pressable>
-          </View>
+          </View> */}
         </View>
 
         <View style={styles.signupbuttonContainer}>
@@ -202,7 +229,8 @@ const styles = StyleSheet.create({
   },
   logo: {
     //text css
-    fontSize: 120,
+    //fontSize: 120,
+    fontSize: RFPercentage(10),
     top: "45%",
     color: "white",
     fontWeight: "bold",
@@ -215,8 +243,8 @@ const styles = StyleSheet.create({
     // height: "100%",
   },
   signintext: {
-    fontSize: 50,
-
+    // fontSize: 50,
+    fontSize: RFPercentage(5),
     color: "white",
     fontWeight: "bold",
     textShadowColor: "rgba(0, 0, 0, 1)",
@@ -373,6 +401,12 @@ const styles = StyleSheet.create({
   },
   checkbox: {
     alignSelf: "center",
+  },
+  inputValiation: {
+    alignContent: "flex-start",
+    left: 15,
+    color: "black",
+    fontSize: 16,
   },
 });
 

@@ -853,7 +853,7 @@ function createLobby()
           fontSize: 20,
         }}
       >
-        <TouchableOpacity activeOpacity={0.95} style={styles.button} onPress={() =>createLobby()}>
+        <TouchableOpacity activeOpacity={0.95} style={styles.button}  onPress={() => navigation.navigate("LandingScreen")}>
           <Text style={styles.text}>Start</Text>
         </TouchableOpacity>
       </View>
