@@ -12,53 +12,56 @@ import { Dimensions } from "react-native";
 const { width, height } = Dimensions.get("window");
 import React, { Children, Component, useState } from "react";
 
-// checks that all required fields are filled 
+// checks that all required fields are filled
 
-
-
-function CheckFormFilled(username, password, email,ConfirmPassword,navigation,UpdateUsernameVisbility,UpdateEmailVisbility,UpdatePassVisbility,UpdateCpassVisbility)
-{
+function CheckFormFilled(
+  username,
+  password,
+  email,
+  ConfirmPassword,
+  navigation,
+  UpdateUsernameVisbility,
+  UpdateEmailVisbility,
+  UpdatePassVisbility,
+  UpdateCpassVisbility
+) {
   var incomplete = false;
-  if(username == "" || username == "Username")
-  {
+  if (username == "" || username == "Username") {
     UpdateUsernameVisbility(true);
     incomplete = true;
-  }
-  else{
+  } else {
     UpdateUsernameVisbility(false);
   }
-  if(password == "" || password == "Password")
-  {
-   UpdatePassVisbility( true);
+  if (password == "" || password == "Password") {
+    UpdatePassVisbility(true);
     incomplete = true;
+  } else {
+    UpdatePassVisbility(false);
   }
-  else{
-    UpdatePassVisbility(false)
-  }
-  if(email == "" || email== "Email")
-  {
+  if (email == "" || email == "Email") {
     UpdateEmailVisbility(true);
     incomplete = true;
-  }
-  else{
+  } else {
     UpdateEmailVisbility(false);
   }
-  if(password != ConfirmPassword)
-  {
+  if (password != ConfirmPassword) {
     UpdateCpassVisbility(true);
     incomplete = true;
-  }
-  else{
+  } else {
     UpdateCpassVisbility(false);
   }
-  console.log( "After Check \n",username,password,ConfirmPassword,email , incomplete);
-  if(incomplete == true)
-  {
-    
+  console.log(
+    "After Check \n",
+    username,
+    password,
+    ConfirmPassword,
+    email,
+    incomplete
+  );
+  if (incomplete == true) {
     return;
-  }
-  else{
-    SignUp(username,password,email,navigation)
+  } else {
+    SignUp(username, password, email, navigation);
   }
 }
 function SignUp(username, password, email, navigation) {
@@ -67,14 +70,14 @@ function SignUp(username, password, email, navigation) {
     email: email,
     password: password,
   };
-    var url = `http:10.0.0.63:3000/users/signup`;
-    axios
-      .post(url, body)
-      .then(() => {
-        console.log(body)
-        navigation.navigate("SigninScreen");
-      })
-      .catch((err) => console.log(err));
+  var url = `http:10.0.0.63:3000/users/signup`;
+  axios
+    .post(url, body)
+    .then(() => {
+      console.log(body);
+      navigation.navigate("SigninScreen");
+    })
+    .catch((err) => console.log(err));
 }
 
 export default function RegisterScreenT({ navigation }) {
@@ -85,10 +88,10 @@ export default function RegisterScreenT({ navigation }) {
   const [Password, SetPassword] = useState("Password");
   const [ConfirmPassword, SetConfirmPassword] = useState("Confirm Password");
   // uses state to track which msg's should be displayed and update the page dynamically
-  const [usernameV,UpdateUsernameVisbility]= useState(false);
-  const [emailV,UpdateEmailVisbility]= useState(false);
-  const [passwordV,UpdatePassVisbility]= useState(false);
-  const [CpasswordV,UpdateCpassVisbility]= useState(false);
+  const [usernameV, UpdateUsernameVisbility] = useState(false);
+  const [emailV, UpdateEmailVisbility] = useState(false);
+  const [passwordV, UpdatePassVisbility] = useState(false);
+  const [CpasswordV, UpdateCpassVisbility] = useState(false);
   return (
     <ImageBackground
       style={styles.background}
@@ -108,45 +111,71 @@ export default function RegisterScreenT({ navigation }) {
         }}
       >
         <Text style={styles.SignupTxT}> Sign up</Text>
-      
-        {//inoput fields and disdplay mesages for if form is not completed properly
-        // controlls if the text is visible or not
-         usernameV ? <Text style={styles.input, styles.inputTxt}>Please enter a username</Text> :<Text style={styles.input, styles.inputTxt}></Text>}
+
+        {
+          //inoput fields and disdplay mesages for if form is not completed properly
+          // controlls if the text is visible or not
+          usernameV ? (
+            <Text style={[styles.input, styles.inputTxt]}>
+              Please enter a username
+            </Text>
+          ) : (
+            <Text style={[styles.input, styles.inputTxt]}></Text>
+          )
+        }
         <TextInput
           style={styles.input}
           onChangeText={(e) => SetUsername(e)}
-          placeholderTextColor="#808080"
+          //placeholderTextColor="#808080"
           underlineColorAndroid="transparent"
           autoCapitalize="none"
           placeholder="Username"
           placeholderTextColor="#fff"
         />
-        { emailV ? <Text style={styles.input, styles.inputTxt}>Please enter a Valid Email</Text> : <Text style={styles.input, styles.inputTxt}></Text>}
-        
+        {emailV ? (
+          <Text style={[styles.input, styles.inputTxt]}>
+            Please enter a Valid Email
+          </Text>
+        ) : (
+          <Text style={[styles.input, styles.inputTxt]}></Text>
+        )}
+
         <TextInput
           style={styles.input}
           onChangeText={(e) => SetEmail(e)}
           placeholder="Email"
-          placeholderTextColor="#808080"
+          //placeholderTextColor="#808080"
           autoCapitalize="none"
           placeholderTextColor="#fff"
         />
-        { passwordV ? <Text style={styles.input, styles.inputTxt}>Please enter a Password</Text> : <Text style={styles.input, styles.inputTxt}></Text>}
+        {passwordV ? (
+          <Text style={[styles.input, styles.inputTxt]}>
+            Please enter a Password
+          </Text>
+        ) : (
+          <Text style={[styles.input, styles.inputTxt]}></Text>
+        )}
         <TextInput
           style={styles.input}
           onChangeText={(e) => SetPassword(e)}
           placeholder="Password"
-          placeholderTextColor="#808080"
+          //placeholderTextColor="#808080"
           autoCapitalize="none"
           placeholderTextColor="#fff"
           secureTextEntry={true}
         />
-        { CpasswordV ? <Text style={styles.input, styles.inputTxtP}>Please make sure your passwords match</Text> : <Text style={styles.input,  styles.inputTxtP}></Text>}
+        {CpasswordV ? (
+          <Text style={[styles.input, styles.inputTxtP]}>
+            Please make sure your passwords match
+          </Text>
+        ) : (
+          <Text style={[styles.input, styles.inputTxtP]}></Text>
+        )}
         <TextInput
           style={styles.input}
           onChangeText={(e) => SetConfirmPassword(e)}
           placeholder="Confirm Password"
-          placeholderTextColor="#808080"
+          //placeholderTextColor="#808080"
           secureTextEntry={true}
           autoCapitalize="none"
           placeholderTextColor="#fff"
@@ -155,10 +184,20 @@ export default function RegisterScreenT({ navigation }) {
 
       {/* Sign up button */}
       <View style={styles.registerbuttonContainer}>
-
         <Pressable
           style={styles.RegisterBtn}
-          onPress={() => CheckFormFilled(Username, Password, Email,ConfirmPassword,navigation,UpdateUsernameVisbility,UpdateEmailVisbility,UpdatePassVisbility,UpdateCpassVisbility)
+          onPress={() =>
+            CheckFormFilled(
+              Username,
+              Password,
+              Email,
+              ConfirmPassword,
+              navigation,
+              UpdateUsernameVisbility,
+              UpdateEmailVisbility,
+              UpdatePassVisbility,
+              UpdateCpassVisbility
+            )
           }
         >
           <Text
@@ -173,19 +212,23 @@ export default function RegisterScreenT({ navigation }) {
           </Text>
         </Pressable>
       </View>
-            {/* Login button */}
+      {/* Login button */}
       <View style={styles.loginbuttonContainer}>
-      <Text  style={{
-              bottom: 40,
-              fontWeight: "bold",
-              fontSize: 20,
-              color:"white",
-              textShadowColor: "rgba(0, 0, 0, 1)",
-              textShadowOffset: { width: -1, height:1 },
-              textShadowRadius: 10,
-              top:"-5%"
-          }}>Already Have an Account? </Text>
-          
+        <Text
+          style={{
+            bottom: 40,
+            fontWeight: "bold",
+            fontSize: 20,
+            color: "white",
+            textShadowColor: "rgba(0, 0, 0, 1)",
+            textShadowOffset: { width: -1, height: 1 },
+            textShadowRadius: 10,
+            top: "-5%",
+          }}
+        >
+          Already Have an Account?{" "}
+        </Text>
+
         <Pressable
           style={styles.btnSignin}
           onPress={() => navigation.navigate("SigninScreen")} //navigates to signinscren
@@ -207,15 +250,14 @@ export default function RegisterScreenT({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-
   loginbuttonContainer: {
     flex: 1,
     flexDirection: "column",
     alignItems: "center",
     width: 300,
     justifyContent: "center",
-    bottom:"6%",
-    left:"32%"
+    bottom: "6%",
+    left: "32%",
   },
   btnSignin: {
     alignItems: "center",
@@ -264,9 +306,9 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   inputTxt: {
-    color:"white",
+    color: "white",
     textShadowColor: "rgba(0, 0, 0, 1)",
-    textShadowOffset: { width: -1, height:1 },
+    textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 10,
     left: "21%",
     top: "-10%",
@@ -276,15 +318,15 @@ const styles = StyleSheet.create({
   inputTxtP: {
     left: "13%",
     top: "-10%",
-    color:"white",
+    color: "white",
     textShadowColor: "rgba(0, 0, 0, 1)",
-    textShadowOffset: { width: -1, height:1 },
+    textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 10,
     fontSize: 20,
     fontWeight: "bold",
   },
   registerbuttonContainer: {
-    position:"relative",
+    position: "relative",
     width: width * 0.6,
     justifyContent: "center",
     flexDirection: "column",
@@ -325,4 +367,3 @@ const styles = StyleSheet.create({
     // resizeMode: "contain",
   },
 });
-

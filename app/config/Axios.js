@@ -1,7 +1,7 @@
-import axios from 'axios';
+import axios from "axios";
 
 /**
- * Add you local tunnel here and it should all work 
+ * Add you local tunnel here and it should all work
  * --- This is the same as http://localhost:3000
  * ---- ipv4 from ipconfig
  */
@@ -11,7 +11,7 @@ import axios from 'axios';
 //const yourIP_Address = 'http://10.0.0.179:3000'; //Arianne
 
 const BackendQuery = axios.create({
-    baseURL: yourIP_Address,
+  baseURL: "http://192.168.0.20:3000",
 });
 
 export default BackendQuery;
