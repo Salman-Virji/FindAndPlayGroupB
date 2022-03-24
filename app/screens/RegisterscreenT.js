@@ -67,12 +67,13 @@ function SignUp(username, password, email, navigation) {
     email: email,
     password: password,
   };
+  navigation.navigate("SigninScreen");
     var url = `http:10.0.0.63:3000/users/signup`;
     axios
       .post(url, body)
       .then(() => {
         console.log(body)
-        navigation.navigate("SigninScreen");
+        
       })
       .catch((err) => console.log(err));
 }
