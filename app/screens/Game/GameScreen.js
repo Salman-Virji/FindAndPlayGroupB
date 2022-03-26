@@ -10,6 +10,7 @@ import { CustomCamera } from './Components/CustomCamera';
 import getImage from './GameImages';
 import { ObjectiveSelect } from './Components/ObjectiveSelect';
 import { styles } from './Styles/styles';
+import DoubleClick from "react-native-double-tap"
 
 
 export default function GameScreen({ navigation }) {
@@ -18,6 +19,7 @@ export default function GameScreen({ navigation }) {
   const [showCamera, setShowCamera] = useState(false);
   const [objectives, setObjectives] = useState(tempObj);
   const [currentObjectiveId, setCurrentObjectiveId] = useState(null);
+  const [teacherToggle,setTeacherToggle] = useState(false);
   const [startTime] = useState(Date.now());
   const cameraRef = useRef(null);
 
@@ -58,7 +60,14 @@ export default function GameScreen({ navigation }) {
           <View 
             style ={{ marginTop: 30, margin: 10, justifyContent: "center", alignItems: "center", width: "100%" }}>
             {/* calling the timer */}
-            <CountdownTimer countdownTimestampMs={startTime + (60000 * tempObj.timelimit)} />
+            {/*Doubletap to show continue button*/}
+            <DoubleClick
+            doubleTap={() => {
+              setTeacherToggle(true);
+            }}
+            >
+              <CountdownTimer countdownTimestampMs={startTime + (60000 * tempObj.timelimit)} />
+            </DoubleClick>
           </View>
             <ObjectiveSelect 
               gameObject={tempObj} 
@@ -66,6 +75,7 @@ export default function GameScreen({ navigation }) {
               setCurrentObjectiveId={setCurrentObjectiveId} />
           <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: "100%" }}>
             {/*Temp Button*/}
+            {teacherToggle?
             <TouchableOpacity
               style={styles.generic_button}
               onPress={() => {
@@ -76,7 +86,7 @@ export default function GameScreen({ navigation }) {
               }} //https://reactnavigation.org/docs/params/
             >
               <Text>Confirm</Text>
-            </TouchableOpacity>
+            </TouchableOpacity>:<></>}
           </View>
         </ImageBackground>
       )}
@@ -86,7 +96,7 @@ export default function GameScreen({ navigation }) {
 
 const tempObj =
 {
-  "timelimit": 10,
+  "timelimit": 100,
   objectives: [{
     "objectiveid": 123,
     "description": "Squirrel",
