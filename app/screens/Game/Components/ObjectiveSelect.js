@@ -34,10 +34,11 @@ export function ObjectiveSelect({ gameObject, setShowCamera, setCurrentObjective
             }}>
               <ChooseObjectiveCard objective={x} source={x.referenceimage} />
             </TouchableOpacity>
-          : <TouchableOpacity key={x.objectiveid} style={styles.card}>
-              <ChooseObjectiveCard objective={x} source={{
-                uri: x.picturetaken
-              }} />
+          : <TouchableOpacity key={x.objectiveid} style={styles.card} onPress={()=>{
+            setShowCamera(true);
+            console.log("@");
+            setCurrentObjectiveId(x.objectiveid);}}>
+              <ChooseObjectiveCard objective={x} source={{uri: x.picturetaken}}/>
             </TouchableOpacity>
             );
       })}
