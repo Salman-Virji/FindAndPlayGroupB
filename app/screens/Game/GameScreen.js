@@ -66,7 +66,7 @@ export default function GameScreen({ navigation }) {
               setTeacherToggle(true);
             }}
             >
-              <CountdownTimer countdownTimestampMs={startTime + (60000 * tempObj.timelimit)} />
+              <CountdownTimer countdownTimestampMs={startTime + (60000 * tempObj.timelimit)} navigation={navigation} gameObject={tempObj} />
             </DoubleClick>
           </View>
             <ObjectiveSelect 
@@ -96,7 +96,7 @@ export default function GameScreen({ navigation }) {
 
 const tempObj =
 {
-  "timelimit": 100,
+  "timelimit": 10,
   objectives: [{
     "objectiveid": 123,
     "description": "Squirrel",

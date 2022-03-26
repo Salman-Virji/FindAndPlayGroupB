@@ -23,30 +23,29 @@ import {
 //     days: '00', 
 // }
 const defaultRemainingTime = {
+    "minutes":"00",
+    "seconds":"00"
  
 }
 var finished = false;
 
-const CountdownTimer = ({countdownTimestampMs}) => {
+const CountdownTimer = ({countdownTimestampMs,navigation,gameObject}) => {
     
     const [remainingTime, setRemainingTime] = useState(defaultRemainingTime);
 
     useEffect(() => {
         const intervalId = setInterval(() => {
-            updateRemainingTime(countdownTimestampMs);
-        }, 1000);
-        return () => clearInterval(intervalId);
-    },[countdownTimestampMs]);
+            setRemainingTime(getRemainingTimeUntilMsTimestamp(countdownTimestampMs));
 
-    function updateRemainingTime(countdown) {
-        setRemainingTime(getRemainingTimeUntilMsTimestamp(countdown));
-    }
-    function checkTimeup() {
+        }, 1000);
         if (remainingTime.minutes==0 && remainingTime.seconds==0 && finished==false) {
-            finished = true;
-            console.log("time is up");
+            navigation.navigate("EndScreen",
+            { Data: gameObject.objectives })
         }
-    }
+        return () => clearInterval(intervalId);
+    },[remainingTime]);
+
+
 
     return(
         <View>
@@ -54,7 +53,6 @@ const CountdownTimer = ({countdownTimestampMs}) => {
             <Text>days</Text>
             <Text className="two-numbers">{remainingTime.hours}</Text>
             <Text>hours</Text> */}
-            {checkTimeup()}
             <Text style={styles.logo}> {remainingTime.minutes}:{remainingTime.seconds} </Text>
             <Text></Text>
         </View>
