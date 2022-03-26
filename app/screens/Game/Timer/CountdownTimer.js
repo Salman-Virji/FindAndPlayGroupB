@@ -1,31 +1,60 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { getRemainingTimeUntilMsTimestamp } from './Utils/CountdownTimerUtils';
 import {
+    Button,
+    InputEvent,
+    Image,
+    Dimensions,
+    ImageBackground,
     StyleSheet,
     Text,
+    TouchableOpacity,
     View,
+    TextInput,
+    TouchableOpacityBase,
+    Alert,
   } from "react-native";
   
-const defaultRemainingTime = {}
-var finished = false;
-//Component responsible for the timer. 
-//Update the timer each second and automatically call next screen 
-const CountdownTimer = ({countdownTimestampMs, navigation, tempObj}) => {
-    const [remainingTime, setRemainingTime] = useState(defaultRemainingTime);
-     useEffect(() => {
-        const intervalId = setInterval(() => {
-        setRemainingTime(getRemainingTimeUntilMsTimestamp(countdownTimestampMs));
-        }, 1000); //set the timer to refresh each second
-        if (remainingTime.minutes==0 && remainingTime.seconds==0 ) {
-          //Constantly check if the time is up. When it is, call the confirmation screen  
-          navigation.navigate("EndScreen",{ Data: tempObj.objectives })
-        }
-        return () => clearInterval(intervalId);
-    },[remainingTime]);
 
+// const defaultRemainingTime = {
+//     seconds: '00',
+//     minutes: '00',
+//     hours: '00',
+//     days: '00', 
+// }
+const defaultRemainingTime = {
+ 
+}
+var finished = false;
+
+const CountdownTimer = ({countdownTimestampMs}) => {
+    
+    const [remainingTime, setRemainingTime] = useState(defaultRemainingTime);
+
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            updateRemainingTime(countdownTimestampMs);
+        }, 1000);
+        return () => clearInterval(intervalId);
+    },[countdownTimestampMs]);
+
+    function updateRemainingTime(countdown) {
+        setRemainingTime(getRemainingTimeUntilMsTimestamp(countdown));
+    }
+    function checkTimeup() {
+        if (remainingTime.minutes==0 && remainingTime.seconds==0 && finished==false) {
+            finished = true;
+            console.log("time is up");
+        }
+    }
 
     return(
         <View>
+            {/* <Text>{remainingTime.days}</Text>
+            <Text>days</Text>
+            <Text className="two-numbers">{remainingTime.hours}</Text>
+            <Text>hours</Text> */}
+            {checkTimeup()}
             <Text style={styles.logo}> {remainingTime.minutes}:{remainingTime.seconds} </Text>
             <Text></Text>
         </View>
