@@ -23,9 +23,7 @@ import {
 //     days: '00', 
 // }
 const defaultRemainingTime = {
-    "minutes":"00",
-    "seconds":"00"
- 
+
 }
 var finished = false;
 
@@ -57,7 +55,6 @@ const CountdownTimer = ({countdownTimestampMs,navigation,gameObject}) => {
             <Text></Text>
         </View>
     );
-
 }
 
 const styles = StyleSheet.create({
@@ -69,8 +66,6 @@ const styles = StyleSheet.create({
       textShadowColor: "rgba(0, 0, 0, 1)",
       textShadowOffset: { width: -1, height: 1 },
       textShadowRadius: 10,
-  
     },
-
   });
 export default CountdownTimer;
