@@ -230,14 +230,9 @@ const styles = StyleSheet.create({
     marginTop: 25
   },
 });
-const GameData = {
-  "timelimit": 10,
-}
 
 const tempObj =
 {
-  "timelimit": 0.2,
-  "timespent": "",
   "teamname": "Funny team",
   "location": "Park",
   "totalscore": 55,
@@ -245,12 +240,8 @@ const tempObj =
   "timelimit": 10,
   objectives: [{
     "objectiveid": 999,
-    "description": "team picture",
-    "points": 10,
     "referenceimage": require('../../assets/images/jumpingkids.png'),
     "picturetaken": null,
-    "score": 0,
-    "hasSet": false
   }],
   
 }
