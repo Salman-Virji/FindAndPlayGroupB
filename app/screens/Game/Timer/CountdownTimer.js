@@ -42,18 +42,17 @@ const CountdownTimer = ({countdownTimestampMs,navigation,gameObject}) => {
         }
         return () => clearInterval(intervalId);
     },[remainingTime]);
-
-
-
     return(
-        <View>
-            {/* <Text>{remainingTime.days}</Text>
-            <Text>days</Text>
-            <Text className="two-numbers">{remainingTime.hours}</Text>
-            <Text>hours</Text> */}
-            <Text style={styles.logo}> {remainingTime.minutes}:{remainingTime.seconds} </Text>
-            <Text></Text>
-        </View>
+        
+        (remainingTime.seconds!="NaN" || remainingTime.seconds==null) ? (
+            <View>
+                <Text style={styles.logo}> {remainingTime.minutes}:{remainingTime.seconds} </Text>
+                <Text></Text>
+            </View>
+
+        ):(
+            <></>
+        )
     );
 }
 

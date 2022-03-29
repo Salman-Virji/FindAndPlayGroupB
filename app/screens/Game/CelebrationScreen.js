@@ -11,11 +11,11 @@ import {
 import { CustomCamera } from './Components/CustomCamera';
 
 
-export default function CelebrationScreen({ navigation }) {
+export default function CelebrationScreen( navigation ) {
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [showCamera, setShowCamera] = useState(false);
-  const [objectives, setObjectives] = useState(tempObj);
+  const [objectives, setObjectives] = useState(navigation.route.params.Data);
   const [currentObjectiveId, setCurrentObjectiveId] = useState(null);
   const [startTime] = useState(Date.now());
 
@@ -56,7 +56,7 @@ export default function CelebrationScreen({ navigation }) {
     <>
       {showCamera ? (
         //WHEN CAMERA IS ON
-        <CustomCamera cameraRef={cameraRef} type={type} objectives={objectives.objectives} currentObjectiveId={999} setType={setType} setShowCamera={setShowCamera} takePhoto={takePhoto}  />
+        <CustomCamera cameraRef={cameraRef} type={type} objectives={tempObj.objectives} currentObjectiveId={999} setType={setType} setShowCamera={setShowCamera} takePhoto={takePhoto}  />
       ) : (
         //WHEN CAMERA IS OFF
         <ImageBackground
@@ -66,7 +66,7 @@ export default function CelebrationScreen({ navigation }) {
             <View style={page.container}>
               <View>
                 <View style={styles.image_container}>
-                  <Image source={getLocalImage()}
+                  <Image source={getLocalImage(objectives.totalscore.score, objectives.maxscore.points)}
                                       style={{
                                         height: "100%", 
                                         width: "100%", 
@@ -77,17 +77,17 @@ export default function CelebrationScreen({ navigation }) {
   
                   </View>
                   <View style={styles.title}>
-                    <Text style={styles.logo}>{tempObj.teamname}</Text>
+                    <Text style={styles.logo}>{objectives.teamname}</Text>
                   </View>
                   <View style={styles.timer}>
-                      <Text style={styles.text}> Total Points: {tempObj.totalscore} / {tempObj.maxscore} </Text>
+                      <Text style={styles.text}> Total Points: {objectives.totalscore.score} / {objectives.maxscore.points} </Text>
                   </View>
                   <View style={styles.objectives_container}>
                       <View style={styles.objectives_row}>
-                          {objectives.objectives[0].picturetaken==null ? ( 
-                          <Image style={{ marginTop:-120, marginLeft:200, resizeMode:"contain", width: "110%", height:"60%"}} source={objectives.objectives[0].referenceimage} />
+                          {tempObj.objectives[0].picturetaken==null ? ( 
+                          <Image style={{ marginTop:-120, marginLeft:200, resizeMode:"contain", width: "110%", height:"60%"}} source={tempObj.objectives[0].referenceimage} />
                           ) : (
-                          <Image style={{marginLeft:20, marginTop:-180, resizeMode:"contain", width: "100%", height:"50%"}} source={{uri:objectives.objectives[0].picturetaken}} />
+                          <Image style={{marginLeft:20, marginTop:-180, resizeMode:"contain", width: "100%", height:"50%"}} source={{uri:tempObj.objectives[0].picturetaken}} />
                           )}
                       </View>
                 </View>
@@ -113,9 +113,9 @@ export default function CelebrationScreen({ navigation }) {
     </>
   )
 }
-const getLocalImage = ()=> {
+const getLocalImage = (totalscore, maxscore)=> {
   
-  const percent = tempObj.totalscore*100/tempObj.maxscore;
+  const percent = totalscore*100/maxscore;
 
   if (percent>=75) 
     return require("../../assets/images/gold.png");
