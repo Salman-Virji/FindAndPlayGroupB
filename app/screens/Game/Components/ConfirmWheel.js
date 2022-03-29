@@ -17,6 +17,8 @@ const { width } = Dimensions.get('screen');
 const imageWidth = width * 0.7;
 const imageHeight = imageWidth * 1.5;
 
+
+
 function Btn({color, btnText, onClick, item}) {
     return (
       <TouchableOpacity onPress={() => onClick != null? onClick({item}) : console.log("rip")} >
@@ -63,21 +65,23 @@ function makeRed({item}){
       </View>
     )
 }
-function confrimWheel({items}) {
+function confrimWheel({items, navigation}) {
   function finishGame(){
     let count = 0;
     let points = 0;
     let score = 0;
-    items.forEach(item =>{
+    items.objectives.forEach(item =>{
       if(item.hasSet == true){
         count++
         points = points + item.points;
         score = score + item.score;
       }})
 
-      if(count == items.length){
-        alert('Game Over!')
-        alert(`You got ${score}/${points}!`)
+      if(count == items.objectives.length){
+        items.totalscore = {score};
+        items.maxscore = {points};
+        navigation.navigate('CelebrationScreen',
+        { Data: items })
       }else{
         alert('Finish Accepting or Declining objectives!')
       }
@@ -92,7 +96,7 @@ function confrimWheel({items}) {
         <View>
         <ImageBackground   style={{ resizeMode: "contain", flex: 1 }} source={require("../../../assets/BGs/background2.png")}>
           <FlatList
-          data={items}
+          data={items.objectives}
           keyExtractor={(item) => item.description}
           horizontal
           pagingEnabled

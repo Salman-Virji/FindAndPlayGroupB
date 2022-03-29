@@ -80,7 +80,7 @@ export default function GameScreen({ navigation }) {
               style={styles.generic_button}
               onPress={() => {
                 navigation.navigate("EndScreen",
-                  { Data: tempObj.objectives }
+                  { Data: tempObj }
                 )
 
               }} //https://reactnavigation.org/docs/params/
@@ -97,6 +97,10 @@ export default function GameScreen({ navigation }) {
 const tempObj =
 {
   "timelimit": 10,
+  "teamname": "Team1",
+  "maxscore": 0,
+  "totalscore": 0,
+  "location": "Park",
   objectives: [{
     "objectiveid": 123,
     "description": "Squirrel",

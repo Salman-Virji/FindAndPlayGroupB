@@ -6,7 +6,7 @@ import ConfrimWheel from './Components/ConfirmWheel';
 export default function EndScreen({route,navigation}){
  
     return(
-        <ConfrimWheel items={route.params.Data} />
+        <ConfrimWheel items={route.params.Data} navigation={navigation} />
     )
 }
 
