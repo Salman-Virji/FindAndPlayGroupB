@@ -118,7 +118,7 @@ export default function RegisterScreenT({ navigation }) {
         <TextInput
           style={styles.input}
           onChangeText={(e) => SetUsername(e)}
-          placeholderTextColor="#808080"
+          placeholderTextColor="#fff"
           underlineColorAndroid="transparent"
           autoCapitalize="none"
           placeholder="Username"
@@ -129,7 +129,7 @@ export default function RegisterScreenT({ navigation }) {
           style={styles.input}
           onChangeText={(e) => SetEmail(e)}
           placeholder="Email"
-          placeholderTextColor="#808080"
+          placeholderTextColor="#fff"
           autoCapitalize="none"
         />
         { passwordV ? <Text style={ styles.inputTxt}>Please enter a Password</Text> : <Text style={ styles.inputTxt}></Text>}
@@ -137,7 +137,7 @@ export default function RegisterScreenT({ navigation }) {
           style={styles.input}
           onChangeText={(e) => SetPassword(e)}
           placeholder="Password"
-          placeholderTextColor="#808080"
+          placeholderTextColor="#fff"
           autoCapitalize="none"
           secureTextEntry={true}
         />
@@ -146,7 +146,7 @@ export default function RegisterScreenT({ navigation }) {
           style={styles.input}
           onChangeText={(e) => SetConfirmPassword(e)}
           placeholder="Confirm Password"
-          placeholderTextColor="#808080"
+          placeholderTextColor="#fff"
           secureTextEntry={true}
           autoCapitalize="none"
         />
@@ -289,7 +289,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    bottom: "21%",
+    bottom: "18%",
     left: "20%",
   },
   RegisterBtn: {
