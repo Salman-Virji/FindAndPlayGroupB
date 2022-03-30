@@ -268,11 +268,12 @@ function SigninScreen({ navigation }) {
           <Pressable style={styles.btnSignup}>
             <Text
               style={([styles.loginText], { fontSize: 15 })}
-              onPress={() => navigation.navigate("RegistarScreen")}
+              onPress={() => navigation.navigate("RegisterScreen")}
             >
               Create an account
             </Text>
           </Pressable>
+         
         </View>
       </View>
     </ImageBackground>

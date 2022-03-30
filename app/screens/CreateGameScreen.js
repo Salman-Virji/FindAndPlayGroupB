@@ -16,7 +16,7 @@ import {
 } from "react-native";
 import { RFPercentage } from "react-native-responsive-fontsize";
 //This component is used to calculate the dimensions of the device and set width of certain components accordingly e.g input box
-import { Dimensions } from "react-native";
+import { Dimensions} from "react-native";
 //import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 const { width, height } = Dimensions.get("window");
@@ -24,7 +24,7 @@ const { width, height } = Dimensions.get("window");
 function CreateGame({ navigation, route }) {
   const Host = route.params;
   const [title, setTitle] = useState("");
-  const [playerCount, setPlayerCount] = useState(0);
+  
   const [Settingobjective, setingObjectives] = useState(false);
 
   const [Objective1, SetObjective1] = useState({
@@ -48,10 +48,17 @@ function CreateGame({ navigation, route }) {
     Checked: false,
   });
   const [timeLimit, setTimeLimit] = useState({
-    Value: "time limit",
+    Value: "Time limit",
     Index: null,
   });
-  const [location, setLocation] = useState({ Value: "Location", Index: null });
+  const [playerCount, setPlayerCount] = useState({
+    Value: "Player Count",
+    Index: null,
+  });
+  const [location, setLocation] = useState({
+    Value: "Location", 
+    Index: null,
+  });
   const [formFilled, setFormStatus] = useState(false);
 
   /*
@@ -165,7 +172,7 @@ function CreateGame({ navigation, route }) {
   }
   //Time Limit option toggle
   function toggleTimeLimit(change) {
-    var TimeLimits = ["0:30", "1:00", "1:30", "2:00"];
+    var TimeLimits = ["30 Mins", "1 Hour", "1:30 Hours", "2 Hours"];
     if (timeLimit.Index == null) {
       setTimeLimit({ Value: TimeLimits[0], Index: 0 });
     } else {
@@ -200,15 +207,41 @@ function CreateGame({ navigation, route }) {
     /*
               uses the passed string value to determine what actions to take with edge cases for max and min
             */
-    if (change == "+") {
-      setPlayerCount(playerCount + 1);
-    } else {
-      if (playerCount > 0) {
-        setPlayerCount(playerCount - 1);
-      } else {
-        setPlayerCount(0);
-      }
-    }
+           var Players =["1 Player","2 Players", "3 Players","4 Players"];
+           if(playerCount.Index == null)
+           {
+             
+             setPlayerCount({Value: Players[0],Index: 0});
+           }
+            else
+           {
+            var newIndex = playerCount.Index + 1;
+            if (newIndex >= 4) {
+              if (change == "+") 
+              {
+                newIndex = 0;
+                setPlayerCount({ Value: Players[0], Index: 0 });
+              } else 
+              {
+                newIndex = playerCount.Index - 1;
+                setPlayerCount({ Value: Players[newIndex], Index: newIndex });
+              }
+             } else {
+                if (change == "+") {
+                  setPlayerCount({ Value: Players[newIndex], Index: newIndex });
+                } else {
+                  newIndex = playerCount.Index - 1;
+                  // checks if it is at the start of the array and loops if needed
+                  if (newIndex < 0) {
+                    setPlayerCount({ Value: Players[3], Index: 3 });
+                  } else {
+                    setPlayerCount({ Value: Players[newIndex], Index: newIndex });
+                  }
+                }
+              }
+           }
+           console.log("Setting Players : ", playerCount.Value, "\n", playerCount.Index);
+    
   }
   var teamName = "";
   function teamNameHandler(teamName) {
@@ -555,11 +588,11 @@ function CreateGame({ navigation, route }) {
         onPress={() => toggleTimeLimit("-")}
       ></Pressable>
       <TextInput
-        //onChangeText={(e) => setPlayerCount (e)}
+        onChangeText={(e) => setPlayerCount (e)}
         editable={false}
-        value={playerCount.toString()}
+        value={playerCount.Value}
         underlineColorAndroid="transparent"
-        placeholder={playerCount.toString()}
+        placeholder={playerCount.Value}
         placeholderTextColor="#fff"
         autoCapitalize="none"
         style={{
@@ -598,6 +631,7 @@ function CreateGame({ navigation, route }) {
         style={styles.arrowbtn33}
         onPress={() => checkPlayerCount("-")}
       ></Pressable>
+
       {/* objective Count selector */}
 
       <TextInput
@@ -636,6 +670,10 @@ function CreateGame({ navigation, route }) {
           Settingobjective ? setingObjectives(false) : setingObjectives(true)
         }
       ></Pressable>
+
+        
+
+
       {
         // dropdown menu when its rendered
       }
@@ -643,6 +681,7 @@ function CreateGame({ navigation, route }) {
         <View style={styles.ObjectiveContainer}>
           <View style={styles.ObjectiveInputView}>
             {
+              
               // input for objective
             }
             <TextInput
@@ -862,6 +901,8 @@ function CreateGame({ navigation, route }) {
           fontSize: 20,
         }}
       >
+          
+      
         <TouchableOpacity
           activeOpacity={0.95}
           style={styles.button}
@@ -875,6 +916,7 @@ function CreateGame({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
+  
   arrowbtn4: {
     //timelimitbutton
     zIndex: 3,
