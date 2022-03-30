@@ -1,179 +1,279 @@
-import React from 'react';
+import React, { useState, Component } from "react";
+import axios from "axios";
+
 import {
-    TextInput,
-    Image,
-    ImageBackground,
-    Pressable,
-    StyleSheet,
-    Text,
-    View,
-    TouchableHighlight,
-    TouchableWithoutFeedback,
-    TouchableOpacity,
-    KeyboardAvoidingView,
-} from 'react-native';
+  TextInput,
+  Image,
+  ImageBackground,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+  TouchableHighlight,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+} from "react-native";
+
+import { Dimensions } from "react-native";
+const { width, height } = Dimensions.get("window");
 
 function ForgotPasswordScreen({ navigation }) {
-    return (
-        <ImageBackground
-            style={styles.background}
-            source={require('../assets/BGs/background2.png')}
+  const [validMsg, setValidmsg] = useState("");
+  const [username, setUsername] = useState("");
+
+  function clearFields() {
+    setUsername("");
+  }
+
+  function showValidationMsg() {
+    if ({ username } != "" || { username } != " ") {
+      setValidmsg(
+        "If this is a valid account you will get a email to reset your account"
+      );
+
+      if (username == " ") {
+        setValidmsg("Please enter a valid Username or Email");
+      }
+    }
+  }
+  function resetPass() {
+    const body = {
+      username: username,
+    };
+
+    if (username != "") {
+    }
+  }
+
+  return (
+    <ImageBackground
+      style={styles.background}
+      source={require("../assets/BGs/background2.png")}
+    >
+      <View style={styles.inputContainer}>
+        <View
+          style={{
+            flex: 1,
+            alignItems: "center",
+            width: "100%",
+            margin: 100,
+          }}
         >
-            <Image
-                style={styles.logo}
-                source={require('../assets/Logo/logo1.png')}
-            ></Image>
-            <View style={styles.inputContainer}></View>
-            <Text style={styles.signintext}> Reset Password </Text>
+          {/* Find and play logo */}
+          <Text style={styles.logo}> Find & Play</Text>
+          {/* <Image
+            
+            source={require("../assets/Logo/logo1.png")}
+          /> */}
+        </View>
+        <View
+          style={{
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "flex-end",
+          }}
+        >
+          {/* Reset password Header  */}
+          <Text style={styles.resetpasstext}> Reset Password </Text>
 
-            <TextInput
-                style={styles.input}
-                underlineColorAndroid='transparent'
-                placeholder='   Username or Email'
-                placeholderTextColor='#808080'
-                autoCapitalize='none'
-            />
+          {/* email or password input box  */}
+          <TextInput
+            editable={true}
+            style={styles.input}
+            underlineColorAndroid="transparent"
+            placeholder="Username or email"
+            value={username}
+            placeholderTextColor="#fff"
+            autoCapitalize="none"
+            onChangeText={(e) => setUsername(e)}
+          />
+        </View>
+        {/* Reset password message  */}
 
-            <View style={styles.loginbuttonContainer}>
-                <Text style={styles.logintext}>Send Request</Text>
-                <Image
-                    style={styles.loginButton}
-                    source={require('../assets/Btn/bluepillbutton.png')}
-                ></Image>
+        <Text style={styles.resetpassmsg}>
+          {validMsg}
+          {/* {" "}
+          If this is a valid account you will get a email reset{" "} */}
+        </Text>
+        <View
+          style={{
+            flexDirection: "row",
+            width: width * 0.6,
+            justifyContent: "space-between",
+          }}
+        >
+          <View style={styles.loginbuttonContainer}>
+            {/* Send request button  */}
+            <Pressable
+              style={styles.btnSendrequest}
+              onPress={() => showValidationMsg()}
+            >
+              <Text
+                style={{
+                  bottom: 1,
+                  fontWeight: "bold",
+                  fontSize: 18,
+                  color: "white",
+                }}
+              >
+                Send Request
+              </Text>
+            </Pressable>
+          </View>
+        </View>
+        {/* login button and try again text  */}
+        <View style={styles.loginbuttonContainer}>
+          <Text
+            style={{
+              bottom: 10,
+              fontWeight: "bold",
+              fontSize: 20,
+              color: "white",
+              textShadowColor: "rgba(0, 0, 0, 1)",
+              textShadowOffset: { width: -1, height: 1 },
+              textShadowRadius: 10,
+            }}
+          >
+            Try Again?
+          </Text>
 
-                {/* <Image onPress ={() => navigation.navigate('LandingScreen')} style={styles.loginButton} source={require("../assets/Btn/bluepillbutton.png")}></Image> */}
-                {/* <View style={styles.loginButton}></View> */}
-            </View>
-
-            <View style={styles.signupbuttonContainer}>
-                <TouchableOpacity
-                    activeOpacity={0.6}
-                    onPress={() => navigation.navigate('SigninScreen')}
-                >
-                    <Image
-                        style={styles.signupButton}
-                        source={require('../assets/Btn/orangepillbutton.png')}
-                    ></Image>
-                    <Text style={styles.notregisteredtext}>
-                        {' '}
-                        Try Logging-In Again ?{' '}
-                    </Text>
-                    <Text style={styles.signuptext}>Sign-In </Text>
-                </TouchableOpacity>
-            </View>
-        </ImageBackground>
-    );
+          <Pressable
+            style={styles.btnSignin}
+            onPress={() => navigation.navigate("SigninScreen")} //navigates to signinscren
+          >
+            <Text
+              style={{
+                bottom: 1,
+                fontWeight: "bold",
+                fontSize: 18,
+                color: "white",
+              }}
+            >
+              Login
+            </Text>
+          </Pressable>
+        </View>
+      </View>
+    </ImageBackground>
+  );
 }
 
 const styles = StyleSheet.create({
-    background: {
-        resizeMode: 'contain',
-        flex: 1,
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-    },
-    logo: {
-        flex: 1,
-        width: 350,
-        height: 100,
+  background: {
+    resizeMode: "contain",
+    flex: 1,
+  },
+  logo: {
+    //text css
+    fontSize: 120,
+    top: "45%",
+    color: "white",
+    fontWeight: "bold",
+    textShadowColor: "rgba(0, 0, 0, 1)",
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 10,
 
-        bottom: '-15%',
-    },
-    signintext: {
-        flex: 1,
-        zIndex: 999,
-        top: '15%',
-        fontSize: 30,
-        color: 'white',
-        fontWeight: 'bold',
-    },
-    forgotpasstext: {
-        flex: 1,
-        zIndex: 999,
-        paddingTop: 0,
-        paddingLeft: 190,
-        top: '28%',
-        fontSize: 10,
-        color: 'black',
-        fontWeight: 'bold',
-    },
-    input: {
-        margin: 15,
-        width: 330,
-        height: 40,
-        top: '5%',
-        borderColor: 'black',
-        borderWidth: 1,
+    // image css
+    // top: "10%",
+    // width: "100%",
+    // height: "100%",
+    // resizeMode: "contain",
+  },
+  resetpasstext: {
+    fontSize: 50,
+    bottom: "15%",
+    color: "white",
+    fontWeight: "bold",
+    textShadowColor: "rgba(0, 0, 0, 1)",
+    textShadowOffset: { width: -1, height: 1 },
+    textShadowRadius: 10,
+  },
+  logintext: {
+    zIndex: 999, // brings forward
+    paddingLeft: "43%",
+    color: "white",
+    top: "25%",
+    fontSize: 30,
+    fontWeight: "bold",
+  },
+  loginbuttonContainer: {
+    flex: 1,
+    width: width * 0.6,
+    justifyContent: "center",
+  },
 
-        backgroundColor: 'white',
-        borderRadius: 15,
-    },
+  input: {
+    marginBottom: 15,
+    width: width * 0.6,
+    height: 50,
+    borderColor: "#fff",
+    borderWidth: 3,
+    color: "#fff",
+    borderRadius: 20,
+    fontSize: 20,
+    paddingLeft: 15,
+    paddingRight: 15,
+  },
 
-    inputContainer: {
-        flex: 1,
-    },
-    loginButton: {},
+  inputContainer: {
+    flex: 1,
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+    bottom: "5%",
+  },
+  loginButton: {},
+  resetpassmsg: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "white",
+  },
+  logintext: {
+    zIndex: 999, // brings forward
+    paddingLeft: "43%",
+    color: "white",
+    top: "45%",
+    fontSize: 30,
+    fontWeight: "bold",
+  },
 
-    logintext: {
-        zIndex: 999, // brings forward
-        paddingLeft: '38%',
-        color: 'white',
-        top: '38%',
-        fontSize: 20,
-        fontWeight: 'bold',
-    },
-    loginbuttonContainer: {
-        flex: 2,
-        top: '5%',
-    },
-
-    signuptext: {
-        zIndex: 999, // brings forward
-
-        bottom: '58%',
-        paddingLeft: '41%',
-        fontWeight: 'bold',
-        color: 'white',
-    },
-    notregisteredtext: {
-        color: 'black',
-
-        paddingLeft: '35%',
-        bottom: '63%',
-        fontSize: 12,
-    },
-    signupbuttonContainer: {
-        flex: 2,
-
-        alignItems: 'center',
-        top: '10%',
-        width: 400,
-    },
-
-    trialButton: {
-        width: 100,
-        height: 50,
-        backgroundColor: '#fc5c65',
-    },
-
-    googlelogo: {
-        width: 40,
-        height: 40,
-
-        bottom: 20,
-    },
-    googleText: {
-        fontSize: 10,
-        top: '-15%',
-        fontWeight: 'bold',
-    },
-
-    googlelogoContainer: {
-        flex: 2,
-        top: '30%',
-        height: 20,
-        alignItems: 'center',
-    },
+  loginbuttonContainer: {
+    flex: 1,
+    flexDirection: "column",
+    alignItems: "center",
+    width: 400,
+    justifyContent: "center",
+    bottom: "-11%",
+  },
+  btnSendrequest: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 15,
+    paddingHorizontal: 32,
+    borderRadius: 30,
+    elevation: 5,
+    backgroundColor: "#50A4FF",
+    width: "70%",
+    fontSize: 20,
+    height: 60,
+    shadowColor: "rgba(46, 229, 157, 0.4)",
+    fontSize: 20,
+  },
+  btnSignin: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 15,
+    paddingHorizontal: 32,
+    borderRadius: 30,
+    elevation: 5,
+    backgroundColor: "#FF6551",
+    width: "70%",
+    fontSize: 20,
+    height: 60,
+    shadowColor: "rgba(46, 229, 157, 0.4)",
+    fontSize: 20,
+    bottom: "2%",
+  },
 });
 
 export default ForgotPasswordScreen;

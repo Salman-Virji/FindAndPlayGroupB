@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import FunFact from "./FunFacts";
+import FunFact from "./FunFactsComponent";
 
 function LandingScreen({ navigation, route }) {
   const [Isvisible, setVisibility] = useState(false);
