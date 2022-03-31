@@ -1,5 +1,5 @@
 /** @Added By Backend Team - 22nd March */
-import BackendQuery from "../config/Axios";
+//import BackendQuery from "../config/Axios";
 
 //Installing expo checkbox as react native doesn't provide checkbox out of the box anymore.
 import Checkbox from "expo-checkbox";
@@ -18,6 +18,7 @@ import {
 } from "react-native";
 
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+import { AuthContext } from "../contexts/AuthContext";
 //This component is used to calculate the dimensions of the device and set width of certain components accordingly e.g input box
 
 const { width } = Dimensions.get("window");
@@ -30,59 +31,61 @@ function SigninScreen({ navigation }) {
   const [validMsg, setValidmsg] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-
+  const { login } = React.useContext(AuthContext);
+  const [loading, setLoading] = React.useState(false);
+  const [error, setError] = React.useState("");
   /** @Added By Backend Team - 22nd March */
-  const Login = async () => {
-    const body = {
-      username: username,
-      password: password,
-    };
-    try {
-      /** @TODO  -------------------------------- */
-      /** @TODO Handle form validation before POST */
-      /** @TODO  -------------------------------- */
+  // const Login = async () => {
+  //   const body = {
+  //     username: username,
+  //     password: password,
+  //   };
+  //   try {
+  //     /** @TODO  -------------------------------- */
+  //     /** @TODO Handle form validation before POST */
+  //     /** @TODO  -------------------------------- */
 
-      await requestSignIn(body);
-    } catch (error) {
-      Alert.alert("Sign In Error", `Input Error, try again!`);
-    }
-  };
+  //     await requestSignIn(body);
+  //   } catch (error) {
+  //     Alert.alert("Sign In Error", `Input Error, try again!`);
+  //   }
+  // };
 
-  /** @Added By Backend Team - 22nd March */
-  const requestSignIn = async (body) => {
-    try {
-      const response = await BackendQuery.post(
-        "/auth/sign-in",
-        body,
-        navigation
-      );
+  // /** @Added By Backend Team - 22nd March */
+  // const requestSignIn = async (body) => {
+  //   try {
+  //     const response = await BackendQuery.post(
+  //       "/auth/sign-in",
+  //       body,
+  //       navigation
+  //     );
 
-      if (response.status == 200) {
-        const { session_id } = response.data;
+  //     if (response.status == 200) {
+  //       const { session_id } = response.data;
 
-        console.log(`Session ID: ${session_id}`);
+  //       console.log(`Session ID: ${session_id}`);
 
-        /** @TODO  -------------------------------- */
-        /** @TODO Set Local Storage with session_id */
-        /** @TODO  -------------------------------- */
+  //       /** @TODO  -------------------------------- */
+  //       /** @TODO Set Local Storage with session_id */
+  //       /** @TODO  -------------------------------- */
 
-        setUsername("");
-        setPassword("");
+  //       setUsername("");
+  //       setPassword("");
 
-        navigation.navigate("CreateGameScreen", {
-          username: username,
-        });
-      }
-    } catch (error) {
-      const { error: errorIssue } = error.response.data;
+  //       navigation.navigate("CreateGameScreen", {
+  //         username: username,
+  //       });
+  //     }
+  //   } catch (error) {
+  //     const { error: errorIssue } = error.response.data;
 
-      console.log(`Error found => ${errorIssue})`);
+  //     console.log(`Error found => ${errorIssue})`);
 
-      Alert.alert("Cannot Authenticate Username or Password", `${errorIssue}`);
-      setUsername("");
-      setPassword("");
-    }
-  };
+  //     Alert.alert("Cannot Authenticate Username or Password", `${errorIssue}`);
+  //     setUsername("");
+  //     setPassword("");
+  //   }
+  // };
 
   /*
 
@@ -187,7 +190,7 @@ function SigninScreen({ navigation }) {
             placeholderTextColor="#fff"
             autoCapitalize="none"
             value={password}
-            secureTextEntry={false}
+            secureTextEntry={true}
             onChangeText={(e) => setPassword(e)}
           />
 
@@ -239,7 +242,13 @@ function SigninScreen({ navigation }) {
             {/* Pressable makes the area Pressable */}
             <Pressable
               style={styles.loginButton}
-              onPress={() => Login(username, password)} //changed onclick to go to landingscreen
+              onPress={async () => {
+                try {
+                  await login(username, password);
+                } catch (e) {
+                  Alert.alert("Error => " + e);
+                }
+              }} //changed onclick to go to landingscreen
             >
               <Text style={styles.loginText}>Login</Text>
             </Pressable>
@@ -273,7 +282,6 @@ function SigninScreen({ navigation }) {
               Create an account
             </Text>
           </Pressable>
-         
         </View>
       </View>
     </ImageBackground>

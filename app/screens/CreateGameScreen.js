@@ -16,7 +16,8 @@ import {
 } from "react-native";
 import { RFPercentage } from "react-native-responsive-fontsize";
 //This component is used to calculate the dimensions of the device and set width of certain components accordingly e.g input box
-import { Dimensions} from "react-native";
+import { Dimensions } from "react-native";
+import { AuthContext } from "../contexts/AuthContext";
 //import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 const { width, height } = Dimensions.get("window");
@@ -24,7 +25,7 @@ const { width, height } = Dimensions.get("window");
 function CreateGame({ navigation, route }) {
   const Host = route.params;
   const [title, setTitle] = useState("");
-  
+
   const [Settingobjective, setingObjectives] = useState(false);
 
   const [Objective1, SetObjective1] = useState({
@@ -56,11 +57,11 @@ function CreateGame({ navigation, route }) {
     Index: null,
   });
   const [location, setLocation] = useState({
-    Value: "Location", 
+    Value: "Location",
     Index: null,
   });
   const [formFilled, setFormStatus] = useState(false);
-
+  const { logout } = React.useContext(AuthContext);
   /*
 
   function to bundle game lobby info as a json object and send it to the next page for group b3
@@ -207,41 +208,39 @@ function CreateGame({ navigation, route }) {
     /*
               uses the passed string value to determine what actions to take with edge cases for max and min
             */
-           var Players =["1 Player","2 Players", "3 Players","4 Players"];
-           if(playerCount.Index == null)
-           {
-             
-             setPlayerCount({Value: Players[0],Index: 0});
-           }
-            else
-           {
-            var newIndex = playerCount.Index + 1;
-            if (newIndex >= 4) {
-              if (change == "+") 
-              {
-                newIndex = 0;
-                setPlayerCount({ Value: Players[0], Index: 0 });
-              } else 
-              {
-                newIndex = playerCount.Index - 1;
-                setPlayerCount({ Value: Players[newIndex], Index: newIndex });
-              }
-             } else {
-                if (change == "+") {
-                  setPlayerCount({ Value: Players[newIndex], Index: newIndex });
-                } else {
-                  newIndex = playerCount.Index - 1;
-                  // checks if it is at the start of the array and loops if needed
-                  if (newIndex < 0) {
-                    setPlayerCount({ Value: Players[3], Index: 3 });
-                  } else {
-                    setPlayerCount({ Value: Players[newIndex], Index: newIndex });
-                  }
-                }
-              }
-           }
-           console.log("Setting Players : ", playerCount.Value, "\n", playerCount.Index);
-    
+    var Players = ["1 Player", "2 Players", "3 Players", "4 Players"];
+    if (playerCount.Index == null) {
+      setPlayerCount({ Value: Players[0], Index: 0 });
+    } else {
+      var newIndex = playerCount.Index + 1;
+      if (newIndex >= 4) {
+        if (change == "+") {
+          newIndex = 0;
+          setPlayerCount({ Value: Players[0], Index: 0 });
+        } else {
+          newIndex = playerCount.Index - 1;
+          setPlayerCount({ Value: Players[newIndex], Index: newIndex });
+        }
+      } else {
+        if (change == "+") {
+          setPlayerCount({ Value: Players[newIndex], Index: newIndex });
+        } else {
+          newIndex = playerCount.Index - 1;
+          // checks if it is at the start of the array and loops if needed
+          if (newIndex < 0) {
+            setPlayerCount({ Value: Players[3], Index: 3 });
+          } else {
+            setPlayerCount({ Value: Players[newIndex], Index: newIndex });
+          }
+        }
+      }
+    }
+    console.log(
+      "Setting Players : ",
+      playerCount.Value,
+      "\n",
+      playerCount.Index
+    );
   }
   var teamName = "";
   function teamNameHandler(teamName) {
@@ -424,7 +423,14 @@ function CreateGame({ navigation, route }) {
     >
       {/* //Logout button */}
       <TouchableOpacity
-        onPress={() => navigation.navigate("SigninScreen")}
+        //onPress={() => navigation.navigate("SigninScreen")}
+        onPress={() => {
+          try {
+            logout();
+          } catch (e) {
+            console.log(e);
+          }
+        }}
         style={{
           width: 250,
           height: 250,
@@ -588,7 +594,7 @@ function CreateGame({ navigation, route }) {
         onPress={() => toggleTimeLimit("-")}
       ></Pressable>
       <TextInput
-        onChangeText={(e) => setPlayerCount (e)}
+        onChangeText={(e) => setPlayerCount(e)}
         editable={false}
         value={playerCount.Value}
         underlineColorAndroid="transparent"
@@ -671,9 +677,6 @@ function CreateGame({ navigation, route }) {
         }
       ></Pressable>
 
-        
-
-
       {
         // dropdown menu when its rendered
       }
@@ -681,7 +684,6 @@ function CreateGame({ navigation, route }) {
         <View style={styles.ObjectiveContainer}>
           <View style={styles.ObjectiveInputView}>
             {
-              
               // input for objective
             }
             <TextInput
@@ -901,8 +903,6 @@ function CreateGame({ navigation, route }) {
           fontSize: 20,
         }}
       >
-          
-      
         <TouchableOpacity
           activeOpacity={0.95}
           style={styles.button}
@@ -916,7 +916,6 @@ function CreateGame({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
-  
   arrowbtn4: {
     //timelimitbutton
     zIndex: 3,
