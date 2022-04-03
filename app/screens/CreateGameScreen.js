@@ -2,8 +2,7 @@ import { Center, Switch } from "native-base";
 import React, { useState } from "react";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import {
-  Button,
-  InputEvent,
+ Alert,
   Image,
   ImageBackground,
   StyleSheet,
@@ -17,6 +16,7 @@ import {
 import { RFPercentage } from "react-native-responsive-fontsize";
 //This component is used to calculate the dimensions of the device and set width of certain components accordingly e.g input box
 import { Dimensions } from "react-native";
+import { Picker } from "@react-native-picker/picker";
 //import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 const { width, height } = Dimensions.get("window");
@@ -27,16 +27,16 @@ function CreateGame({ navigation,route }) {
   const [title,setTitle] = useState("");
   const [playerCount,setPlayerCount] = useState(0);
   const [Settingobjective,setingObjectives] = useState(false);
-
-
-  const [Objective1, SetObjective1]= useState({ Objective:"Objective 1",PointValue:5,Checked:false});
-  const [Objective2, SetObjective2]= useState({ Objective:"Objective 2",PointValue:5,Checked:false});
-  const [Objective3, SetObjective3]= useState({ Objective:"Objective 3",PointValue:5,Checked:false});
-  const [Objective4, SetObjective4]= useState({ Objective:"Objective 4",PointValue:5,Checked:false});
+  const [Objective1, SetObjective1]= useState({ Objective:"",PointValue:5,Checked:false});
+  const [Objective2, SetObjective2]= useState({ Objective:"",PointValue:5,Checked:false});
+  const [Objective3, SetObjective3]= useState({ Objective:"",PointValue:5,Checked:false});
+  const [Objective4, SetObjective4]= useState({ Objective:"",PointValue:5,Checked:false});
   const [timeLimit,setTimeLimit] = useState({Value:"time limit",Index:null});
   const [location,setLocation] = useState({Value:"Location",Index:null});
   const [formFilled,setFormStatus] = useState(false);
-
+  var Objectives = [
+    "cat", "dog", "tree", "car", "bike", "bird"
+  ]
   
 /*
 
@@ -44,8 +44,25 @@ function CreateGame({ navigation,route }) {
 
 */
 function createLobby()
-{
+{console.log(Objective1.Objective );
   var timeInMin;
+  if(timeLimit.Value == "time limit" || location.Value == "Location" || title == "" || playerCount == 0 ||(Objective1.Objective == "Objective 1" & Objective2.Objective == "Objective 2" & Objective3.Objective == "Objective 3" & Objective4.Objective == "Objective 4"  ))
+ {
+  Alert.alert(
+                "incomplete",
+                "please complete all fields",
+                      [
+                        {
+                          text: "Cancel",
+                          onPress: () => console.log("Cancel Pressed"),
+                          style: "cancel"
+                        },
+                        { text: "OK", onPress: () => console.log("OK Pressed") }
+                      ]
+                    );
+                    return;
+ }
+ 
   if(timeLimit.Value == "2:00")
   {
       timeInMin = 120;
@@ -71,51 +88,77 @@ function createLobby()
     "playercount": playerCount,
     "objectives": 
         [ 
-        {  
-            "timelimit": timeInMin,   
-            "objectives": [{
-            "objectiveid": 1,
-            "description": Objective1.Objective,
-            "points": Objective1.PointValue,
-            "referenceimage": "",
-            "picturetaken": null,
-            "score": 0,
-            "hasSet": Objective1.Checked
-            },
-             {
-            "objectiveid": 2,
-            "description": Objective2.Objective,
-            "points": Objective2.PointValue,
-            "referenceimage": "",
-            "picturetaken": null,
-            "score": 0,
-            "hasSet": Objective2.Checked
-            },
-            
-            {
-              "objectiveid": 3,
-              "description": Objective3.Objective,
-              "points": Objective3.PointValue,
-              "referenceimage": "",
-              "picturetaken": null,
-              "score": 0,
-              "hasSet": Objective3.Checked
-            },
-            {
-              "objectiveid": 4,
-              "description": Objective4.Objective,
-              "points": Objective4.PointValue,
-              "referenceimage": "",
-              "picturetaken": null,
-              "score": 0,
-              "hasSet": Objective4.Checked
-            }]
+           
+             ]
         }
-    ]
-    
-}
 
-  navigation.navigate("",{GameLobby:GameLobby})
+  if(Objective1.Objective != "")
+  {
+    gameLobby.objectives.push({  
+      
+      
+      "objectiveid":gameLobby.objectives.length +1 ,
+      "description": Objective1.Objective,
+      "points": Objective1.PointValue,
+      "referenceimage": "",
+      "picturetaken": null,
+      "score": 0,
+      "hasSet": Objective1.Checked
+    
+    });
+  }
+  if(Objective2.Objective != "")
+  {
+    gameLobby.objectives.push({  
+      
+      
+      "objectiveid":gameLobby.objectives.length +1 ,
+      "description": Objective2.Objective,
+      "points": Objective2.PointValue,
+      "referenceimage": "",
+      "picturetaken": null,
+      "score": 0,
+      "hasSet": Objective2.Checked
+     
+    });
+  }
+  if(Objective3.Objective != "")
+  {
+    gameLobby.objectives.push({  
+      
+     
+      "objectiveid":gameLobby.objectives.length +1 ,
+      "description": Objective3.Objective,
+      "points": Objective3.PointValue,
+      "referenceimage": "",
+      "picturetaken": null,
+      "score": 0,
+      "hasSet": Objective3.Checked
+      
+    });
+  }
+  if(Objective4.Objective != "")
+  {
+    gameLobby.objectives.push({  
+      
+      
+      "objectiveid":gameLobby.objectives.length +1 ,
+      "description": Objective4.Objective,
+      "points": Objective4.PointValue,
+      "referenceimage": "",
+      "picturetaken": null,
+      "score": 0,
+      "hasSet": Objective4.Checked
+      }
+    );
+  }
+  for(var i=0;i< gameLobby.objectives.length ;i++)
+  {
+    console.log(" #" + i+ " " + gameLobby.objectives[i].description);
+  }
+
+  console.log( " array contains " + gameLobby.objectives.length + " elements");
+  //navigation.navigate("",{GameLobby:gameLobby})
 }
 
   //Location option toggle 
@@ -689,15 +732,31 @@ function createLobby()
           <View style={styles.ObjectiveInputView}>
             {// input for objective
             }
-            <TextInput style={styles.ObjectiveInput}
-                       placeholder={Objective1.Objective} 
+            <Picker
+            style={
+              styles.ObjectiveInput
+            }
+              selectedValue={Objective1.Objective}
+              onValueChange= {(itemValue,ItemIndex) => SetObjective1(Prev => ({
+                ...Prev,
+                  Objective:itemValue
+              }))}>
+              {Objectives.map((val,index) => {
+                   return (<Picker.Item label={val} value ={ "find a " + val}/>)
+                   })
+                   }
+            </Picker>
+            {/*<TextInput style={styles.ObjectiveInput}
+                      placeholder="objective"
                        placeholderTextColor="#fff"
-                       onChange={(e) => SetObjective1(Prev => ({
-                        /*deconstructs current json object and inserts new values
-                         where a matching key/value pair is found*/
-                        Objective:e,
-                        ...Prev
-                      }))}/>
+                       value={Objective1.Objective}
+                       onChangeText={(e) => SetObjective1(Prev => ({
+                        ...Prev,
+                          Objective:e
+                      }))
+                    
+                    }
+                      /> */}
             <Pressable onPress={()=>ChangePoints(1,"-")}>
             {// display and buttons for adjusting point value
             }
@@ -725,15 +784,20 @@ function createLobby()
             <View style={styles.ObjectiveInputView}>
                 {// input for objective
             }
-            <TextInput style={styles.ObjectiveInput} 
-            placeholder={Objective2.Objective} 
-            placeholderTextColor="#fff"
-            onChange={(e) => SetObjective2(Prev => ({
-              /*deconstructs current json object and inserts new values
-                         where a matching key/value pair is found*/
-              Objective:e,
-              ...Prev
-            }))}/>
+             <Picker
+            style={
+              styles.ObjectiveInput
+            }
+              selectedValue={Objective2.Objective}
+              onValueChange= {(itemValue,ItemIndex) => SetObjective2(Prev => ({
+                ...Prev,
+                  Objective:itemValue
+              }))}>
+              {Objectives.map((val,index) => {
+                   return (<Picker.Item label={val} value ={ "find a " + val}/>)
+                   })
+                   }
+            </Picker>
              {// display and buttons for adjusting point value
             }
             {
@@ -767,15 +831,20 @@ function createLobby()
             <View style={styles.ObjectiveInputView}>
               {// input for objective
             }
-            <TextInput style={styles.ObjectiveInput}
-             placeholder={Objective3.Objective}
-             placeholderTextColor="#fff"
-              /*deconstructs current json object and inserts new values
-                         where a matching key/value pair is found*/
-              onChange={(e) => SetObjective3(Prev => ({
-                Objective:e,
-                ...Prev
-              }))}/>
+             <Picker
+            style={
+              styles.ObjectiveInput
+            }
+              selectedValue={Objective3.Objective}
+              onValueChange= {(itemValue,ItemIndex) => SetObjective3(Prev => ({
+                ...Prev,
+                  Objective:itemValue
+              }))}>
+              {Objectives.map((val,index) => {
+                   return (<Picker.Item label={val} value ={ "find a " + val}/>)
+                   })
+                   }
+            </Picker>
                {// display and buttons for adjusting point value
             }
             {
@@ -805,16 +874,20 @@ function createLobby()
             <View style={styles.ObjectiveInputView}>
                {// input for objective
             }
-            <TextInput style={styles.ObjectiveInput}
-            
-             placeholder={Objective4.Objective} 
-             placeholderTextColor="#fff"
-             /*deconstructs current json object and inserts new values
-                         where a matching key/value pair is found*/
-             onChange={(e) => SetObjective4(Prev => ({
-              Objective:e,
-              ...Prev
-            }))}/>
+            <Picker
+            style={
+              styles.ObjectiveInput
+            }
+              selectedValue={Objective4.Objective}
+              onValueChange= {(itemValue,ItemIndex) => SetObjective4(Prev => ({
+                ...Prev,
+                  Objective:itemValue
+              }))}>
+              {Objectives.map((val,index) => {
+                   return (<Picker.Item label={val} value ={ "find a " + val}/>)
+                   })
+                   }
+            </Picker>
               {// display and buttons for adjusting point value
             }
             {
@@ -920,14 +993,15 @@ const styles = StyleSheet.create({
   },
   ObjectiveCompleted:{
     margin:5,
+    left:"-5%",
     alignItems:"center",
-    top:"1%",
+    top:"10%",
     flex:0.2,
     backgroundColor:"#fff",
     borderRadius:25
   },
   ObjectiveInputView:{
-    padding:3,
+    padding:0,
     margin:1,
     borderWidth: 1,
     borderRadius:25,
@@ -941,26 +1015,27 @@ const styles = StyleSheet.create({
   },
   PointIncreas:{
     flex:1,
-    top:"-10%",
+    top:"0%",
     margin:5,
+    left:"-75%",
     fontSize:RFPercentage(2),
     position:"relative",
   },
   PointDecrease:{
     flex:1,
-    top:"-20%",
+    top:"2%",
     margin:5,
     fontSize:RFPercentage(2),
     position:"relative",
   },
   ObjectiveInput:{
-    margin:5,
     flex:1.5,
     fontSize:RFPercentage(1.5),
     position:"relative",
     zIndex:5
   },
   ObjectivePointInput:{
+    top:"2%",
     flex:0.5,
     fontSize:RFPercentage(2),
     position:"relative",
