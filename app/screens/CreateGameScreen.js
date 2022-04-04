@@ -28,16 +28,16 @@ const { width, height } = Dimensions.get("window");
 function CreateGame({ navigation,route }) {
   const Host = route.params;
   const [title,setTitle] = useState("");
-  const [playerCount,setPlayerCount] = useState(0);
+  const [playerCount,setPlayerCount] = useState({Value:"Player Count",Index:null});
   const [Settingobjective,setingObjectives] = useState(false);
   const [Objective1, SetObjective1]= useState({ Objective:"",PointValue:5,Checked:false});
   const [Objective2, SetObjective2]= useState({ Objective:"",PointValue:5,Checked:false});
   const [Objective3, SetObjective3]= useState({ Objective:"",PointValue:5,Checked:false});
   const [Objective4, SetObjective4]= useState({ Objective:"",PointValue:5,Checked:false});
-  const [timeLimit,setTimeLimit] = useState({Value:"time limit",Index:null});
+  const [timeLimit,setTimeLimit] = useState({Value:"Time Limit",Index:null});
   const [location,setLocation] = useState({Value:"Location",Index:null});
   const [formFilled,setFormStatus] = useState(false);
-  const [objectiveCounter,setObjectiveCounter] = useState(0);
+  const [objectiveCounter,setObjectiveCounter] = useState({Value:"Objective Count",Index:null});
   const [picker1,setPicker1] = useState(false)
   const [picker2,setPicker2] = useState(false)
   const [picker3,setPicker3] = useState(false)
@@ -237,7 +237,7 @@ function createLobby()
   //Time Limit option toggle 
   function toggleTimeLimit(change){
 
-          var TimeLimits =["0:30","1:00","1:30","2:00"]
+          var TimeLimits =["30 Mins","1 Hour","1:30 Hours","2 Hours"]
           if(timeLimit.Index == null)
           {
             setTimeLimit({Value:TimeLimits[0],Index:0});
@@ -666,7 +666,7 @@ function setPicker(change){
           placeholderTextColor="#fff"
           underlineColorAndroid="transparent"
           autoCapitalize="none"
-          placeholder="Team name"
+          placeholder="Team Name"
 
        style={{
           position: "absolute",
@@ -751,7 +751,7 @@ function setPicker(change){
         editable = {false}
           onChangeText={(e) => setTimeLimit(e)}
           value={timeLimit.Value}
-          placeholder={timeLimit.Value}
+          placeholder= "Time Limit" //{timeLimit.Value}
           placeholderTextColor="#808080"
           underlineColorAndroid="transparent"
           autoCapitalize="none"
@@ -880,10 +880,10 @@ function setPicker(change){
         source={require("../assets/Btn/arrowbutton.png")}
         style={styles.arrowbtn22}
       />
-      <Pressable
+      {/* <Pressable
         style={styles.arrowbtn22}
         onPress={() => toggleTimeLimit("-")}
-      ></Pressable>
+      ></Pressable> */}
       <TextInput
         onChangeText={(e) => setPicker(e)}
         editable={false}
@@ -920,14 +920,14 @@ function setPicker(change){
         style={styles.arrowbtn5}
         onPress={() => setPicker("+")}
       ></Pressable>
-      <Image
+      {/* <Image
         source={require("../assets/Btn/arrowbutton.png")}
         style={styles.arrowbtn55}
       />
       <Pressable
         style={styles.arrowbtn55}
         onPress={() => setPicker("-")}
-      ></Pressable>
+      ></Pressable> */}
       {/* objective Count selector */}
      
       <TextInput 
