@@ -17,6 +17,11 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+      <Stack.Screen
+          name="CreateGameScreen"
+          component={CreateGameScreen}
+          options={{ headerShown: false }}
+        />
         <Stack.Screen
           name="SigninScreen"
           component={SigninScreen}
@@ -40,11 +45,11 @@ function App() {
           options={{ headerShown: false }}
         />
 
-        <Stack.Screen
+        {/* <Stack.Screen
           name="CreateGameScreen"
           component={CreateGameScreen}
           options={{ headerShown: false }}
-        />
+        /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );
