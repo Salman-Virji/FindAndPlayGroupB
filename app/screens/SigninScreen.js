@@ -34,58 +34,6 @@ function SigninScreen({ navigation }) {
   const { login } = React.useContext(AuthContext);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
-  /** @Added By Backend Team - 22nd March */
-  // const Login = async () => {
-  //   const body = {
-  //     username: username,
-  //     password: password,
-  //   };
-  //   try {
-  //     /** @TODO  -------------------------------- */
-  //     /** @TODO Handle form validation before POST */
-  //     /** @TODO  -------------------------------- */
-
-  //     await requestSignIn(body);
-  //   } catch (error) {
-  //     Alert.alert("Sign In Error", `Input Error, try again!`);
-  //   }
-  // };
-
-  // /** @Added By Backend Team - 22nd March */
-  // const requestSignIn = async (body) => {
-  //   try {
-  //     const response = await BackendQuery.post(
-  //       "/auth/sign-in",
-  //       body,
-  //       navigation
-  //     );
-
-  //     if (response.status == 200) {
-  //       const { session_id } = response.data;
-
-  //       console.log(`Session ID: ${session_id}`);
-
-  //       /** @TODO  -------------------------------- */
-  //       /** @TODO Set Local Storage with session_id */
-  //       /** @TODO  -------------------------------- */
-
-  //       setUsername("");
-  //       setPassword("");
-
-  //       navigation.navigate("CreateGameScreen", {
-  //         username: username,
-  //       });
-  //     }
-  //   } catch (error) {
-  //     const { error: errorIssue } = error.response.data;
-
-  //     console.log(`Error found => ${errorIssue})`);
-
-  //     Alert.alert("Cannot Authenticate Username or Password", `${errorIssue}`);
-  //     setUsername("");
-  //     setPassword("");
-  //   }
-  // };
 
   /*
 
@@ -152,10 +100,6 @@ function SigninScreen({ navigation }) {
           }}
         >
           <Text style={styles.logo}> Find & Play</Text>
-          {/* <Image
-            style={styles.logo}
-            source={require("../assets/Logo/logo1.png")}
-          /> */}
         </View>
         <View
           style={{
@@ -206,23 +150,7 @@ function SigninScreen({ navigation }) {
             justifyContent: "space-between",
           }}
         >
-          <View style={{ flexDirection: "row" }}>
-            {/* Removing the remeber me checkbox*/}
-
-            {/* <Checkbox
-              style={styles.checkbox}
-              value={isSelected}
-              onValueChange={setSelection}
-              //color={true ? "#4630EB" : undefined}
-            /> */}
-            {/*             
-            <Text
-              style={{ color: "white", marginLeft: 10, fontWeight: "bold" }}
-            >
-              {" "}
-              Remember me!
-            </Text> */}
-          </View>
+          <View style={{ flexDirection: "row" }}></View>
           <View style={{}}>
             <Text
               style={{
@@ -244,29 +172,29 @@ function SigninScreen({ navigation }) {
               style={styles.loginButton}
               onPress={async () => {
                 try {
+                  let validate = true;
+                  if (username.length == 0) {
+                    validate = false;
+                    setEmailError("Username or email is required");
+                  } else setEmailError("");
+
+                  if (password.length == 0) {
+                    validate = false;
+                    setPasswordError("Password is required");
+                  } else setPasswordError("");
+
+                  if (validate == false)
+                    throw new Error("Username or password is incorrect");
+
                   await login(username, password);
                 } catch (e) {
                   Alert.alert("Error => " + e);
                 }
-              }} //changed onclick to go to landingscreen
+              }}
             >
               <Text style={styles.loginText}>Login</Text>
             </Pressable>
           </View>
-
-          {/*Got rid of continue without account as per new deisgnw*/}
-          {/* <View style={{ alignItems: "center" }}>
-            <Pressable
-              style={styles.btnWithoutAccount}
-              onPress={() =>
-                navigation.navigate("LandingScreen", { Username: null })
-              } //changed onclick to go to landingscreen
-            >
-              <Text style={([styles.loginText], { color: "black" })}>
-                Continue without account
-              </Text>
-            </Pressable>
-          </View> */}
         </View>
 
         <View style={styles.signupbuttonContainer}>

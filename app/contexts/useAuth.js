@@ -1,8 +1,7 @@
 import React from "react";
-import axios from "axios";
+import Alert from "react-native";
 import * as SecureStore from "expo-secure-store";
 import BackendQuery from "../config/Axios";
-import createAction from "../util/createAction";
 let user = {};
 
 export function useAuth() {
@@ -52,7 +51,7 @@ export function useAuth() {
             dispatch({ type: "SET_USER", token: user.sessionId });
           }
         } catch (error) {
-          console.log(error);
+          throw error;
           //console.log("Sign In Error", `Input Error, try again!`);
         }
       },
@@ -69,13 +68,12 @@ export function useAuth() {
           await SecureStore.deleteItemAsync("user_token");
           dispatch({ type: "REMOVE_USER" });
         } catch (e) {
-          console.log("Error found in logout");
-          console.log(e);
+          //console.log("Error found in logout");
+          //console.log(e);
+          throw new Error(e);
         }
       },
       register: () => {},
-
-      //Function Being Called inside login method
     }),
     []
   );
@@ -87,17 +85,14 @@ export function useAuth() {
 
       if (response.status == 200) {
         const { session_id } = response.data;
-
-        //console.log(`Session ID: ${session_id}`);
         user = {
           sessionId: session_id,
         };
-        console.log("Request Item Session");
-        console.log(user.sessionId);
       }
     } catch (error) {
       const { error: errorIssue } = error.response.data;
-      console.log(`Error found => ${errorIssue})`);
+      //console.log(`Error found => ${errorIssue})`);
+      throw errorIssue;
     }
   };
 
@@ -111,8 +106,7 @@ export function useAuth() {
       }
     } catch (error) {
       const { error: errorIssue } = error.response.data;
-      console.log(`Error found => ${errorIssue})`);
-      //console.log("Cannot Authenticate Username or Password", `${errorIssue}`);
+      Alert.alert(`Error found => ${errorIssue})`);
     }
   };
   return { auth, state };
