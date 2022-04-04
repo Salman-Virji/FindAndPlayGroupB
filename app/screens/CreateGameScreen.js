@@ -37,10 +37,19 @@ function CreateGame({ navigation,route }) {
   const [timeLimit,setTimeLimit] = useState({Value:"time limit",Index:null});
   const [location,setLocation] = useState({Value:"Location",Index:null});
   const [formFilled,setFormStatus] = useState(false);
+  const [objectiveCounter,setObjectiveCounter] = useState(0);
+  const [picker1,setPicker1] = useState(false)
+  const [picker2,setPicker2] = useState(false)
+  const [picker3,setPicker3] = useState(false)
+  const [picker4,setPicker4] = useState(false)
+  const [pickerText1,setPickerText1] = useState("white")
+  const [pickerText2,setPickerText2] = useState("white")
+  const [pickerText3,setPickerText3] = useState("white")
+  const [pickerText4,setPickerText4] = useState("white")
 
   
   //---Empty Array to hold objectives taken from json file myjson.json---
-  var Objectives = ["Select an Objective"
+  var Objectives = ["Pick a Objective"
     
   ]
 
@@ -51,7 +60,6 @@ function CreateGame({ navigation,route }) {
   }
 
   //---------------------------------------------------------------------
-
 
 
   
@@ -273,31 +281,162 @@ function createLobby()
           console.log("after setting : " , timeLimit.Value,"\n",timeLimit.Index);
         }
   //Player count option toggle 
- function checkPlayerCount(change)
- {
-            /*
-              uses the passed string value to determine what actions to take with edge cases for max and min
-            */
-    if(change =='+')
-    {
-      setPlayerCount(playerCount+1);
-    }
-    else{
-      if(playerCount >0)
-      {
-        setPlayerCount(playerCount-1);
+ //Player count option toggle
+function checkPlayerCount(change) {
+  /*
+            uses the passed string value to determine what actions to take with edge cases for max and min
+          */
+  var Players = ["1 Player", "2 Players", "3 Players", "4 Players"];
+  if (playerCount.Index == null) {
+    setPlayerCount({ Value: Players[0], Index: 0 });
+  } else {
+    var newIndex = playerCount.Index + 1;
+    if (newIndex >= 4) {
+      if (change == "+") {
+        newIndex = 0;
+        setPlayerCount({ Value: Players[0], Index: 0 });
+      } else {
+        newIndex = playerCount.Index - 1;
+        setPlayerCount({ Value: Players[newIndex], Index: newIndex });
       }
-      else
-      {
-        setPlayerCount(0);
+    } else {
+      if (change == "+") {
+        setPlayerCount({ Value: Players[newIndex], Index: newIndex });
+      } else {
+        newIndex = playerCount.Index - 1;
+        // checks if it is at the start of the array and loops if needed
+        if (newIndex < 0) {
+          setPlayerCount({ Value: Players[3], Index: 3 });
+        } else {
+          setPlayerCount({ Value: Players[newIndex], Index: newIndex });
+        }
       }
     }
   }
+  console.log(
+    "Setting Players : ",
+    playerCount.Value,
+    "\n",
+    playerCount.Index
+  );
+}
+
  var teamName = "";
  function teamNameHandler(teamName){
    setTitle(title=>title = teamName)
  }
+function setPicker(change){
+  /*
+            uses the passed string value to determine what actions to take with edge cases for max and min
+          */
 
+            
+            var Objectivecount = ["1 Objective", "2 Objective", "3 Objective", "4 Objective"];
+            if (objectiveCounter.Index == null) {
+              setObjectiveCounter({ Value: Objectivecount[0], Index: 0 });
+             
+             
+            } else {
+              var newIndex = objectiveCounter.Index + 1;
+              if (newIndex >= 4) {
+                if (change == "+") {
+                  newIndex = 0;
+                  setObjectiveCounter({ Value: Objectivecount[0], Index: 0 });
+                } else {
+                  newIndex = objectiveCounter.Index - 1;
+                  setObjectiveCounter({ Value: Objectivecount[newIndex], Index: newIndex });
+                }
+              } else {
+                if (change == "+") {
+                  setObjectiveCounter({ Value: Objectivecount[newIndex], Index: newIndex });
+                } else {
+                  newIndex = objectiveCounter.Index - 1;
+                  // checks if it is at the start of the array and loops if needed
+                  if (newIndex < 0) {
+                    setObjectiveCounter({ Value: Objectivecount[3], Index: 3 });
+                  } else {
+                    setObjectiveCounter({ Value: Objectivecount[newIndex], Index: newIndex });
+                  }
+                }
+              }
+            }
+
+            //enabling and disabling pickers
+            if(objectiveCounter.Value == null){
+              setPicker1(false)
+              setPicker2(false)
+              setPicker3(false)
+              setPicker4(true)
+              
+            }
+            if(objectiveCounter.Value == "2 Objective"){
+              setPicker1(false)
+              setPicker2(true)
+              setPicker3(true)
+              setPicker4(true)
+              
+            }
+            else if(objectiveCounter.Value == "3 Objective"){
+              setPicker1(true)
+              setPicker2(true)
+              setPicker3(true)
+              setPicker4(true)
+            }
+            else if(objectiveCounter.Value == "4 Objective"){
+              setPicker1(false)
+              setPicker2(false)
+              setPicker3(false)
+              setPicker4(true)
+            }
+            else if(objectiveCounter.Value == "1 Objective"){
+              setPicker1(false)
+              setPicker2(false)
+              setPicker3(true)
+              setPicker4(true)
+            }
+            console.log(
+              "Setting Objective amount  : ",
+              objectiveCounter.Value,
+              "\n",
+              objectiveCounter.Index
+            );
+
+
+            //settting text color for the pickers
+            if(objectiveCounter.Value == null){
+              setPicker1(false)
+              setPicker2(false)
+              setPicker3(false)
+              setPicker4(true)
+              
+            }
+            if(objectiveCounter.Value == "2 Objective"){
+              setPickerText1("false")
+              setPickerText2("white")
+              setPickerText3("white")
+              setPickerText4("white")
+              
+            }
+            else if(objectiveCounter.Value == "3 Objective"){
+              setPickerText1("white")
+              setPickerText2("white")
+              setPickerText3("white")
+              setPickerText4("white")
+            }
+            else if(objectiveCounter.Value == "4 Objective"){
+              setPickerText1("grey")
+              setPickerText2("grey")
+              setPickerText3("grey")
+              setPickerText4("white")
+            }
+            else if(objectiveCounter.Value == "1 Objective"){
+              setPickerText1("grey")
+              setPickerText2("grey")
+              setPickerText3("white")
+              setPickerText4("white")
+            }
+            
+}
  // passes in a string value to indicate increment or decrement and a intiger for which objective is being changed
  function ChangePoints(objectivenumber,Change)
  {
@@ -644,23 +783,23 @@ function createLobby()
             >
               
       </Pressable>
-      {/* Player Count selector */}
+     {/* Player Count selector */}
       {/* <Pressable onPress ={setPlayerCount === "2", console.log(playerCount)} > */}
-      
-      <Image source={require('../assets/Btn/arrowbutton.png')} style={styles.arrowbtn22}/>
+
+      <Image
+        source={require("../assets/Btn/arrowbutton.png")}
+        style={styles.arrowbtn22}
+      />
       <Pressable
-              style={styles.arrowbtn22}
-              onPress= {() =>toggleTimeLimit('-')  } 
-              
-            >
-              
-      </Pressable>
-      <TextInput   
-        //onChangeText={(e) => setPlayerCount (e)} 
-        editable = {false} 
-        value={playerCount.toString()}
+        style={styles.arrowbtn22}
+        onPress={() => toggleTimeLimit("-")}
+      ></Pressable>
+      <TextInput
+        onChangeText={(e) => setPlayerCount(e)}
+        editable={false}
+        value={playerCount.Value}
         underlineColorAndroid="transparent"
-        placeholder={playerCount.toString()}
+        placeholder={playerCount.Value}
         placeholderTextColor="#fff"
         autoCapitalize="none"
         style={{
@@ -680,32 +819,25 @@ function createLobby()
           borderColor: "#fff",
           borderRadius: 20,
           color: "#fff",
-        }
-        
-      }
-      
+        }}
       />
 
-<Image source={require('../assets/Btn/arrowbutton.png')} style={styles.arrowbtn3}
-
-/>
+      <Image
+        source={require("../assets/Btn/arrowbutton.png")}
+        style={styles.arrowbtn3}
+      />
       <Pressable
-              style={styles.arrowbtn3}
-              onPress= {() =>checkPlayerCount("+")  } 
-              
-            >
-              
-      </Pressable>
-      <Image source={require('../assets/Btn/arrowbutton.png')} style={styles.arrowbtn33}
-
-/>
+        style={styles.arrowbtn3}
+        onPress={() => checkPlayerCount("+")}
+      ></Pressable>
+      <Image
+        source={require("../assets/Btn/arrowbutton.png")}
+        style={styles.arrowbtn33}
+      />
       <Pressable
-              style={styles.arrowbtn33}
-              onPress= {() =>checkPlayerCount("-")  } 
-              
-            >
-              
-      </Pressable>
+        style={styles.arrowbtn33}
+        onPress={() => checkPlayerCount("-")}
+      ></Pressable>
       {/* objective Count selector */}
      
       <TextInput 
@@ -718,7 +850,97 @@ function createLobby()
         
         style={{
           position: "absolute",
-          top: "54%",
+          top: "59%",
+          borderWidth: 3,
+          // width: 350,
+          width: width * 0.6,
+          alignItems: "center",
+          textAlign: "center",
+          padding: 12,
+          left: 160,
+          fontSize: 30,
+          borderRadius: 20,
+          fontSize: 20,
+          borderRadius: 20,
+          borderColor: "#fff",
+          borderRadius: 20,
+          color: "#fff",
+        }
+      }       
+      />
+      <Image source={require('../assets/Btn/arrowbutton.png')} style={styles.arrowbtn4}
+
+/>
+
+
+ {/* Objective Count selector */}
+      {/* <Pressable onPress ={setPlayerCount === "2", console.log(playerCount)} > */}
+
+      <Image
+        source={require("../assets/Btn/arrowbutton.png")}
+        style={styles.arrowbtn22}
+      />
+      <Pressable
+        style={styles.arrowbtn22}
+        onPress={() => toggleTimeLimit("-")}
+      ></Pressable>
+      <TextInput
+        onChangeText={(e) => setPicker(e)}
+        editable={false}
+        value={objectiveCounter.Value}
+        underlineColorAndroid="transparent"
+        placeholder={objectiveCounter.Value}
+        placeholderTextColor="#fff"
+        autoCapitalize="none"
+        style={{
+          position: "absolute",
+          top: "53.5%",
+          borderWidth: 3,
+          // width: 350,
+          width: width * 0.6,
+          alignItems: "center",
+          textAlign: "center",
+          padding: 12,
+          left: 160,
+          fontSize: 30,
+          borderRadius: 20,
+          fontSize: 20,
+          borderRadius: 20,
+          borderColor: "#fff",
+          borderRadius: 20,
+          color: "#fff",
+        }}
+      />
+
+      <Image
+        source={require("../assets/Btn/arrowbutton.png")}
+        style={styles.arrowbtn5}
+      />
+      <Pressable
+        style={styles.arrowbtn5}
+        onPress={() => setPicker("+")}
+      ></Pressable>
+      <Image
+        source={require("../assets/Btn/arrowbutton.png")}
+        style={styles.arrowbtn55}
+      />
+      <Pressable
+        style={styles.arrowbtn55}
+        onPress={() => setPicker("-")}
+      ></Pressable>
+      {/* objective Count selector */}
+     
+      <TextInput 
+        editable={false}
+        value="Objectives"
+        underlineColorAndroid="transparent"
+        placeholder="Objective"
+        placeholderTextColor="#fff"
+        autoCapitalize="none"
+        
+        style={{
+          position: "absolute",
+          top: "59%",
           borderWidth: 3,
           // width: 350,
           width: width * 0.6,
@@ -751,9 +973,15 @@ function createLobby()
           <View style={styles.ObjectiveInputView}>
             {// input for objective
             }
-            <Picker
-            style={
-              styles.ObjectiveInput
+            <Picker enabled = {picker4} //enable or disable the picker
+             
+            style={{flex:1.5,
+              fontSize:RFPercentage(1.5),
+              color: pickerText4,
+              position:"relative",
+              zIndex:5}
+              
+             // styles.ObjectiveInput
             }
               selectedValue={Objective1.Objective}
               onValueChange= {(itemValue,ItemIndex) => SetObjective1(Prev => ({
@@ -803,9 +1031,14 @@ function createLobby()
             <View style={styles.ObjectiveInputView}>
                 {// input for objective
             }
-             <Picker
-            style={
-              styles.ObjectiveInput
+             <Picker enabled = {picker3} //enable or disable the picker
+            style={{flex:1.5,
+              fontSize:RFPercentage(1.5),
+              color: pickerText3,
+              position:"relative",
+              zIndex:5}
+              
+             // styles.ObjectiveInput
             }
               selectedValue={Objective2.Objective}
               onValueChange= {(itemValue,ItemIndex) => SetObjective2(Prev => ({
@@ -850,9 +1083,14 @@ function createLobby()
             <View style={styles.ObjectiveInputView}>
               {// input for objective
             }
-             <Picker
-            style={
-              styles.ObjectiveInput
+             <Picker enabled = {picker2} //enable or disable the picker
+            style={{flex:1.5,
+              fontSize:RFPercentage(1.5),
+              color: pickerText2,
+              position:"relative",
+              zIndex:5}
+              
+             // styles.ObjectiveInput
             }
               selectedValue={Objective3.Objective}
               onValueChange= {(itemValue,ItemIndex) => SetObjective3(Prev => ({
@@ -893,9 +1131,15 @@ function createLobby()
             <View style={styles.ObjectiveInputView}>
                {// input for objective
             }
-            <Picker
-            style={
-              styles.ObjectiveInput
+            <Picker enabled = {picker1} //enable or disable the picker
+            style={{flex:1.5,
+              fontSize:RFPercentage(1.5),
+              color: pickerText1,
+              position:"relative",
+             
+              zIndex:5}
+              
+             // styles.ObjectiveInput
             }
               selectedValue={Objective4.Objective}
               onValueChange= {(itemValue,ItemIndex) => SetObjective4(Prev => ({
@@ -961,7 +1205,7 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     position: 'absolute',
-    top: "55%",
+    top: "60%",
     right: "22%",
     transform: [{ rotate: "90deg" }],
   },
@@ -977,6 +1221,21 @@ const styles = StyleSheet.create({
     height: 40,
     position: 'absolute',
     top: "48.8%",
+    left: "22%",
+    transform: [{ rotate: "180deg" }],
+  },
+  arrowbtn5:{ //objective count
+    width: 40,
+    height: 40,
+    position: 'absolute',
+    top: "54.2%",
+    right: "22%"
+  },
+  arrowbtn55:{ //objective count
+    height: 40,
+    width: 40,
+    position: 'absolute',
+    top: "54.2%",
     left: "22%",
     transform: [{ rotate: "180deg" }],
   },
@@ -1072,7 +1331,7 @@ const styles = StyleSheet.create({
     borderTopWidth:0,
     borderRadius:25,
     position:"relative", 
-    top:"58.5%",
+    top:"63.5%",
     width: width * 0.5,
     left:"25%",
     zIndex:5
