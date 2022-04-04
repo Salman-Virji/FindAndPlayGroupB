@@ -45,7 +45,7 @@ function CreateGame({ navigation,route }) {
   ]
 
   for (const [key , value] of Object.entries(myjson)){
-    console.log(`${key} ${value.description}`);
+   // console.log(`${key} ${value.description}`);
 
     Objectives.push(value.description)
   }
@@ -224,7 +224,7 @@ function createLobby()
             }
           }  
           console.log("after setting : " , location.Value,"\n",location.Index);
-          setObjectives();
+          
         }
   //Time Limit option toggle 
   function toggleTimeLimit(change){
