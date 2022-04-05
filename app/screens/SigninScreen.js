@@ -1,74 +1,136 @@
+/** @Added By Backend Team - 22nd March */
+import BackendQuery from "../config/Axios";
+
 //Installing expo checkbox as react native doesn't provide checkbox out of the box anymore.
 import Checkbox from "expo-checkbox";
 import React, { useState } from "react";
-import axios from "axios";
 
 //Importing whatever components are required from react native
 import {
   TextInput,
-  Image,
   ImageBackground,
   Pressable,
   StyleSheet,
   Text,
   View,
-  TouchableHighlight,
-  TouchableWithoutFeedback,
-  TouchableOpacity,
-  KeyboardAvoidingView,
+  Alert,
+  Dimensions,
 } from "react-native";
 
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 //This component is used to calculate the dimensions of the device and set width of certain components accordingly e.g input box
-import { Dimensions } from "react-native";
-const { width, height } = Dimensions.get("window");
+
+const { width } = Dimensions.get("window");
 
 function SigninScreen({ navigation }) {
-  const [username, setUsername] = useState(""); //changed from"user"
-  const [password, setPassword] = useState(""); //changed from "pass"
+  const [username, setUsername] = useState("arianne"); // For testing
+  const [password, setPassword] = useState("testing1"); // For testing
   const [message, setMessage] = useState("");
   const [isSelected, setSelection] = useState(false);
   const [validMsg, setValidmsg] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
-  // function showValidationMsg() { // function creates error username is readonly
-  //   if(username = " ",username="" ||( password = " ", password ="")){
-  //     setValidmsg=("Please enter a valid Username or Password");
-  //   }
-  // }
-
-  function clearFields() {
-    setUsername("");
-    setPassword("");
-  }
-
-  function Login() {
+  /** @Added By Backend Team - 22nd March */
+  const Login = async () => {
     const body = {
       username: username,
       password: password,
     };
+    try {
+      /** @TODO  -------------------------------- */
+      /** @TODO Handle form validation before POST */
+      /** @TODO  -------------------------------- */
 
-    console.log(body);
-    console.log(username);
-    navigation.navigate("CreateGameScreen", {Username:username});
-    /*
-    var url = `http:10.0.0.63:3000/users/login`; //Replace by your IP address
+      await requestSignIn(body);
+    } catch (error) {
+      Alert.alert("Sign In Error", `Input Error, try again!`);
+    }
+  };
 
-    axios
-      .post(url, body, navigation)
-      .then((res) => {
-        console.log(res.data);
-        clearFields();
-        setMessage(res.data.msg);
+  /** @Added By Backend Team - 22nd March */
+  const requestSignIn = async (body) => {
+    try {
+      const response = await BackendQuery.post(
+        "/auth/sign-in",
+        body,
+        navigation
+      );
 
-        if (res.data.status == true) {
-          
+      if (response.status == 200) {
+        const { session_id } = response.data;
+
+        console.log(`Session ID: ${session_id}`);
+
+        /** @TODO  -------------------------------- */
+        /** @TODO Set Local Storage with session_id */
+        /** @TODO  -------------------------------- */
+
+        setUsername("");
+        setPassword("");
+
+        navigation.navigate("CreateGameScreen", {
+          username: username,
+        });
+      }
+    } catch (error) {
+      const { error: errorIssue } = error.response.data;
+
+      console.log(`Error found => ${errorIssue})`);
+
+      Alert.alert("Cannot Authenticate Username or Password", `${errorIssue}`);
+      setUsername("");
+      setPassword("");
+    }
+  };
+
+  /*
+
+        // function showValidationMsg() { // function creates error username is readonly
+    //   if(username = " ",username="" ||( password = " ", password ="")){
+    //     setValidmsg=("Please enter a valid Username or Password");
+    //   }
+    // }
+
+    const inputValidation = () => {
+            if (username.length == 0)
+                setEmailError('Username or email is required');
+            else setEmailError('');
+            if (password.length == 0) setPasswordError('Password is required');
+            else setPasswordError('');
+        };
+
+
+    async function Login() {
+        //Email and password validation
+        inputValidation(username, password);
+
+        const body = {
+            username: username,
+            password: password,
+        };
+
+        const url = `http://{{ IPADDRESSNUMBERS }}/auth/sign-in`; //Replace by your IP address
+
+        await axios
+            .post(url, body, navigation)
+            .then((res) => {
+                //clearFields(); //Commented this one for better user experience cause everything empty fields are being handled in input validation
+                // setMessage(res.data.msg);
+
+        if (res.status == 200) {
+            console.log(res.session_id);
+            // Set Local Storage with session_id
+            navigation.navigate('LandingScreen', {
+                username: username,
+            });
         }
-      })
-      .catch((err) => console.log(err));
-   */ 
-      
-  }
-
- 
+            })
+            .catch((err) => {
+                console.log(err.session_id);
+            });
+    }
+*/
 
   return (
     //Setting background
@@ -103,6 +165,7 @@ function SigninScreen({ navigation }) {
           <Text style={styles.signintext}> Sign-In </Text>
 
           {/* TextInput is like input box */}
+
           <TextInput
             style={styles.input}
             underlineColorAndroid="transparent"
@@ -112,6 +175,11 @@ function SigninScreen({ navigation }) {
             value={username}
             onChangeText={(e) => setUsername(e)}
           />
+
+          {emailError.length > 0 ? (
+            <Text style={styles.inputValiation}>{emailError}</Text>
+          ) : null}
+
           <TextInput
             style={styles.input2}
             underlineColorAndroid="transparent"
@@ -119,9 +187,13 @@ function SigninScreen({ navigation }) {
             placeholderTextColor="#fff"
             autoCapitalize="none"
             value={password}
-            secureTextEntry={true}
+            secureTextEntry={false}
             onChangeText={(e) => setPassword(e)}
           />
+
+          {passwordError.length > 0 ? (
+            <Text style={styles.inputValiation}>{passwordError}</Text>
+          ) : null}
         </View>
 
         <View
@@ -132,18 +204,21 @@ function SigninScreen({ navigation }) {
           }}
         >
           <View style={{ flexDirection: "row" }}>
-            <Checkbox
+            {/* Removing the remeber me checkbox*/}
+
+            {/* <Checkbox
               style={styles.checkbox}
               value={isSelected}
               onValueChange={setSelection}
               //color={true ? "#4630EB" : undefined}
-            />
+            /> */}
+            {/*             
             <Text
               style={{ color: "white", marginLeft: 10, fontWeight: "bold" }}
             >
               {" "}
               Remember me!
-            </Text>
+            </Text> */}
           </View>
           <View style={{}}>
             <Text
@@ -152,7 +227,7 @@ function SigninScreen({ navigation }) {
                 color: "white",
                 fontWeight: "bold",
               }}
-              onPress={() => navigation.navigate("ForgotPasswordTablet")}
+              onPress={() => navigation.navigate("ForgotPasswordScreen")}
             >
               Forgot Password ?{" "}
             </Text>
@@ -164,21 +239,25 @@ function SigninScreen({ navigation }) {
             {/* Pressable makes the area Pressable */}
             <Pressable
               style={styles.loginButton}
-              onPress={() => Login(username,password) } //changed onclick to go to landingscreen
+              onPress={() => Login(username, password)} //changed onclick to go to landingscreen
             >
               <Text style={styles.loginText}>Login</Text>
             </Pressable>
           </View>
-          <View style={{ alignItems: "center" }}>
+
+          {/*Got rid of continue without account as per new deisgnw*/}
+          {/* <View style={{ alignItems: "center" }}>
             <Pressable
               style={styles.btnWithoutAccount}
-              onPress={() => navigation.navigate("LandingScreen",{Username:null})} //changed onclick to go to landingscreen
+              onPress={() =>
+                navigation.navigate("LandingScreen", { Username: null })
+              } //changed onclick to go to landingscreen
             >
               <Text style={([styles.loginText], { color: "black" })}>
                 Continue without account
               </Text>
             </Pressable>
-          </View>
+          </View> */}
         </View>
 
         <View style={styles.signupbuttonContainer}>
@@ -189,11 +268,12 @@ function SigninScreen({ navigation }) {
           <Pressable style={styles.btnSignup}>
             <Text
               style={([styles.loginText], { fontSize: 15 })}
-              onPress={() => navigation.navigate("RegistarScreenT")}
+              onPress={() => navigation.navigate("RegisterScreen")}
             >
               Create an account
             </Text>
           </Pressable>
+         
         </View>
       </View>
     </ImageBackground>
@@ -207,7 +287,8 @@ const styles = StyleSheet.create({
   },
   logo: {
     //text css
-    fontSize: 120,
+    //fontSize: 120,
+    fontSize: RFPercentage(10),
     top: "45%",
     color: "white",
     fontWeight: "bold",
@@ -220,8 +301,8 @@ const styles = StyleSheet.create({
     // height: "100%",
   },
   signintext: {
-    fontSize: 50,
-
+    // fontSize: 50,
+    fontSize: RFPercentage(5),
     color: "white",
     fontWeight: "bold",
     textShadowColor: "rgba(0, 0, 0, 1)",
@@ -378,6 +459,12 @@ const styles = StyleSheet.create({
   },
   checkbox: {
     alignSelf: "center",
+  },
+  inputValiation: {
+    alignContent: "flex-start",
+    left: 15,
+    color: "black",
+    fontSize: 16,
   },
 });
 

@@ -1,5 +1,4 @@
-
-import React, { useState,Component } from "react";
+import React, { useState, Component } from "react";
 import axios from "axios";
 
 import {
@@ -13,50 +12,39 @@ import {
   TouchableHighlight,
   TouchableWithoutFeedback,
   TouchableOpacity,
-  
 } from "react-native";
 
 import { Dimensions } from "react-native";
 const { width, height } = Dimensions.get("window");
 
+function ForgotPasswordScreen({ navigation }) {
+  const [validMsg, setValidmsg] = useState("");
+  const [username, setUsername] = useState("");
 
-
-
- function  ForgotPasswordTablet ({ navigation }) {
-  
-
-   const [validMsg, setValidmsg ] = useState ("")
-   const [username, setUsername] = useState("Username or Email");
-
-   
-    function clearFields() {
-      setUsername("");
-    
-    }
-
-   function showValidationMsg() {
-    if({username} != "" || {username} != " "){
-     setValidmsg(" If this is a valid account you will get a email to reset your account");
-     
-    if(username ==" "){
-      setValidmsg("Please enter a valid Username or Email");
-      
-    }
-    }
-    
-    
+  function clearFields() {
+    setUsername("");
   }
-   function resetPass() {
-   const body = {
-       username: username
-     };
 
-     if(username!= ""){
+  function showValidationMsg() {
+    if ({ username } != "" || { username } != " ") {
+      setValidmsg(
+        "If this is a valid account you will get a email to reset your account"
+      );
 
-     }
-   }
+      if (username == " ") {
+        setValidmsg("Please enter a valid Username or Email");
+      }
+    }
+  }
+  function resetPass() {
+    const body = {
+      username: username,
+    };
 
-  
+    if (username != "") {
+    }
+  }
+
   return (
     <ImageBackground
       style={styles.background}
@@ -89,14 +77,15 @@ const { width, height } = Dimensions.get("window");
           <Text style={styles.resetpasstext}> Reset Password </Text>
 
           {/* email or password input box  */}
-          <TextInput 
-            editable ={true}
+          <TextInput
+            editable={true}
             style={styles.input}
             underlineColorAndroid="transparent"
             placeholder="Username or email"
             value={username}
             placeholderTextColor="#fff"
             autoCapitalize="none"
+            onChangeText={(e) => setUsername(e)}
           />
         </View>
         {/* Reset password message  */}
@@ -117,7 +106,7 @@ const { width, height } = Dimensions.get("window");
             {/* Send request button  */}
             <Pressable
               style={styles.btnSendrequest}
-              onPress={() => showValidationMsg() }
+              onPress={() => showValidationMsg()}
             >
               <Text
                 style={{
@@ -141,7 +130,7 @@ const { width, height } = Dimensions.get("window");
               fontSize: 20,
               color: "white",
               textShadowColor: "rgba(0, 0, 0, 1)",
-              textShadowOffset: { width: -1, height:1 },
+              textShadowOffset: { width: -1, height: 1 },
               textShadowRadius: 10,
             }}
           >
@@ -176,12 +165,12 @@ const styles = StyleSheet.create({
   },
   logo: {
     //text css
-    fontSize:120,
-    top:"45%",
+    fontSize: 120,
+    top: "45%",
     color: "white",
     fontWeight: "bold",
     textShadowColor: "rgba(0, 0, 0, 1)",
-    textShadowOffset: { width: -1, height:1 },
+    textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 10,
 
     // image css
@@ -192,11 +181,11 @@ const styles = StyleSheet.create({
   },
   resetpasstext: {
     fontSize: 50,
-    bottom:"15%",
+    bottom: "15%",
     color: "white",
     fontWeight: "bold",
     textShadowColor: "rgba(0, 0, 0, 1)",
-    textShadowOffset: { width: -1, height:1 },
+    textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 10,
   },
   logintext: {
@@ -254,7 +243,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: 400,
     justifyContent: "center",
-    bottom:"-11%"
+    bottom: "-11%",
   },
   btnSendrequest: {
     alignItems: "center",
@@ -287,4 +276,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ForgotPasswordTablet;
+export default ForgotPasswordScreen;
