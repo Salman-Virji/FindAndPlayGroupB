@@ -13,6 +13,7 @@ import {
   TextInput,
   TouchableOpacityBase,
   Pressable,
+  Alert,
 } from "react-native";
 import { RFPercentage } from "react-native-responsive-fontsize";
 //This component is used to calculate the dimensions of the device and set width of certain components accordingly e.g input box
@@ -423,12 +424,11 @@ function CreateGame({ navigation, route }) {
     >
       {/* //Logout button */}
       <TouchableOpacity
-        //onPress={() => navigation.navigate("SigninScreen")}
-        onPress={() => {
+        onPress={async () => {
           try {
-            logout();
+            await logout();
           } catch (e) {
-            console.log(e);
+            Alert.alert(e);
           }
         }}
         style={{

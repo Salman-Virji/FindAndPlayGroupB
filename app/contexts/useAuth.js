@@ -57,6 +57,7 @@ export function useAuth() {
       },
       logout: async () => {
         try {
+          debugger;
           console.log("Logout user session id");
           const id = await SecureStore.getItemAsync("user_token");
           console.log(id);
@@ -70,18 +71,32 @@ export function useAuth() {
         } catch (e) {
           //console.log("Error found in logout");
           //console.log(e);
-          throw new Error(e);
+          throw e;
         }
       },
-      register: () => {},
+      register: async (body) => {
+        try {
+          await requestRegister(body);
+        } catch (e) {
+          throw e;
+        }
+      },
     }),
     []
   );
-
+  React.useEffect(async () => {
+    await SecureStore.getItemAsync("user_token").then((user) => {
+      if (user) {
+        // dispatch(createAction('SET_USER', JSON.parse(user)));
+        dispatch({ type: "SET_USER", token: user.sessionId });
+      }
+      dispatch({ type: "SET_LOADING", loading: false });
+    });
+  }, []);
   const requestSignIn = async (body) => {
     try {
       const response = await BackendQuery.post("/auth/sign-in", body);
-      console.log("I am in requestSignIn");
+      console.log("I am in register");
 
       if (response.status == 200) {
         const { session_id } = response.data;
@@ -106,7 +121,23 @@ export function useAuth() {
       }
     } catch (error) {
       const { error: errorIssue } = error.response.data;
-      Alert.alert(`Error found => ${errorIssue})`);
+      throw errorIssue;
+    }
+  };
+
+  const requestRegister = async (body) => {
+    try {
+      //console.log(body);
+      const response = await BackendQuery.post("/auth/new-signup", body);
+      console.log("I am in requestRegister");
+
+      if (response.status == 201) {
+        //const { data } = response.status.data;
+        console.log(response.data);
+      }
+    } catch (error) {
+      const { error: errorIssue } = error.response.data;
+      throw errorIssue;
     }
   };
   return { auth, state };

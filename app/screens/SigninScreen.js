@@ -35,54 +35,6 @@ function SigninScreen({ navigation }) {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
 
-  /*
-
-        // function showValidationMsg() { // function creates error username is readonly
-    //   if(username = " ",username="" ||( password = " ", password ="")){
-    //     setValidmsg=("Please enter a valid Username or Password");
-    //   }
-    // }
-
-    const inputValidation = () => {
-            if (username.length == 0)
-                setEmailError('Username or email is required');
-            else setEmailError('');
-            if (password.length == 0) setPasswordError('Password is required');
-            else setPasswordError('');
-        };
-
-
-    async function Login() {
-        //Email and password validation
-        inputValidation(username, password);
-
-        const body = {
-            username: username,
-            password: password,
-        };
-
-        const url = `http://{{ IPADDRESSNUMBERS }}/auth/sign-in`; //Replace by your IP address
-
-        await axios
-            .post(url, body, navigation)
-            .then((res) => {
-                //clearFields(); //Commented this one for better user experience cause everything empty fields are being handled in input validation
-                // setMessage(res.data.msg);
-
-        if (res.status == 200) {
-            console.log(res.session_id);
-            // Set Local Storage with session_id
-            navigation.navigate('LandingScreen', {
-                username: username,
-            });
-        }
-            })
-            .catch((err) => {
-                console.log(err.session_id);
-            });
-    }
-*/
-
   return (
     //Setting background
     <ImageBackground
