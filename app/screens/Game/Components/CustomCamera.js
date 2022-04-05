@@ -8,8 +8,29 @@ import {
   BackHandler
 } from "react-native";
 import CountdownTimer from '../Timer/CountdownTimer';
+import { Audio } from 'expo-av';
 
 export function CustomCamera({ type, cameraRef, setType, setShowCamera, currentObjectiveId, objectives, startTime }) {
+  const [sound, setSound] = React.useState();
+  
+  async function playSound() {
+    console.log('Loading Sound');
+    const { sound } = await Audio.Sound.createAsync(
+       require('../../../assets/Sounds/116609__mrmccormack__mrm-oldshutter-nikon2020.wav')
+    );
+    setSound(sound);
+
+    console.log('Playing Sound');
+    await sound.playAsync(); }
+
+
+  React.useEffect(() => {
+    return sound
+      ? () => {
+          console.log('Unloading Sound');
+          sound.unloadAsync(); }
+      : undefined;
+  }, [sound]);
 
   const backHandler = BackHandler.addEventListener("hardwareBackPress",()=>{
     setShowCamera(false);
@@ -64,6 +85,7 @@ export function CustomCamera({ type, cameraRef, setType, setShowCamera, currentO
         <Text style={styles.text}> Flip </Text>
        </TouchableOpacity>*/}
       <TouchableOpacity style={styles.photoButton} onPress={async () => {
+        playSound();
         const r = await takePhoto();
         if (!r.cancelled) {
           for (var i = 0; i < objectives.length; i++) {
