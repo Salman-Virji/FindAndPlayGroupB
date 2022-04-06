@@ -140,6 +140,7 @@ function SigninScreen({ navigation }) {
 
                   await login(username, password);
                 } catch (e) {
+                  console.log(e);
                   Alert.alert("Error => " + e);
                 }
               }}

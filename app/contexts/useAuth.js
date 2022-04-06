@@ -4,7 +4,15 @@ import * as SecureStore from "expo-secure-store";
 import BackendQuery from "../config/Axios";
 let user = {};
 
+/**
+ * @description useAuth is the function responsible for the router authorization
+ * */
+
 export function useAuth() {
+  /**
+   * @description Using React Reducer
+   * */
+
   const [state, dispatch] = React.useReducer(
     (state, action) => {
       switch (action.type) {
@@ -32,7 +40,9 @@ export function useAuth() {
       loading: true,
     }
   );
-
+  /**
+   * @description Using React Memo
+   * */
   const auth = React.useMemo(
     () => ({
       login: async (username, password) => {
@@ -84,6 +94,10 @@ export function useAuth() {
     }),
     []
   );
+
+  /**
+   * @description Using React useEffect to check there is token in the local storage
+   * */
   React.useEffect(async () => {
     await SecureStore.getItemAsync("user_token").then((user) => {
       if (user) {
@@ -93,6 +107,13 @@ export function useAuth() {
       dispatch({ type: "SET_LOADING", loading: false });
     });
   }, []);
+
+  /**
+   * @description requestSignIn
+   * @route POST http://localhost:3000/auth/sign-in
+   * @TODO - Tested and Working!
+   * */
+
   const requestSignIn = async (body) => {
     try {
       const response = await BackendQuery.post("/auth/sign-in", body);
@@ -111,6 +132,11 @@ export function useAuth() {
     }
   };
 
+  /**
+   * @description requestsignOut
+   * @route POST http://localhost:3000/auth/sign-out
+   * @TODO - Tested and Working!
+   * */
   const requestsignOut = async (body) => {
     try {
       const response = await BackendQuery.post("/auth/sign-out", body);
@@ -125,6 +151,11 @@ export function useAuth() {
     }
   };
 
+  /**
+   * @description requestRegister
+   * @route POST http://localhost:3000/auth/new-signup
+   * @TODO - Tested and Working!
+   * */
   const requestRegister = async (body) => {
     try {
       //console.log(body);
@@ -132,6 +163,27 @@ export function useAuth() {
       console.log("I am in requestRegister");
 
       if (response.status == 201) {
+        //const { data } = response.status.data;
+        console.log(response.data);
+      }
+    } catch (error) {
+      const { error: errorIssue } = error.response.data;
+      throw errorIssue;
+    }
+  };
+
+  /**
+   * @description requestResetPassword
+   * @route POST http://localhost:3000/auth/new-signup
+   * @TODO - Tested and Working!
+   * */
+  const requestResetPassword = async (body) => {
+    try {
+      //console.log(body);
+      const response = await BackendQuery.post("/auth/reset-password", body);
+      console.log("I am in requestRegister");
+
+      if (response.status == 200) {
         //const { data } = response.status.data;
         console.log(response.data);
       }
