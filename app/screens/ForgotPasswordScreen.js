@@ -8,10 +8,9 @@ import {
   Pressable,
   StyleSheet,
   Text,
+  Alert,
   View,
-  TouchableHighlight,
-  TouchableWithoutFeedback,
-  TouchableOpacity,
+
 } from "react-native";
 
 import { Dimensions } from "react-native";
@@ -20,30 +19,9 @@ const { width, height } = Dimensions.get("window");
 function ForgotPasswordScreen({ navigation }) {
   const [validMsg, setValidmsg] = useState("");
   const [username, setUsername] = useState("");
+  const [email, setEmailError] = useState("");
 
-  function clearFields() {
-    setUsername("");
-  }
 
-  function showValidationMsg() {
-    if ({ username } != "" || { username } != " ") {
-      setValidmsg(
-        "If this is a valid account you will get a email to reset your account"
-      );
-
-      if (username == " ") {
-        setValidmsg("Please enter a valid Username or Email");
-      }
-    }
-  }
-  function resetPass() {
-    const body = {
-      username: username,
-    };
-
-    if (username != "") {
-    }
-  }
 
   return (
     <ImageBackground
@@ -106,7 +84,28 @@ function ForgotPasswordScreen({ navigation }) {
             {/* Send request button  */}
             <Pressable
               style={styles.btnSendrequest}
-              onPress={() => showValidationMsg()}
+              onPress={async () => {
+                try {
+                  let validate = true;
+                  if (username.length == 0) {
+                    validate = false;
+                    setUsername("Username or email is required");
+                  } else setUsername("");
+                  if (email.length == 0) {
+                    validate = false;
+                    setEmailError("Username or email is required");
+                  } else setEmailError("");
+
+
+                  if (validate == false)
+                    throw new Error("Username is incorrect");
+
+                  await login(username);
+                } catch (e) {
+                  Alert.alert("Error =>" + e);
+                }
+              }}
+
             >
               <Text
                 style={{
@@ -277,3 +276,4 @@ const styles = StyleSheet.create({
 });
 
 export default ForgotPasswordScreen;
+
