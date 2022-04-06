@@ -12,6 +12,7 @@ import {
   SafeAreaView,
   TouchableOpacity,ImageBackground
 } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
 
 const { width } = Dimensions.get('screen');
 const imageWidth = width * 0.7;
@@ -19,11 +20,13 @@ const imageHeight = imageWidth * 1.5;
 
 
 
-function Btn({color, btnText, onClick, item}) {
+function Btn({color, btnIcon, onClick, item}) {
     return (
       <TouchableOpacity onPress={() => onClick != null? onClick({item}) : console.log("rip")} >
         <View style={[styles.buttonContainer,{backgroundColor: `${color}` }]}>
-          <Text style={styles.buttonText}>{btnText}</Text>
+       
+          {/* <Text style={styles.buttonText}>{btnText}</Text> */}
+          <AntDesign name={btnIcon} size={100} color="#FFF" />
         </View>
       </TouchableOpacity>
     )
@@ -57,9 +60,12 @@ function makeRed({item}){
         <View style={{alignItems: 'center', paddingBottom: 20}}>
           <Text style={{fontSize: 25, fontWeight: 'bold'}}>{points}</Text>
         </View>
-        <View>
-            <Btn color={"#51A0F8"} btnText="Accept" item={item} onClick={makeGreen} />
-            <Btn color={"#FF624E"} btnText="Decline" item={item} onClick={makeRed} />
+        <View style={{flexDirection:'row',justifyContent:'center'}}>
+        {/** buttons will now display icons instead of texts */}
+            <Btn color={"#90EE90"} btnIcon={"check"} item={item} onClick={makeGreen} />
+            <Btn color={"#FF5733"}   btnIcon={"close"}  item={item} onClick={makeRed} />
+            
+    
             
         </View>
       </View>
@@ -178,14 +184,15 @@ function confrimWheel({items, navigation}) {
     },
     buttonText: {
         color: '#000',
-        fontSize:25,
+        fontSize:30,
         fontWeight: 'bold',
         justifyContent: 'center',
         alignItems: 'center',
         textTransform:'uppercase'
     },
     buttonFinish:{
-      backgroundColor: '#228B22', 
+      backgroundColor: '#50A4FF', 
+
       borderRadius: 10, 
       margin: 75, 
       padding: 25, 
@@ -198,7 +205,7 @@ function confrimWheel({items, navigation}) {
     finishText:{
       fontSize:35,
       fontWeight: 'bold', 
-      color: 'black',
+      color:'#FFF',
       textTransform:'uppercase'
     },
     buttonContainer:{
