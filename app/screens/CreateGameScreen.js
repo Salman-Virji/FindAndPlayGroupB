@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   View,
   TextInput,
-  TouchableOpacityBase,
+  ScrollView,
   Pressable,
 } from "react-native";
 import { RFPercentage } from "react-native-responsive-fontsize";
@@ -34,6 +34,12 @@ function CreateGame({ navigation,route }) {
   const [Objective2, SetObjective2]= useState({ Objective:"",PointValue:5,Checked:false});
   const [Objective3, SetObjective3]= useState({ Objective:"",PointValue:5,Checked:false});
   const [Objective4, SetObjective4]= useState({ Objective:"",PointValue:5,Checked:false});
+  const [Objective5, SetObjective5]= useState({ Objective:"",PointValue:5,Checked:false});
+  const [Objective6, SetObjective6]= useState({ Objective:"",PointValue:5,Checked:false});
+  const [Objective7, SetObjective7]= useState({ Objective:"",PointValue:5,Checked:false});
+  const [Objective8, SetObjective8]= useState({ Objective:"",PointValue:5,Checked:false});
+  const [Objective9, SetObjective9]= useState({ Objective:"",PointValue:5,Checked:false});
+  const [Objective10, SetObjective10]= useState({ Objective:"",PointValue:5,Checked:false});
   const [timeLimit,setTimeLimit] = useState({Value:"Time Limit",Index:null});
   const [location,setLocation] = useState({Value:"Location",Index:null});
   const [formFilled,setFormStatus] = useState(false);
@@ -42,10 +48,24 @@ function CreateGame({ navigation,route }) {
   const [picker2,setPicker2] = useState(false)
   const [picker3,setPicker3] = useState(false)
   const [picker4,setPicker4] = useState(false)
+  const [picker5,setPicker5] = useState(false)
+  const [picker6,setPicker6] = useState(false)
+  const [picker7,setPicker7] = useState(false)
+  const [picker8,setPicker8] = useState(false)
+  const [picker9,setPicker9] = useState(false)
+  const [picker10,setPicker10] = useState(false)
+
   const [pickerText1,setPickerText1] = useState("gray")
   const [pickerText2,setPickerText2] = useState("gray")
   const [pickerText3,setPickerText3] = useState("gray")
   const [pickerText4,setPickerText4] = useState("gray")
+  const [pickerText5,setPickerText5] = useState("gray")
+  const [pickerText6,setPickerText6] = useState("gray")
+  const [pickerText7,setPickerText7] = useState("gray")
+  const [pickerText8,setPickerText8] = useState("gray")
+  const [pickerText9,setPickerText9] = useState("gray")
+  const [pickerText10,setPickerText10] = useState("gray")
+
 
   
   //---Empty Array to hold objectives taken from json file myjson.json---
@@ -70,7 +90,7 @@ function CreateGame({ navigation,route }) {
 
 */
 function createLobby()
-{console.log(Objective1.Objective );
+{
   var timeInMin;
   if(timeLimit.Value == "time limit" || location.Value == "Location" || title == "" || playerCount == 0 ||(Objective1.Objective == "" & Objective2.Objective == "" & Objective3.Objective == "" & Objective4.Objective == ""  ))
  {
@@ -117,7 +137,6 @@ function createLobby()
            
              ]
         }
-
   if(Objective1.Objective != "" && objectiveCounter.size >=1)
   {
     gameLobby.objectives.push({  
@@ -178,9 +197,100 @@ function createLobby()
       }
     );
   }
+  if(Objective5.Objective != "" && objectiveCounter.size >=5)
+  {
+    gameLobby.objectives.push({  
+      
+      
+      "objectiveid":gameLobby.objectives.length +1 ,
+      "description": Objective5.Objective,
+      "points": Objective5.PointValue,
+      "referenceimage": "",
+      "picturetaken": null,
+      "score": 0,
+      "hasSet": Objective5.Checked
+    
+    });
+  }
+  if(Objective6.Objective != "" && objectiveCounter.size >=6)
+  {
+    gameLobby.objectives.push({  
+      
+      
+      "objectiveid":gameLobby.objectives.length +1 ,
+      "description": Objective6.Objective,
+      "points": Objective6.PointValue,
+      "referenceimage": "",
+      "picturetaken": null,
+      "score": 0,
+      "hasSet": Objective6.Checked
+     
+    });
+  }
+  if(Objective7.Objective != ""&& objectiveCounter.size >=7)
+  {
+    gameLobby.objectives.push({  
+      
+     
+      "objectiveid":gameLobby.objectives.length +1 ,
+      "description": Objective7.Objective,
+      "points": Objective7.PointValue,
+      "referenceimage": "",
+      "picturetaken": null,
+      "score": 0,
+      "hasSet": Objective7.Checked
+      
+    });
+  }
+  if(Objective8.Objective != ""&& objectiveCounter.size >=8)
+  {
+    gameLobby.objectives.push({  
+      
+      
+      "objectiveid":gameLobby.objectives.length +1 ,
+      "description": Objective8.Objective,
+      "points": Objective8.PointValue,
+      "referenceimage": "",
+      "picturetaken": null,
+      "score": 0,
+      "hasSet": Objective8.Checked
+      }
+    );
+  }
+  if(Objective9.Objective != "" && objectiveCounter.size >=9)
+  {
+    gameLobby.objectives.push({  
+      
+      
+      "objectiveid":gameLobby.objectives.length +1 ,
+      "description": Objective9.Objective,
+      "points": Objective9.PointValue,
+      "referenceimage": "",
+      "picturetaken": null,
+      "score": 0,
+      "hasSet": Objective9.Checked
+    
+    });
+  }
+  if(Objective10.Objective != "" && objectiveCounter.size >=10)
+  {
+    gameLobby.objectives.push({  
+      
+      
+      "objectiveid":gameLobby.objectives.length +1 ,
+      "description": Objective10.Objective,
+      "points": Objective10.PointValue,
+      "referenceimage": "",
+      "picturetaken": null,
+      "score": 0,
+      "hasSet": Objective10.Checked
+     
+    });
+  }
+ 
   for(var i=0;i< gameLobby.objectives.length ;i++)
   {
-    console.log(" #" + (i+1)+ " " + gameLobby.objectives[i].description);x
+    console.log(" #" + (i+1)+ " " + gameLobby.objectives[i].description);
   }
 
   console.log( " array contains " + gameLobby.objectives.length + " elements");
@@ -331,7 +441,7 @@ function setPicker(change){
           */
 
             
-            var Objectivecount = ["1 Objective", "2 Objective", "3 Objective", "4 Objective"];
+            var Objectivecount = ["1 Objective", "2 Objective", "3 Objective", "4 Objective","5 Objective", "6 Objective", "7 Objective", "8 Objective","9 Objective", "10 Objective"];
 
             if (objectiveCounter.Index == 0 && objectiveCounter.First == true ) {
               setObjectiveCounter({ Value: Objectivecount[0], Index: 0 ,size : 1,First:false});
@@ -339,7 +449,7 @@ function setPicker(change){
               var newIndex = objectiveCounter.Index + 1;
               console.log("new index: " + newIndex)
               console.log(change);
-              if (newIndex >= 4) {
+              if (newIndex >= 10) {
                 if (change == "+") {
                   console.log("increasing objective count");
                   setObjectiveCounter({ Value: Objectivecount[0], Index: 0 ,size : 1 ,First:false});
@@ -369,13 +479,73 @@ function setPicker(change){
               setPicker2(false)
               setPicker3(false)
               setPicker4(false)
+              setPicker5(false)
+              setPicker6(false)
+              setPicker7(false)
+              setPicker8(false)
+              setPicker9(false)
+              setPicker10(false)
+
+              setPickerText1("white")
+              setPickerText2("white")
+              setPickerText3("gray")
+              setPickerText4("gray")
+              setPickerText1("gray")
+              setPickerText2("gray")
+              setPickerText3("gray")
+              setPickerText4("gray")
+              setPickerText1("gray")
+              setPickerText2("gray")
+              setPickerText3("gray")
+              setPickerText4("gray")
               
+            }
+            else if(objectiveCounter.Value == "1 Objective"){
+              setPicker1(true)
+              setPicker2(true)
+              setPicker3(false)
+              setPicker4(false)
+              setPicker5(false)
+              setPicker6(false)
+              setPicker7(false)
+              setPicker8(false)
+              setPicker9(false)
+              setPicker10(false)
+
+              setPickerText1("white")
+              setPickerText2("white")
+              setPickerText3("gray")
+              setPickerText4("gray")
+              setPickerText5("gray")
+              setPickerText6("gray")
+              setPickerText7("gray")
+              setPickerText8("gray")
+              setPickerText9("gray")
+              setPickerText10("gray")
             }
             if(objectiveCounter.Value == "2 Objective"){
               setPicker1(true)
               setPicker2(true)
               setPicker3(true)
               setPicker4(false)
+              setPicker5(false)
+              setPicker6(false)
+              setPicker7(false)
+              setPicker8(false)
+              setPicker9(false)
+              setPicker10(false)
+
+              setPickerText1("white")
+              setPickerText2("white")
+              setPickerText3("white")
+              setPickerText4("gray")
+              setPickerText5("gray")
+              setPickerText6("gray")
+              setPickerText7("gray")
+              setPickerText8("gray")
+              setPickerText9("gray")
+              setPickerText10("gray")
+
               
             }
             else if(objectiveCounter.Value == "3 Objective"){
@@ -383,18 +553,190 @@ function setPicker(change){
               setPicker2(true)
               setPicker3(true)
               setPicker4(true)
+              setPicker5(false)
+              setPicker6(false)
+              setPicker7(false)
+              setPicker8(false)
+              setPicker9(false)
+              setPicker10(false)
+
+              setPickerText1("white")
+              setPickerText2("white")
+              setPickerText3("white")
+              setPickerText4("white")
+              setPickerText5("gray")
+              setPickerText6("gray")
+              setPickerText7("gray")
+              setPickerText8("gray")
+              setPickerText9("gray")
+              setPickerText10("gray")
+
             }
             else if(objectiveCounter.Value == "4 Objective"){
+              setPicker1(true)
+              setPicker2(true)
+              setPicker3(true)
+              setPicker4(true)
+              setPicker5(true)
+              setPicker6(false)
+              setPicker7(false)
+              setPicker8(false)
+              setPicker9(false)
+              setPicker10(false)
+
+              setPickerText1("white")
+              setPickerText2("white")
+              setPickerText3("white")
+              setPickerText4("white")
+              setPickerText5("white")
+              setPickerText6("gray")
+              setPickerText7("gray")
+              setPickerText8("gray")
+              setPickerText9("gray")
+              setPickerText10("gray")
+
+            }
+            else if(objectiveCounter.Value == "5 Objective"){
+              setPicker1(true)
+              setPicker2(true)
+              setPicker3(true)
+              setPicker4(true)
+              setPicker5(true)
+              setPicker6(true)
+              setPicker7(false)
+              setPicker8(false)
+              setPicker9(false)
+              setPicker10(false)
+
+              setPickerText1("white")
+              setPickerText2("white")
+              setPickerText3("white")
+              setPickerText4("white")
+              setPickerText5("white")
+              setPickerText6("white")
+              setPickerText7("gray")
+              setPickerText8("gray")
+              setPickerText9("gray")
+              setPickerText10("gray")
+
+            }
+            else if(objectiveCounter.Value == "6 Objective"){
+              setPicker1(true)
+              setPicker2(true)
+              setPicker3(true)
+              setPicker4(true)
+              setPicker5(true)
+              setPicker6(true)
+              setPicker7(true)
+              setPicker8(false)
+              setPicker9(false)
+              setPicker10(false)
+
+              setPickerText1("white")
+              setPickerText2("white")
+              setPickerText3("white")
+              setPickerText4("white")
+              setPickerText5("white")
+              setPickerText6("white")
+              setPickerText7("white")
+              setPickerText8("gray")
+              setPickerText9("gray")
+              setPickerText10("gray")
+
+            }
+            else if(objectiveCounter.Value == "7 Objective"){
+              setPicker1(true)
+              setPicker2(true)
+              setPicker3(true)
+              setPicker4(true)
+              setPicker5(true)
+              setPicker6(true)
+              setPicker7(true)
+              setPicker8(true)
+              setPicker9(false)
+              setPicker10(false)
+
+              setPickerText1("white")
+              setPickerText2("white")
+              setPickerText3("white")
+              setPickerText4("white")
+              setPickerText5("white")
+              setPickerText6("white")
+              setPickerText7("white")
+              setPickerText8("gray")
+              setPickerText9("gray")
+              setPickerText10("gray")
+
+            }
+            else if(objectiveCounter.Value == "8 Objective"){
+              setPicker1(true)
+              setPicker2(true)
+              setPicker3(true)
+              setPicker4(true)
+              setPicker5(true)
+              setPicker6(true)
+              setPicker7(true)
+              setPicker8(true)
+              setPicker9(true)
+              setPicker10(false)
+
+              setPickerText1("white")
+              setPickerText2("white")
+              setPickerText3("white")
+              setPickerText4("white")
+              setPickerText5("white")
+              setPickerText6("white")
+              setPickerText7("white")
+              setPickerText8("white")
+              setPickerText9("white")
+              setPickerText10("gray")
+
+            }
+            else if(objectiveCounter.Value == "9 Objective"){
+              setPicker1(true)
+              setPicker2(true)
+              setPicker3(true)
+              setPicker4(true)
+              setPicker5(true)
+              setPicker6(true)
+              setPicker7(true)
+              setPicker8(true)
+              setPicker9(true)
+              setPicker10(true)
+
+              setPickerText1("white")
+              setPickerText2("white")
+              setPickerText3("white")
+              setPickerText4("white")
+              setPickerText5("white")
+              setPickerText6("white")
+              setPickerText7("white")
+              setPickerText8("white")
+              setPickerText9("white")
+              setPickerText10("white")
+            }
+            else if(objectiveCounter.Value == "10 Objective"){
               setPicker1(true)
               setPicker2(false)
               setPicker3(false)
               setPicker4(false)
-            }
-            else if(objectiveCounter.Value == "1 Objective"){
-              setPicker1(true)
-              setPicker2(true)
-              setPicker3(false)
-              setPicker4(false)
+              setPicker5(false)
+              setPicker6(false)
+              setPicker7(false)
+              setPicker8(false)
+              setPicker9(false)
+              setPicker10(false)
+
+              setPickerText1("white")
+              setPickerText2("gray")
+              setPickerText3("gray")
+              setPickerText4("gray")
+              setPickerText5("gray")
+              setPickerText6("gray")
+              setPickerText7("gray")
+              setPickerText8("gray")
+              setPickerText9("gray")
+              setPickerText10("gray")
             }
             
             console.log(
@@ -406,37 +748,7 @@ function setPicker(change){
 
 
             //settting text color for the pickers
-            if(objectiveCounter.Value == "2 Objective"){
-              setPickerText1("white")
-              setPickerText2("white")
-              setPickerText3("white")
-              setPickerText4("gray")
-              
-            }
-            else if(objectiveCounter.Value == "3 Objective"){
-              setPickerText1("white")
-              setPickerText2("white")
-              setPickerText3("white")
-              setPickerText4("white")
-            }
-            else if(objectiveCounter.Value == "4 Objective"){
-              setPickerText1("white")
-              setPickerText2("gray")
-              setPickerText3("gray")
-              setPickerText4("gray")
-            }
-            else if(objectiveCounter.Value == "1 Objective"){
-              setPickerText1("white")
-              setPickerText2("white")
-              setPickerText3("gray")
-              setPickerText4("gray")
-            }
-            else if(objectiveCounter.Value == "Objective Count"){
-              setPickerText1("white")
-              setPickerText2("gray")
-              setPickerText3("gray")
-              setPickerText4("gray")
-            }
+    
             
 }
  // passes in a string value to indicate increment or decrement and a intiger for which objective is being changed
@@ -445,7 +757,7 @@ function setPicker(change){
    //uses passed in int to match to corresponding json object
    switch(objectivenumber)
     {
-      case 1:
+          case 1:
         /*
               uses the passed string value to determine what actions to take with edge cases for max and min
             */
@@ -550,64 +862,168 @@ function setPicker(change){
               break;
             }
             break;
+          case 5:
+        /*
+              uses the passed string value to determine what actions to take with edge cases for max and min
+            */
+        var curval = Objective5.PointValue;
+          switch(Change)
+          {
+            
+            case "+":
+              if(curval<90){
+                SetObjective5(Prev => ({
+                  ...Prev,
+                  PointValue:curval+5
+                }));
+              }
+              break;
+            case "-":
+              if(curval>5){
+                SetObjective5(Prev => ({
+                  ...Prev,
+                  PointValue:curval-5
+                }));
+              }
+              
+              break;
+          }
+          break;
+          case 6:
+            /*
+              uses the passed string value to determine what actions to take with edge cases for max and min
+            */
+            var curval = Objective6.PointValue;
+            switch(Change)
+            {
+              case "+":
+              if(curval<90){
+                SetObjective6(Prev => ({
+                  ...Prev,
+                  PointValue:curval+5
+                }));
+              }
+              break;
+            case "-":
+              if(curval>5){
+                SetObjective6(Prev => ({
+                  ...Prev,
+                  PointValue:curval-5
+                }));
+              }
+              
+              break;
+            }
+            break;
+          case 7:
+            /*
+              uses the passed string value to determine what actions to take with edge cases for max and min
+            */
+            var curval = Objective7.PointValue;
+            switch(Change)
+            {
+              case "+":
+              if(curval<95){
+                SetObjective7(Prev => ({
+                  ...Prev,
+                  PointValue:curval+5
+                }));
+              }
+              break;
+            case "-":
+              if(curval>5){
+                SetObjective7(Prev => ({
+                  ...Prev,
+                  PointValue:curval-5
+                }));
+              }
+              
+              break;
+            }
+            break;
+          case 8:
+            /*
+              uses the passed string value to determine what actions to take with edge cases for max and min
+            */
+            var curval = Objective8.PointValue;
+            switch(Change)
+            {
+              case "+":
+              if(curval<90){
+                SetObjective8(Prev => ({
+                  ...Prev,
+                  PointValue:curval+5
+                }));
+              }
+              break;
+            case "-":
+              if(curval>5){
+                SetObjective8(Prev => ({
+                  ...Prev,
+                  PointValue:curval-5
+                }));
+              }
+              
+              break;
+            }
+            break;
+          case 9:
+        /*
+              uses the passed string value to determine what actions to take with edge cases for max and min
+            */
+        var curval = Objective9.PointValue;
+          switch(Change)
+          {
+            
+            case "+":
+              if(curval<90){
+                SetObjective9(Prev => ({
+                  ...Prev,
+                  PointValue:curval+5
+                }));
+              }
+              break;
+            case "-":
+              if(curval>5){
+                SetObjective9(Prev => ({
+                  ...Prev,
+                  PointValue:curval-5
+                }));
+              }
+              
+              break;
+          }
+          break;
+          case 10:
+            /*
+              uses the passed string value to determine what actions to take with edge cases for max and min
+            */
+            var curval = Objective10.PointValue;
+            switch(Change)
+            {
+              case "+":
+              if(curval<90){
+                SetObjective10(Prev => ({
+                  ...Prev,
+                  PointValue:curval+5
+                }));
+              }
+              break;
+            case "-":
+              if(curval>5){
+                SetObjective10(Prev => ({
+                  ...Prev,
+                  PointValue:curval-5
+                }));
+              }
+              
+              break;
+            }
+            break;
+        
     }
  }
  // passes in an integer to represent which objective it is and uses a ternary statement to change the is chekced value
- function IsChecked(objectivenumber)
- {
-   // matches passed in int to corresponding json object
-   switch(objectivenumber)
-    {
-          case 1:
-            /* uses a ternary statement to check if the corresponding json objects
-             boolean value is true or false 
-            and sets it to the opposite*/
-            Objective1.Checked?  SetObjective1(Prev => ({
-              ...Prev,
-              Checked:false
-            })):      SetObjective1(Prev => ({
-              ...Prev,
-              Checked:true
-            }));        
-            break;
-          case 2:
-             /* uses a ternary statement to check if the corresponding json objects
-             boolean value is true or false 
-            and sets it to the opposite*/
-            Objective1.Checked?  SetObjective2(Prev => ({
-              ...Prev,
-              Checked:false
-            })):      SetObjective2(Prev => ({
-              ...Prev,
-              Checked:true
-            }));        
-            break;
-          case 3:
-             /* uses a ternary statement to check if the corresponding json objects
-             boolean value is true or false 
-            and sets it to the opposite*/
-            Objective1.Checked?  SetObjective3(Prev => ({
-              ...Prev,
-              Checked:false
-            })):      SetObjective3(Prev => ({
-              ...Prev,
-              Checked:true
-            }));        
-            break;
-          case 4:
-             /* uses a ternary statement to check if the corresponding json objects
-             boolean value is true or false 
-            and sets it to the opposite*/
-            Objective1.Checked?  SetObjective4(Prev => ({
-              ...Prev,
-              Checked:false
-            })):      SetObjective4(Prev => ({
-              ...Prev,
-              Checked:true
-            }));        
-            break;
-    }
- }
 
   return (
 
@@ -971,7 +1387,17 @@ function setPicker(change){
               {// dropdown menu when its rendered
               }
       {Settingobjective?
-        <View style={styles.ObjectiveContainer}>
+      <View
+      style={{
+        position:"relative", 
+        height: "20%",
+        top:"63.5%",
+        width: width * 0.5,
+        left:"25%",
+        paddingBottom:10 
+      }}>
+        <ScrollView style={styles.ObjectiveContainer}>
+          
           <View style={styles.ObjectiveInputView}>
             {// input for objective
             }
@@ -995,17 +1421,7 @@ function setPicker(change){
                    })
                    }
             </Picker>
-            {/*<TextInput style={styles.ObjectiveInput}
-                      placeholder="objective"
-                       placeholderTextColor="#fff"
-                       value={Objective1.Objective}
-                       onChangeText={(e) => SetObjective1(Prev => ({
-                        ...Prev,
-                          Objective:e
-                      }))
-                    
-                    }
-                      /> */}
+           
             <Pressable onPress={()=>ChangePoints(1,"-")}
             style={
             {
@@ -1155,7 +1571,6 @@ function setPicker(change){
             }
            
             </View>
-
             <View style={styles.ObjectiveInputView}>
                {// input for objective
             }
@@ -1211,7 +1626,337 @@ function setPicker(change){
             }
             
             </View>
-          
+            <View style={styles.ObjectiveInputView}>
+               {// input for objective
+            }
+            <Picker enabled = {picker5} //enable or disable the picker
+            style={{flex:1.5,
+              fontSize:RFPercentage(1.5),
+              color: pickerText5,
+              position:"relative",
+             
+              zIndex:5}
+              
+             // styles.ObjectiveInput
+            }
+              selectedValue={Objective5.Objective}
+              onValueChange= {(itemValue,ItemIndex) => SetObjective5(Prev => ({
+                ...Prev,
+                  Objective:itemValue
+              }))}>
+              {Objectives.map((val,index) => {
+                   return (<Picker.Item label={val} value ={ "find a " + val}/>)
+                   })
+                   }
+            </Picker>
+              {// display and buttons for adjusting point value
+            }
+            {
+              // button for decreasing point value
+            }
+            <Pressable onPress={()=>ChangePoints(5,"-")}  style={
+            {
+              zIndex:5
+            }} >
+              <Text style={styles.PointDecrease}>-</Text>
+            </Pressable>
+             {// changes and stores point value of the objectives
+                }
+            <Text style={styles.ObjectivePointInput}> {Objective5.PointValue.toString()}</Text>   
+            {
+              // button for increasing point value
+            }
+            <Pressable   style={
+            {
+              zIndex:5,
+              top:"-1%",
+              margin:5,
+              left:"-45%",
+              fontSize:RFPercentage(2),
+              position:"relative",
+            }}onPress={()=>ChangePoints(5,"+")}  >
+              <Text style={styles.PointIncreas}>+</Text>
+            </Pressable  >
+            {// checkbox for objectives
+            }
+            
+            </View>
+            <View style={styles.ObjectiveInputView}>
+               {// input for objective
+            }
+            <Picker enabled = {picker6} //enable or disable the picker
+            style={{flex:1.5,
+              fontSize:RFPercentage(1.5),
+              color: pickerText6,
+              position:"relative",
+             
+              zIndex:5}
+              
+             // styles.ObjectiveInput
+            }
+              selectedValue={Objective6.Objective}
+              onValueChange= {(itemValue,ItemIndex) => SetObjective6(Prev => ({
+                ...Prev,
+                  Objective:itemValue
+              }))}>
+              {Objectives.map((val,index) => {
+                   return (<Picker.Item label={val} value ={ "find a " + val}/>)
+                   })
+                   }
+            </Picker>
+              {// display and buttons for adjusting point value
+            }
+            {
+              // button for decreasing point value
+            }
+            <Pressable onPress={()=>ChangePoints(6,"-")}  style={
+            {
+              zIndex:5
+            }} >
+              <Text style={styles.PointDecrease}>-</Text>
+            </Pressable>
+             {// changes and stores point value of the objectives
+                }
+            <Text style={styles.ObjectivePointInput}> {Objective6.PointValue.toString()}</Text>   
+            {
+              // button for increasing point value
+            }
+            <Pressable   style={
+            {
+              zIndex:5,
+              top:"-1%",
+              margin:5,
+              left:"-45%",
+              fontSize:RFPercentage(2),
+              position:"relative",
+            }}onPress={()=>ChangePoints(6,"+")}  >
+              <Text style={styles.PointIncreas}>+</Text>
+            </Pressable  >
+            {// checkbox for objectives
+            }
+            
+            </View>
+            <View style={styles.ObjectiveInputView}>
+               {// input for objective
+            }
+            <Picker enabled = {picker7} //enable or disable the picker
+            style={{flex:1.5,
+              fontSize:RFPercentage(1.5),
+              color: pickerText7,
+              position:"relative",
+             
+              zIndex:5}
+              
+             // styles.ObjectiveInput
+            }
+              selectedValue={Objective7.Objective}
+              onValueChange= {(itemValue,ItemIndex) => SetObjective7(Prev => ({
+                ...Prev,
+                  Objective:itemValue
+              }))}>
+              {Objectives.map((val,index) => {
+                   return (<Picker.Item label={val} value ={ "find a " + val}/>)
+                   })
+                   }
+            </Picker>
+              {// display and buttons for adjusting point value
+            }
+            {
+              // button for decreasing point value
+            }
+            <Pressable onPress={()=>ChangePoints(7,"-")}  style={
+            {
+              zIndex:5
+            }} >
+              <Text style={styles.PointDecrease}>-</Text>
+            </Pressable>
+             {// changes and stores point value of the objectives
+                }
+            <Text style={styles.ObjectivePointInput}> {Objective7.PointValue.toString()}</Text>   
+            {
+              // button for increasing point value
+            }
+            <Pressable   style={
+            {
+              zIndex:5,
+              top:"-1%",
+              margin:5,
+              left:"-45%",
+              fontSize:RFPercentage(2),
+              position:"relative",
+            }}onPress={()=>ChangePoints(7,"+")}  >
+              <Text style={styles.PointIncreas}>+</Text>
+            </Pressable  >
+            {// checkbox for objectives
+            }
+            
+            </View>
+            <View style={styles.ObjectiveInputView}>
+               {// input for objective
+            }
+            <Picker enabled = {picker8} //enable or disable the picker
+            style={{flex:1.5,
+              fontSize:RFPercentage(1.5),
+              color: pickerText8,
+              position:"relative",
+             
+              zIndex:5}
+              
+             // styles.ObjectiveInput
+            }
+              selectedValue={Objective8.Objective}
+              onValueChange= {(itemValue,ItemIndex) => SetObjective8(Prev => ({
+                ...Prev,
+                  Objective:itemValue
+              }))}>
+              {Objectives.map((val,index) => {
+                   return (<Picker.Item label={val} value ={ "find a " + val}/>)
+                   })
+                   }
+            </Picker>
+              {// display and buttons for adjusting point value
+            }
+            {
+              // button for decreasing point value
+            }
+            <Pressable onPress={()=>ChangePoints(8,"-")}  style={
+            {
+              zIndex:5
+            }} >
+              <Text style={styles.PointDecrease}>-</Text>
+            </Pressable>
+             {// changes and stores point value of the objectives
+                }
+            <Text style={styles.ObjectivePointInput}> {Objective8.PointValue.toString()}</Text>   
+            {
+              // button for increasing point value
+            }
+            <Pressable   style={
+            {
+              zIndex:5,
+              top:"-1%",
+              margin:5,
+              left:"-45%",
+              fontSize:RFPercentage(2),
+              position:"relative",
+            }}onPress={()=>ChangePoints(8,"+")}  >
+              <Text style={styles.PointIncreas}>+</Text>
+            </Pressable  >
+            {// checkbox for objectives
+            }
+            
+            </View>
+            <View style={styles.ObjectiveInputView}>
+               {// input for objective
+            }
+            <Picker enabled = {picker9} //enable or disable the picker
+            style={{flex:1.5,
+              fontSize:RFPercentage(1.5),
+              color: pickerText9,
+              position:"relative",
+             
+              zIndex:5}
+              
+             // styles.ObjectiveInput
+            }
+              selectedValue={Objective9.Objective}
+              onValueChange= {(itemValue,ItemIndex) => SetObjective9(Prev => ({
+                ...Prev,
+                  Objective:itemValue
+              }))}>
+              {Objectives.map((val,index) => {
+                   return (<Picker.Item label={val} value ={ "find a " + val}/>)
+                   })
+                   }
+            </Picker>
+              {// display and buttons for adjusting point value
+            }
+            {
+              // button for decreasing point value
+            }
+            <Pressable onPress={()=>ChangePoints(9,"-")}  style={
+            {
+              zIndex:5
+            }} >
+              <Text style={styles.PointDecrease}>-</Text>
+            </Pressable>
+             {// changes and stores point value of the objectives
+                }
+            <Text style={styles.ObjectivePointInput}> {Objective9.PointValue.toString()}</Text>   
+            {
+              // button for increasing point value
+            }
+            <Pressable   style={
+            {
+              zIndex:5,
+              top:"-1%",
+              margin:5,
+              left:"-45%",
+              fontSize:RFPercentage(2),
+              position:"relative",
+            }}onPress={()=>ChangePoints(9,"+")}  >
+              <Text style={styles.PointIncreas}>+</Text>
+            </Pressable  >
+            {// checkbox for objectives
+            }
+            
+            </View>
+            <View style={styles.ObjectiveInputView}>
+               {// input for objective
+            }
+            <Picker enabled = {picker10} //enable or disable the picker
+            style={{flex:1.5,
+              fontSize:RFPercentage(1.5),
+              color: pickerText10,
+              position:"relative",
+             
+              zIndex:5}
+              
+             // styles.ObjectiveInput
+            }
+              selectedValue={Objective10.Objective}
+              onValueChange= {(itemValue,ItemIndex) => SetObjective10(Prev => ({
+                ...Prev,
+                  Objective:itemValue
+              }))}>
+              {Objectives.map((val,index) => {
+                   return (<Picker.Item label={val} value ={ "find a " + val}/>)
+                   })
+                   }
+            </Picker>
+              {// display and buttons for adjusting point value
+            }
+            {
+              // button for decreasing point value
+            }
+            <Pressable onPress={()=>ChangePoints(10,"-")}  style={
+            {
+              zIndex:5
+            }} >
+              <Text style={styles.PointDecrease}>-</Text>
+            </Pressable>
+             {// changes and stores point value of the objectives
+                }
+            <Text style={styles.ObjectivePointInput}> {Objective10.PointValue.toString()}</Text>   
+            {
+              // button for increasing point value
+            }
+            <Pressable   style={
+            {
+              zIndex:5,
+              top:"-1%",
+              margin:5,
+              left:"-45%",
+              fontSize:RFPercentage(2),
+              position:"relative",
+            }}onPress={()=>ChangePoints(10,"+")}  >
+              <Text style={styles.PointIncreas}>+</Text>
+            </Pressable  >
+            {// checkbox for objectives
+            }
+            
+            </View>
+        </ScrollView>
         </View>:null
       }
 
@@ -1316,6 +2061,7 @@ const styles = StyleSheet.create({
     borderRadius:25
   },
   ObjectiveInputView:{
+    top:"0%",
     padding:0,
     margin:1,
     borderWidth: 1,
@@ -1326,6 +2072,7 @@ const styles = StyleSheet.create({
     marginLeft:20,
     fontSize:RFPercentage(5),
     position:"relative",
+    height:"9%",
     width:"90%"
   },
   PointIncreas:{
@@ -1355,22 +2102,16 @@ const styles = StyleSheet.create({
     position:"relative",
     width:"5%"
   },
-  ObjectiveContainer:{
+  ObjectiveContainer:{ 
+    height:"100%",
     flexDirection:"column",
     borderColor:"#fff",
-    alignItems:"stretch",
-    justifyContent:"center",
-    height:"auto",
-    width:"auto",
     padding:20,
     borderWidth: 5,
     borderTopWidth:0,
     borderRadius:25,
-    position:"relative", 
-    top:"63.5%",
-    width: width * 0.5,
-    left:"25%",
-    zIndex:5
+    zIndex:5,
+    margin:5,
   },
   btnSendrequest4: {
     alignItems: "center",
