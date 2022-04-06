@@ -1,10 +1,10 @@
-
+const myjson =
 [
     {
     "objectiveid": 123,
     "description": "Squirrel",
     "points": 10,
-    "referenceimage": "require('../../assets/images/red-squirrel.jpg')",
+    "referenceimage":require('../assets/images/red-squirrel.jpg'),
     "picturetaken": null,
     "score": 0,
     "hasSet": false
@@ -66,3 +66,4 @@
   }
 
 ]
+export default myjson;
