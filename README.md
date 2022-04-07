@@ -4,7 +4,7 @@ Keeping the Frontend and Backend apart due to too many conflicts and testing.
 
 ## FRONTEND devs, use this as your [BACKEND](https://github.com/devjody/findandplay-backend) and disregard old BACKEND code in 
 
-https://github.com/Salman-Virji/FindAndPlayGroupB/tree/groupB2_updated_160322
+https://github.com/devjody/findandplay-backend/tree/master/backend
 
 ----
 
