@@ -486,7 +486,7 @@ function CreateGame({ navigation, route }) {
     }
 
     //enabling and disabling pickers
-    if (objectiveCounter.Index == null) {
+    if (objectiveCounter.Value == "Objective Count") {
       setPicker1(true);
       setPicker2(false);
       setPicker3(false);
@@ -499,17 +499,15 @@ function CreateGame({ navigation, route }) {
       setPicker10(false);
 
       setPickerText1("white");
-      setPickerText2("white");
-      setPickerText3("gray");
-      setPickerText4("gray");
-      setPickerText1("gray");
       setPickerText2("gray");
       setPickerText3("gray");
       setPickerText4("gray");
-      setPickerText1("gray");
-      setPickerText2("gray");
-      setPickerText3("gray");
-      setPickerText4("gray");
+      setPickerText5("gray");
+      setPickerText6("gray");
+      setPickerText7("gray");
+      setPickerText8("gray");
+      setPickerText9("gray");
+      setPickerText10("gray");
     } else if (objectiveCounter.Value == "1 Objective") {
       setPicker1(true);
       setPicker2(true);
