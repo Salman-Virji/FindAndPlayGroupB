@@ -10,19 +10,17 @@ import {
   Text,
   Alert,
   View,
-
 } from "react-native";
 
 import { Dimensions } from "react-native";
+import { AuthContext } from "../contexts/AuthContext";
 const { width, height } = Dimensions.get("window");
 
 function ForgotPasswordScreen({ navigation }) {
   const [validMsg, setValidmsg] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmailError] = useState("");
-
-
-
+  const { forgotPassword } = React.useContext(AuthContext);
   return (
     <ImageBackground
       style={styles.background}
@@ -59,7 +57,7 @@ function ForgotPasswordScreen({ navigation }) {
             editable={true}
             style={styles.input}
             underlineColorAndroid="transparent"
-            placeholder="Username or email"
+            placeholder="Provide your email address"
             value={username}
             placeholderTextColor="#fff"
             autoCapitalize="none"
@@ -86,26 +84,15 @@ function ForgotPasswordScreen({ navigation }) {
               style={styles.btnSendrequest}
               onPress={async () => {
                 try {
-                  let validate = true;
                   if (username.length == 0) {
-                    validate = false;
-                    setUsername("Username or email is required");
-                  } else setUsername("");
-                  if (email.length == 0) {
-                    validate = false;
-                    setEmailError("Username or email is required");
-                  } else setEmailError("");
+                    throw new Error("Email is required");
+                  }
 
-
-                  if (validate == false)
-                    throw new Error("Username is incorrect");
-
-                  await login(username);
+                  await forgotPassword(username);
                 } catch (e) {
                   Alert.alert("Error =>" + e);
                 }
               }}
-
             >
               <Text
                 style={{
@@ -276,4 +263,3 @@ const styles = StyleSheet.create({
 });
 
 export default ForgotPasswordScreen;
-

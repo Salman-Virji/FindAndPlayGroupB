@@ -19,13 +19,14 @@ import {
 
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { AuthContext } from "../contexts/AuthContext";
+import { Loading } from "./LoadingScreen";
 //This component is used to calculate the dimensions of the device and set width of certain components accordingly e.g input box
 
 const { width } = Dimensions.get("window");
 
 function SigninScreen({ navigation }) {
-  const [username, setUsername] = useState("arianne"); // For testing
-  const [password, setPassword] = useState("testing1"); // For testing
+  const [username, setUsername] = useState("faizan"); // For testing
+  const [password, setPassword] = useState("123456"); // For testing
   const [message, setMessage] = useState("");
   const [isSelected, setSelection] = useState(false);
   const [validMsg, setValidmsg] = useState("");
@@ -137,9 +138,10 @@ function SigninScreen({ navigation }) {
 
                   if (validate == false)
                     throw new Error("Username or password is incorrect");
-
+                  setLoading(true);
                   await login(username, password);
                 } catch (e) {
+                  setLoading(false);
                   console.log(e);
                   Alert.alert("Error => " + e);
                 }
@@ -165,6 +167,7 @@ function SigninScreen({ navigation }) {
           </Pressable>
         </View>
       </View>
+      <Loading loading={loading} />
     </ImageBackground>
   );
 }

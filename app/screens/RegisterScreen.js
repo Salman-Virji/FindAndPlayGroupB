@@ -179,8 +179,8 @@ export default function RegisterScreenT({ navigation }) {
       <View style={styles.registerbuttonContainer}>
         <Pressable
           style={styles.RegisterBtn}
-          onPress={() =>
-            CheckFormFilled(
+          onPress={async () =>
+            await CheckFormFilled(
               Username,
               Password,
               Email,

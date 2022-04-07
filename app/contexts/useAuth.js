@@ -91,6 +91,19 @@ export function useAuth() {
           throw e;
         }
       },
+      forgotPassword: async (email) => {
+        try {
+          {
+            const body = {
+              email: email,
+            };
+            console.log("Forgot password called " + body.email);
+            await requestResetPassword(body);
+          }
+        } catch (e) {
+          throw e;
+        }
+      },
     }),
     []
   );
