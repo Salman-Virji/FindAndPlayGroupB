@@ -333,7 +333,7 @@ function CreateGame({ navigation, route }) {
   //Time Limit option toggle
   function toggleTimeLimit(change) {
     var TimeLimits = ["30 Mins", "1 Hour", "1:30 Hours", "2 Hours"];
-    if (timeLimit.Index == 0) {
+    if (timeLimit.Index == null) {
       setTimeLimit({ Value: TimeLimits[0], Index: 0 });
     } else {
       var newIndex = timeLimit.Index + 1;
