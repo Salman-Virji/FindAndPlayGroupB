@@ -48,11 +48,7 @@ function App() {
       </>
     ) : (
       <>
-      <Stack.Screen
-        name="CreateGameScreen"
-        component={CreateGameScreen}
-        options={{ headerShown: false }}
-        />
+     
         <Stack.Screen
           name="SigninScreen"
           component={SigninScreen}
