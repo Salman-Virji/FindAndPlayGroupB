@@ -6,79 +6,16 @@ import {
   Text,
   View,
   Pressable,
+  Alert,
 } from "react-native";
 import axios from "axios";
 import { Dimensions } from "react-native";
 const { width, height } = Dimensions.get("window");
 import React, { Children, Component, useState } from "react";
+import { AuthContext } from "../contexts/AuthContext";
+import { Loading } from "./LoadingScreen";
 
-// checks that all required fields are filled 
-
-
-
-function CheckFormFilled(username, password, email,ConfirmPassword,navigation,UpdateUsernameVisbility,UpdateEmailVisbility,UpdatePassVisbility,UpdateCpassVisbility)
-{
-  var incomplete = false;
-  if(username == "" || username == "Username")
-  {
-    UpdateUsernameVisbility(true);
-    incomplete = true;
-  }
-  else{
-    UpdateUsernameVisbility(false);
-  }
-  if(password == "" || password == "Password")
-  {
-   UpdatePassVisbility( true);
-    incomplete = true;
-  }
-  else{
-    UpdatePassVisbility(false)
-  }
-  if(email == "" || email== "Email")
-  {
-    UpdateEmailVisbility(true);
-    incomplete = true;
-  }
-  else{
-    UpdateEmailVisbility(false);
-  }
-  if(password != ConfirmPassword)
-  {
-    UpdateCpassVisbility(true);
-    incomplete = true;
-  }
-  else{
-    UpdateCpassVisbility(false);
-  }
-  console.log( "After Check \n",username,password,ConfirmPassword,email , incomplete);
-  if(incomplete == true)
-  {
-    
-    return;
-  }
-  else{
-    SignUp(username,password,email,navigation)
-  }
-}
-function SignUp(username, password, email, navigation) {
-  const body = {
-    username: username,
-    email: email,
-    password: password,
-  };
-  navigation.navigate("SigninScreen");
-    /*
-    var url = `http:10.0.0.63:3000/users/signup`;
-    axios
-      .post(url, body)
-      .then(() => {
-        console.log(body)
-        
-      })
-      .catch((err) => console.log(err));
-    */
-}
+// checks that all required fields are filled
 
 export default function RegisterScreenT({ navigation }) {
   // set use state hooks to track singup form input
@@ -88,10 +25,77 @@ export default function RegisterScreenT({ navigation }) {
   const [Password, SetPassword] = useState("Password");
   const [ConfirmPassword, SetConfirmPassword] = useState("Confirm Password");
   // uses state to track which msg's should be displayed and update the page dynamically
-  const [usernameV,UpdateUsernameVisbility]= useState(false);
-  const [emailV,UpdateEmailVisbility]= useState(false);
-  const [passwordV,UpdatePassVisbility]= useState(false);
-  const [CpasswordV,UpdateCpassVisbility]= useState(false);
+  const [usernameV, UpdateUsernameVisbility] = useState(false);
+  const [emailV, UpdateEmailVisbility] = useState(false);
+  const [passwordV, UpdatePassVisbility] = useState(false);
+  const [CpasswordV, UpdateCpassVisbility] = useState(false);
+  const { register } = React.useContext(AuthContext);
+  const [loading, setLoading] = React.useState(false);
+  async function CheckFormFilled(
+    username,
+    password,
+    email,
+    ConfirmPassword,
+    navigation,
+    UpdateUsernameVisbility,
+    UpdateEmailVisbility,
+    UpdatePassVisbility,
+    UpdateCpassVisbility
+  ) {
+    var incomplete = false;
+    if (username == "" || username == "Username") {
+      UpdateUsernameVisbility(true);
+      incomplete = true;
+    } else {
+      UpdateUsernameVisbility(false);
+    }
+    if (password == "" || password == "Password") {
+      UpdatePassVisbility(true);
+      incomplete = true;
+    } else {
+      UpdatePassVisbility(false);
+    }
+    if (email == "" || email == "Email") {
+      UpdateEmailVisbility(true);
+      incomplete = true;
+    } else {
+      UpdateEmailVisbility(false);
+    }
+    if (password != ConfirmPassword) {
+      UpdateCpassVisbility(true);
+      incomplete = true;
+    } else {
+      UpdateCpassVisbility(false);
+    }
+    console.log(
+      "After Check \n",
+      username,
+      password,
+      ConfirmPassword,
+      email,
+      incomplete
+    );
+    if (incomplete == true) {
+      return;
+    } else {
+      await SignUp(username, password, email, navigation);
+    }
+  }
+  async function SignUp(username, password, email, navigation) {
+    try {
+      const body = {
+        username: username,
+        email: email,
+        password: password,
+      };
+      //navigation.navigate("SigninScreen");
+      await register(body);
+      Alert.alert("User has been registered go to sign in page");
+    } catch (e) {
+      Alert.alert("Error => " + e);
+    }
+  }
+
   return (
     <ImageBackground
       style={styles.background}
@@ -111,10 +115,16 @@ export default function RegisterScreenT({ navigation }) {
         }}
       >
         <Text style={styles.SignupTxT}> Sign up</Text>
-      
-        {//inoput fields and disdplay mesages for if form is not completed properly
-        // controlls if the text is visible or not
-         usernameV ? <Text style={ styles.inputTxt}>Please enter a username</Text> :<Text style={styles.inputTxt}></Text>}
+
+        {
+          //inoput fields and disdplay mesages for if form is not completed properly
+          // controlls if the text is visible or not
+          usernameV ? (
+            <Text style={styles.inputTxt}>Please enter a username</Text>
+          ) : (
+            <Text style={styles.inputTxt}></Text>
+          )
+        }
         <TextInput
           style={styles.input}
           onChangeText={(e) => SetUsername(e)}
@@ -123,8 +133,12 @@ export default function RegisterScreenT({ navigation }) {
           autoCapitalize="none"
           placeholder="Username"
         />
-        { emailV ? <Text style={ styles.inputTxt}>Please enter a Valid Email</Text> : <Text style={ styles.inputTxt}></Text>}
-        
+        {emailV ? (
+          <Text style={styles.inputTxt}>Please enter a Valid Email</Text>
+        ) : (
+          <Text style={styles.inputTxt}></Text>
+        )}
+
         <TextInput
           style={styles.input}
           onChangeText={(e) => SetEmail(e)}
@@ -132,7 +146,11 @@ export default function RegisterScreenT({ navigation }) {
           placeholderTextColor="#fff"
           autoCapitalize="none"
         />
-        { passwordV ? <Text style={ styles.inputTxt}>Please enter a Password</Text> : <Text style={ styles.inputTxt}></Text>}
+        {passwordV ? (
+          <Text style={styles.inputTxt}>Please enter a Password</Text>
+        ) : (
+          <Text style={styles.inputTxt}></Text>
+        )}
         <TextInput
           style={styles.input}
           onChangeText={(e) => SetPassword(e)}
@@ -141,7 +159,13 @@ export default function RegisterScreenT({ navigation }) {
           autoCapitalize="none"
           secureTextEntry={true}
         />
-        { CpasswordV ? <Text style={ styles.inputTxtP}>Please make sure your passwords match</Text> : <Text style={  styles.inputTxtP}></Text>}
+        {CpasswordV ? (
+          <Text style={styles.inputTxtP}>
+            Please make sure your passwords match
+          </Text>
+        ) : (
+          <Text style={styles.inputTxtP}></Text>
+        )}
         <TextInput
           style={styles.input}
           onChangeText={(e) => SetConfirmPassword(e)}
@@ -154,10 +178,20 @@ export default function RegisterScreenT({ navigation }) {
 
       {/* Sign up button */}
       <View style={styles.registerbuttonContainer}>
-
         <Pressable
           style={styles.RegisterBtn}
-          onPress={() => CheckFormFilled(Username, Password, Email,ConfirmPassword,navigation,UpdateUsernameVisbility,UpdateEmailVisbility,UpdatePassVisbility,UpdateCpassVisbility)
+          onPress={async () =>
+            await CheckFormFilled(
+              Username,
+              Password,
+              Email,
+              ConfirmPassword,
+              navigation,
+              UpdateUsernameVisbility,
+              UpdateEmailVisbility,
+              UpdatePassVisbility,
+              UpdateCpassVisbility
+            )
           }
         >
           <Text
@@ -172,22 +206,34 @@ export default function RegisterScreenT({ navigation }) {
           </Text>
         </Pressable>
       </View>
-            {/* Login button */}
+      {/* Login button */}
       <View style={styles.loginbuttonContainer}>
-      <Text  style={{
-              bottom: 40,
-              fontWeight: "bold",
-              fontSize: 20,
-              color:"white",
-              textShadowColor: "rgba(0, 0, 0, 1)",
-              textShadowOffset: { width: -1, height:1 },
-              textShadowRadius: 10,
-              top:"-5%"
-          }}>Already Have an Account? </Text>
-          
+        <Text
+          style={{
+            bottom: 40,
+            fontWeight: "bold",
+            fontSize: 20,
+            color: "white",
+            textShadowColor: "rgba(0, 0, 0, 1)",
+            textShadowOffset: { width: -1, height: 1 },
+            textShadowRadius: 10,
+            top: "-5%",
+          }}
+        >
+          Already Have an Account?{" "}
+        </Text>
+
         <Pressable
           style={styles.btnSignin}
-          onPress={() => navigation.navigate("SigninScreen")} //navigates to signinscren
+          onPress={() => {
+            try {
+              setLoading(true);
+              navigation.navigate("SigninScreen");
+            } catch (e) {
+              setLoading(false);
+              Alert.alert("Error=> " + e);
+            }
+          }} //navigates to signinscren
         >
           <Text
             style={{
@@ -201,20 +247,20 @@ export default function RegisterScreenT({ navigation }) {
           </Text>
         </Pressable>
       </View>
+      <Loading loading={loading} />
     </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
-
   loginbuttonContainer: {
     flex: 1,
     flexDirection: "column",
     alignItems: "center",
     width: 300,
     justifyContent: "center",
-    bottom:"6%",
-    left:"32%"
+    bottom: "6%",
+    left: "32%",
   },
   btnSignin: {
     alignItems: "center",
@@ -263,9 +309,9 @@ const styles = StyleSheet.create({
     position: "relative",
   },
   inputTxt: {
-    color:"white",
+    color: "white",
     textShadowColor: "rgba(0, 0, 0, 1)",
-    textShadowOffset: { width: -1, height:1 },
+    textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 10,
     left: "21%",
     top: "-10%",
@@ -275,15 +321,15 @@ const styles = StyleSheet.create({
   inputTxtP: {
     left: "13%",
     top: "-10%",
-    color:"white",
+    color: "white",
     textShadowColor: "rgba(0, 0, 0, 1)",
-    textShadowOffset: { width: -1, height:1 },
+    textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 10,
     fontSize: 20,
     fontWeight: "bold",
   },
   registerbuttonContainer: {
-    position:"relative",
+    position: "relative",
     width: width * 0.6,
     justifyContent: "center",
     flexDirection: "column",
