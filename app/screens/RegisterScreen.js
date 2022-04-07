@@ -13,6 +13,7 @@ import { Dimensions } from "react-native";
 const { width, height } = Dimensions.get("window");
 import React, { Children, Component, useState } from "react";
 import { AuthContext } from "../contexts/AuthContext";
+import { Loading } from "./LoadingScreen";
 
 // checks that all required fields are filled
 
@@ -29,7 +30,7 @@ export default function RegisterScreenT({ navigation }) {
   const [passwordV, UpdatePassVisbility] = useState(false);
   const [CpasswordV, UpdateCpassVisbility] = useState(false);
   const { register } = React.useContext(AuthContext);
-
+  const [loading, setLoading] = React.useState(false);
   async function CheckFormFilled(
     username,
     password,
@@ -224,7 +225,15 @@ export default function RegisterScreenT({ navigation }) {
 
         <Pressable
           style={styles.btnSignin}
-          onPress={() => navigation.navigate("SigninScreen")} //navigates to signinscren
+          onPress={() => {
+            try {
+              setLoading(true);
+              navigation.navigate("SigninScreen");
+            } catch (e) {
+              setLoading(false);
+              Alert.alert("Error=> " + e);
+            }
+          }} //navigates to signinscren
         >
           <Text
             style={{
@@ -238,6 +247,7 @@ export default function RegisterScreenT({ navigation }) {
           </Text>
         </Pressable>
       </View>
+      <Loading loading={loading} />
     </ImageBackground>
   );
 }

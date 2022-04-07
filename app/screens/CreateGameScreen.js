@@ -20,6 +20,7 @@ import { Dimensions, Picker } from "react-native";
 //import BouncyCheckbox from "react-native-bouncy-checkbox";
 import myjson from "./myjson.js";
 import { AuthContext } from "../contexts/AuthContext";
+import { Loading } from "./LoadingScreen.js";
 
 const { width, height } = Dimensions.get("window");
 
@@ -115,6 +116,7 @@ function CreateGame({ navigation, route }) {
   const [pickerText9, setPickerText9] = useState("gray");
   const [pickerText10, setPickerText10] = useState("gray");
   const { logout } = React.useContext(AuthContext);
+  const [loading, setLoading] = React.useState(false);
   //---Empty Array to hold objectives taken from json file myjson.json---
   var Objectives = ["Pick a Objective"];
 
@@ -1007,8 +1009,10 @@ function CreateGame({ navigation, route }) {
       <TouchableOpacity
         onPress={async () => {
           try {
+            setLoading(true);
             await logout();
           } catch (e) {
+            setLoading(false);
             Alert.alert(e);
           }
         }}
@@ -1364,7 +1368,6 @@ function CreateGame({ navigation, route }) {
                 // input for objective
               }
               <Picker
-                
                 enabled={picker1} //enable or disable the picker
                 style={
                   {
@@ -1386,7 +1389,13 @@ function CreateGame({ navigation, route }) {
                 }
               >
                 {Objectives.map((val, index) => {
-                  return <Picker.Item key={val} label={val} value={"find a " + val} />;
+                  return (
+                    <Picker.Item
+                      key={val}
+                      label={val}
+                      value={"find a " + val}
+                    />
+                  );
                 })}
               </Picker>
 
@@ -1436,7 +1445,6 @@ function CreateGame({ navigation, route }) {
                 // input for objective
               }
               <Picker
-          
                 enabled={picker2} //enable or disable the picker
                 style={
                   {
@@ -1458,7 +1466,13 @@ function CreateGame({ navigation, route }) {
                 }
               >
                 {Objectives.map((val, index) => {
-                  return <Picker.Item key={val} label={val} value={"find a " + val} />;
+                  return (
+                    <Picker.Item
+                      key={val}
+                      label={val}
+                      value={"find a " + val}
+                    />
+                  );
                 })}
               </Picker>
               {
@@ -1512,7 +1526,6 @@ function CreateGame({ navigation, route }) {
                 // input for objective
               }
               <Picker
-               
                 enabled={picker3} //enable or disable the picker
                 style={
                   {
@@ -1534,7 +1547,13 @@ function CreateGame({ navigation, route }) {
                 }
               >
                 {Objectives.map((val, index) => {
-                  return <Picker.Item  key={val} label={val} value={"find a " + val} />;
+                  return (
+                    <Picker.Item
+                      key={val}
+                      label={val}
+                      value={"find a " + val}
+                    />
+                  );
                 })}
               </Picker>
               {
@@ -1584,7 +1603,6 @@ function CreateGame({ navigation, route }) {
                 // input for objective
               }
               <Picker
-               
                 enabled={picker4} //enable or disable the picker
                 style={
                   {
@@ -1607,7 +1625,13 @@ function CreateGame({ navigation, route }) {
                 }
               >
                 {Objectives.map((val, index) => {
-                  return <Picker.Item key={val} label={val} value={"find a " + val} />;
+                  return (
+                    <Picker.Item
+                      key={val}
+                      label={val}
+                      value={"find a " + val}
+                    />
+                  );
                 })}
               </Picker>
               {
@@ -1656,7 +1680,6 @@ function CreateGame({ navigation, route }) {
                 // input for objective
               }
               <Picker
-               
                 enabled={picker5} //enable or disable the picker
                 style={
                   {
@@ -1679,7 +1702,13 @@ function CreateGame({ navigation, route }) {
                 }
               >
                 {Objectives.map((val, index) => {
-                  return <Picker.Item key={val} label={val} value={"find a " + val} />;
+                  return (
+                    <Picker.Item
+                      key={val}
+                      label={val}
+                      value={"find a " + val}
+                    />
+                  );
                 })}
               </Picker>
               {
@@ -1728,7 +1757,6 @@ function CreateGame({ navigation, route }) {
                 // input for objective
               }
               <Picker
-              
                 enabled={picker6} //enable or disable the picker
                 style={
                   {
@@ -1751,7 +1779,13 @@ function CreateGame({ navigation, route }) {
                 }
               >
                 {Objectives.map((val, index) => {
-                  return <Picker.Item key={val} label={val} value={"find a " + val} />;
+                  return (
+                    <Picker.Item
+                      key={val}
+                      label={val}
+                      value={"find a " + val}
+                    />
+                  );
                 })}
               </Picker>
               {
@@ -1800,7 +1834,6 @@ function CreateGame({ navigation, route }) {
                 // input for objective
               }
               <Picker
-              
                 enabled={picker7} //enable or disable the picker
                 style={
                   {
@@ -1823,7 +1856,13 @@ function CreateGame({ navigation, route }) {
                 }
               >
                 {Objectives.map((val, index) => {
-                  return <Picker.Item key={val} label={val} value={"find a " + val} />;
+                  return (
+                    <Picker.Item
+                      key={val}
+                      label={val}
+                      value={"find a " + val}
+                    />
+                  );
                 })}
               </Picker>
               {
@@ -1872,7 +1911,6 @@ function CreateGame({ navigation, route }) {
                 // input for objective
               }
               <Picker
-               
                 enabled={picker8} //enable or disable the picker
                 style={
                   {
@@ -1895,7 +1933,13 @@ function CreateGame({ navigation, route }) {
                 }
               >
                 {Objectives.map((val, index) => {
-                  return <Picker.Item key={val} label={val} value={"find a " + val} />;
+                  return (
+                    <Picker.Item
+                      key={val}
+                      label={val}
+                      value={"find a " + val}
+                    />
+                  );
                 })}
               </Picker>
               {
@@ -1944,7 +1988,6 @@ function CreateGame({ navigation, route }) {
                 // input for objective
               }
               <Picker
-              
                 enabled={picker9} //enable or disable the picker
                 style={
                   {
@@ -1967,7 +2010,13 @@ function CreateGame({ navigation, route }) {
                 }
               >
                 {Objectives.map((val, index) => {
-                  return <Picker.Item key={val} label={val} value={"find a " + val} />;
+                  return (
+                    <Picker.Item
+                      key={val}
+                      label={val}
+                      value={"find a " + val}
+                    />
+                  );
                 })}
               </Picker>
               {
@@ -2016,7 +2065,6 @@ function CreateGame({ navigation, route }) {
                 // input for objective
               }
               <Picker
-               
                 enabled={picker10} //enable or disable the picker
                 style={
                   {
@@ -2039,7 +2087,13 @@ function CreateGame({ navigation, route }) {
                 }
               >
                 {Objectives.map((val, index) => {
-                  return <Picker.Item key={val} label={val} value={"find a " + val} />;
+                  return (
+                    <Picker.Item
+                      key={val}
+                      label={val}
+                      value={"find a " + val}
+                    />
+                  );
                 })}
               </Picker>
               {
@@ -2106,6 +2160,7 @@ function CreateGame({ navigation, route }) {
           <Text style={styles.text}>Start</Text>
         </TouchableOpacity>
       </View>
+      <Loading loading={loading} />
     </ImageBackground>
   );
 }

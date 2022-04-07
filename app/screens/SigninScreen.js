@@ -160,7 +160,16 @@ function SigninScreen({ navigation }) {
           <Pressable style={styles.btnSignup}>
             <Text
               style={([styles.loginText], { fontSize: 15 })}
-              onPress={() => navigation.navigate("RegisterScreen")}
+              onPress={() => {
+                try {
+                  setLoading(true);
+                  navigation.navigate("RegisterScreen");
+                  setLoading(false);
+                } catch (e) {
+                  setLoading(false);
+                  Alert.alert("Error=> " + e);
+                }
+              }}
             >
               Create an account
             </Text>

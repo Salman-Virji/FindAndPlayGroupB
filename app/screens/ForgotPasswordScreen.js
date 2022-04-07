@@ -14,6 +14,7 @@ import {
 
 import { Dimensions } from "react-native";
 import { AuthContext } from "../contexts/AuthContext";
+import { Loading } from "./LoadingScreen";
 const { width, height } = Dimensions.get("window");
 
 function ForgotPasswordScreen({ navigation }) {
@@ -21,6 +22,7 @@ function ForgotPasswordScreen({ navigation }) {
   const [username, setUsername] = useState("");
   const [email, setEmailError] = useState("");
   const { forgotPassword } = React.useContext(AuthContext);
+  const [loading, setLoading] = React.useState(false);
   return (
     <ImageBackground
       style={styles.background}
@@ -125,7 +127,15 @@ function ForgotPasswordScreen({ navigation }) {
 
           <Pressable
             style={styles.btnSignin}
-            onPress={() => navigation.navigate("SigninScreen")} //navigates to signinscren
+            onPress={() => {
+              try {
+                setLoading(true);
+                navigation.navigate("SigninScreen");
+              } catch (e) {
+                setLoading(false);
+                Alert.alert("Error=> " + e);
+              }
+            }} //navigates to signinscren
           >
             <Text
               style={{
@@ -140,6 +150,7 @@ function ForgotPasswordScreen({ navigation }) {
           </Pressable>
         </View>
       </View>
+      <Loading loading={loading} />
     </ImageBackground>
   );
 }
