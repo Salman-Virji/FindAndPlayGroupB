@@ -91,6 +91,7 @@ function ForgotPasswordScreen({ navigation }) {
                   }
 
                   await forgotPassword(username);
+                  Alert.alert("Please check your email");
                 } catch (e) {
                   Alert.alert("Error =>" + e);
                 }

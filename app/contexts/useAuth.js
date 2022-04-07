@@ -98,7 +98,7 @@ export function useAuth() {
               email: email,
             };
             console.log("Forgot password called " + body.email);
-            await requestResetPassword(body);
+            const result = await requestResetPassword(body);
           }
         } catch (e) {
           throw e;
@@ -194,11 +194,9 @@ export function useAuth() {
     try {
       //console.log(body);
       const response = await BackendQuery.post("/auth/reset-password", body);
-      console.log("I am in requestRegister");
 
       if (response.status == 200) {
-        //const { data } = response.status.data;
-        console.log(response.data);
+        return;
       }
     } catch (error) {
       const { error: errorIssue } = error.response.data;
