@@ -5,30 +5,8 @@ import {
 } from "react-native";
 import ChooseObjectiveCard from './ChooseObjectiveCard';
 import { styles } from '../Styles/styles';
-import { Audio } from 'expo-av';
-
-export function ObjectiveSelect({ gameObject, setShowCamera, setCurrentObjectiveId }) {
-  const [sound, setSound] = React.useState();
+export function ObjectiveSelect({ gameObject, setShowCamera, setCurrentObjectiveId, playSound }) {
   
-  async function playSound() {
-    console.log('Loading Sound');
-    const { sound } = await Audio.Sound.createAsync(
-       require('../../../assets/Sounds/546974__finix473__ui-click.wav')
-    );
-    setSound(sound);
-
-    console.log('Playing Sound');
-    await sound.playAsync(); }
-
-
-  React.useEffect(() => {
-    return sound
-      ? () => {
-          console.log('Unloading Sound');
-          sound.unloadAsync(); }
-      : undefined;
-  }, [sound]);  
-
   return (<View style={{
     alignItems: "center",
     justifyContent: "center",
@@ -51,10 +29,10 @@ export function ObjectiveSelect({ gameObject, setShowCamera, setCurrentObjective
         return (
           x.picturetaken == null ?
             <TouchableOpacity key={x.objectiveid} style={styles.card} onPress={() => {
-              playSound();
               setShowCamera(true);
               setCurrentObjectiveId(x.objectiveid);
-            }}>
+              playSound("button");
+              }}>
               <ChooseObjectiveCard objective={x} source={x.referenceimage} />
             </TouchableOpacity>
           : <TouchableOpacity key={x.objectiveid} style={styles.card} onPress={()=>{

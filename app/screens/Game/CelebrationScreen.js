@@ -9,7 +9,7 @@ import {
   ImageBackground, Image, TouchableOpacity
 } from "react-native";
 import { CustomCamera } from './Components/CustomCamera';
-
+import { Audio } from 'expo-av';
 
 export default function CelebrationScreen( navigation ) {
   const [hasPermission, setHasPermission] = useState(null);
@@ -21,6 +21,30 @@ export default function CelebrationScreen( navigation ) {
 
   const cameraRef = useRef(null);
 
+  const [sound, setSound] = useState();
+
+  async function playSound(type) {
+    console.log('Loading Sound');
+    console.log(type);
+    if(type == "button")
+    {
+      const { sound } = await Audio.Sound.createAsync(
+        require('../../assets/Sounds/546974__finix473__ui-click.wav')
+     );
+      setSound(sound);
+      console.log('Playing Sound');
+      await sound.playAsync()
+    }
+    else
+    {
+      const { sound } = await Audio.Sound.createAsync(
+        require('../../assets/Sounds/116609__mrmccormack__mrm-oldshutter-nikon2020.wav')
+    );
+      setSound(sound);
+      console.log('Playing Sound');
+      await sound.playAsync()
+    }
+     }
 
 
   const takePhoto = async () => {
@@ -56,7 +80,7 @@ export default function CelebrationScreen( navigation ) {
     <>
       {showCamera ? (
         //WHEN CAMERA IS ON
-        <CustomCamera cameraRef={cameraRef} type={type} objectives={tempObj.objectives} currentObjectiveId={999} setType={setType} setShowCamera={setShowCamera} takePhoto={takePhoto}  />
+        <CustomCamera cameraRef={cameraRef} type={type} objectives={tempObj.objectives} currentObjectiveId={999} setType={setType} setShowCamera={setShowCamera} takePhoto={takePhoto}  playSound={playSound} />
       ) : (
         //WHEN CAMERA IS OFF
         <ImageBackground

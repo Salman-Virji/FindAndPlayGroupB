@@ -11,6 +11,7 @@ import getImage from './GameImages';
 import { ObjectiveSelect } from './Components/ObjectiveSelect';
 import { styles } from './Styles/styles';
 import DoubleClick from "react-native-double-tap"
+import { Audio } from 'expo-av';
 
 
 export default function GameScreen({ navigation }) {
@@ -23,6 +24,39 @@ export default function GameScreen({ navigation }) {
   const [startTime] = useState(Date.now());
   const cameraRef = useRef(null);
 
+  const [sound, setSound] = useState();
+
+  async function playSound(type) {
+    console.log('Loading Sound');
+    console.log(type);
+    if(type == "button")
+    {
+      const { sound } = await Audio.Sound.createAsync(
+        require('../../assets/Sounds/546974__finix473__ui-click.wav')
+     );
+      setSound(sound);
+      console.log('Playing Sound');
+      await sound.playAsync()
+    }
+    else
+    {
+      const { sound } = await Audio.Sound.createAsync(
+        require('../../assets/Sounds/116609__mrmccormack__mrm-oldshutter-nikon2020.wav')
+    );
+      setSound(sound);
+      console.log('Playing Sound');
+      await sound.playAsync()
+    }
+     }
+
+  useEffect(() => {
+    return sound
+      ? () => {
+          console.log('Unloading Sound');
+          sound.unloadAsync();
+        }
+      : "";
+  }, [sound]);  
 
   //Updates permissions
   useEffect(() => {
@@ -50,7 +84,9 @@ export default function GameScreen({ navigation }) {
           currentObjectiveId={currentObjectiveId}
           setType={setType}
           setShowCamera={setShowCamera}
-          startTime={startTime} />
+          startTime={startTime}
+          playSound = {playSound}
+          />
       ) : (
         //WHEN CAMERA IS OFF
         <ImageBackground
@@ -72,7 +108,9 @@ export default function GameScreen({ navigation }) {
             <ObjectiveSelect 
               gameObject={tempObj} 
               setShowCamera={setShowCamera} 
-              setCurrentObjectiveId={setCurrentObjectiveId} />
+              setCurrentObjectiveId={setCurrentObjectiveId} 
+              playSound = {playSound}
+              />
           <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: "100%" }}>
             {/*Temp Button*/}
             {teacherToggle?
