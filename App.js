@@ -46,18 +46,18 @@ function App() {
           component={LandingScreen}
           options={{ headerShown: false }}
         />
-              <Stack.Screen
+        <Stack.Screen
           name="GameScreen"
           component={GameScreen}
           options={{ headerShown: false }}
         />
-       <Stack.Screen
+        <Stack.Screen
           name="CelebrationScreen"
           component={CelebrationScreen}
           options={{ headerShown: false }}
         />
 
-      <Stack.Screen
+        <Stack.Screen
           name="EndScreen"
           component={EndScreen}
           options={{ headerShown: false }}

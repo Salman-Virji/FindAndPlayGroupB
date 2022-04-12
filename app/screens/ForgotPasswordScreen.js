@@ -86,14 +86,22 @@ function ForgotPasswordScreen({ navigation }) {
               style={styles.btnSendrequest}
               onPress={async () => {
                 try {
+                  setLoading(true);
                   if (username.length == 0) {
                     throw new Error("Email is required");
                   }
 
                   await forgotPassword(username);
-                  Alert.alert("Please check your email");
+                  Alert.alert("Please check your email.");
+                  setLoading(false);
+                  navigation.navigate("SigninScreen", {}), 2000;
                 } catch (e) {
-                  Alert.alert("Error =>" + e);
+                  setLoading(false);
+                  if (e) {
+                    if (e.message == "Email is required")
+                      Alert.alert(e.message);
+                    else Alert.alert("Error => Email does not exist.");
+                  }
                 }
               }}
             >

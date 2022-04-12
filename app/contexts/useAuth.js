@@ -192,15 +192,14 @@ export function useAuth() {
    * */
   const requestResetPassword = async (body) => {
     try {
-      //console.log(body);
+      console.log("body requestResetPassword");
       const response = await BackendQuery.post("/auth/reset-password", body);
-
+      console.log(response);
       if (response.status == 200) {
-        return;
       }
     } catch (error) {
       const { error: errorIssue } = error.response.data;
-      throw errorIssue;
+      throw error;
     }
   };
   return { auth, state };
