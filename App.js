@@ -22,6 +22,7 @@ import CelebrationScreen from "./app/screens/Game/CelebrationScreen";
 const Stack = createNativeStackNavigator();
 
 function App() {
+
   const { auth, state } = useAuth();
 
   function renderScreens() {
@@ -37,6 +38,7 @@ function App() {
     return state.user ? (
       <>
         <Stack.Screen
+
           name="CreateGameScreen"
           component={CreateGameScreen}
           options={{ headerShown: false }}
@@ -65,11 +67,13 @@ function App() {
       </>
     ) : (
       <>
+     
         <Stack.Screen
           name="SigninScreen"
           component={SigninScreen}
           options={{ headerShown: false }}
         />
+
         <Stack.Screen
           name="ForgotPasswordScreen"
           component={ForgotPasswordScreen}

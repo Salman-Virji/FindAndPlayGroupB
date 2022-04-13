@@ -486,7 +486,7 @@ function CreateGame({ navigation, route }) {
     }
 
     //enabling and disabling pickers
-    if (objectiveCounter.Index == null) {
+    if (objectiveCounter.Value == "Objective Count") {
       setPicker1(true);
       setPicker2(false);
       setPicker3(false);
@@ -499,17 +499,15 @@ function CreateGame({ navigation, route }) {
       setPicker10(false);
 
       setPickerText1("white");
-      setPickerText2("white");
-      setPickerText3("gray");
-      setPickerText4("gray");
-      setPickerText1("gray");
       setPickerText2("gray");
       setPickerText3("gray");
       setPickerText4("gray");
-      setPickerText1("gray");
-      setPickerText2("gray");
-      setPickerText3("gray");
-      setPickerText4("gray");
+      setPickerText5("gray");
+      setPickerText6("gray");
+      setPickerText7("gray");
+      setPickerText8("gray");
+      setPickerText9("gray");
+      setPickerText10("gray");
     } else if (objectiveCounter.Value == "1 Objective") {
       setPicker1(true);
       setPicker2(true);
@@ -1001,6 +999,8 @@ function CreateGame({ navigation, route }) {
   // passes in an integer to represent which objective it is and uses a ternary statement to change the is chekced value
 
   return (
+
+    
     <ImageBackground
       style={{ resizeMode: "contain", flex: 1 }}
       source={require("../assets/BGs/background2.png")}
@@ -1312,6 +1312,20 @@ function CreateGame({ navigation, route }) {
       ></Pressable> */}
       {/* objective Count selector */}
 
+
+
+
+ {/* Objective Count selector */}
+      {/* <Pressable onPress ={setPlayerCount === "2", console.log(playerCount)} > */}
+
+      <Image
+        source={require("../assets/Btn/arrowbutton.png")}
+        style={styles.arrowbtn22}
+      />
+      {/* <Pressable
+        style={styles.arrowbtn22}
+        onPress={() => toggleTimeLimit("-")}
+      ></Pressable> */}
       <TextInput
         editable={false}
         value="Objectives"
@@ -2163,7 +2177,7 @@ function CreateGame({ navigation, route }) {
       <Loading loading={loading} />
     </ImageBackground>
   );
-}
+    }
 
 const styles = StyleSheet.create({
   arrowbtn4: {
@@ -2398,7 +2412,6 @@ const styles = StyleSheet.create({
     elevation: 3,
     backgroundColor: "#50A4FF",
   },
-
   text: {
     fontSize: 20,
     padding: 10,

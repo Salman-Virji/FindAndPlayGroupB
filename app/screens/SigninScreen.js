@@ -87,7 +87,7 @@ function SigninScreen({ navigation }) {
             placeholderTextColor="#fff"
             autoCapitalize="none"
             value={password}
-            secureTextEntry={true}
+            secureTextEntry={false}
             onChangeText={(e) => setPassword(e)}
           />
 
@@ -174,6 +174,7 @@ function SigninScreen({ navigation }) {
               Create an account
             </Text>
           </Pressable>
+         
         </View>
       </View>
       <Loading loading={loading} />
