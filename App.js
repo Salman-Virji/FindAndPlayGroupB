@@ -14,6 +14,10 @@ import { SplashScreen } from "./app/screens/SplashScreen";
 import { AuthContext } from "./app/contexts/AuthContext";
 import { useAuth } from "./app/contexts/useAuth";
 
+import ChooseObjectiveScreen from "./app/screens/Game/ChooseObjectiveScreen";
+import GameScreen from "./app/screens/Game/GameScreen";
+import EndScreen from "./app/screens/Game/EndScreen";
+import CelebrationScreen from "./app/screens/Game/CelebrationScreen";
 // Part of React Navigation to create a 'Stack' style navigation object
 const Stack = createNativeStackNavigator();
 
@@ -44,7 +48,22 @@ function App() {
           component={LandingScreen}
           options={{ headerShown: false }}
         />
+        <Stack.Screen
+          name="GameScreen"
+          component={GameScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="CelebrationScreen"
+          component={CelebrationScreen}
+          options={{ headerShown: false }}
+        />
 
+        <Stack.Screen
+          name="EndScreen"
+          component={EndScreen}
+          options={{ headerShown: false }}
+        />
       </>
     ) : (
       <>

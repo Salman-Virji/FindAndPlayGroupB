@@ -16,6 +16,31 @@ function LandingScreen({ navigation, route }) {
   const [Isvisible, setVisibility] = useState(false);
   const Username = route.params;
 
+  // -- useState variables
+  //   const [img, setImg] = useState({Value:" ",Index:0});
+  //   var obj =[];
+  //   var factArray=[];
+  //--Empty Array to hold images and facts taken from json file images.js--
+
+  // -- go through each object in the images.js file and push it to the corresponding array
+  // for (const [key , value] of Object.entries(images)){
+  //  console.log(`${key} ${value.fact}`);
+
+  //   obj.push(value.referenceimage)
+  //  obj.push(value.fact)
+  //   // factArray.push(value.fact)
+  // }
+
+  // -- set state on image
+  // function setimg(){
+  //   var i = Math.floor(Math.random()*obj.length*1)
+
+  //   console.log("--------")
+
+  //   setImg({ Value: obj[i], Index: 0} )
+  //   //setImg({ Fact: factArray[i], Index: 0 } )
+  // }
+
   return (
     <ImageBackground
       style={styles.background}
@@ -142,19 +167,20 @@ function LandingScreen({ navigation, route }) {
                 showsHorizontalScrollIndicator={false}
               >
                 {/*passing props for image and fact*/}
+
                 <FunFact
-                  factImage={require("../assets/factSlides/penguin2.jpg")}
-                  funFact="The black and white “tuxedo” look donned by most penguin species is a clever camouflage called countershading."
+                  factImage={require("../assets/factSlides/tiger.jpg")}
+                  funFact="Tigers are the largest cat species in the world reaching up to 3.3 meters in length and weighing up to 670 pounds!"
                 />
 
                 <FunFact
-                  factImage={require("../assets/factSlides/penguin2.jpg")}
-                  funFact="The giant Galapagos tortoise species is known to live for a good 150 years!"
+                  factImage={require("../assets/factSlides/chimpanzee.jpg")}
+                  funFact="Humans and chimpanzees share 95 to 98 percent of the same DNA."
                 />
 
                 <FunFact
-                  factImage={require("../assets/factSlides/penguin2.jpg")}
-                  funFact="Tigers are the worlds largest cat species, they can weigh upto 680 pounds!"
+                  factImage={require("../assets/factSlides/elephant.jpg")}
+                  funFact="Elephants use their trunks to suck up water to drink, it can contain up to 8 litres of water. They also use their trunks as a snorkel when swimming."
                 />
               </ScrollView>
             </View>
@@ -166,6 +192,7 @@ function LandingScreen({ navigation, route }) {
         {/*play button*/}
         <TouchableOpacity
           onPress={() =>
+            //setimg() -- function call to set image state
             Username.Username
               ? setVisibility(true)
               : navigation.navigate("JoinGame")

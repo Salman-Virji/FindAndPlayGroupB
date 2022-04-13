@@ -294,7 +294,7 @@ function CreateGame({ navigation, route }) {
     }
 
     console.log(" array contains " + gameLobby.objectives.length + " elements");
-    //navigation.navigate("",{GameLobby:gameLobby})
+    navigation.navigate("LandingScreen", { GameLobby: gameLobby });
   }
 
   //Location option toggle
