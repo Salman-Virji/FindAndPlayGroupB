@@ -73,7 +73,7 @@ function App() {
           component={SigninScreen}
           options={{ headerShown: false }}
         />
-
+      
         <Stack.Screen
           name="ForgotPasswordScreen"
           component={ForgotPasswordScreen}

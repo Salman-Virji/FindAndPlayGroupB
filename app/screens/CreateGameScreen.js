@@ -61,6 +61,7 @@ function CreateGame({ navigation, route }) {
     Objective: "",
     PointValue: 5,
     Checked: false,
+    Image:null
   });
   const [Objective7, SetObjective7] = useState({
     Objective: "",
@@ -169,13 +170,11 @@ function CreateGame({ navigation, route }) {
       gameid: 1,
       teamname: title,
       timelimit: timeInMin,
-      totalscore:
-        Objective1.PointValue +
-        Objective2.PointValue +
-        Objective3.PointValue +
-        Objective4.PointValue,
-      location: "Park",
-      playercount: playerCount,
+      maxscore:
+        0,
+      TotalScore:0,
+      location: location.Value,
+      playercount: playerCount.Value,
       objectives: [],
     };
     if (Objective1.Objective != "" && objectiveCounter.size >= 1) {
@@ -288,9 +287,10 @@ function CreateGame({ navigation, route }) {
         hasSet: Objective10.Checked,
       });
     }
-
+    
     for (var i = 0; i < gameLobby.objectives.length; i++) {
-      console.log(" #" + (i + 1) + " " + gameLobby.objectives[i].description);
+      console.log("\n #" + (i + 1) + " " + gameLobby.objectives[i].description);
+      gameLobby.maxscore += gameLobby.objectives[i].points;
     }
 
     console.log(" array contains " + gameLobby.objectives.length + " elements");
@@ -1407,7 +1407,7 @@ function CreateGame({ navigation, route }) {
                     <Picker.Item
                       key={val}
                       label={val}
-                      value={"find a " + val}
+                      value={ val}
                     />
                   );
                 })}
@@ -1484,7 +1484,7 @@ function CreateGame({ navigation, route }) {
                     <Picker.Item
                       key={val}
                       label={val}
-                      value={"find a " + val}
+                      value={val}
                     />
                   );
                 })}
@@ -1565,7 +1565,7 @@ function CreateGame({ navigation, route }) {
                     <Picker.Item
                       key={val}
                       label={val}
-                      value={"find a " + val}
+                      value={ val}
                     />
                   );
                 })}
@@ -1643,7 +1643,7 @@ function CreateGame({ navigation, route }) {
                     <Picker.Item
                       key={val}
                       label={val}
-                      value={"find a " + val}
+                      value={ val}
                     />
                   );
                 })}
@@ -1720,7 +1720,7 @@ function CreateGame({ navigation, route }) {
                     <Picker.Item
                       key={val}
                       label={val}
-                      value={"find a " + val}
+                      value={ val}
                     />
                   );
                 })}
@@ -1778,7 +1778,6 @@ function CreateGame({ navigation, route }) {
                     fontSize: RFPercentage(1.5),
                     color: pickerText6,
                     position: "relative",
-
                     zIndex: 5,
                   }
 
@@ -1797,7 +1796,7 @@ function CreateGame({ navigation, route }) {
                     <Picker.Item
                       key={val}
                       label={val}
-                      value={"find a " + val}
+                      value={ val}
                     />
                   );
                 })}
@@ -1874,7 +1873,7 @@ function CreateGame({ navigation, route }) {
                     <Picker.Item
                       key={val}
                       label={val}
-                      value={"find a " + val}
+                      value={ val}
                     />
                   );
                 })}
@@ -1951,7 +1950,7 @@ function CreateGame({ navigation, route }) {
                     <Picker.Item
                       key={val}
                       label={val}
-                      value={"find a " + val}
+                      value={ val}
                     />
                   );
                 })}
@@ -2028,7 +2027,7 @@ function CreateGame({ navigation, route }) {
                     <Picker.Item
                       key={val}
                       label={val}
-                      value={"find a " + val}
+                      value={ val}
                     />
                   );
                 })}
@@ -2105,7 +2104,7 @@ function CreateGame({ navigation, route }) {
                     <Picker.Item
                       key={val}
                       label={val}
-                      value={"find a " + val}
+                      value={ val}
                     />
                   );
                 })}

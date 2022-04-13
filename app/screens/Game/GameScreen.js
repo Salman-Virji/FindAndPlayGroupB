@@ -14,7 +14,7 @@ import DoubleClick from "react-native-double-tap"
 import { Audio } from 'expo-av';
 
 
-export default function GameScreen({ navigation }) {
+export default function GameScreen({route, navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [showCamera, setShowCamera] = useState(false);
@@ -23,9 +23,18 @@ export default function GameScreen({ navigation }) {
   const [teacherToggle,setTeacherToggle] = useState(false);
   const [startTime] = useState(Date.now());
   const cameraRef = useRef(null);
-
   const [sound, setSound] = useState();
-
+  const GameLobby = route.params.GameLobby;
+  // sets new gamelobby object to be stored in state
+  if(objectives != GameLobby)
+  {
+     setObjectives(GameLobby);
+     console.log(" new object passed in \n", GameLobby, 
+     "/n" , "Temp object initially present :\n" , tempObj )
+  }
+  console.log(" new object passed in \n", GameLobby, 
+  "/n" , "Temp object initially present :\n" , tempObj , 
+  "/n" , "hopefully the new state switched :\n", objectives);
   async function playSound(type) {
     console.log('Loading Sound');
     console.log(type);

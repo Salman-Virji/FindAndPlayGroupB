@@ -12,10 +12,10 @@ import {
 } from "react-native";
 import FunFact from "./FunFactsComponent";
 
-function LandingScreen({ navigation, route }) {
+function LandingScreen({ route ,navigation }) {
   const [Isvisible, setVisibility] = useState(false);
-  const Username = route.params;
-
+  const GameLobby = route.params.GameLobby;
+  console.log("lobby at landing ", GameLobby , "\n Objectives array :", GameLobby.objectives);
   // -- useState variables
   //   const [img, setImg] = useState({Value:" ",Index:0});
   //   var obj =[];
@@ -46,108 +46,7 @@ function LandingScreen({ navigation, route }) {
       style={styles.background}
       source={require("../assets/BGs/background1.png")}
     >
-      {/* conditional rendering for popup to ask user if they want to create a game or join one */}
-      {Isvisible ? (
-        <View
-          style={{
-            position: "absolute",
-            top: "25%",
-            width: "60%",
-            height: "30%",
-            border: 2,
-            borderRadius: 30,
-            zIndex: 999,
-            backgroundColor: "#50A4FF",
-            bordercolor: "black ",
-            elevation: 50,
-            padding: 5,
-          }}
-        >
-          <TouchableOpacity
-            style={{
-              textAlign: "center",
-              top: "25%",
-              left: "20%",
-              width: "60%",
-              fontSize: 25,
-              margin: 10,
-              border: 10,
-              borderColor: "#000000",
-            }}
-            onPress={() =>
-              navigation.navigate("CreateGameScreen", {
-                Username: Username.Username,
-              })
-            }
-          >
-            <Text
-              style={{
-                textAlign: "center",
-                left: "10%",
-                width: "60%",
-                fontSize: 25,
-              }}
-            >
-              {" "}
-              Create a game
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              textAlign: "center",
-              left: "20%",
-              top: "30%",
-              width: "60%",
-              fontSize: 25,
-              margin: 10,
-              border: 2,
-              borderColor: "#000000",
-            }}
-            onPress={() =>
-              navigation.navigate("JoinGame", { Username: Username })
-            }
-          >
-            <Text
-              style={{
-                textAlign: "center",
-                left: "10%",
-                width: "60%",
-                fontSize: 25,
-              }}
-            >
-              {" "}
-              Join a game
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={{
-              textAlign: "center",
-              left: "20%",
-              top: "40%",
-              width: "60%",
-              fontSize: 25,
-              margin: 10,
-              border: 2,
-              borderColor: "#000000",
-            }}
-            onPress={() => setVisibility(false)}
-          >
-            <Text
-              style={{
-                textAlign: "center",
-                left: "10%",
-                width: "60%",
-                fontSize: 25,
-              }}
-            >
-              {" "}
-              cancel
-            </Text>
-          </TouchableOpacity>
-        </View>
-      ) : (
-        <View></View>
-      )}
+   
 
       {/*FACTS banner*/}
       <View style={styles.funFactContainer}>
@@ -193,9 +92,7 @@ function LandingScreen({ navigation, route }) {
         <TouchableOpacity
           onPress={() =>
             //setimg() -- function call to set image state
-            Username.Username
-              ? setVisibility(true)
-              : navigation.navigate("JoinGame")
+            navigation.navigate("GameScreen",{ GameLobby: GameLobby })
           }
         >
           <Image source={require("../assets/icons/Play.png")} />
