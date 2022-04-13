@@ -15,7 +15,7 @@ import FunFact from "./FunFactsComponent";
 function LandingScreen({ route ,navigation }) {
   const [Isvisible, setVisibility] = useState(false);
   const GameLobby = route.params.GameLobby;
-  console.log("lobby at landing ", GameLobby , "\n Objectives array :", GameLobby.objectives);
+ // console.log("lobby at landing ", GameLobby , "\n Objectives array :", GameLobby.objectives);
   // -- useState variables
   //   const [img, setImg] = useState({Value:" ",Index:0});
   //   var obj =[];

@@ -18,7 +18,7 @@ export default function GameScreen({route, navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
   const [showCamera, setShowCamera] = useState(false);
-  const [objectives, setObjectives] = useState(tempObj);
+  const [tempObj, setObjectives] = useState(route.params.GameLobby);
   const [currentObjectiveId, setCurrentObjectiveId] = useState(null);
   const [teacherToggle,setTeacherToggle] = useState(false);
   const [startTime] = useState(Date.now());
@@ -26,17 +26,10 @@ export default function GameScreen({route, navigation }) {
   const [sound, setSound] = useState();
   const GameLobby = route.params.GameLobby;
   // sets new gamelobby object to be stored in state
-  if(objectives != GameLobby)
-  {
-     setObjectives(GameLobby);
-     console.log(" new object passed in \n", GameLobby, 
-     "/n" , "Temp object initially present :\n" , tempObj )
-  }
-  console.log(" new object passed in \n", GameLobby, 
-  "/n" , "Temp object initially present :\n" , tempObj , 
-  "/n" , "hopefully the new state switched :\n", objectives);
+  console.log( tempObj);
+  
   async function playSound(type) {
-    console.log('Loading Sound');
+    
     console.log(type);
     if(type == "button")
     {
@@ -44,7 +37,7 @@ export default function GameScreen({route, navigation }) {
         require('../../assets/Sounds/546974__finix473__ui-click.wav')
      );
       setSound(sound);
-      console.log('Playing Sound');
+     
       await sound.playAsync()
     }
     else
@@ -53,7 +46,7 @@ export default function GameScreen({route, navigation }) {
         require('../../assets/Sounds/116609__mrmccormack__mrm-oldshutter-nikon2020.wav')
     );
       setSound(sound);
-      console.log('Playing Sound');
+      
       await sound.playAsync()
     }
      }
@@ -61,7 +54,7 @@ export default function GameScreen({route, navigation }) {
   useEffect(() => {
     return sound
       ? () => {
-          console.log('Unloading Sound');
+          
           sound.unloadAsync();
         }
       : "";
@@ -89,7 +82,7 @@ export default function GameScreen({route, navigation }) {
         //WHEN CAMERA IS ON
         <CustomCamera
           cameraRef={cameraRef} type={type}
-          objectives={objectives.objectives}
+          objectives={tempObj.objectives}
           currentObjectiveId={currentObjectiveId}
           setType={setType}
           setShowCamera={setShowCamera}
@@ -141,7 +134,7 @@ export default function GameScreen({route, navigation }) {
   )
 }
 
-const tempObj =
+/*const tempObj =
 {
   "timelimit": 10,
   "teamname": "Team1",
@@ -212,7 +205,7 @@ const tempObj =
     "score": 4,
     "hasSet": false
   }]
-}
+}*/
 
 
 

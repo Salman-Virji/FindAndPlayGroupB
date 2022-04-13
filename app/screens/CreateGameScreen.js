@@ -36,6 +36,7 @@ function CreateGame({ navigation, route }) {
     Objective: "",
     PointValue: 5,
     Checked: false,
+    
   });
   const [Objective2, SetObjective2] = useState({
     Objective: "",
@@ -120,6 +121,7 @@ function CreateGame({ navigation, route }) {
   const [loading, setLoading] = React.useState(false);
   //---Empty Array to hold objectives taken from json file myjson.json---
   var Objectives = ["Pick a Objective"];
+  
 
   for (const [key, value] of Object.entries(myjson)) {
     // console.log(`${key} ${value.description}`);
@@ -182,11 +184,13 @@ function CreateGame({ navigation, route }) {
         objectiveid: gameLobby.objectives.length + 1,
         description: Objective1.Objective,
         points: Objective1.PointValue,
-        referenceimage: "",
+        referenceimage: Objective1.Objective.referenceimage,
         picturetaken: null,
         score: 0,
         hasSet: Objective1.Checked,
+        
       });
+      console.log(myjson.referenceimage);
     }
     if (Objective2.Objective != "" && objectiveCounter.size >= 2) {
       gameLobby.objectives.push({
@@ -289,11 +293,11 @@ function CreateGame({ navigation, route }) {
     }
     
     for (var i = 0; i < gameLobby.objectives.length; i++) {
-      console.log("\n #" + (i + 1) + " " + gameLobby.objectives[i].description);
+     // console.log("\n #" + (i + 1) + " " + gameLobby.objectives[i].description);
       gameLobby.maxscore += gameLobby.objectives[i].points;
     }
 
-    console.log(" array contains " + gameLobby.objectives.length + " elements");
+    //console.log(" array contains " + gameLobby.objectives.length + " elements");
     navigation.navigate("LandingScreen", { GameLobby: gameLobby });
   }
 
@@ -328,7 +332,7 @@ function CreateGame({ navigation, route }) {
         }
       }
     }
-    console.log("after setting : ", location.Value, "\n", location.Index);
+   // console.log("after setting : ", location.Value, "\n", location.Index);
   }
   //Time Limit option toggle
   function toggleTimeLimit(change) {
@@ -360,7 +364,7 @@ function CreateGame({ navigation, route }) {
         }
       }
     }
-    console.log("after setting : ", timeLimit.Value, "\n", timeLimit.Index);
+    //console.log("after setting : ", timeLimit.Value, "\n", timeLimit.Index);
   }
   //Player count option toggle
   //Player count option toggle
@@ -395,12 +399,7 @@ function CreateGame({ navigation, route }) {
         }
       }
     }
-    console.log(
-      "Setting Players : ",
-      playerCount.Value,
-      "\n",
-      playerCount.Index
-    );
+    
   }
 
   var teamName = "";
@@ -434,11 +433,10 @@ function CreateGame({ navigation, route }) {
       });
     } else {
       var newIndex = objectiveCounter.Index + 1;
-      console.log("new index: " + newIndex);
-      console.log(change);
+   
       if (newIndex >= 10) {
         if (change == "+") {
-          console.log("increasing objective count");
+         
           setObjectiveCounter({
             Value: Objectivecount[0],
             Index: 0,
@@ -456,7 +454,7 @@ function CreateGame({ navigation, route }) {
         }
       } else {
         if (change == "+") {
-          console.log("increasing objective count");
+        
           setObjectiveCounter({
             Value: Objectivecount[newIndex],
             Index: newIndex,
@@ -731,12 +729,7 @@ function CreateGame({ navigation, route }) {
       setPickerText10("gray");
     }
 
-    console.log(
-      "Setting Objective amount  : ",
-      objectiveCounter.Value,
-      "\n",
-      objectiveCounter.Index
-    );
+    
 
     //settting text color for the pickers
   }
