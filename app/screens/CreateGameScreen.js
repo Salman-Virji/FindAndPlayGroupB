@@ -121,12 +121,14 @@ function CreateGame({ navigation, route }) {
   const [loading, setLoading] = React.useState(false);
   //---Empty Array to hold objectives taken from json file myjson.json---
   var Objectives = ["Pick a Objective"];
+  var ImgArr =[];
   
 
   for (const [key, value] of Object.entries(myjson)) {
     // console.log(`${key} ${value.description}`);
 
     Objectives.push(value.description);
+    ImgArr.push(value.referenceimage)
   }
 
   //---------------------------------------------------------------------
@@ -136,7 +138,59 @@ function CreateGame({ navigation, route }) {
   function to bundle game lobby info as a json object and send it to the next page for group b3
 
 */
+var imgref;
+
+function getImg(){
+  
+  if(Objective1.Objective="Squirrel"){
+    imgref = ImgArr[0];
+  }
+  if(Objective1.Objective="Tree"){
+    imgref = ImgArr[1];
+  }
+  if(Objective1.Objective="Bird"){
+    imgref = ImgArr[2];
+  }
+  if(Objective1.Objective="Cat"){
+    imgref = ImgArr[3];
+  }
+  if(Objective1.Objective="Tele"){
+    imgref = ImgArr[4];
+  }
+  if(Objective1.Objective="Bear"){
+    imgref = ImgArr[5];
+  }
+  if(Objective1.Objective="Lion"){
+    imgref = ImgArr[6];
+  }
+  //Objective 2
+  if(Objective2.Objective="Squirrel"){
+    imgref = ImgArr[0];
+  }
+  if(Objective2.Objective="Tree"){
+    imgref = ImgArr[1];
+  }
+  if(Objective2.Objective="Bird"){
+    imgref = ImgArr[2];
+  }
+  if(Objective2.Objective="Cat"){
+    imgref = ImgArr[3];
+  }
+  if(Objective2.Objective="Tele"){
+    imgref = ImgArr[4];
+  }
+  if(Objective2.Objective="Bear"){
+    imgref = ImgArr[5];
+  }
+  if(Objective2.Objective="Lion"){
+    imgref = ImgArr[6];
+  }
+  
+  }
+
   function createLobby() {
+
+    
     var timeInMin;
     if (
       timeLimit.Value == "Time Limit" ||
@@ -180,112 +234,331 @@ function CreateGame({ navigation, route }) {
       objectives: [],
     };
     if (Objective1.Objective != "" && objectiveCounter.size >= 1) {
+      var imgref
+      if(Objective1.Objective=="Squirrel"){
+        imgref = ImgArr[0];
+      }
+      if(Objective1.Objective=="Tree"){
+        imgref = ImgArr[1];
+      }
+      if(Objective1.Objective=="Bird"){
+        imgref = ImgArr[2];
+      }
+      if(Objective1.Objective=="Cat"){
+        imgref = ImgArr[3];
+      }
+      if(Objective1.Objective=="Tele"){
+        imgref = ImgArr[4];
+      }
+      if(Objective1.Objective=="Bear"){
+        imgref = ImgArr[5];
+      }
+      if(Objective1.Objective=="Lion"){
+        imgref = ImgArr[6];
+      }
       gameLobby.objectives.push({
         objectiveid: gameLobby.objectives.length + 1,
         description: Objective1.Objective,
         points: Objective1.PointValue,
-        referenceimage: Objective1.Objective.referenceimage,
+        referenceimage: imgref,
         picturetaken: null,
         score: 0,
         hasSet: Objective1.Checked,
         
       });
-      console.log(myjson.referenceimage);
+     
     }
     if (Objective2.Objective != "" && objectiveCounter.size >= 2) {
+      if(Objective2.Objective=="Squirrel"){
+        imgref = ImgArr[0];
+      }
+      if(Objective2.Objective=="Tree"){
+        imgref = ImgArr[1];
+      }
+      if(Objective2.Objective="Bird"){
+        imgref = ImgArr[2];
+      }
+      if(Objective2.Objective=="Cat"){
+        imgref = ImgArr[3];
+      }
+      if(Objective2.Objective=="Tele"){
+        imgref = ImgArr[4];
+      }
+      if(Objective2.Objective="Bear"){
+        imgref = ImgArr[5];
+      }
+      if(Objective2.Objective=="Lion"){
+        imgref = ImgArr[6];
+      }
       gameLobby.objectives.push({
         objectiveid: gameLobby.objectives.length + 1,
         description: Objective2.Objective,
         points: Objective2.PointValue,
-        referenceimage: "",
+        referenceimage: imgref,
         picturetaken: null,
         score: 0,
         hasSet: Objective2.Checked,
       });
     }
     if (Objective3.Objective != "" && objectiveCounter.size >= 3) {
+      if(Objective3.Objective=="Squirrel"){
+        imgref = ImgArr[0];
+      }
+      if(Objective3.Objective=="Tree"){
+        imgref = ImgArr[1];
+      }
+      if(Objective3.Objective=="Bird"){
+        imgref = ImgArr[2];
+      }
+      if(Objective3.Objective=="Cat"){
+        imgref = ImgArr[3];
+      }
+      if(Objective3.Objective=="Tele"){
+        imgref = ImgArr[4];
+      }
+      if(Objective3.Objective=="Bear"){
+        imgref = ImgArr[5];
+      }
+      if(Objective3.Objective=="Lion"){
+        imgref = ImgArr[6];
+      }
       gameLobby.objectives.push({
         objectiveid: gameLobby.objectives.length + 1,
         description: Objective3.Objective,
         points: Objective3.PointValue,
-        referenceimage: "",
+        referenceimage: imgref,
         picturetaken: null,
         score: 0,
         hasSet: Objective3.Checked,
       });
     }
     if (Objective4.Objective != "" && objectiveCounter.size >= 4) {
+      var imgref
+      if(Objective4.Objective=="Squirrel"){
+        imgref = ImgArr[0];
+      }
+      if(Objective4.Objective=="Tree"){
+        imgref = ImgArr[1];
+      }
+      if(Objective4.Objective=="Bird"){
+        imgref = ImgArr[2];
+      }
+      if(Objective4.Objective=="Cat"){
+        imgref = ImgArr[3];
+      }
+      if(Objective4.Objective=="Tele"){
+        imgref = ImgArr[4];
+      }
+      if(Objective4.Objective=="Bear"){
+        imgref = ImgArr[5];
+      }
+      if(Objective4.Objective=="Lion"){
+        imgref = ImgArr[6];
+      }
+      
       gameLobby.objectives.push({
         objectiveid: gameLobby.objectives.length + 1,
         description: Objective4.Objective,
         points: Objective4.PointValue,
-        referenceimage: "",
+        referenceimage: imgref,
         picturetaken: null,
         score: 0,
         hasSet: Objective4.Checked,
       });
     }
     if (Objective5.Objective != "" && objectiveCounter.size >= 5) {
+      var imgref
+      if(Objective5.Objective=="Squirrel"){
+        imgref = ImgArr[0];
+      }
+      if(Objective5.Objective=="Tree"){
+        imgref = ImgArr[1];
+      }
+      if(Objective5.Objective=="Bird"){
+        imgref = ImgArr[2];
+      }
+      if(Objective5.Objective=="Cat"){
+        imgref = ImgArr[3];
+      }
+      if(Objective5.Objective=="Tele"){
+        imgref = ImgArr[4];
+      }
+      if(Objective5.Objective=="Bear"){
+        imgref = ImgArr[5];
+      }
+      if(Objective5.Objective=="Lion"){
+        imgref = ImgArr[6];
+      }
       gameLobby.objectives.push({
         objectiveid: gameLobby.objectives.length + 1,
         description: Objective5.Objective,
         points: Objective5.PointValue,
-        referenceimage: "",
+        referenceimage:imgref,
         picturetaken: null,
         score: 0,
         hasSet: Objective5.Checked,
       });
     }
     if (Objective6.Objective != "" && objectiveCounter.size >= 6) {
+      var imgref
+      if(Objective6.Objective=="Squirrel"){
+        imgref = ImgArr[0];
+      }
+      if(Objective6.Objective=="Tree"){
+        imgref = ImgArr[1];
+      }
+      if(Objective6.Objective=="Bird"){
+        imgref = ImgArr[2];
+      }
+      if(Objective6.Objective=="Cat"){
+        imgref = ImgArr[3];
+      }
+      if(Objective6.Objective=="Tele"){
+        imgref = ImgArr[4];
+      }
+      if(Objective6.Objective=="Bear"){
+        imgref = ImgArr[5];
+      }
+      if(Objective6.Objective=="Lion"){
+        imgref = ImgArr[6];
+      }
       gameLobby.objectives.push({
         objectiveid: gameLobby.objectives.length + 1,
         description: Objective6.Objective,
         points: Objective6.PointValue,
-        referenceimage: "",
+        referenceimage: imgref,
         picturetaken: null,
         score: 0,
         hasSet: Objective6.Checked,
       });
     }
     if (Objective7.Objective != "" && objectiveCounter.size >= 7) {
+      var imgref
+      if(Objective7.Objective=="Squirrel"){
+        imgref = ImgArr[0];
+      }
+      if(Objective7.Objective=="Tree"){
+        imgref = ImgArr[1];
+      }
+      if(Objective7.Objective=="Bird"){
+        imgref = ImgArr[2];
+      }
+      if(Objective7.Objective=="Cat"){
+        imgref = ImgArr[3];
+      }
+      if(Objective7.Objective=="Tele"){
+        imgref = ImgArr[4];
+      }
+      if(Objective7.Objective=="Bear"){
+        imgref = ImgArr[5];
+      }
+      if(Objective7.Objective=="Lion"){
+        imgref = ImgArr[6];
+      }
       gameLobby.objectives.push({
         objectiveid: gameLobby.objectives.length + 1,
         description: Objective7.Objective,
         points: Objective7.PointValue,
-        referenceimage: "",
+        referenceimage: imgref,
         picturetaken: null,
         score: 0,
         hasSet: Objective7.Checked,
       });
     }
     if (Objective8.Objective != "" && objectiveCounter.size >= 8) {
+      var imgref
+      if(Objective8.Objective=="Squirrel"){
+        imgref = ImgArr[0];
+      }
+      if(Objective8.Objective=="Tree"){
+        imgref = ImgArr[1];
+      }
+      if(Objective8.Objective=="Bird"){
+        imgref = ImgArr[2];
+      }
+      if(Objective8.Objective=="Cat"){
+        imgref = ImgArr[3];
+      }
+      if(Objective8.Objective=="Tele"){
+        imgref = ImgArr[4];
+      }
+      if(Objective8.Objective=="Bear"){
+        imgref = ImgArr[5];
+      }
+      if(Objective8.Objective=="Lion"){
+        imgref = ImgArr[6];
+      }
       gameLobby.objectives.push({
         objectiveid: gameLobby.objectives.length + 1,
         description: Objective8.Objective,
         points: Objective8.PointValue,
-        referenceimage: "",
+        referenceimage:imgref,
         picturetaken: null,
         score: 0,
         hasSet: Objective8.Checked,
       });
     }
     if (Objective9.Objective != "" && objectiveCounter.size >= 9) {
+      var imgref
+      if(Objective9.Objective=="Squirrel"){
+        imgref = ImgArr[0];
+      }
+      if(Objective9.Objective=="Tree"){
+        imgref = ImgArr[1];
+      }
+      if(Objective9.Objective=="Bird"){
+        imgref = ImgArr[2];
+      }
+      if(Objective9.Objective=="Cat"){
+        imgref = ImgArr[3];
+      }
+      if(Objective9.Objective=="Tele"){
+        imgref = ImgArr[4];
+      }
+      if(Objective9.Objective=="Bear"){
+        imgref = ImgArr[5];
+      }
+      if(Objective9.Objective=="Lion"){
+        imgref = ImgArr[6];
+      }
       gameLobby.objectives.push({
         objectiveid: gameLobby.objectives.length + 1,
         description: Objective9.Objective,
         points: Objective9.PointValue,
-        referenceimage: "",
+        referenceimage: imgref,
         picturetaken: null,
         score: 0,
         hasSet: Objective9.Checked,
       });
     }
     if (Objective10.Objective != "" && objectiveCounter.size >= 10) {
+      var imgref
+      if(Objective10.Objective=="Squirrel"){
+        imgref = ImgArr[0];
+      }
+      if(Objective10.Objective=="Tree"){
+        imgref = ImgArr[1];
+      }
+      if(Objective10.Objective=="Bird"){
+        imgref = ImgArr[2];
+      }
+      if(Objective10.Objective=="Cat"){
+        imgref = ImgArr[3];
+      }
+      if(Objective10.Objective=="Tele"){
+        imgref = ImgArr[4];
+      }
+      if(Objective10.Objective=="Bear"){
+        imgref = ImgArr[5];
+      }
+      if(Objective10.Objective=="Lion"){
+        imgref = ImgArr[6];
+      }
       gameLobby.objectives.push({
         objectiveid: gameLobby.objectives.length + 1,
         description: Objective10.Objective,
         points: Objective10.PointValue,
-        referenceimage: "",
+        referenceimage:imgref,
         picturetaken: null,
         score: 0,
         hasSet: Objective10.Checked,
