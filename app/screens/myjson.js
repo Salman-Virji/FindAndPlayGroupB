@@ -39,9 +39,9 @@ const myjson =
    },
    {
      "objectiveid": 129,
-     "description": "Tele",
+     "description": "Dog",
      "points": 4,
-     "referenceimage":require('../assets/images/red-squirrel.jpg'),
+     "referenceimage":require('../assets/images/dog.jpg'),
      "picturetaken": null,
      "score": 4,
      "hasSet": false

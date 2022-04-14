@@ -247,7 +247,7 @@ function getImg(){
       if(Objective1.Objective=="Cat"){
         imgref = ImgArr[3];
       }
-      if(Objective1.Objective=="Tele"){
+      if(Objective1.Objective=="Dog"){
         imgref = ImgArr[4];
       }
       if(Objective1.Objective=="Bear"){
@@ -281,7 +281,7 @@ function getImg(){
       if(Objective2.Objective=="Cat"){
         imgref = ImgArr[3];
       }
-      if(Objective2.Objective=="Tele"){
+      if(Objective2.Objective=="Dog"){
         imgref = ImgArr[4];
       }
       if(Objective2.Objective="Bear"){
@@ -313,7 +313,7 @@ function getImg(){
       if(Objective3.Objective=="Cat"){
         imgref = ImgArr[3];
       }
-      if(Objective3.Objective=="Tele"){
+      if(Objective3.Objective=="Dog"){
         imgref = ImgArr[4];
       }
       if(Objective3.Objective=="Bear"){
@@ -346,7 +346,7 @@ function getImg(){
       if(Objective4.Objective=="Cat"){
         imgref = ImgArr[3];
       }
-      if(Objective4.Objective=="Tele"){
+      if(Objective4.Objective=="Dog"){
         imgref = ImgArr[4];
       }
       if(Objective4.Objective=="Bear"){
@@ -380,7 +380,7 @@ function getImg(){
       if(Objective5.Objective=="Cat"){
         imgref = ImgArr[3];
       }
-      if(Objective5.Objective=="Tele"){
+      if(Objective5.Objective=="Dog"){
         imgref = ImgArr[4];
       }
       if(Objective5.Objective=="Bear"){
@@ -413,7 +413,7 @@ function getImg(){
       if(Objective6.Objective=="Cat"){
         imgref = ImgArr[3];
       }
-      if(Objective6.Objective=="Tele"){
+      if(Objective6.Objective=="Dog"){
         imgref = ImgArr[4];
       }
       if(Objective6.Objective=="Bear"){
@@ -446,7 +446,7 @@ function getImg(){
       if(Objective7.Objective=="Cat"){
         imgref = ImgArr[3];
       }
-      if(Objective7.Objective=="Tele"){
+      if(Objective7.Objective=="Dog"){
         imgref = ImgArr[4];
       }
       if(Objective7.Objective=="Bear"){
@@ -479,7 +479,7 @@ function getImg(){
       if(Objective8.Objective=="Cat"){
         imgref = ImgArr[3];
       }
-      if(Objective8.Objective=="Tele"){
+      if(Objective8.Objective=="Dog"){
         imgref = ImgArr[4];
       }
       if(Objective8.Objective=="Bear"){
@@ -512,7 +512,7 @@ function getImg(){
       if(Objective9.Objective=="Cat"){
         imgref = ImgArr[3];
       }
-      if(Objective9.Objective=="Tele"){
+      if(Objective9.Objective=="Dog"){
         imgref = ImgArr[4];
       }
       if(Objective9.Objective=="Bear"){
@@ -545,7 +545,7 @@ function getImg(){
       if(Objective10.Objective=="Cat"){
         imgref = ImgArr[3];
       }
-      if(Objective10.Objective=="Tele"){
+      if(Objective10.Objective=="Dog"){
         imgref = ImgArr[4];
       }
       if(Objective10.Objective=="Bear"){
