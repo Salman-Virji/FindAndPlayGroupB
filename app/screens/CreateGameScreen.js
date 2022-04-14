@@ -138,55 +138,11 @@ function CreateGame({ navigation, route }) {
   function to bundle game lobby info as a json object and send it to the next page for group b3
 
 */
-var imgref;
 
-function getImg(){
+
+
   
-  if(Objective1.Objective="Squirrel"){
-    imgref = ImgArr[0];
-  }
-  if(Objective1.Objective="Tree"){
-    imgref = ImgArr[1];
-  }
-  if(Objective1.Objective="Bird"){
-    imgref = ImgArr[2];
-  }
-  if(Objective1.Objective="Cat"){
-    imgref = ImgArr[3];
-  }
-  if(Objective1.Objective="Tele"){
-    imgref = ImgArr[4];
-  }
-  if(Objective1.Objective="Bear"){
-    imgref = ImgArr[5];
-  }
-  if(Objective1.Objective="Lion"){
-    imgref = ImgArr[6];
-  }
-  //Objective 2
-  if(Objective2.Objective="Squirrel"){
-    imgref = ImgArr[0];
-  }
-  if(Objective2.Objective="Tree"){
-    imgref = ImgArr[1];
-  }
-  if(Objective2.Objective="Bird"){
-    imgref = ImgArr[2];
-  }
-  if(Objective2.Objective="Cat"){
-    imgref = ImgArr[3];
-  }
-  if(Objective2.Objective="Tele"){
-    imgref = ImgArr[4];
-  }
-  if(Objective2.Objective="Bear"){
-    imgref = ImgArr[5];
-  }
-  if(Objective2.Objective="Lion"){
-    imgref = ImgArr[6];
-  }
   
-  }
 
   function createLobby() {
 
