@@ -90,7 +90,7 @@ export default function RegisterScreenT({ navigation }) {
       };
       //navigation.navigate("SigninScreen");
       await register(body);
-      Alert.alert("User has been registered go to sign in page");
+      Alert.alert("User has been registered. Please go to sign in page.");
     } catch (e) {
       Alert.alert("Error => " + e);
     }
@@ -114,7 +114,7 @@ export default function RegisterScreenT({ navigation }) {
           left: "15%",
         }}
       >
-        <Text style={styles.SignupTxT}> Sign up</Text>
+        <Text style={styles.SignupTxT}> Sign Up</Text>
 
         {
           //inoput fields and disdplay mesages for if form is not completed properly
@@ -134,7 +134,7 @@ export default function RegisterScreenT({ navigation }) {
           placeholder="Username"
         />
         {emailV ? (
-          <Text style={styles.inputTxt}>Please enter a Valid Email</Text>
+          <Text style={styles.inputTxt}>Please enter a valid email</Text>
         ) : (
           <Text style={styles.inputTxt}></Text>
         )}
@@ -147,7 +147,7 @@ export default function RegisterScreenT({ navigation }) {
           autoCapitalize="none"
         />
         {passwordV ? (
-          <Text style={styles.inputTxt}>Please enter a Password</Text>
+          <Text style={styles.inputTxt}>Please enter a password</Text>
         ) : (
           <Text style={styles.inputTxt}></Text>
         )}

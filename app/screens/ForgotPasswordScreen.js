@@ -92,7 +92,7 @@ function ForgotPasswordScreen({ navigation }) {
                   }
 
                   await forgotPassword(username);
-                  Alert.alert("Please check your email.");
+                  Alert.alert("Please check your email");
                   setLoading(false);
                   navigation.navigate("SigninScreen", {}), 2000;
                 } catch (e) {
@@ -100,7 +100,7 @@ function ForgotPasswordScreen({ navigation }) {
                   if (e) {
                     if (e.message == "Email is required")
                       Alert.alert(e.message);
-                    else Alert.alert("Error => Email does not exist.");
+                    else Alert.alert("Error => Email does not exist");
                   }
                 }
               }}

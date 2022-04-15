@@ -25,8 +25,8 @@ import { Loading } from "./LoadingScreen";
 const { width } = Dimensions.get("window");
 
 function SigninScreen({ navigation }) {
-  const [username, setUsername] = useState("faizan"); // For testing
-  const [password, setPassword] = useState("123456"); // For testing
+  const [username, setUsername] = useState("faizan"); // For testing - Remove before the presentation and submission!
+  const [password, setPassword] = useState("123456"); // For testing - Remove before the presentation and submission!
   const [message, setMessage] = useState("");
   const [isSelected, setSelection] = useState(false);
   const [validMsg, setValidmsg] = useState("");
@@ -69,7 +69,7 @@ function SigninScreen({ navigation }) {
           <TextInput
             style={styles.input}
             underlineColorAndroid="transparent"
-            placeholder="Username or Email"
+            placeholder="Username"
             placeholderTextColor="#fff"
             autoCapitalize="none"
             value={username}
@@ -128,7 +128,7 @@ function SigninScreen({ navigation }) {
                   let validate = true;
                   if (username.length == 0) {
                     validate = false;
-                    setEmailError("Username or email is required");
+                    setEmailError("Username is required");
                   } else setEmailError("");
 
                   if (password.length == 0) {
