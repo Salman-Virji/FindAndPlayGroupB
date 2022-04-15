@@ -194,22 +194,22 @@ function CreateGame({ navigation, route }) {
       if(Objective1.Objective=="Squirrel"){
         imgref = ImgArr[0];
       }
-      if(Objective1.Objective=="Tree"){
+      else if(Objective1.Objective=="Tree"){
         imgref = ImgArr[1];
       }
-      if(Objective1.Objective=="Bird"){
+      else if(Objective1.Objective=="Bird"){
         imgref = ImgArr[2];
       }
-      if(Objective1.Objective=="Cat"){
+      else if(Objective1.Objective=="Cat"){
         imgref = ImgArr[3];
       }
-      if(Objective1.Objective=="Dog"){
+      else if(Objective1.Objective=="Dog"){
         imgref = ImgArr[4];
       }
-      if(Objective1.Objective=="Bear"){
+      else if(Objective1.Objective=="Bear"){
         imgref = ImgArr[5];
       }
-      if(Objective1.Objective=="Lion"){
+      else if(Objective1.Objective=="Lion"){
         imgref = ImgArr[6];
       }
       gameLobby.objectives.push({
@@ -228,22 +228,22 @@ function CreateGame({ navigation, route }) {
       if(Objective2.Objective=="Squirrel"){
         imgref = ImgArr[0];
       }
-      if(Objective2.Objective=="Tree"){
+      else if(Objective2.Objective=="Tree"){
         imgref = ImgArr[1];
       }
-      if(Objective2.Objective="Bird"){
+      else if(Objective2.Objective="Bird"){
         imgref = ImgArr[2];
       }
-      if(Objective2.Objective=="Cat"){
+      else if(Objective2.Objective=="Cat"){
         imgref = ImgArr[3];
       }
-      if(Objective2.Objective=="Dog"){
+      else if(Objective2.Objective=="Dog"){
         imgref = ImgArr[4];
       }
-      if(Objective2.Objective="Bear"){
+      else if(Objective2.Objective="Bear"){
         imgref = ImgArr[5];
       }
-      if(Objective2.Objective=="Lion"){
+      else if(Objective2.Objective=="Lion"){
         imgref = ImgArr[6];
       }
       gameLobby.objectives.push({
@@ -257,25 +257,25 @@ function CreateGame({ navigation, route }) {
       });
     }
     if (Objective3.Objective != "" && objectiveCounter.size >= 3) {
-      if(Objective3.Objective=="Squirrel"){
+       if(Objective3.Objective=="Squirrel"){
         imgref = ImgArr[0];
       }
-      if(Objective3.Objective=="Tree"){
+      else if(Objective3.Objective=="Tree"){
         imgref = ImgArr[1];
       }
-      if(Objective3.Objective=="Bird"){
+      else if(Objective3.Objective=="Bird"){
         imgref = ImgArr[2];
       }
-      if(Objective3.Objective=="Cat"){
+      else if(Objective3.Objective=="Cat"){
         imgref = ImgArr[3];
       }
-      if(Objective3.Objective=="Dog"){
+      else if(Objective3.Objective=="Dog"){
         imgref = ImgArr[4];
       }
-      if(Objective3.Objective=="Bear"){
+      else  if(Objective3.Objective=="Bear"){
         imgref = ImgArr[5];
       }
-      if(Objective3.Objective=="Lion"){
+      else if(Objective3.Objective=="Lion"){
         imgref = ImgArr[6];
       }
       gameLobby.objectives.push({
@@ -293,22 +293,22 @@ function CreateGame({ navigation, route }) {
       if(Objective4.Objective=="Squirrel"){
         imgref = ImgArr[0];
       }
-      if(Objective4.Objective=="Tree"){
+      else if(Objective4.Objective=="Tree"){
         imgref = ImgArr[1];
       }
-      if(Objective4.Objective=="Bird"){
+      else if(Objective4.Objective=="Bird"){
         imgref = ImgArr[2];
       }
-      if(Objective4.Objective=="Cat"){
+      else if(Objective4.Objective=="Cat"){
         imgref = ImgArr[3];
       }
-      if(Objective4.Objective=="Dog"){
+      else if(Objective4.Objective=="Dog"){
         imgref = ImgArr[4];
       }
-      if(Objective4.Objective=="Bear"){
+      else if(Objective4.Objective=="Bear"){
         imgref = ImgArr[5];
       }
-      if(Objective4.Objective=="Lion"){
+      else if(Objective4.Objective=="Lion"){
         imgref = ImgArr[6];
       }
       
@@ -327,22 +327,22 @@ function CreateGame({ navigation, route }) {
       if(Objective5.Objective=="Squirrel"){
         imgref = ImgArr[0];
       }
-      if(Objective5.Objective=="Tree"){
+      else if(Objective5.Objective=="Tree"){
         imgref = ImgArr[1];
       }
-      if(Objective5.Objective=="Bird"){
+      else if(Objective5.Objective=="Bird"){
         imgref = ImgArr[2];
       }
-      if(Objective5.Objective=="Cat"){
+      else if(Objective5.Objective=="Cat"){
         imgref = ImgArr[3];
       }
-      if(Objective5.Objective=="Dog"){
+      else if(Objective5.Objective=="Dog"){
         imgref = ImgArr[4];
       }
-      if(Objective5.Objective=="Bear"){
+      else if(Objective5.Objective=="Bear"){
         imgref = ImgArr[5];
       }
-      if(Objective5.Objective=="Lion"){
+      else if(Objective5.Objective=="Lion"){
         imgref = ImgArr[6];
       }
       gameLobby.objectives.push({
@@ -360,22 +360,22 @@ function CreateGame({ navigation, route }) {
       if(Objective6.Objective=="Squirrel"){
         imgref = ImgArr[0];
       }
-      if(Objective6.Objective=="Tree"){
+      else if(Objective6.Objective=="Tree"){
         imgref = ImgArr[1];
       }
-      if(Objective6.Objective=="Bird"){
+      else if(Objective6.Objective=="Bird"){
         imgref = ImgArr[2];
       }
-      if(Objective6.Objective=="Cat"){
+      else if(Objective6.Objective=="Cat"){
         imgref = ImgArr[3];
       }
-      if(Objective6.Objective=="Dog"){
+      else if(Objective6.Objective=="Dog"){
         imgref = ImgArr[4];
       }
-      if(Objective6.Objective=="Bear"){
+      else if(Objective6.Objective=="Bear"){
         imgref = ImgArr[5];
       }
-      if(Objective6.Objective=="Lion"){
+      else if(Objective6.Objective=="Lion"){
         imgref = ImgArr[6];
       }
       gameLobby.objectives.push({
@@ -393,22 +393,22 @@ function CreateGame({ navigation, route }) {
       if(Objective7.Objective=="Squirrel"){
         imgref = ImgArr[0];
       }
-      if(Objective7.Objective=="Tree"){
+      else if(Objective7.Objective=="Tree"){
         imgref = ImgArr[1];
       }
-      if(Objective7.Objective=="Bird"){
+      else if(Objective7.Objective=="Bird"){
         imgref = ImgArr[2];
       }
-      if(Objective7.Objective=="Cat"){
+      else if(Objective7.Objective=="Cat"){
         imgref = ImgArr[3];
       }
-      if(Objective7.Objective=="Dog"){
+      else if(Objective7.Objective=="Dog"){
         imgref = ImgArr[4];
       }
-      if(Objective7.Objective=="Bear"){
+      else if(Objective7.Objective=="Bear"){
         imgref = ImgArr[5];
       }
-      if(Objective7.Objective=="Lion"){
+      else if(Objective7.Objective=="Lion"){
         imgref = ImgArr[6];
       }
       gameLobby.objectives.push({
@@ -426,22 +426,22 @@ function CreateGame({ navigation, route }) {
       if(Objective8.Objective=="Squirrel"){
         imgref = ImgArr[0];
       }
-      if(Objective8.Objective=="Tree"){
+      else if(Objective8.Objective=="Tree"){
         imgref = ImgArr[1];
       }
-      if(Objective8.Objective=="Bird"){
+      else if(Objective8.Objective=="Bird"){
         imgref = ImgArr[2];
       }
-      if(Objective8.Objective=="Cat"){
+      else if(Objective8.Objective=="Cat"){
         imgref = ImgArr[3];
       }
-      if(Objective8.Objective=="Dog"){
+      else if(Objective8.Objective=="Dog"){
         imgref = ImgArr[4];
       }
-      if(Objective8.Objective=="Bear"){
+      else if(Objective8.Objective=="Bear"){
         imgref = ImgArr[5];
       }
-      if(Objective8.Objective=="Lion"){
+      else if(Objective8.Objective=="Lion"){
         imgref = ImgArr[6];
       }
       gameLobby.objectives.push({
@@ -459,22 +459,22 @@ function CreateGame({ navigation, route }) {
       if(Objective9.Objective=="Squirrel"){
         imgref = ImgArr[0];
       }
-      if(Objective9.Objective=="Tree"){
+      else if(Objective9.Objective=="Tree"){
         imgref = ImgArr[1];
       }
-      if(Objective9.Objective=="Bird"){
+      else if(Objective9.Objective=="Bird"){
         imgref = ImgArr[2];
       }
-      if(Objective9.Objective=="Cat"){
+      else if(Objective9.Objective=="Cat"){
         imgref = ImgArr[3];
       }
-      if(Objective9.Objective=="Dog"){
+      else if(Objective9.Objective=="Dog"){
         imgref = ImgArr[4];
       }
-      if(Objective9.Objective=="Bear"){
+      else if(Objective9.Objective=="Bear"){
         imgref = ImgArr[5];
       }
-      if(Objective9.Objective=="Lion"){
+      else if(Objective9.Objective=="Lion"){
         imgref = ImgArr[6];
       }
       gameLobby.objectives.push({
@@ -489,25 +489,25 @@ function CreateGame({ navigation, route }) {
     }
     if (Objective10.Objective != "" && objectiveCounter.size >= 10) {
       var imgref
-      if(Objective10.Objective=="Squirrel"){
+       if(Objective10.Objective=="Squirrel"){
         imgref = ImgArr[0];
       }
-      if(Objective10.Objective=="Tree"){
+      else if(Objective10.Objective=="Tree"){
         imgref = ImgArr[1];
       }
-      if(Objective10.Objective=="Bird"){
+      else if(Objective10.Objective=="Bird"){
         imgref = ImgArr[2];
       }
-      if(Objective10.Objective=="Cat"){
+      else if(Objective10.Objective=="Cat"){
         imgref = ImgArr[3];
       }
-      if(Objective10.Objective=="Dog"){
+      else if(Objective10.Objective=="Dog"){
         imgref = ImgArr[4];
       }
-      if(Objective10.Objective=="Bear"){
+      else if(Objective10.Objective=="Bear"){
         imgref = ImgArr[5];
       }
-      if(Objective10.Objective=="Lion"){
+      else if(Objective10.Objective=="Lion"){
         imgref = ImgArr[6];
       }
       gameLobby.objectives.push({
