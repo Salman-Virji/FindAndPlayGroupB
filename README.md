@@ -1,14 +1,4 @@
-# Backend Repo has been rehosted  
-
-Keeping the Frontend and Backend apart due to too many conflicts and testing. 
-
-## FRONTEND devs, use this as your [BACKEND](https://github.com/devjody/findandplay-backend) and disregard old BACKEND code in 
-
-https://github.com/devjody/findandplay-backend/tree/master/backend
-
-----
-
-#### FindAndPlayGroupB
+# FindAndPlayGroupB
 
 Team of 18, split into 3 subgroups B1, B2, B3.
 
