@@ -25,8 +25,8 @@ import { Loading } from "./LoadingScreen";
 const { width } = Dimensions.get("window");
 
 function SigninScreen({ navigation }) {
-  const [username, setUsername] = useState("faizan"); // For testing - Remove before the presentation and submission!
-  const [password, setPassword] = useState("123456"); // For testing - Remove before the presentation and submission!
+  const [username, setUsername] = useState(""); // For testing - Remove before the presentation and submission!
+  const [password, setPassword] = useState(""); // For testing - Remove before the presentation and submission!
   const [message, setMessage] = useState("");
   const [isSelected, setSelection] = useState(false);
   const [validMsg, setValidmsg] = useState("");
